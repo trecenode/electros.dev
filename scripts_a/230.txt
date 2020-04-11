@@ -1,0 +1,4 @@
+&lt;?
+echo \&quot;fasdfasd\&quot; ;
+?&gt;
+&lt;p&gt;&lt;b&gt;sdfasdfasdf&lt;/b&gt;

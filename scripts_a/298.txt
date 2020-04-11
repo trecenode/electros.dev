@@ -1,0 +1,46 @@
+[b]Este script lo que hace es enviar el e-mail del solicitante al e-mail que tu desees haciendo asi
+mas comodo la obtencion del e-mail.
+Tu mismo te puedes hacer la lista en un bloq de notas sin irse mas lejos y cuando tengas que mandar el 
+e-mail, simplemente, copia y pega la lista de los emails.[/b]
+
+boletin.php
+[codigo]
+&lt;?
+if($_POST[enviar]) {
+mail(&quot;TUCORREO@TUDOMINIO.COM,$_POST[sucorreo]&quot;,&quot;ASUNTOQUEQUIERAS&quot;
+,&quot;Estas suscrito a nuestro boletin,mensualmente recibiras noticias&quot;,
+&quot;Atentamente\n TUNICK&quot;) ;
+echo &quot;Ya estas suscrit@ a nuestro boletin.
+Revisa el buzon de correo no-deseado.Gracias.&quot; ;
+}
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;&lt;?=$_SERVER[PHP_SELF]?&gt;&quot;&gt;
+&lt;p align=&quot;center&quot;&gt;Ingresa tu e-mail:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;sucorreo&quot;/&gt;
+&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;http://www.carche.tk&quot;&gt;&lt;font color=&quot;#CCCCCC&quot; size=&quot;2&quot;&gt;by Chechi912&lt;/font&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/form&gt;
+[/codigo]
+[b]
+Este codigo recibe el e-mail y lo procesa. Solo sustytuye donde pone:
+
+TUCORREO@TUDOMINIO.COM por tu correo
+______________________________________
+ASUNTOQUEQUIERAS nombre del asunto
+____________________________________________________
+Estas suscrito a nuestro boletin,mensualmente recibiras noticias 
+aqui pon el mensaje que quieres que reciba el solicitante.
+__________________
+TUNICK: nu alias o nik
+___________________
+Ya estas suscrit@ a nuestro boletin.
+Revisa el buzon de correo no-deseado.Gracias
+Aqui el mensaje que queres que salga una vez procesado el email.
+________________________________________
+[/b]
+
+
+	[url=http://www.carche.tk]Carche.tk[/url]
+	[url=http://www.carche.tk]Carche.tk[/url]

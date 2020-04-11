@@ -1,0 +1,5 @@
+Es un complemento de para crear los discutidos HotLinks, y este script es usado bastante por los servicios de hosting.
+
+Para bajar el script: [url]http://www.etececlub.com/scripts/hotlinksphp_www.EteceClub.com.rar[/url]
+
+Disculpen admins de Electros, pero el codigo creado no es mio, pero creo que les va a servir bastante a los usuarios que visitan esta web.

@@ -1,0 +1,11 @@
+Este script es muy bueno si le quieres agregar algo más al registro de usuarios:
+
+Primero actualizamos la tabla [b]usuarios[/b] de mysql:
+
+[codigo]ALTER TABLE `usuarios` ADD `avatar` VARCHAR( 50 ) NOT NULL AFTER `ip` ;[/codigo]
+
+Segundo:Si tienes el [url=http://electros.iefactory.com/?ver=scripts&amp;s=94]Registro de usuarios 2.1 (menu actualizado)[/url] sáltate este paso.
+-Si no lo tienes coloca este código donde quieres mostrar el avatar al usuario registrado:
+[codigo]&lt;? if ($datos[usuario] == &quot;Invitado&quot; ) {echo &quot;&lt;img src=avatares/defecto2.gif&gt;&quot;;} else {echo &quot;&lt;a href=?usuarios&amp;u=$datos3[id] &gt;&lt;img src='avatares/$datos3[avatar]' border=0 alt='Haz click para ver el perfil de usuario' &gt;&lt;/a&gt;&quot;;} ?&gt;[/codigo]
+
+Tercero descárgate [url=http://recursosphp.iefactory.com/tutoriales/avatar.zip]los avatares y los archivos necesarios[/url] y reemplaza todos los archivos.

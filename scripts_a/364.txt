@@ -1,0 +1,23 @@
+[url=http://www.novalelapena.com/fh/descargas/Snuke_v1.rar]DESCARGAR[/url]
+
+Hola, les traigo mi primer portal en php, como muchos amigos me pedian que les ayudasen a hacer una web con lo de siempre, foro+login en pagina+ultimos post+descargas+noticias con comentarios y panel de admin (eso es lo que incluye mi portal) les he hecho este portal.
+
+Para instalarlo Subimos todos los archivos a nuestro directorio, y una vez hecho eso ejecutamos lo siguiente
+
+http://www.nuestrositio.com/foro/install.php
+
+y lo instalamos (es un SMF)
+
+luego lo siguiente
+
+
+http://www.nuestrositio.com/noticias/index.php
+
+y lo instalamos
+
+una vez instalado ya el portal se configura con la pagina y funcionan todos los includes, y listo
+
+pronto una segunda version con mucha mas cosas
+
+Noticias: Cutenews
+Foros: Simplemachinesforums

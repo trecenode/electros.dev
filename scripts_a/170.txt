@@ -1,0 +1,9 @@
+Imitación del explorador de Windows, puedes explorar directorios mostrando tamaño, última modificación..etc de los archivos/carpetas, también te da la posiblidad de elegir el modo de vista (lista, iconos grandes), y la posibilidad de abrir los archivos en el mismo script, ver el codigo de los archivos php, o las imagenes.
+
+Podeis ver el codigo del script directamente desde el mismo script (y el funcionamiento del mismo) en el siguente enlace:
+
+http://www.areazone.net/test/browser/index.php?file=/index.php&amp;dir=&amp;
+
+Requisitos: Php 4.x
+
+Creado por Tebb, tebbxtreme@hotmail.com - AreaZone.net

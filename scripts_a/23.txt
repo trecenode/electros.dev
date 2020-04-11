@@ -1,0 +1,29 @@
+Este script hará que tus usuarios puedan ingresar desde la página principal de tu web y también que al momento de entrar vean un menú especial con enlaces hacia las páginas protegidas.
+
+Para esto debes agregar el siguiente código en la página principal de tu web.
+
+[codigo]&lt;?
+if($_COOKIE[&quot;unick&quot;]) {
+?&gt;
+Bienvenido &lt;b&gt;&lt;? echo $_COOKIE[&quot;unick&quot;] ?&gt;&lt;/b&gt;
+&lt;a href=&quot;pagina1.php&quot;&gt;Enlace 1&lt;/a&gt;
+&lt;a href=&quot;pagina2.php&quot;&gt;Enlace 1&lt;/a&gt;
+&lt;a href=&quot;pagina3.php&quot;&gt;Enlace 1&lt;/a&gt;
+&lt;?
+}
+else {
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;uentrar.php&quot;&gt;
+Nick:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;nick&quot;&gt;&lt;br&gt;
+Contraseña:&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;contrasena&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;entrar&quot; value=&quot;Entrar&quot;&gt;
+&lt;/form&gt;
+&lt;?
+}
+?&gt;[/codigo]
+
+Sólo debes modificar los enlaces correspondientes.
+
+Si tienes dudas puedes entrar en el foro.

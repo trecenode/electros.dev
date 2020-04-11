@@ -1,0 +1,451 @@
+Fuente: No lo recuerdo, tampoco me  atribuyo los creditos.
+
+[codigo]
+Este pequeño Script nos dará informacion basica del servidor y tambien sobre PHP, Mysql, Root, y demas. Idel para aquellos que se inician en PHP...
+Saber que yo no diseñe el script, sino que lo tengo desde hace varios meses, y es por eso que no recuerdo de quie es. Yo solo lo traducí al español...
+
+NOTA: Solo copien y guardenlo como Server.php, subanlo y ejecutenlo en el navegador, nada más.
+
+
+
+&lt;?PHP
+
+$disable_functions = NULL;
+$INI_GET    = TRUE;
+$LAST_ERROR = NULL;
+
+error_reporting(FATAL | ERROR | WARNING);
+set_error_handler('HandleError');
+
+
+if( $_GET['a'] == 'phpinfo' )
+{
+    phpinfo();
+
+    $error = GetLastError();
+
+    if( $error != NULL )
+    {
+        echo $error;
+    }
+    
+    exit;
+}
+
+
+
+function HandleError($errno, $errstr)
+{
+    global $LAST_ERROR;
+
+    switch($errno)
+    {
+        case E_WARNING:
+        case E_ERROR:
+        case E_WARNING:
+            $LAST_ERROR = $errstr;
+            break;
+    }
+}
+
+
+
+function GetLastError()
+{
+    global $LAST_ERROR;
+
+    $error = $LAST_ERROR;
+    
+    $LAST_ERROR = NULL;
+
+    return $error;
+}
+
+?&gt;
+
+&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Server Test Script&lt;/title&gt;
+  &lt;style&gt;
+  a
+  {
+      color: Maroon;
+  }
+
+  .main-box
+  {
+      width: 750px;
+  }
+
+  .header
+  {
+      background-color: Maroon;
+      color: #FFFFFF;
+      font-family: Arial;
+      font-size: 12pt;
+      font-weight: bold;
+      text-align: center;
+      padding: 3px;
+  }
+
+  .cell-left
+  {
+      display: table-cell;
+      font-family: Verdana;
+      font-size: 10pt;
+      font-weight: bold;
+      width: 210px;
+      padding: 3px 3px 3px 3px;
+      text-align: right;
+  }
+
+  .cell-right
+  {
+      display: table-cell;
+      font-family: Verdana;
+      font-size: 10pt;
+      width: 525px;
+      padding: 3px 3px 3px 3px;
+      text-align: left;
+  }
+
+  .border
+  {
+      border: 1px solid Maroon;
+  }
+
+  .error
+  {
+      color: Red;
+  }
+
+  .small
+  {
+      font-size: 8pt;
+  }
+  &lt;/style&gt;
+&lt;body bgcolor=&quot;white&quot; link=&quot;blue&quot;&gt;
+
+&lt;center&gt;
+
+&lt;div class=&quot;main-box&quot;&gt;
+
+&lt;div class=&quot;border&quot;&gt;
+&lt;div class=&quot;header&quot;&gt;
+Informacion Del Servidor
+&lt;/div&gt;
+
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+Sistema Operativo
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP echo PHP_OS; ?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+Version PHP
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP echo PHP_VERSION ?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+Servidor
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP echo $_SERVER['SERVER_SOFTWARE'] ?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+Root del Servidor
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP echo $_SERVER['DOCUMENT_ROOT'] ?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+Directorio Actual
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP echo getcwd() ?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+Hora del Servidor
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP echo date(&quot;D M j G:i:s T Y&quot;) ?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+
+
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+Extension PCRE 
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP
+
+if( extension_loaded('pcre') )
+{
+    echo &quot;Cargada&quot;;
+}
+else
+{
+    echo '&lt;span class=&quot;error&quot;&gt;No disponible&lt;/span&gt;';
+}
+
+?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+Extension MySQL 
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP
+
+if( extension_loaded('mysql') )
+{
+    echo 'Cargada';
+}
+else
+{
+    echo '&lt;span class=&quot;error&quot;&gt;NO disponible&lt;/span&gt;';
+}
+
+?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+Funcion ini_get 
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP
+
+$safe_mode = ini_get('safe_mode');
+
+$error = GetLastError();
+
+if( $error == NULL )
+{
+    echo 'Activada';
+}
+else
+{
+    $INI_GET = FALSE;
+    echo '&lt;span class=&quot;error&quot;&gt;Desactivada&lt;/span&gt; ';
+    echo '&lt;span class=&quot;small&quot;&gt;' . $error . '&lt;/span&gt;';
+}
+
+?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+Modo Seguro o Safe Mode
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP
+
+if( $INI_GET )
+{
+    $safe_mode = ini_get('safe_mode');
+
+    if( !$safe_mode )
+    {
+        echo 'Activada';
+    }
+    else
+    {
+        echo '&lt;span class=&quot;error&quot;&gt;Desactivada&lt;/span&gt;';
+    }
+}
+else
+{
+    echo '&lt;span class=&quot;error&quot;&gt;No se puede determinar. La Función ini_get está Desactivada&lt;/span&gt;';
+}
+
+?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+Funciones Desactivadas
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP
+
+if( $INI_GET )
+{
+    $disable_functions = ini_get('disable_functions');
+
+    echo join('&lt;br /&gt;', explode(',', $disable_functions));
+}
+else
+{
+    echo '&lt;span class=&quot;error&quot;&gt;No se puede determinar. La Función ini_get está Desactivada&lt;/span&gt;';
+}
+
+?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+phpinfo
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP
+
+if( $INI_GET )
+{
+    if( stristr($disable_functions, 'phpinfo') )
+    {
+        echo '&lt;span class=&quot;error&quot;&gt;Desactivada&lt;/span&gt;';
+    }
+    else
+    {
+        echo '&lt;a href=&quot;server.php?a=phpinfo&quot;&gt;Disponible&lt;/a&gt;';
+    }
+}
+else
+{
+    echo '&lt;span class=&quot;error&quot;&gt;No se puede determinar. La Función ini_get está Desactivada&lt;/span&gt;';
+}
+
+?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+Upload de Archivos
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP
+
+if( $INI_GET )
+{
+    $file_uploads = ini_get('file_uploads');
+
+    if( !$file_uploads )
+    {
+        echo '&lt;span class=&quot;error&quot;&gt;Desactivada&lt;/span&gt;';
+    }
+    else
+    {
+        echo 'Activada';
+    }
+}
+else
+{
+    echo '&lt;span class=&quot;error&quot;&gt;No se puede determinar. La Función ini_get está Desactivada&lt;/span&gt;';
+}
+
+?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+open_basedir
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP
+
+if( $INI_GET )
+{
+    $open_basedir = ini_get('open_basedir');
+
+    echo $open_basedir;
+}
+else
+{
+    echo '&lt;span class=&quot;error&quot;&gt;No se puede determinar. La Función ini_get está Desactivada&lt;/span&gt;';
+}
+
+?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+safe_mode_include_dir
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP
+
+if( $INI_GET )
+{
+    $safe_mode_include_dir = ini_get('safe_mode_include_dir');
+
+    echo $safe_mode_include_dir;
+}
+else
+{
+    echo '&lt;span class=&quot;error&quot;&gt;No se puede determinar. La Función ini_get está Desactivada&lt;/span&gt;';
+}
+
+?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+
+&lt;div&gt;
+&lt;span class=&quot;cell-left&quot;&gt;
+safe_mode_exec_dir
+&lt;/span&gt;
+&lt;span class=&quot;cell-right&quot;&gt;
+&lt;?PHP
+
+if( $INI_GET )
+{
+    $safe_mode_exec_dir = ini_get('safe_mode_exec_dir');
+
+    echo $safe_mode_exec_dir;
+}
+else
+{
+    echo '&lt;span class=&quot;error&quot;&gt;No se puede determinar. La Función ini_get está Desactivada&lt;/span&gt;';
+}
+
+?&gt;
+&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/center&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+
+[/codigo]

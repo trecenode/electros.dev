@@ -1,0 +1,121 @@
+Aqui esta el tutorial que iker (www.tuarroba.com)
+subio a mi pagina por peticion mia y que es un tutorial para ver la ubicacion de los usuarios modificando el uenlinea.php pongo aqui el tutorial a continuaccion de forma textual.
+
+[b]1º Paso[/b]
+
+Entrad en el MySQLMyAdmin de vuestro espacio web y en la tabla usuarios del electrosnuke (esto es válido solo para electrosnuke) añadid 2 nuevos campos con el siguiente código
+
+[codigo]ALTER TABLE `usuarios` ADD `pagina` VARCHAR( 100 ) NOT NULL ,
+ADD `pagina2` VARCHAR( 100 ) NOT NULL ;[/codigo]
+
+[b]2º Paso[/b]
+
+En el archivo uenlinea.php borrad todo el código pegad este
+
+[codigo]<?
+include("config.php") ;
+$fecha = time() ;
+// Tiempo en el cuál se considerará al usuario en línea en minutos
+$tiempo = 10 ;
+// Se le resta el tiempo en minutos a la fecha actual
+$tiempo = $fecha-$tiempo*60 ;
+$ip = $REMOTE_ADDR ;
+$usuario = $_COOKIE["unick"]  ;
+// Se eliminan las fechas que sean menores al tiempo límite
+mysql_query("delete from uenlineavis where fecha< $tiempo") ;
+mysql_query("delete from uenlineareg where fecha< $tiempo") ;
+// Para los usuarios no registrados
+$resp = mysql_query("select ip from uenlineavis where ip='$ip'") ;
+if(mysql_num_rows($resp) == 0) {
+mysql_query("insert into uenlineavis values ('$ip','$fecha')") ;
+}
+else {
+mysql_query("update uenlineavis set fecha='$fecha' where ip='$ip'") ;
+}
+mysql_free_result($resp) ;
+// Para los usuarios registrados
+if($_COOKIE["unick"] ) {
+$resp = mysql_query("select usuario from uenlineareg where usuario='$usuario'") ;
+if(mysql_num_rows($resp) == 0) {
+mysql_query("insert into uenlineareg values ('$usuario','$fecha')") ;
+}
+else {
+mysql_query("update uenlineareg set fecha='$fecha' where usuario='$usuario'") ;
+}
+mysql_free_result($resp) ;
+}
+// Se obtiene el número de usuarios en línea
+$resp = mysql_query("select ip from uenlineavis") ;
+// Número de usuarios
+$usuarios = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+$resp = mysql_query("select usuario from uenlineareg") ;
+// Número de registrados
+$registrados = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+// Número de anonimos
+$anonimos = $usuarios - $registrados ;
+// Se obtiene el nick de los usuarios que se encuentran en línea
+$resp = mysql_query("select usuario from uenlineareg") ;
+if(mysql_num_rows($resp) != 0) {
+$renlinea = "" ;
+while($datos = mysql_fetch_array($resp)) {
+$resp3 = mysql_query("select * from usuarios where nick='$datos[usuario]'") ;
+$datos3 = mysql_fetch_array($resp3) ;
+$renlinea .= "<a href=index.php?id=usuarios&u=$datos3[id] ><img src=imagenes/usuario.gif border=0 width=16 height=16 alt='Haz click para ver el perfil de usuario' ></a><a href=index.php?id=mensajes&responder=$datos[usuario]>$datos[usuario]</a> <a href='$datos3[pagina]' target='_blank'>[esta en.]</a> " ;
+}
+}
+echo 
+"<b>Total de usuarios:</b> $usuarios<br><b>Anónimos:</b> $anonimos<br><b>Registrados:</b> $registrados<br>
+$renlinea" ;
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?>[/codigo] 
+
+EXPLICACIÓN
+
+Esta parte del código 
+
+[codigo]$resp3 = mysql_query("select * from usuarios where nick='$datos[usuario]'") ;
+$datos3 = mysql_fetch_array($resp3) ;[/codigo]
+
+Lo que hace es que selecciona todo * sobre la tabla usuarios donde el nick es el del usuario y lo muestra.
+
+Y esta parte
+
+[codigo]$renlinea .= "<a href=index.php?id=usuarios&u=$datos3[id] ><img src=imagenes/usuario.gif border=0 width=16 height=16 alt='Haz click para ver el perfil de usuario' ></a><a href=index.php?id=mensajes&responder=$datos[usuario]>$datos[usuario]</a> <a href='$datos3[pagina]' target='_blank'>[$datos3[pagina2]]</a> " ;[/codigo]
+
+Lo que hace es mirar los datos de la consulta anterior y se muestra $datos3[pagina]
+
+
+
+Una vez realizado el cambio, volvéis a subir el archivo uenlinea.php a vuestro servidor para reemplazarlo por el antiguo
+
+[b]3º Paso[/b]
+
+En el archivo index.php poned justo arriba del todo del código, lo siguiente
+
+[codigo]<? 
+include ("config.php") ;
+// registra la pagina actual
+$phpself = $_SERVER['REQUEST_URI'] ;
+// registra la id de la pagina
+$pagina2 = $id ;
+// insertando y guardando los datos anteriores //
+mysql_query("update usuarios set pagina='$phpself' where nick='$HTTP_COOKIE_VARS[unick]'") ;
+mysql_query("update usuarios set pagina2='$pagina2' where nick='$HTTP_COOKIE_VARS[unick]'") ;
+?>[/codigo] 
+
+Guardad y subir a vuestro servidor.
+
+Cómo he dicho antes, este tutorial es válido sólo para el archivo uenlinea.php del electros nuke, pero se puede usar para cualquier otra cosa con una pequeña adaptación, que sería esto:
+
+[codigo]// Se obtiene el nick de los usuarios que se encuentran en línea
+$resp = mysql_query("select usuario from uenlineareg") ;
+if(mysql_num_rows($resp) != 0) {$renlinea = "" ;
+while($datos = mysql_fetch_array($resp)) {
+$resp3 = mysql_query("select * from usuarios where nick='$datos[usuario]'") ;
+$datos3 = mysql_fetch_array($resp3) ;[/codigo] 
+
+Este código lo deberíais reemplazar por el que se encuentra por defecto en uenlinea.php del electrosnuke.
+

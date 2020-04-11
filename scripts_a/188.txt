@@ -1,0 +1,31 @@
+Este mod es un variacion del script para subir archivos que usaba electros, podemos espeficiar los tipo de archivos que queremos subir , en este caso imagenes [b].gif,.jpg,.tiff,.bmp[/b] a la carpeta [b]upload/[/b] , ver linea 20 :
+
+[codigo]
+if($extensiones[$num] != "gif" && $extensiones[$num] != "jpg" && $extensiones[$num] != "tif" && $extensiones[$num] != "bmp" ) { $error = "Sólo se permiten archivos .gif,.jpg,.tiff,.bmp <br>" ; }
+[/codigo]
+
+Tambien detecta si existe un archivo con ese nombre, ver linea 32 :
+
+[codigo]
+if(file_exists("upload/$archivo_name")) { $error = "Ya existe un archivo con este nombre.<br>" ; }
+[/codigo]
+
+y por ultimo permite limitar el tamaño del script a subir, ver linea 33 :
+
+[codigo]
+if($archivo_size > 1000000 ) { $error .= "El archivo debe pesar menos de 1 Mb.<br>" ; }
+[/codigo]
+
+Para modificaciones y demas datos :
+
+1)Si quisieramos cambiar las extensiones solo tendriamos que cambiar en la linea 20 [b]gif,jpg,tiff,bmp[/b] por  [b]zip,ace,rar,iso[/b] por ejemplo.
+
+2) Si quisieramos cambiar la carpeta donde se sube los archivos cambiariamos 
+[b]upload/$archivo_name[/b] por [b]archivos/$archivo_name[/b] en la linea 32 y 42.
+
+3)El primer codigo php que aparece es para visulizar los archivos, si queremos borrarlo lo podemos seleccionar y eliminarlo, si quermos cambiar el directorio que visualiza cambiariamos la linea 3:
+[b]$web='upload/.';[/b] por [b]$web='archivos/.';[/b] por ejemplo.
+
+
+Si os sugen mas dudas no dudeis en plantearlas en el foro
+[url=http://recursosphp.iefactory.com]recursosphp[/url]

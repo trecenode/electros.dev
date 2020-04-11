@@ -1,0 +1,24 @@
+A diferencia del codigohtmplus 
+http://electros.iefactory.com/?ver=scripts&amp;s=129
+este script no es tan complejo y sirve para que solo el admin pueda enviar tutoriales y sin secciones ni subsecciones.
+
+En este script podemos ver un listado de tutoriales que se guardan el archivos .txt por lo que no necesita mysql para funcionar, tiene las siguientes caracteristicas:
+- No utiliza mysql
+- Mostrar de 20 en 20 los archivos
+- Mostrar el tamaño del archivo, la lecturas del archivo
+- Editar, borrar y renombrar los archivos del directorio
+- Añadir un nuevo tutorial
+- Añadir archivos adjuntos al crear un nuevo tutorial
+- Ver el archivo adjunto dentro de su correspondiente tutorial y ver los clicks registrados en el mismo archivo
+- el [b]administar.php[/b] es para el administrador, es el mismo solo que ahora
+solo puede editar,borrar y renombrar el adminstrador y la contraseña es 
+por defecto 123456 , para cambiar la contraseña remplazala de la linea 773,870,934
+
+Funcionamiento :
+- Todos los tutoriales se guardan en txt y es posible cambiarle la extension pero solo dentro del mismo codigo por lo que es muy seguro
+- Los archivos adjuntos tienen el mismo nombre que el tutorial y se guardan en el directorio raiz
+- Las lecturas realizadas se guardan en un [b]archivo.dat[/b]
+- Los clicks en los archivos se guardan en un [b]archivo.zip.dat[/b]
+- Cada tutorial tiene atribuida su propia contraseña,autor,descripcion,fecha de subida que se pone al principio y que guarda en una archivo [b]archivo.php[/b]
+- El [b]bbcode[/b] es una opcion de codigo para remplazar unos determinados caracteres esta activado pero se puede desactivar si publicamos un tutorial que interfiera con el bbcode de la pagina, auque no es algo que suceda a menudo.
+- quizas tengas que dar chmod a la carpeta donde esta el index.php

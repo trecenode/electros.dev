@@ -1,0 +1,15 @@
+Para instalar el EForo sigue los siguientes pasos:
+
+1. Abre el archivo foroconfig.php y modifica los datos del administrador, temas a mostrar, mensajes a mostrar, si deseas cambiar el estilo modifica el archivo estilo.php que se encuentra en la carpeta eforo_estilo.
+
+2. Sube todos los archivos al servidor en la carpeta principal de tu web, por ejemplo http://nombre.webcindario.com.
+
+3. Abre la página instalar.php.
+
+4. Elimina este archivo después de la instalación.
+
+5. Por último entra a foroadmin.php para empezar a agregar categorías y foros.
+
+Nota: El foro utiliza el sistema de registro de usuarios, así que para poder administrarlo, escribir mensajes nuevos y responder mensajes debes estar previamente conectado.
+
+El foro se encuentra en fase de pruebas, así que recomiendo que no lo modifiquen ya que al actualizar el script los cambios se perderán.

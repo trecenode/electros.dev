@@ -1,0 +1,128 @@
+Este es el codigo:
+Primero crear una tabla en usuarios que se llame ranking con tinytext(5) valor predeterminado 0.
+
+
+
+Este es el codigo para usuarios.php
+
+[codigo] &lt;?
+include(&quot;config.php&quot;) ;
+echo &quot;
+&lt;p class=titulo&gt;Usuarios
+&quot; ;
+if($u) {
+$resp = mysql_query(&quot;select * from usuarios where id='$u'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+$fecha = $datos[fecha] ;
+$diassemana = array(&quot;Domingo&quot;,&quot;Lunes&quot;,&quot;Martes&quot;,&quot;Miércoles&quot;,&quot;Jueves&quot;,&quot;Viernes&quot;,&quot;Sábado&quot;) ;
+$mesesano = array(&quot;Ene&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Abr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Ago&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dic&quot;) ;
+$diasemana = date(w,$fecha) ; $diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diassemana[$diasemana] $diames de $mesesano[$mesano] del $ano&quot; ;
+if($datos[edad] == 0) { $edad = &quot;&quot; ; }
+else { $edad = $datos[edad] ; }
+$sexonumero = $datos[sexo] ;
+$sexotexto = array(&quot;Masculino&quot;,&quot;Femenino&quot;) ;
+echo &quot;
+&lt;p&gt;&lt;b&gt;Usuario desde el:&lt;/b&gt; $fecha
+&lt;p&gt;
+&lt;table width=100% border=0 cellpadding=5 cellspacing=0&gt;
+&lt;tr&gt;&lt;td&gt;&lt;a href=votarusuario.php?id=$u  &gt;Dar 10 puntos al usuario&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Nick:&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;$datos[nick]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Puntuación:&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;$datos[ranking]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;País:&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;$datos[pais]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Edad:&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;$edad&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Sexo:&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;$sexotexto[$sexonumero]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Descripción:&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;$datos[descripcion]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;a href=usuarios.php&gt;Regresar a Usuarios&lt;/a&gt;
+&quot; ;
+}
+else {
+$resp = mysql_query(&quot;select id from usuarios&quot;) ;
+$usuarios = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+$mostrar = 25 ;
+if(!$desde) { $desde = 0 ; }
+$resp = mysql_query(&quot;select id,nick,sexo,pais from usuarios order by id desc limit $desde,$mostrar&quot;) ;
+$desde = $desde + $mostrar ;
+echo &quot;
+&lt;p&gt;&lt;b&gt;Usuarios registrados en la web:&lt;/b&gt; $usuarios
+&lt;p&gt;
+&lt;table width=100% border=0 cellpadding=5 cellspacing=0&gt;
+&lt;tr bgcolor=#252525&gt;
+&lt;td width=50%&gt;&lt;b&gt;Nick&lt;/b&gt;&lt;/td&gt;
+&lt;td width=25%&gt;&lt;b&gt;Sexo&lt;/b&gt;&lt;/td&gt;
+&lt;td width=25%&gt;&lt;b&gt;País&lt;/b&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&quot; ;
+while($datos = mysql_fetch_array($resp)) {
+$sexonumero = $datos[sexo] ;
+$sexotexto = array(&quot;Masculino&quot;,&quot;Femenino&quot;) ;
+echo &quot;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=usuarios.php?u=$datos[id]&gt;$datos[nick]&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;$sexotexto[$sexonumero]&lt;/td&gt;
+&lt;td&gt;$datos[pais]&lt;/td&gt;
+&lt;/tr&gt;
+&quot; ;
+}
+echo &quot;
+&lt;/table&gt;
+&quot; ;
+if($desde &gt; $mostrar) {
+$anteriores = $mostrar * 2 ;
+if($desde == $anteriores) {
+echo &quot;&lt;p align=right&gt;&lt;a href=?ver=usuarios&gt;Anteriores $mostrar usuarios&lt;/a&gt; | &quot; ;
+}
+else {
+$anteriores = $desde - $mostrar * 2 ;
+echo &quot;&lt;p align=right&gt;&lt;a href=?ver=usuarios&amp;desde=$anteriores&gt;Anteriores $mostrar usuarios&lt;/a&gt; | &quot; ;
+}
+}
+else {
+echo &quot;&lt;p align=right&gt;&quot; ;
+}
+if($desde &lt; $usuarios) {
+echo &quot;&lt;a href=?ver=usuarios&amp;desde=$desde&gt;Siguientes $mostrar usuarios&lt;/a&gt;&quot; ;
+}
+}
+?&gt; [/codigo]
+
+
+Ahora el codigo de votarusuario.php:
+
+ [codigo]&lt;?
+include(&quot;config.php&quot;) ;
+$resp = mysql_query ( &quot; select ranking from usuarios where id=$id &quot; ) ; 
+$datos = mysql_fetch_array($resp) ; 
+if(mysql_num_rows($resp)!= 0) { 
+mysql_query(&quot;update usuarios set ranking=ranking+10 where id=$id&quot;) ; 
+header(&quot;location: usuarios.php&quot;) ; 
+} 
+else { 
+echo &quot;Error al votar al usuario&quot; ; 
+} 
+?&gt;[/codigo]
+
+Pues esto es todo, supongo que lo entendereis facilmente.
+Si quereis ver una prueva esta montado en:
+[url=http://www.mallorkarock.com]www.mallorkarock.com[/url]

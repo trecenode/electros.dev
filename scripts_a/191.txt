@@ -1,0 +1,75 @@
+Hola le he metio un pop-up tipo msn al menu de phpmysql que avisa cuando hay mensajes nuevos. El pop-up lo he sacado del web http://www.elosan.net . 
+
+[codigo]
+<?
+if($_COOKIE["unick"] ) {
+?>
+Bienvenido<br> <b><? echo $_COOKIE["unick"] ?></b><br> 
+<br><a href="uperfil"> 
+Mi perfil</a><a href="usuarios.php"><br>
+</a><a href="usalir.php"> 
+Salir</a>
+<br><a href="usuarios.php">usuarios</a><br>
+<br>
+</a><a href="mensajes.php" > 
+Mensajes 
+<?
+include("config.php") ;
+$usuario = $HTTP_COOKIE_VARS[unick] ;
+$resp = mysql_query("select id from mensajes where nuevo='0' and destinatario='$usuario'") ;
+$mensajes = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+if($mensajes == 0) {
+?></a>
+<?
+}
+else {
+?>
+<script>
+function BlinkTxt() {
+texto = document.getElementsByTagName('blink');
+for (i=0; i<texto.length; i++)
+if (texto[i].style.visibility=='hidden') {
+texto[i].style.visibility='visible';
+} else {
+texto[i].style.visibility='hidden';
+}
+setTimeout('BlinkTxt()',100);
+}
+onload=BlinkTxt;
+</script> 
+<blink></blink>
+<script>bgr = window.open("javascript:document.write('<body bgcolor=0000ff style=cursor:hand><center><font color=red><a href=javascript:window.close()>Cerrar</font></a></center><br><center><font face=verdana size=2 color=ffffff><center></center><br><b><a href=mensajes.php target=_blank>Nuevos mensajes<br><br>(<? echo $mensajes ; ?>)</b></a>'); document.body.style.overflow='hidden'; window.resizeTo(150,150); window.moveTo(window.screen.availWidth-155,window.screen.availHeight-155); setTimeout('self.close()',15000);","",'fullscreen=yes');</script>
+<?
+}
+?>
+
+<?
+}
+else {
+?>
+<form method="post" action="uentrar.php">
+Nick:<br>
+<input name="nick" type="text" class="form" size="18">
+<br>
+Contraseña:<br>
+<input name="contrasena" type="password" class="form" size="18">
+<br>
+<br>
+<input type="submit" name="entrar" value="Entrar" class="form">
+</form>
+
+<?
+}
+?>
+[/codigo]
+
+Este es el codigo del pop-up sin retocar
+[codigo]
+<!-- Este código y mas en http://www.elosan.net -->
+<script>bgr = window.open("javascript:document.write('<body bgcolor=0000ff style=cursor:hand><center><font face=verdana size=2 color=ffffff><br><b>Bienvenido<br><br></b>Elosan.es.fm te da una cordial bienvenida'); document.body.style.overflow='hidden'; window.resizeTo(150,150); window.moveTo(window.screen.availWidth-155,window.screen.availHeight-155); setTimeout('self.close()',5000);","",'fullscreen=yes');</script>
+[/codigo]
+Solo falta poner ventanitas cuando la gente se conecte y tendremos  un msn.xD
+
+Ya esta mas o menos el codigo un poco cutre y parece ser que hay gente que no le cierra la ventanita. ya le he puesto un boton de cerrar. Y un enlace pa abrir el mensajeen otra web.

@@ -1,0 +1,13 @@
+este codigo sirve para quitar los frames de una pagina con marcos, o de los dominios .tk .es.mn etc... si lo utilizais para los dominios, al entrar en www.nombre.tk se pondra en la URL http://tupag.servidor.com/tal pero el dominio seguirá funcionando.
+
+[codigo]&lt;script language=&quot;Javascript&quot;&gt; 
+&lt;!--- 
+if (parent.frames.length &gt; 0) 
+parent.location.href=self.location; 
+// ---&gt; 
+&lt;/script&gt;[/codigo]
+
+esto lo poneis entre &lt;head&gt; y &lt;/head&gt;
+
+Un ejemplo: [url]www.webtutorial.tk[/url]
+o [url]www.electros.tk[/url]

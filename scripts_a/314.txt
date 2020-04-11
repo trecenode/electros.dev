@@ -1,0 +1,56 @@
+este script de encuesta es muy fácil de usar, solo basta subir el archivo &quot;encuesta.php&quot; con el siguietne codigo:
+[codigo]
+&lt;?
+//NosferatuSoft
+//nosferatusoft.ya.st
+//Configuracion:
+$ext = &quot;.php&quot;;
+$opcion = $HTTP_POST_VARS[&quot;opcion&quot;];
+//estos archivos son los que contendran los votos de la respectiva opcion
+$opcion1 = &quot;opcion1$ext&quot;;
+$opcion2 = &quot;opcion2$ext&quot;;
+$opcion3 = &quot;opcion3$ext&quot;;
+$opcion4 = &quot;opcion4$ext&quot;;
+
+	if($accion==&quot;&quot;){
+		echo &quot;
+		&lt;form action='encuesta.php?accion=votar' method='post'&gt;
+		&lt;select name='opcion' onchange='this.form.submit()'&gt;
+			&lt;option value=''&gt;-- Votar --&lt;/option&gt;
+			&lt;option value='opcion1'&gt; Opcion 1&lt;/option&gt;
+			&lt;option value='opcion2'&gt; Opcion 2&lt;/option&gt;
+			&lt;option value='opcion3'&gt; Opcion 3&lt;/option&gt;
+			&lt;option value='opcion4'&gt; Opcion 4&lt;/option&gt;
+		&lt;/select&gt;
+		&lt;/form&gt;		
+		&quot;;
+		}
+	if($accion==&quot;votar&quot;){
+		$leer = file_get_contents(&quot;$opcion$ext&quot;);
+		$sumar = $leer + 1;
+		$abrrir = fopen(&quot;$opcion$ext&quot;,&quot;w+&quot;);
+		fwrite($abrrir, $sumar);
+		fclose($abrrir);
+		echo header(&quot;location: encuesta.php?accion=resultados&quot;);
+		}
+	if($accion==&quot;resultados&quot;){
+		$o1 = file_get_contents(&quot;$opcion1&quot;);
+		$o2 = file_get_contents(&quot;$opcion2&quot;);
+		$o3 = file_get_contents(&quot;$opcion3&quot;);
+		$o4 = file_get_contents(&quot;$opcion4&quot;);
+		$contar = $o1 + $o2 + $o3 + $o4;
+		echo &quot;
+		Resultados:&lt;br&gt;
+		Opcion 1 : $o1&lt;br&gt;
+		Opcion 2 : $o2&lt;br&gt;
+		Opcion 3 : $o3&lt;br&gt;
+		Opcion 4 : $o4&lt;p&gt;
+		total: &lt;b&gt;$contar&lt;/b&gt;
+		&quot;;
+		}
+
+?&gt;
+[/codigo]
+
+
+y si quieres crear los archivos que contendran los votos (si no, los archivos se crean solos)

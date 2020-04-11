@@ -1,0 +1,33 @@
+Bueno..., he hecho un script para envio de mails anonimos...
+
+[codigo]&lt;?
+if($enviar) {
+mail(&quot;$victima&quot;,&quot;$asunto&quot;,$mensaje,&quot;From: $nombre &lt;$email&gt;&quot;) ;
+echo &quot;Acabas de joder al pobre $victima&quot; ;
+}?&gt; &lt;form method=&quot;post&quot; action=&quot;index.php
+&lt;div align=&quot;center&quot;&gt;Contacto General&lt;/div&gt;
+&lt;div align=&quot;center&quot;&gt;Nombre:&lt;br&gt;
+    &lt;input name=&quot;nombre&quot; type=&quot;text&quot;&quot; class=inbox&gt;
+    &lt;br&gt;
+    Email Falso:&lt;br&gt;
+    &lt;input type=&quot;text&quot; name=&quot;email&quot; class=inbox&gt;
+&lt;br&gt;
+    Victima:&lt;br&gt;
+    &lt;input type=&quot;text&quot; name=&quot;victima&quot; class=inbox&gt;
+    &lt;br&gt;
+    Asunto:&lt;br&gt;
+    &lt;input type=&quot;text&quot; name=&quot;asunto&quot; class=inbox&gt;
+&lt;br&gt;
+    Mensaje:&lt;br&gt;
+    &lt;textarea name=&quot;mensaje&quot; cols=&quot;30&quot; rows=&quot;5&quot; class=inbox&gt;&lt;/textarea&gt;
+    &lt;br&gt;
+    &lt;br&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot; class=boton&gt;
+&lt;br&gt;
+Powered By LordSteve
+&lt;br&gt;
+Creado Por LordSteve
+  &lt;/div&gt;[/codigo]
+debeis llamar este archivo index.php o debeis modificar el form donde dice &lt;form method=&quot;post&quot; action=&quot;index.php por archivo.php
+
+Un Saludo

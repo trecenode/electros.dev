@@ -1,0 +1,524 @@
+Libro de visitas echo por phpmysql que no necesita bases de datos
+mysql para funcionar y en su lugar utiliza un archivo de texto, se compone de dos archivos:
+
+[b]firmar.php[/b]
+este archivo sirve para agregar un nuevo post y tambien para 
+administrar los mensajes ya existentes la contraseña por defecto
+es 12345
+
+[codigo]&lt;style&gt;
+/* Cuerpo */
+body,table {
+font-family: verdana ;
+font-size: 8pt ;
+color: #000000 ;
+text-align: justify ;
+scrollbar-face-color: #eeeeee ;
+scrollbar-darkshadow-color: #000000 ;
+scrollbar-shadow-color: #aaaaaa ;
+scrollbar-highlight-color: #ffffff ;
+scrollbar-3dlight-color: #000000 ;
+scrollbar-track-color: #ffffff ;
+scrollbar-arrow-color: #000000 ;
+}
+/* Titulos */
+.t1 {
+color: #ffa500 ;
+font-size: 10pt ;
+font-weight: bold ;
+filter: glow(color=#000000,strength=3) ;
+height: 1 ;
+}
+.tema {
+font-size: 10pt ;
+font-weight: bold ;
+}
+/* libro */
+a {
+color: #000000 ;
+text-decoration: none ;
+font-weight: bold ;
+}
+/* Negrita */
+b {
+color: #000000 ;
+}
+/* Tablas del foro */
+.tabla_principal {
+border: #000000 0 solid ;
+}
+.tabla_titulo {
+border-left: #aaaaaa 2 solid ; border-top: #aaaaaa 2 solid ; border-right: #505050 2 solid ; border-bottom: #505050 2 solid ;
+background: #757575 ;
+}
+.tabla_subtitulo {
+border-left: #cccccc 2 solid ; border-top: #cccccc 2 solid ; border-right: #aaaaaa 2 solid ; border-bottom: #aaaaaa 2 solid ;
+background: #bbbbbb ;
+}
+.tabla_mensaje {
+border-left: #eeeeee 2 solid ; border-top: #eeeeee 2 solid ; border-right: #cccccc 2 solid ; border-bottom: #cccccc 2 solid ;
+background: #dddddd ;
+}
+/* Formulario */
+.form {
+border: #000000 1 solid ;
+background: #cccccc ;
+font-family: verdana ;
+font-size: 8pt ;
+}
+&lt;/style&gt;
+&lt;title&gt;Firmar libro de visitas&lt;/title&gt;
+&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;1&quot; cellpadding=&quot;2&quot; style=&quot;border: #757575 1 solid&quot;&gt;
+  &lt;tr&gt; 
+    &lt;td background=&quot;fondo_titulo.gif&quot; bgcolor=&quot;#999999&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;strong&gt;&lt;font size=&quot;2&quot;&gt;Insertar 
+        nueva firma&lt;/font&gt; &lt;/strong&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=&quot;332&quot; bgcolor=&quot;#dddddd&quot;&gt; &lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;2&quot;&gt;
+        &lt;tr&gt; 
+          &lt;td height=&quot;337&quot;&gt;&lt;form action='&lt;? $_SERVER[&quot;REQUEST_URI&quot;] ?&gt;' method=&quot;post&quot; &gt;
+              &lt;table width=&quot;44%&quot; border=&quot;0&quot; align=&quot;center&quot; &gt;
+                &lt;tr&gt; &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td colspan=&quot;3&quot;&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td width=&quot;37%&quot;&gt;&lt;div align=&quot;left&quot;&gt;Nombre :&lt;/div&gt;&lt;/td&gt;
+                  &lt;td width=&quot;63%&quot; colspan=&quot;2&quot;&gt;&lt;input name=&quot;nombre&quot; class=&quot;form&quot; id=&quot;nombre3&quot; size=40 maxlength=200&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td&gt;&lt;div align=&quot;left&quot;&gt;Email:&lt;/div&gt;&lt;/td&gt;
+                  &lt;td colspan=&quot;2&quot;&gt; &lt;input name=&quot;email&quot; class=&quot;form&quot; size=40 maxlength=&quot;200&quot;&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td&gt;&lt;div align=&quot;left&quot;&gt;Lugar:&lt;/div&gt;&lt;/td&gt;
+                  &lt;td colspan=&quot;2&quot;&gt; &lt;input name=&quot;lugar&quot; class=&quot;form&quot; size=40 maxlength=&quot;200&quot;&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td&gt;&lt;div align=&quot;left&quot;&gt;Pagina web :&lt;/div&gt;&lt;/td&gt;
+                  &lt;td colspan=&quot;2&quot;&gt; &lt;input name=&quot;paginaweb&quot; class=&quot;form&quot; size=40 maxlength=&quot;200&quot;&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td valign=&quot;top&quot;&gt;&lt;div align=&quot;left&quot;&gt; 
+                      &lt;p&gt;Comentarios :&lt;/p&gt;
+                      &lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;1&quot; cellpadding=&quot;1&quot;&gt;
+                        &lt;tr&gt; 
+                          &lt;td width=&quot;32%&quot; height=&quot;31&quot;&gt;&lt;img src=&quot;caretos/alegre.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :D &lt;/td&gt;
+                          &lt;td width=&quot;32%&quot;&gt;&lt;img src=&quot;caretos/demonio.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :(1 &lt;/td&gt;
+                          &lt;td width=&quot;36%&quot;&gt;&lt;img src=&quot;caretos/guino.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            ;)&lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr&gt; 
+                          &lt;td&gt;&lt;img src=&quot;caretos/asustado.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :8 &lt;/td&gt;
+                          &lt;td&gt;&lt;img src=&quot;caretos/demonio2.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :(2 &lt;/td&gt;
+                          &lt;td&gt;&lt;img src=&quot;caretos/llorar.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :'( &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr&gt; 
+                          &lt;td&gt;&lt;img src=&quot;caretos/burla.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :P &lt;/td&gt;
+                          &lt;td&gt;&lt;img src=&quot;caretos/duda.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :? &lt;/td&gt;
+                          &lt;td&gt;&lt;img src=&quot;caretos/lol.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :lol &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr&gt; 
+                          &lt;td&gt;&lt;img src=&quot;caretos/confundido.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :S &lt;/td&gt;
+                          &lt;td&gt;&lt;img src=&quot;caretos/enojado.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :-( &lt;/td&gt;
+                          &lt;td&gt;&lt;img src=&quot;caretos/moda.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :M &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr&gt; 
+                          &lt;td&gt;&lt;img src=&quot;caretos/sorprendido.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :O &lt;/td&gt;
+                          &lt;td&gt;&lt;img src=&quot;caretos/triste.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :( &lt;/td&gt;
+                          &lt;td&gt;&lt;img src=&quot;caretos/risa.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :) &lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr&gt; 
+                          &lt;td&gt;&lt;img src=&quot;caretos/neutral.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :| &lt;/td&gt;
+                          &lt;td&gt;&lt;img src=&quot;caretos/sonrisa.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :-) &lt;/td&gt;
+                          &lt;td&gt;&lt;img src=&quot;caretos/sonrojado.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt; 
+                            :R &lt;/td&gt;
+                        &lt;/tr&gt;
+                      &lt;/table&gt;
+                      
+                      
+                    &lt;/div&gt;&lt;/td&gt;
+                  &lt;td colspan=&quot;2&quot; valign=&quot;top&quot;&gt; &lt;textarea name=&quot;comentarios&quot; cols=&quot;38&quot; rows=&quot;10&quot; class=&quot;form&quot; id=&quot;comentarios&quot;&gt;&lt;/textarea&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td colspan=&quot;3&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;br&gt;
+                      &lt;input name=&quot;firmar&quot; type=&quot;submit&quot; class=&quot;form&quot;  value=&quot;Firmar&quot;&gt;
+                      &lt;input name=&quot;Reset&quot; type=&quot;reset&quot; class=&quot;form&quot; value=&quot;Deshacer&quot;&gt;
+                    &lt;/div&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/table&gt;
+              &lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;/form&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;1&quot; cellpadding=&quot;2&quot; style=&quot;border: #757575 1 solid&quot;&gt;
+  &lt;tr&gt; 
+    &lt;td height=&quot;16&quot; bgcolor=&quot;#dddddd&quot;&gt;&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;2&quot;&gt;
+        &lt;tr&gt; 
+          &lt;td&gt;&lt;a href=&quot;libro.php&quot;&gt;Volver al libro de visitas&lt;/a&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;div align=&quot;right&quot;&gt;&lt;/div&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;?php
+/*
+Script modificado por elcidop o phpmysql
+www.elcidop.com
+www.phpmysql.tk
+*/
+//Configuracion
+$nombre_archivo = &quot;libro.txt&quot;;
+$contrasena = &quot;12345&quot;;
+// Funciones
+function abrirf($filename)		//funcion para leer un archivo a una variable
+{								//recimos como parametro el nombre del fichero
+$fd = @fopen ($filename, &quot;a+&quot;);	//abrimos el archivo y oasamos el apuntador a $fd
+$archivo = @fread ($fd, filesize ($filename));//leemos el archivo apuntado por $fd y pasamos -&gt; $archivo
+@fclose ($fd);					//cerramos el apuntador del archivo
+return $archivo;				//devolvemos contenido del archivo
+}
+
+function guardarf($filename,$valor)//funcion para guardar el contenido de una variable a un archivo
+{								//recibimos nombre del archivo en q se guarda la variable $valor
+$fe = @fopen ($filename, &quot;w+&quot;);	//abrimos el archivo para escritura
+@fputs ($fe,$valor);				//escribimos en el fichero apuntado por $fe
+@fclose ($fe);					//cerramos el apuntador 
+}
+// Borramos el archivo
+if($borrar &amp;&amp; $_POST[&quot;contrasena_nombre&quot;] == $contrasena)
+{
+	$filename = $nombre_archivo;
+	$archivo = abrirf ($filename);
+	$limite = substr_count($archivo, '/n');
+	for ($i = 0 ; $i &lt; $limite ; $i++)	//recorremos todos los registros del archivo
+	{
+	$aux = &quot;tupla&quot;.$i;					//para recuperar el valor que envio desde indexuser.php creo la 
+	$busco = $$aux.&quot;/n&quot;;				//variable aux que sera = a &quot;tupla0&quot;.... y la declaro variable con
+										//$$aux se agrego &quot;/n&quot; para completar la cadena a borrar 
+		if($busco != &quot;/n&quot;)				//si se envio la variable $busco dera != de &quot;/n&quot;
+			$archivo = str_replace (&quot;$busco&quot;,&quot;&quot;, &quot;$archivo&quot;);//borramos el registro 
+	}
+	guardarf ($filename,$archivo);
+	echo &quot;&lt;script&gt;location.href='$_SERVER[REQUEST_URI]'&lt;/script&gt;&quot;;
+}
+// Agregamos libro
+if ($firmar)
+{
+	if($nombre &amp;&amp; $comentarios)
+	{
+	    $nombre = htmlspecialchars(trim($_POST[&quot;nombre&quot;]));
+		$email = htmlspecialchars(trim($_POST[&quot;email&quot;]));
+		$lugar = htmlspecialchars(trim($_POST[&quot;lugar&quot;]));
+		$paginaweb = htmlspecialchars(trim($_POST[&quot;paginaweb&quot;]));
+		$comentarios = htmlspecialchars(trim($_POST[&quot;comentarios&quot;]));
+		
+		$filename = $nombre_archivo;
+		$archivo = abrirf ($filename);
+		$fecha = time();
+		$archivo = $archivo.trim(&quot; $nombre|$email|$lugar|$paginaweb|$comentarios|$fecha/n&quot;);
+		guardarf ($filename,$archivo);
+		echo &quot;&lt;script&gt;location.href='$_SERVER[REQUEST_URI]'&lt;/script&gt;&quot;;
+	}
+	else
+		echo &quot;&lt;b&gt;Advertencia&lt;/b&gt;:&lt;br&gt;No ha ingresado todos los datos en el formulario&lt;br&gt;&lt;br&gt;&quot;;
+}
+// Furmulario para poder borrar un nombre
+?&gt;
+&lt;table width='100%' border='0' cellspacing='1' cellpadding='4' style=&quot;border: #757575 1 solid&quot;&gt;
+  &lt;tr&gt; 
+    &lt;td width=&quot;17%&quot; background=&quot;fondo_titulo.gif&quot; bgcolor=&quot;#999999&quot;&gt;&lt;b&gt;Nombre&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=&quot;18%&quot; background=&quot;fondo_titulo.gif&quot; bgcolor=&quot;#999999&quot;&gt;&lt;b&gt;Email&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=&quot;18%&quot; background=&quot;fondo_titulo.gif&quot; bgcolor=&quot;#999999&quot;&gt;&lt;b&gt;Lugar&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=&quot;23%&quot; background=&quot;fondo_titulo.gif&quot; bgcolor=&quot;#999999&quot;&gt;&lt;b&gt;Pagina Web&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=&quot;18%&quot; background=&quot;fondo_titulo.gif&quot; bgcolor=&quot;#999999&quot;&gt;&lt;b&gt;Comentario&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=&quot;2%&quot; background=&quot;fondo_titulo.gif&quot; bgcolor=&quot;#999999&quot;&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;?
+echo &quot;&lt;form method='post' action='$_SERVER[REQUEST_URI]'&gt;&quot;;
+// Abrimos el archivo
+$archivo = abrirf ($nombre_archivo);
+$limite = substr_count($archivo, '/n' ); 
+$tupla = split( '/n', $archivo, $limite + 1 );
+for($i=0 ; $i &lt; $limite ; ++$i)
+{
+	$borrado = trim($tupla[$i]);
+	$columna = split( &quot;|&quot; , $tupla[$i] , 6 );
+	// Reduccimos los comentarios
+	
+if (strlen($columna[4]) &gt; 20) { 
+$columna[4] = substr($columna[4],0,20).&quot;...&quot;; 
+}
+?&gt;
+  &lt;tr&gt; 
+    &lt;td bgcolor=&quot;#dddddd&quot;&gt;&lt;? echo $columna[0] ?&gt;&lt;/td&gt;
+    &lt;td bgcolor=&quot;#dddddd&quot;&gt;&lt;? echo $columna[1] ?&gt;&lt;/td&gt;
+    &lt;td bgcolor=&quot;#dddddd&quot;&gt;&lt;? echo $columna[2] ?&gt;&lt;/td&gt;
+    &lt;td bgcolor=&quot;#dddddd&quot;&gt;&lt;? echo $columna[3] ?&gt;&lt;/td&gt;
+    &lt;td bgcolor=&quot;#dddddd&quot;&gt;&lt;? echo $columna[4] ?&gt;&lt;/td&gt;
+    &lt;td bgcolor=&quot;#dddddd&quot;&gt;&lt;input type='checkbox' name='&lt;? echo &quot;tupla&quot;.$i ?&gt;' value='&lt;? echo $borrado ?&gt;'&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;?
+}
+// Fin formulario para poder enviar un nombre
+?&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;div align=right&gt;Contraseña : &lt;input name='contrasena_nombre' type='text' class='form' size='12'&gt; 
+&lt;input name='borrar' type='submit' class='form'  value='Borrar'&gt;&lt;/div&gt;&lt;br&gt;
+&lt;?
+echo &quot;&lt;/form&gt;&quot;;
+?&gt;&lt;br&gt;
+&lt;div align=&quot;center&quot;&gt;&lt;a href=&quot;http://recursosphp.iefactory.com/librodevisitas/librodevisitas.zip&quot;&gt;&lt;br&gt;
+  librodevisitas&lt;/a&gt; by elcidop&lt;/div&gt;
+[/codigo]
+
+[b]libro.php[/b]
+en el principio de este archivo como vemos podemos administrar las opciones generales de la pagina y aqui quedaran predefinidas al ejecutarlo (caretos,censura,urls,titulo).
+
+[codigo]&lt;?
+//Configuracion
+$mensaje_de_bienvenida = &quot;Bienvenidos al libro de visitas de mi pagina web.&quot;;
+$titulo_de_la_pagina_web = &quot;Libro de visitas de http://www.elcidop.com&quot;;
+$direccion_de_la_pagina = &quot;http://www.elcidop.com/index.php&quot;;
+$usuario = &quot;elcidop&quot;;
+$caretos_en_mensajes = &quot;si&quot;;
+$transformar_urls_en_enlaces = &quot;si&quot;;
+$censurar_insultos = &quot;si&quot;;
+$otras_funciones = &quot;si&quot;;
+?&gt;
+&lt;style&gt;
+/* Cuerpo */
+body,table {
+font-family: verdana ;
+font-size: 8pt ;
+color: #000000 ;
+text-align: justify ;
+scrollbar-face-color: #eeeeee ;
+scrollbar-darkshadow-color: #000000 ;
+scrollbar-shadow-color: #aaaaaa ;
+scrollbar-highlight-color: #ffffff ;
+scrollbar-3dlight-color: #000000 ;
+scrollbar-track-color: #ffffff ;
+scrollbar-arrow-color: #000000 ;
+}
+a {
+color: #000000 ;
+text-decoration: none ;
+font-weight: bold ;
+}
+/* Negrita */
+b {
+color: #000000 ;
+}
+.form {
+border: #000000 1 solid ;
+background: #cccccc ;
+font-family: verdana ;
+font-size: 9pt ;
+}
+&lt;/style&gt;
+&lt;title&gt;&lt;?=$titulo_de_la_pagina_web?&gt;&lt;/title&gt;
+&lt;script language=&quot;JavaScript&quot; type=&quot;text/JavaScript&quot;&gt;
+&lt;!--
+function MM_goToURL() { //v3.0
+  var i, args=MM_goToURL.arguments; document.MM_returnValue = false;
+  for (i=0; i&lt;(args.length-1); i+=2) eval(args[i]+&quot;.location='&quot;+args[i+1]+&quot;'&quot;);
+}
+//--&gt;
+&lt;/script&gt;
+&lt;br&gt;
+&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;1&quot; cellpadding=&quot;2&quot; style=&quot;border: #757575 1 solid&quot;&gt;
+  &lt;tr&gt; 
+    &lt;td background=&quot;fondo_titulo.gif&quot; bgcolor=&quot;#999999&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;strong&gt;&lt;font size=&quot;2&quot;&gt;Libro 
+        de visitas de 
+        &lt;?=$usuario?&gt;
+        &lt;/font&gt; &lt;/strong&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td bgcolor=&quot;#dddddd&quot;&gt; &lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;2&quot;&gt;
+        &lt;tr&gt;
+          &lt;td&gt;
+            &lt;?=$mensaje_de_bienvenida?&gt;
+            &lt;br&gt; &lt;br&gt; &lt;input name=&quot;firmar&quot; type=&quot;reset&quot; class=&quot;form&quot; onclick=&quot;MM_goToURL('parent','firmar.php');return document.MM_returnValue&quot;  value=&quot;Firmar libro&quot;&gt; 
+            &lt;input name=&quot;Reset&quot; type=&quot;reset&quot; class=&quot;form&quot; onClick=&quot;MM_goToURL('parent','&lt;?=$direccion_de_la_pagina?&gt;');return document.MM_returnValue&quot; value=&quot;Volver&quot;&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;br&gt;
+  &lt;?
+// Script echo por elcidop / www.elcidop.com /
+// Fichero
+$nombre_archivo = &quot;libro.txt&quot;;
+// Damos chmod 666 al archivo
+if(substr(base_convert(fileperms($nombre_archivo),10,8),3) &lt; 666) {
+echo &quot;
+&lt;style&gt;
+.error { font-size: 7pt }
+&lt;/style&gt;
+&lt;div class=&quot;error&quot;&gt;
+&lt;p&gt;&lt;b&gt;Error&lt;/b&gt;
+&lt;br&gt;El archivo &lt;b&gt;$nombre_archivo&lt;/b&gt; debe tener el permiso CHMOD 666.
+&lt;br&gt;Se intentará poner el permiso de forma automática ...
+&quot; ;
+if(!@chmod($nombre_archivo,0666)) { echo &quot;&lt;p&gt;No se pudo modificar el archivo. Debes hacerlo a través de tu programa de FTP favorito.&quot; ; }
+else { echo &quot;&lt;p&gt;El archivo &lt;b&gt;minichat.txt&lt;/b&gt; ha sido modificado. Para finalizar haz click &lt;a href=&quot;minichat.php&quot;&gt;aquí&lt;/a&gt;.&quot; ; }
+echo &quot;&lt;/div&gt;&lt;br&gt;&quot; ;
+}
+// Funciones
+function abrirf($filename)		//funcion para leer un archivo a una variable
+{								//recimos como parametro el nombre del fichero
+$fd = @fopen ($filename, &quot;a+&quot;);	//abrimos el archivo y oasamos el apuntador a $fd
+$archivo = @fread ($fd, filesize ($filename));//leemos el archivo apuntado por $fd y pasamos -&gt; $archivo
+@fclose ($fd);					//cerramos el apuntador del archivo
+return $archivo;				//devolvemos contenido del archivo
+}
+
+function guardarf($filename,$valor)//funcion para guardar el contenido de una variable a un archivo
+{								//recibimos nombre del archivo en q se guarda la variable $valor
+$fe = @fopen ($filename, &quot;w+&quot;);	//abrimos el archivo para escritura
+@fputs ($fe,$valor);				//escribimos en el fichero apuntado por $fe
+@fclose ($fe);					//cerramos el apuntador 
+}
+// Abrimos el archivo
+$archivo = abrirf ($nombre_archivo);
+$limite = substr_count($archivo, '/n' ); 
+$tupla = split( '/n', $archivo, $limite + 1 );
+for($i=0 ; $i &lt; $limite ; ++$i)
+{
+	$borrado = trim($tupla[$i]);
+	$columna = split( &quot;|&quot; , $tupla[$i] , 6 );
+// Abrimos el archivo
+$archivo = abrirf ($nombre_archivo);
+$limite = substr_count($archivo, '/n' ); 
+$tupla = split( '/n', $archivo, $limite + 1 );
+for($i=0 ; $i &lt; $limite ; ++$i)
+{
+	$borrado = trim($tupla[$i]);
+	$columna = split( &quot;|&quot; , $tupla[$i] , 6 );
+// Espacios en los comentarios
+$columna[4] = str_replace(&quot;rn&quot;,&quot;&lt;br&gt;&quot;,$columna[4]) ;
+// Dia
+$diassemana = array(&quot;Domingo&quot;,&quot;Lunes&quot;,&quot;Martes&quot;,&quot;Miércoles&quot;,&quot;Jueves&quot;,&quot;Viernes&quot;,&quot;Sábado&quot;) ;
+$mesesano = array(&quot;Ene&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Abr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Ago&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dic&quot;) ;
+$diasemana = date(w,$columna[5]) ; $diames = date(j,$columna[5]) ; $mesano = date(n,$columna[5]) - 1 ; $ano = date(Y,$columna[5]) ;
+$columna[5] = &quot;$diassemana[$diasemana] $diames de $mesesano[$mesano] del $ano&quot; ;
+// Función para poner caretos en los mensajes
+if($caretos_en_mensajes == &quot;si&quot;) {
+$columna[4] = str_replace(&quot;[[&quot;,&quot;&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;]]&quot;,&quot;&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:D&quot;,&quot;[[alegre.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:8&quot;,&quot;[[asustado.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:P&quot;,&quot;[[burla.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:S&quot;,&quot;[[confundido.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:(1&quot;,&quot;[[demonio.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:(2&quot;,&quot;[[demonio2.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:?&quot;,&quot;[[duda.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:-(&quot;,&quot;[[enojado.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;;)&quot;,&quot;[[guino.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:'(&quot;,&quot;[[llorar.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:lol&quot;,&quot;[[lol.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:M&quot;,&quot;[[moda.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:|&quot;,&quot;[[neutral.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:)&quot;,&quot;[[risa.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:-)&quot;,&quot;[[sonrisa.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:R&quot;,&quot;[[sonrojado.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:O&quot;,&quot;[[sorprendido.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;:(&quot;,&quot;[[triste.gif]]&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;[[&quot;,&quot;&lt;img src=&quot;caretos/&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;]]&quot;,&quot;&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$columna[4]) ;
+}
+// Función para transformar URLs en enlaces
+if($transformar_urls_en_enlaces == &quot;si&quot;) {
+$columna[4] = preg_replace(&quot;/(?&lt;!')(?&lt;!&lt;a href=&quot;)(?&lt;!&lt;img src=&quot;)(http|ftp)(s)?://[^,&lt;'&quot;s]+/i&quot;,&quot;&lt;a href=&quot;\0&quot; target=&quot;_blank&quot;&gt;\0&lt;/a&gt;&quot;,$columna[4]) ;
+}
+// Función para palabras censuradas
+if($censurar_insultos == &quot;si&quot;) {
+$columna[4] = str_replace(&quot;capullo&quot;,&quot;***&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;gay&quot;,&quot;***&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;puta&quot;,&quot;***&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;maricon&quot;,&quot;***&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;pendejo&quot;,&quot;***&quot;,$columna[4]) ;
+}
+// Otras funciones
+if($otras_funciones == &quot;si&quot;) {
+$columna[4] = str_replace(&quot;[b]&quot;,&quot;&lt;b&gt;&quot;,$columna[4]) ; $columna[4] = str_replace(&quot;[/b]&quot;,&quot;&lt;/b&gt;&quot;,$columna[4]) ;
+$columna[4] = str_replace(&quot;[img]&quot;,&quot;&lt;img src=&quot;&quot;,$columna[4]) ; $columna[4] = str_replace(&quot;[/img]&quot;,&quot;&quot; border=&quot;0&quot;&gt;&quot;,$columna[4]) ;
+$columna[4] = preg_replace(&quot;/[color=((#)?[0-9a-z]+)]/i&quot;,&quot;&lt;font color=&quot;\1&quot;&gt;&quot;,$columna[4]) ; $columna[4] = str_replace(&quot;[/color]&quot;,&quot;&lt;/font&gt;&quot;,$columna[4]) ;
+$columna[4] = preg_replace(&quot;/[url](www..+)[/url]/i&quot;,&quot;&lt;a href=&quot;http://\1&quot; target=&quot;_blank&quot;&gt;\1&lt;/a&gt;&quot;,$columna[4]) ;
+$columna[4] = preg_replace(&quot;/[url](.+)[/url]/i&quot;,&quot;&lt;a href=&quot;\1&quot; target=&quot;_blank&quot;&gt;\1&lt;/a&gt;&quot;,$columna[4]) ;
+$columna[4] = preg_replace(&quot;/[url=(www..+)](.+)[/url]/i&quot;,&quot;&lt;a href=&quot;http://\1&quot; target=&quot;_blank&quot;&gt;\2&lt;/a&gt;&quot;,$columna[4]) ;
+$columna[4] = preg_replace(&quot;/[url=(.+)](.+)[/url]/i&quot;,&quot;&lt;a href=&quot;\1&quot; target=&quot;_blank&quot;&gt;\2&lt;/a&gt;&quot;,$columna[4]) ;
+}
+?&gt;
+&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;1&quot; cellpadding=&quot;4&quot; style=&quot;border: #757575 1 solid&quot;&gt;
+  &lt;tr&gt; 
+    &lt;td height=&quot;27&quot; background=&quot;fondo_titulo.gif&quot; bgcolor=&quot;#999999&quot;&gt;&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
+        &lt;tr&gt; 
+          &lt;td height=&quot;19&quot;&gt;&lt;strong&gt;&lt;img src=&quot;usuario.gif&quot; width=&quot;16&quot; height=&quot;16&quot; border=&quot;0&quot;&gt; 
+            &lt;? echo $columna[0] ?&gt; 
+            &lt;? if($columna[1]){?&gt;
+            &lt;a href='mailto:&lt;? echo $columna[1] ?&gt;' target='_blank'&gt;&lt;img src=&quot;email.gif&quot; width=&quot;16&quot; height=&quot;16&quot; border=&quot;0&quot;&gt;&lt;/a&gt; 
+            &lt;? } ?&gt;
+            &lt;? if($columna[3]){?&gt;
+            &lt;a href='&lt;? echo $columna[3] ?&gt;' target='_blank'&gt;&lt;img src=&quot;paginaweb.gif&quot; width=&quot;18&quot; height=&quot;18&quot; border=&quot;0&quot;&gt;&lt;/a&gt; 
+            &lt;? } ?&gt;
+            &lt;/strong&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;div align=&quot;right&quot;&gt;&lt;strong&gt; 
+              &lt;? if($columna[2]){?&gt;
+              &lt;img src=&quot;lugar.gif&quot; width=&quot;16&quot; height=&quot;16&quot;&gt; &lt;/strong&gt;&lt;? echo $columna[2] ?&gt;&lt;strong&gt;
+              &lt;? } ?&gt;
+              &lt;/strong&gt; &lt;img src=&quot;reloj.gif&quot; width=&quot;16&quot; height=&quot;16&quot;&gt; &lt;? echo $columna[5] ?&gt;&lt;/div&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=&quot;26&quot; valign=&quot;top&quot; bgcolor=&quot;#dddddd&quot;&gt;&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;2&quot;&gt;
+        &lt;tr&gt;
+          &lt;td&gt;&lt;? echo $columna[4] ?&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;&lt;br&gt;
+&lt;?
+}
+// Fin formulario para poder enviar un enlace
+}
+?&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;div align=&quot;center&quot;&gt;&lt;a href=&quot;http://recursosphp.iefactory.com/librodevisitas/librodevisitas.zip&quot;&gt;librodevisitas&lt;/a&gt; by elcidop&lt;/div&gt;
+[/codigo]
+
+[b]libro.txt[/b]
+en este archivo se guardaran todos los resultados, debermos de darle permisos chmod 666 para que funcione
+
+[codigo]elcidop|elcidop@galeon.com|España|http://www.elcidop.com|Buen libro de visitas.|1086701774/nphpmysql|elcidop@hotmail.com|Spain|http://www.phpmysql.tk|Muy bueno el script.|1086701824/n44554|elcidop@galeon.com|||ddd :?|1086710646/n[/codigo]
+
+Pueden ver un ejemplo en la siguiente url ,
+si se lo bajan desde la pagina oficial tendran la ventaja de que en este sitio el 
+script sera actualizado constantemente, por ejemplo hoy mismo se le ha incluido la opcion de mostrar los mensajes en orden ascendente (del ultimo mensaje al primero)
+http://recursosphp.iefactory.com/librodevisitas/libro.php

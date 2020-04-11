@@ -1,0 +1,4 @@
+Version mejorada del script de lafotodeldia, ahora es tan sencillo como subir el index.php que contiene el script y crear las carpetas...lo demas ya esta echo.
+
+Este script es una galeria de imagenes, para ver un ejemplo de la antigua version que es parecida a la actual, aunque no me ha dado tiempo a subirlo la url es
+http://lafotodeldia.webcindario.com

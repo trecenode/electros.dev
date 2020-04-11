@@ -1,0 +1,17 @@
+Aqui os dejo este script que sirve para editar archivos txt online, debeis darle permisos 777 al archivo que querais modificar online. Para evitar problemas intentad que el archivo txt este en el mismo directorio, no es necesario pero es para evitar lios.
+
+[codigo]&lt;? 
+$fichero = &quot;archivo.txt&quot;; //Donde dice &quot;archivo.txt&quot; poned el nombre del archivo vuestro.
+$texto = $_POST[&quot;texto&quot;]; 
+if($texto != ''){ 
+   if($fp = fopen($fichero, &quot;w+&quot;)){ 
+      fwrite($fp, stripslashes($texto)); 
+      echo 'Archivo modificado&lt;br&gt; &lt;br&gt;'; 
+   } 
+   fclose($fp); 
+} 
+$fp = fopen($fichero, &quot;r&quot;); 
+$contenido = fread ($fp, filesize ($fichero)); 
+fclose($fp); 
+echo &quot;&lt;form method=&quot;POST&quot;&gt; &lt;textarea name=&quot;texto&quot;&gt;$contenido&lt;/textarea&gt; &lt;br&gt; &lt;input type=&quot;Submit&quot; value=&quot;Guardar&quot;&gt; &lt;/form&gt;&quot;; 
+?&gt;[/codigo]

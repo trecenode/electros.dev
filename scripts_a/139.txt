@@ -1,0 +1,38 @@
+Señores este script es para ver los mensajes nuevo que tienen los 
+usuarios para el eforo_privados, lo pongo aqui por que algunos usuarios
+como yo buscamos este codigo por ejemplo cuando hacemos un panel 
+de control...etc 
+
+[b]Aqui se los dejo SALUDOS !![/b]
+
+[codigo]Mensajes&lt;/a&gt; 
+                  &lt;?
+include(&quot;conex.php&quot;) ;
+$usuario = $HTTP_COOKIE_VARS[unick] ;
+$resp = mysql_query(&quot;select id from eforo_privados where nuevo='0' and destinatario='$usuario'&quot;) ;
+$mensajes = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+if($mensajes == 0) {
+?&gt;
+                  &lt;?
+}
+else {
+?&gt;
+                  &lt;script&gt;
+function BlinkTxt() {
+texto = document.getElementsByTagName('blink');
+for (i=0; i&lt;texto.length; i++)
+if (texto[i].style.visibility=='hidden') {
+texto[i].style.visibility='visible';
+} else {
+texto[i].style.visibility='hidden';
+}
+setTimeout('BlinkTxt()',100);
+}
+onload=BlinkTxt;
+&lt;/script&gt; &lt;blink&gt;(&lt;? echo $mensajes ; ?&gt;)&lt;/blink&gt; &lt;bgsound loop=&quot;1&quot; src=&quot;newemail.wav&quot;&gt; 
+                  &lt;?
+}
+?&gt;
+[/codigo]

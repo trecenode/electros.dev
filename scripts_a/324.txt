@@ -1,0 +1,20 @@
+bueno muchos se preguntaran que quiero decir con esto... bueno... simple... si quieren q por ejemplo... si en si undex tienen un switch y el default es un include a inicio.php y no quieren que se pueda ingresar directamente al inicio.php y solo atraves del index.php tiene q hacer lo siguiente:
+
+al principio del index.php (antes de la etiqueta &lt;html&gt;) poner:
+
+[codigo]&lt;?php
+define('portal', true);
+?&gt;[/codigo]
+
+
+luego hacen un archivo que se llame inclusion.php y ponen:
+
+[codigo]&lt;?php
+if (!defined('portal')) {
+header(&quot;location='index.php'&quot;);
+exit;
+} 
+?&gt;[/codigo]
+
+
+y para terminar ponen un include a inclusion.php en cada archivo que quieran proteger

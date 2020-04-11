@@ -1,0 +1,8 @@
+Saludos, otra vez yo.. posteando algo importante para mi :D.. esta vez termine el script de whois, como para usarlo en una pagina de registro de dominios.. solo faltaria terminar el sistema.. para eso cuanto con su ayuda..
+
+Son 3 archivos:
+El formulario -&gt; index.html
+El script     -&gt; topdog_whois.php
+El template   -&gt; whois.html
+
+Es simple de usar, solo tienes que copiarlos en tu server y ya.. corren normal, la cosa es terminar el sistema de pedidos, con una base de datos para agregar los planes y todo eso.. bueno espero me ayuden.. ya di el primer paso..

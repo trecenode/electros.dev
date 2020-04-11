@@ -1,0 +1,15 @@
+Bueno aqui les traigo este portal llamado e107 no es muy conosido pero es bastante bueno ,tienen distintos themes,un foro,noticias,descargas,etc..
+
+una demostracion:
+
+[codigo]http://www.petrusfilms.xoopiter.com/e107/news.php[/codigo]
+
+espero que les guste
+
+este script es de:
+
+[codigo]http://e107.org[/codigo]
+
+no puedo subir el archivo a electros ya que pesa mas que 512 kb haci que pongo la descarga aca:
+
+[url=http://prdownloads.sourceforge.net/e107/e107_v0.7.4_full.zip?download]Descargas![/url]

@@ -1,0 +1,102 @@
+XDDD ke se me olvidaba la bd y poner el script pa descargar XD
+[codigo]
+create TABLE libro (
+id smallint(5) unsigned not null auto_increment,
+fecha int(10) unsigned not null,
+nick varchar(40) not null,
+mensaje varchar(255) not null,
+valoracion int(20) not null,
+web varchar(50) not null,
+INDEX (`id`)
+)
+[/codigo]
+Bueno pos este es mi pekeño libro de visitas...no es cosa del otro mundo peo weno
+Usa los smilis del minichat, si teneis alguna problema comunicamedlo ;)
+[codigo]
+&lt;?
+/********************************************/
+/***SCRIPT CREADO POR RINGOWEB*************/
+/***7/11/03*****VISITEN MI WEB*********/
+/****HTTP://RINGOWEB.MUNDO-IRC.ORG****/
+/****GRACIAS XDDDD*************************/
+/*******************************************/
+include(&quot;config.php&quot;);
+if($accion==&quot;firmar&quot;) {//si a decidido firmar el libro....
+	if($enviar) {//si a pulsado enviar.....
+	$fecha=date(&quot;j/m/y&quot;);
+	mysql_query(&quot;INSERT into libro (nick,mensaje,valoracion,web) VALUES ('$nick','$mensaje','$valoracion','$web')&quot;) or die (mysql_error());
+	echo &quot;Gracias por firmar nuestro libro de visitas&lt;br&gt;&lt;a href=&quot;ringoBook.php&quot;&gt;Volver&lt;/a&gt;&quot;;
+	}
+	if(!$enviar) {//si toavia no a pulsao enviar se muestra el formulario
+	echo &quot;&lt;div align=&quot;center&quot;&gt;&lt;form method=&quot;POST&quot; action=&quot;ringBook.php?accion=firmar&quot;&gt;
+       &lt;b&gt;.:Nick:.&lt;/b&gt;&lt;br&gt;
+  	&lt;input type=&quot;text&quot; name=&quot;nick&quot; size=&quot;20&quot;&gt;&lt;br&gt;
+  	&lt;b&gt;.:Tu Web:.&lt;br&gt;
+  	&lt;input type=&quot;text&quot; name=&quot;web&quot; size=&quot;20&quot;&gt;&lt;br&gt;
+  	.:Valoracion:.&lt;br&gt;
+  	&lt;select size=&quot;1&quot; name=&quot;valoracion&quot;&gt;
+  	&lt;option&gt;10&lt;/option&gt;
+  	&lt;option&gt;9&lt;/option&gt;
+  	&lt;option&gt;8&lt;/option&gt;
+  	&lt;option&gt;7&lt;/option&gt;
+  	&lt;option&gt;6&lt;/option&gt;
+  	&lt;option&gt;5&lt;/option&gt;
+  	&lt;option&gt;4&lt;/option&gt;
+ 	&lt;option&gt;3&lt;/option&gt;
+  	&lt;option&gt;2&lt;/option&gt;
+  	&lt;option&gt;1&lt;/option&gt;
+  	&lt;/select&gt;&lt;br&gt;
+  	.:Mensaje:.&lt;br&gt;
+  	&lt;textarea rows=&quot;5&quot; name=&quot;mensaje&quot; cols=&quot;20&quot;&gt;&lt;/textarea&gt;&lt;/b&gt;&lt;br&gt;
+  	&lt;input type=&quot;submit&quot; value=&quot;Enviar&quot; name=&quot;enviar&quot;&gt;&lt;/p&gt;
+	&lt;/form&gt;&lt;/div&gt;&quot;;
+	}
+}
+if(!$accion) {
+ $consulta=mysql_query(&quot;SELECT nick,mensaje,valoracion,web from libro order by id desc&quot;) or die (mysql_error());
+ $lineas=mysql_query(&quot;SELECT nick,mensaje,valoracion,web from libro&quot;);
+ $total=mysql_num_rows($lineas);
+ echo &quot;&lt;center&gt;&quot;;
+ echo &quot;&lt;a href=&quot;ringoBook.php?accion=firmar&quot;&gt;&lt;b&gt;.:Firmar Libro:.&lt;/b&gt;&lt;/a&gt;&lt;br&gt;&quot;;
+ echo &quot;&lt;b&gt;Numero de firmas:&lt;/b&gt;$total&quot;;
+ echo&quot;&lt;/center&gt;&quot;;
+ while($sql=mysql_fetch_array($consulta)) {
+ $mensaje=$sql[mensaje];
+ /***Emoticonos********************************************/
+ $mensaje = str_replace(&quot;:D&quot;,&quot;&lt;img src=&quot;emoticon/alegre.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:8&quot;,&quot;&lt;img src=&quot;emoticon/asustado.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:P&quot;,&quot;&lt;img src=&quot;emoticon/burla.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:S&quot;,&quot;&lt;img src=&quot;emoticon/confundido.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:!&quot;,&quot;&lt;img src=&quot;emoticon/exclamacion.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:&gt;&quot;,&quot;&lt;img src=&quot;emoticon/flecha.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:(1&quot;,&quot;&lt;img src=&quot;emoticon/demonio.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:(2&quot;,&quot;&lt;img src=&quot;emoticon/demonio2.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:?&quot;,&quot;&lt;img src=&quot;emoticon/duda.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:y&quot;,&quot;&lt;img src=&quot;emoticon/idea.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:-(&quot;,&quot;&lt;img src=&quot;emoticon/enojado.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;;)&quot;,&quot;&lt;img src=&quot;emoticon/guino.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:'(&quot;,&quot;&lt;img src=&quot;emoticon/llorar.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:?&quot;,&quot;&lt;img src=&quot;emoticon/pregunta.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:lol&quot;,&quot;&lt;img src=&quot;emoticon/lol.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:M&quot;,&quot;&lt;img src=&quot;emoticon/moda.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:|&quot;,&quot;&lt;img src=&quot;emoticon/neutral.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:)&quot;,&quot;&lt;img src=&quot;emoticon/risa.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:-)&quot;,&quot;&lt;img src=&quot;emoticon/sonrisa.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:R&quot;,&quot;&lt;img src=&quot;emoticon/sonrojado.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:O&quot;,&quot;&lt;img src=&quot;emoticon/sorprendido.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ $mensaje = str_replace(&quot;:(&quot;,&quot;&lt;img src=&quot;emoticon/triste.gif&quot; width=&quot;15&quot; height=&quot;15&quot;&gt;&quot;,$mensaje) ;
+ /********HASTA AQUI LOS EMOTICONOS****************/
+ echo &quot;
+ &lt;table cellspacing=&quot;1&quot; style=&quot;border-collapse: collapse; border-left: 1px solid #F3F3F3; border-right-width: 1; border-top-width: 1; border-bottom: 1px solid #F3F3F3&quot; width=&quot;100%&quot;&gt;
+ &lt;tr&gt;
+ &lt;td width=&quot;83%&quot;&gt;&lt;a href=&quot;$sql[web]&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;$sql[nick]&lt;/b&gt;&lt;/a&gt;&lt;/td&gt;
+ &lt;td width=&quot;17%&quot;&gt;$sql[fecha]&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td width=&quot;100%&quot; colspan=&quot;2&quot;&gt;&lt;b&gt;Valoracion:&lt;/b&gt;$sql[valoracion]&lt;br&gt;&lt;b&gt;Comentarios:&lt;/b&gt;$mensaje&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/table&gt;n&quot;;
+ }
+}
+?&gt;
+[/codigo]

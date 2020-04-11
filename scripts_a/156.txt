@@ -1,0 +1,65 @@
+Este es un script que nos servira para que la gente exponga su opinion sobre cualquier archivo ya sea una imagen o un codigo o una descarga o un enlace , este script funciona sin mysql y se guarda en un archivo de texto la opinion, el funcionamiento de este script es bastante sencillo , ponemos  [b]opinar.php?a=nombredelarchivo[/b] y donde pone nombredelarchivo es evidentemente el archivo sobre el que queremos opinar.
+
+[codigo]&lt;div align=&quot;center&quot;&gt;&lt;/div&gt;
+&lt;table width='100%' border='1' cellpadding='5' cellspacing='0' align='center' style='border: #757575 1 solid'&gt;
+  &lt;tr&gt; 
+    &lt;td height='7' colspan=&quot;2&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Opinar sobre &lt;? echo $a ?&gt;&amp;nbsp;&lt;/b&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height='7' class=&quot;tabla_mensaje&quot;&gt;&lt;div align=&quot;left&quot;&gt;&lt;b&gt;Nombre&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;td class=&quot;tabla_mensaje&quot;&gt;&lt;b&gt;Opinion&lt;/b&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;?
+$elemento = $a ;  
+$file = &quot;$elemento.txt&quot;; 
+//Se tramita el formulario y se guardan los nuevos datos.
+if(!empty($opinion))
+{
+$fichero = fopen($file, &quot;a&quot;);
+fwrite($fichero, &quot;$nombre////$opinionn&quot;);
+fclose($fichero);
+}
+//Se inicia el proceso de impresion de los datos
+if(file_exists($file)&amp;&amp;is_file($file))
+{
+$fichero = fopen($file, &quot;r&quot;);
+//Se extraen todas las lineas.
+while(!feof($fichero))
+{
+$cadena = fgets($fichero, 4096);
+list($nom, $men)=split('////', $cadena);
+//Se elimina la lectura de los n r
+if(!empty($cadena)){
+?&gt;
+  &lt;tr&gt; 
+    &lt;td height='7' class=&quot;tabla_mensaje&quot;&gt;&lt;div align=&quot;left&quot;&gt;
+        &lt;? echo $nom ?&gt;
+        &lt;/div&gt;&lt;/td&gt;
+    &lt;td class=&quot;tabla_mensaje&quot;&gt;
+      &lt;? echo $men ?&gt;
+      &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;? }
+}//END WHILE
+fclose($fichero);
+}
+?&gt;
+&lt;/table&gt;
+&lt;div align=&quot;center&quot;&gt;&lt;br&gt;
+  &lt;a href=&quot;index.php&quot;&gt;Volver&lt;/a&gt;&lt;br&gt;
+&lt;/div&gt;
+&lt;FORM METHOD=&quot;Post&quot; ACTION=&quot;&lt;? echo $_SERVER[REQUEST_URI] ?&gt;&quot;&gt;
+  &lt;div align=&quot;center&quot;&gt;&lt;B&gt;Deja tu opinion :&lt;/B&gt;&lt;br&gt;
+    &lt;b&gt;Nombre: 
+    &lt;INPUT NAME=&quot;nombre&quot; TYPE=&quot;Text&quot; id=&quot;nombre&quot; SIZE=60 MAXLENGTH=60 style=&quot;font-size:10px;font-family:verdana;&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+    Mensaje: 
+    &lt;textarea name=&quot;opinion&quot; cols=&quot;60&quot; style=&quot;font-size:10px;font-family:verdana;&quot; class=&quot;form&quot;&gt;&lt;/textarea&gt;
+    &lt;br&gt;
+    &lt;br&gt;
+    &lt;INPUT TYPE=&quot;Submit&quot; VALUE=&quot;Enviar Opinión&quot; class=&quot;form&quot;&gt;
+    &lt;/b&gt;&lt;/div&gt;
+&lt;/FORM&gt;[/codigo]
+
+Gracias por su atencion, no se olviden de visitar
+http://www.phpmysql.tk

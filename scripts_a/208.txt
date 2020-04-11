@@ -1,0 +1,172 @@
+Este script lo que hace es que cada usuario tenga su propio panel de control. solo hay que añadir una pagina llamada &quot;[b]upanel.php[/b]&quot; y modificar [b]uentrar.php[/b] para que al iniciar sesión valla directamente al panel de control, si no quieres que sea asi, no modifiques el [b]uentrar.php[/b]
+
+[b]upanel.php[/b]
+[codigo]&lt;?
+if($_COOKIE[&quot;unick&quot;] ) {
+?&gt;
+&lt;script language=&quot;JavaScript&quot; type=&quot;text/JavaScript&quot;&gt;
+&lt;!--
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+&quot;.location='&quot;+selObj.options[selObj.selectedIndex].value+&quot;'&quot;);
+  if (restore) selObj.selectedIndex=0;
+}
+//--&gt;
+&lt;/script&gt;
+Panel de usuario de &lt;b&gt;&lt;? echo $_COOKIE[&quot;unick&quot;]  ?&gt;&lt;/b&gt;&lt;p align=&quot;center&quot;&gt;&lt;br&gt; 
+              &lt;? include(&quot;config.php&quot;) ;
+$resp = mysql_query(&quot;select id,avatar from usuarios where nick='$_COOKIE[unick]'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+if(mysql_num_rows($resp) != 0) {
+echo &quot;&lt;div align=&quot;center&quot;&gt;&lt;img src=&quot;eforo_imagenes/avatares/$datos[id].$datos[avatar]&quot; width=&quot;50&quot; height=&quot;50&quot; border=&quot;0&quot;&gt;&lt;/div&gt;&quot; ;
+}
+?&gt;
+&lt;/p&gt;
+              &lt;form name=&quot;form1&quot;&gt;&lt;table width=&quot;90%&quot; border=&quot;0&quot; align=&quot;center&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;
+                &lt;tr&gt;
+                  &lt;td width=&quot;18%&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;a href=&quot;?id=uperfil&amp;t=Editar+perfil&quot;&gt;&lt;img src=&quot;info.gif&quot; width=&quot;49&quot; height=&quot;50&quot; border=&quot;0&quot;&gt;&lt;/a&gt;&lt;/div&gt;&lt;/td&gt;
+                  &lt;td width=&quot;28%&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;a href=&quot;?id=mensajes&quot;&gt;&lt;img src=&quot;messages.gif&quot; width=&quot;49&quot; height=&quot;50&quot; border=&quot;0&quot;&gt;&lt;/a&gt;&lt;/div&gt;&lt;/td&gt;
+                  &lt;td width=&quot;27%&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;img src=&quot;home.gif&quot; width=&quot;49&quot; height=&quot;48&quot;&gt;&lt;/div&gt;&lt;/td&gt;
+                  &lt;td width=&quot;27%&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;a href=&quot;usalir.php&quot;&gt;&lt;img src=&quot;exit.gif&quot; width=&quot;48&quot; height=&quot;49&quot; border=&quot;0&quot;&gt;&lt;/a&gt;&lt;/div&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                  &lt;td&gt;&lt;div align=&quot;center&quot;&gt;&lt;strong&gt;&lt;a href=&quot;?id=uperfil&quot;&gt;Editar perfil &lt;/a&gt;&lt;/strong&gt;&lt;/div&gt;&lt;/td&gt;
+                  &lt;td&gt;
+                  &lt;div align=&quot;center&quot;&gt;&lt;strong&gt;&lt;a href=&quot;?id=mensajes&quot;&gt;Mensajes privados&lt;/a&gt;&lt;/strong&gt;&lt;/div&gt;&lt;/td&gt;
+                  &lt;td&gt;&lt;div align=&quot;center&quot;&gt;
+                   
+                      &lt;select name=&quot;menu1&quot; onChange=&quot;MM_jumpMenu('parent',this,0)&quot; class=&quot;form&quot;&gt;
+                        &lt;option selected&gt;Enviar:&lt;/option&gt;
+                        &lt;option value=&quot;?id=descargasenviar&amp;amp;t=Enviar+descarga&quot;&gt;&amp;gt;&amp;gt; Descarga&lt;/option&gt;
+                        &lt;option value=&quot;?id=noticiasenviar&quot;&gt;&amp;gt;&amp;gt; Articulo&lt;/option&gt;
+                           &lt;/select&gt;
+                 
+                  &lt;/div&gt;&lt;/td&gt;
+                  &lt;td&gt;&lt;div align=&quot;center&quot;&gt;&lt;strong&gt;&lt;a href=&quot;usalir.php&quot;&gt;Desconectar&lt;/a&gt;&lt;/strong&gt;&lt;/div&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                  &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+                  &lt;td&gt;&lt;div align=&quot;center&quot;&gt;Tiene
+                    &lt;?
+include(&quot;config.php&quot;) ;
+$usuario = $HTTP_COOKIE_VARS[unick] ;
+$resp = mysql_query(&quot;select id from mensajes where nuevo='0' and destinatario='$usuario'&quot;) ;
+$mensajes = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+if($mensajes == 0) { echo &quot;0&quot;
+?&gt;
+                    &lt;?
+}
+else {
+?&gt;
+                      &lt;script&gt;
+function BlinkTxt() {
+texto = document.getElementsByTagName('blink');
+for (i=0; i&lt;texto.length; i++)
+if (texto[i].style.visibility=='hidden') {
+texto[i].style.visibility='visible';
+} else {
+texto[i].style.visibility='hidden';
+}
+setTimeout('BlinkTxt()',100);
+}
+onload=BlinkTxt;
+                      &lt;/script&gt;
+                      &lt;blink&gt;(&lt;? echo $mensajes ; ?&gt;)&lt;/blink&gt;
+                    &lt;?
+}
+?&gt;
+mensajes nuevos &lt;/div&gt;&lt;/td&gt;
+                  &lt;td&gt;&lt;div align=&quot;center&quot;&gt;
+                  &lt;/div&gt;&lt;/td&gt;
+                  &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/table&gt;   &lt;/form&gt;
+              &lt;table width=&quot;99%&quot; border=&quot;0&quot; align=&quot;center&quot; cellpadding=&quot;3&quot; cellspacing=&quot;1&quot;&gt;
+                &lt;tr class=&quot;4477444441&quot;&gt;
+                  &lt;td width=&quot;24%&quot;&gt;&lt;div align=&quot;center&quot; class=&quot;Estilo1&quot;&gt;&lt;b&gt;Usuarios on-line &lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr class=&quot;4477444441&quot;&gt;
+                  &lt;td valign=&quot;top&quot; class=&quot;33334477444441&quot;&gt;&lt;? include(&quot;uenlinea.php&quot;); ?&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/p&gt;
+&lt;?
+}
+else {
+?&gt;
+&lt;/div&gt;
+&lt;form method=&quot;post&quot; action=&quot;uentrar.php&quot;&gt;
+              &lt;div align=&quot;center&quot;&gt;Nick:&lt;br&gt;
+                &lt;input name=&quot;nick&quot; type=&quot;text&quot; class=&quot;form&quot;&gt;
+                &lt;br&gt;
+                Contraseña:&lt;br&gt;
+                &lt;input name=&quot;contrasena&quot; type=&quot;password&quot; class=&quot;form&quot;&gt;
+			
+                &lt;br&gt;
+                &lt;br&gt;
+                &lt;input type=&quot;submit&quot; name=&quot;entrar&quot; value=&quot;Entrar&quot; class=&quot;form&quot;&gt;
+			    &lt;input type=&quot;hidden&quot; name=&quot;pagina&quot; value=&quot;&lt;? echo $_SERVER['REQUEST_URI'] ?&gt;&quot;&gt;
+              &lt;/div&gt;
+&lt;/form&gt;
+            
+&lt;a href=&quot;?id=uregistrar&quot;&gt;· Registrate&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;?id=ucontrasena&quot;&gt;· ¿Olvide contraseña?&lt;/a&gt;&lt;br&gt;
+ &lt;br&gt; ¿Todavía no tienes una cuenta? Puedes &lt;a href=&quot;index.php?id=uregistrar&quot;&gt;crearte 
+            una&lt;/a&gt;. Como usuario registrado tendrás ventajas como cambiar tu 
+            perfil, responder comentarios con tu propio nick y enviar enlaces, 
+            descargas y scripts.&lt;br&gt; 
+            &lt;?
+}
+?&gt;[/codigo]
+
+Ahora si quieres que al iniciar sesión valla directamente al panel de control reemplaza el codigo de [b]uentrar.php[/b] por este:
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+if($entrar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$nick = quitar($nick) ;
+$contrasena = quitar($contrasena) ;
+$resp = mysql_query(&quot;select contrasena from usuarios where nick='$nick'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+if(mysql_num_rows($resp) != 0) {
+if($datos[contrasena] == $contrasena) {
+$contrasena = md5(md5($contrasena)) ;
+setcookie(&quot;unick&quot;,$nick,time()+7776000) ;
+setcookie(&quot;ucontrasena&quot;,$contrasena,time()+7776000) ;
+?&gt;
+&lt;script&gt;location='[b]index.php?id=upanel.php[/b]'&lt;/script&gt;
+&lt;?
+}
+else {
+echo &quot;La contraseña es incorrecta. Haz click &lt;a href=javascript:history.back()&gt;aquí&lt;/a&gt; para regresar.&quot; ;
+}
+}
+else {
+echo &quot;Este usuario no existe en la base de datos.&quot; ;
+}
+}
+else {
+echo &quot;
+&lt;form method=post action=uentrar.php&gt;
+&lt;b&gt;Nick:&lt;/b&gt;&lt;br&gt;
+&lt;input type=text name=nick maxlength=20&gt;&lt;br&gt;
+&lt;b&gt;Contraseña:&lt;/b&gt;&lt;br&gt;
+&lt;input type=password name=contrasena maxlength=20&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=submit name=entrar value=Entrar&gt;
+&lt;/form&gt;
+&quot; ;
+}
+?&gt;[/codigo]
+
+Si quereis las imagenes del panel de control estan en el .zip
+
+como no me deja subir el archivo, aqui esta:
+
+http://webtutorial.webcindario.com/descargas/descarga.php?descarga=Panel+de+Control&amp;url=http://usuarios.lycos.es/webtutorial/upanel.zip
+
+He puesto ese ZIP porque con el otro te decia que tieas que entrar a la web y mil rollos. y con ese te lo descarga ya directo

@@ -1,0 +1,38 @@
+Descripción.
+
+paFileDB ha sido diseñado para permitir a webmasters tener una base de datos de archivos para descargar en su sitio web. Para agregar una descargar todo lo que tienes que hacer es subir el archivo usando FTP o cualquiera otro método que uses, entrar al centro de administración del paFileDB's, y completas un formulario para agregar el archivo . paFileDB también te permite editar y borrar el archivo. paFileDB es una de las mejores y más faciles formas para manejar archivos.
+
+
+[  Características (Versión 3,5,3)  ]
+
+    - MySQL Backend
+    - Categorías y Subcategorías
+    - Centro Contraseña-Protegido del Admin con cuentas múltiples del Admin
+    - Cuenta de transferencias directas
+    - Base de datos de Búsqueda
+    - Iconos Del Poste
+    - Acuerdos De Licencia Antes De Descargar
+    - Sistema de la plantilla
+    - Archivos de la Idiomas.
+    - Campos De encargo
+    - Opinión Toda la Opción De los Archivos
+    - La Tarifa Archiva La Opción
+    - Espejos Del Archivo
+    - Divulgación Rotatoria Del Acoplamiento
+    - Capacidad de agregar archivos descargados tapa y nuevas listas de los archivos en su sitio (descargue por favor el toplist plugin aquí [url]http://www.phparena.net/files/index.php?act=view&amp;id=23[/url] para agregar esta funcionalidad.) 
+
+[ requisitos ] del servidor
+
+    - PHP 4,2,0 o más altos
+    - Acceso de base de datos de MySQL
+    - Windows 95/98/ME/NT/2k/XP, o uno de los muchos tipos de Linux o de Unix
+
+Precio.
+
+Está libre el uso en su sitio para el uso personal o comercial mientras usted no quita el copyright en el fondo de la escritura. Si usted desea quitar el copyright, hay que pagar US$ 50 en honorarios de una sola vez (los E.E.U.U.). Si usted está interesado en comprar el retiro del copyright, visite por favor nuestra página avanzada de los servicios [url]http://www.phparena.net/order.php[/url]. 
+
+Para ver un ejemplo entra aquí:
+
+[url]http://demo.phparena.net/index.php?demo=pafiledb[/url]
+
+Cada ejemplo se genera solo por 2 dias.

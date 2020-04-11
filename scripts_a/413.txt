@@ -1,0 +1,26 @@
+[b]Descripcion:[/b]
+GENU es un sistema de manejo de noticias, comentarios y usuarios escrito en PHP y usando MySQL como base de datos. Es totalmente personalizable ya que usa un sistema de plantillas y soporta varios lenguajes. &gt;&gt;[url=http://genu2.sourceforge.net/]Home[/url]&lt;&lt;
+
+[b]Requisitos:[/b]
+
+* Cuenta Host con una Base de Datos 
+* PHP 4.1.0 o superior (con cuenta e-mail establecida, preferiblemente)
+* Una Base de Datos MySQL (3.23.23 o Superior)
+
+[b]L[/b]o Primero que tienes que hacer, es descomprimir el Archivo [u]GENU[/u] Descomprimido, te diriges a la carpeta [u]sql[/u] y abres [u]tables[/u], Ese es el codigo para crear las Tablas en tu Base de datos. 
+Creadas las Tablas, te diriges a la carpeta [u]includes[/u] y abres el archivo [u]mysql.php,[/u] lo unico que debes modificar son los datos de la base de datos:
+
+[codigo]
+
+var $host = \'host\'; //Usualmente Localhost\r\n
+	var $user = \'user\'; //Nombre del usuario\r\n	
+var $password = \'password\'; //Contraseña del usuario\r\n	
+var $database = \'database\'; //Nombre de la Base de Datos (en donde se encuentran las tablas que creaste, por supuesto)
+[/codigo]
+
+Ya modificado el archivo [u]mysql.php,[/u] Subes la Carpeta [u]GENU[/u] a tu web.Cuando lo hayas subido, en tu web te diriges a [u]www.tuweb.com/GENU/install.php[/u],
+ si subiste el contenido de la carpeta en la carpeta principal, sería:  [u]www.tuweb.com/install.php[/u]
+
+Lo que sigue es seguir las instrucciones y listo! Puedes Modificar el estilo, con un buen ingenio y originalidad, tu web llegará a ser de las mejores!;)
+
+ht

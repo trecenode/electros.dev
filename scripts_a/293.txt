@@ -1,0 +1,530 @@
+Este script es para poder anunciar en forma de tabla, la trayectoria de un tornero: Cuartos de Final, Semifinales, y la final.
+
+Ya mas adelante pasare un script, para que los administradores tengan una sesion.
+
+Muy Pronto Version 2.0 Con MySQL y Administradores =O... Esperala... 
+
+Este script consta de 3 partes: tabladeportes.php, registrartabladeportes.php, editartabladeportes.php
+
+Y una carpeta: torneo.
+
+[b]tabladeportes.php[/b]
+[codigo]
+&lt;? include(&quot;torneo/datostabla.php&quot;);?&gt; 
+&lt;?
+//************************************
+//***********Realizado Por:***********
+//*************eliascm36**************
+//**************Version:**************
+//****************1.0*****************
+//************************************
+?&gt;
+&lt;? include(&quot;config.php&quot;) ?&gt;
+&lt;?
+$consulta = mysql_query(&quot;select email from usuarios order by id desc&quot;) ;
+while($datos = mysql_fetch_array($consulta)) { 
+?&gt;
+&lt;? 
+$nuevo .= &quot;&lt;?&quot;;
+$nuevo .= &quot;=&quot;;
+$nuevo .= &quot;'&quot;;
+$nuevo .= &quot;$datos[email],&quot;;
+$nuevo .= &quot;' ;&quot;;
+$nuevo .= &quot;?&gt;&quot;;
+$crea = fopen(&quot;datos/boletin.php&quot;,&quot;w&quot;);
+fputs($crea,$nuevo);
+fclose($crea);
+?&gt;
+&lt;?
+}
+?&gt;
+&lt;?
+if($_POST[enviar]) {
+mail($_POST[boletin],$_POST[asunto],$_POST[mensaje],&quot;From: $_POST[nombre] &lt;$_POST[email]&gt;&quot;) ;
+echo &quot;El email ha sido enviado con éxito.&quot; ;
+}
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;&lt;?=$_SERVER[PHP_SELF]?&gt;&quot;&gt;
+ Usuarios:&lt;br&gt;
+&lt;input name=&quot;boletin&quot; type=&quot;text&quot; id=&quot;boletin&quot; value=&quot;&lt;? include(&quot;datos/boletin.php&quot;) ?&gt;&quot;&gt;
+&lt;br&gt;
+Nombre:&lt;br&gt;
+&lt;input name=&quot;nombre&quot; type=&quot;text&quot;&gt;
+&lt;br&gt;
+Email:&lt;br&gt;
+&lt;input name=&quot;email&quot; type=&quot;text&quot; id=&quot;email&quot;&gt;&lt;br&gt;
+Asunto:&lt;br&gt;
+&lt;input name=&quot;asunto&quot; type=&quot;text&quot; id=&quot;asunto&quot;&gt;
+&lt;br&gt;
+Mensaje:&lt;br&gt;
+&lt;textarea name=&quot;mensaje&quot; cols=&quot;30&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/form&gt;
+
+&lt;body&gt;
+&lt;p&gt;&lt;strong&gt;Nombre Del Torneo: 
+  &lt;?=$nombre?&gt;
+  &lt;/strong&gt;&lt;/p&gt;
+&lt;table width=&quot;819&quot; height=&quot;483&quot; border=&quot;1&quot;&gt;
+  &lt;tr&gt; 
+    &lt;td width=&quot;118&quot; height=&quot;23&quot;&gt;&lt;strong&gt;Cuartos de Final&lt;/strong&gt;&lt;/td&gt;
+    &lt;td width=&quot;196&quot;&gt;&lt;strong&gt;Partido 1&lt;/strong&gt;&lt;/td&gt;
+    &lt;td width=&quot;157&quot;&gt;&lt;strong&gt;Partido 2&lt;/strong&gt;&lt;/td&gt;
+    &lt;td width=&quot;157&quot;&gt;&lt;strong&gt;Partido 3&lt;/strong&gt;&lt;/td&gt;
+    &lt;td width=&quot;157&quot;&gt;&lt;strong&gt;Partido 4&lt;/strong&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;td&gt; &lt;p&gt;&lt;strong&gt; 
+        &lt;?=$cuartos?&gt;
+        Vs 
+        &lt;?=$cuartos2?&gt;
+        &lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;Resultado: &lt;strong&gt;
+        &lt;?=$resultado?&gt;
+        &lt;/strong&gt;&lt;strong&gt; &lt;/strong&gt;&lt;/p&gt;&lt;/td&gt;
+    &lt;td&gt; &lt;p&gt;&lt;strong&gt; 
+        &lt;?=$cuartos3?&gt;
+        Vs 
+        &lt;?=$cuartos4?&gt;
+        &lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;Resultado: &lt;strong&gt; 
+        &lt;?=$resultado2?&gt;
+        &lt;/strong&gt;&lt;/p&gt;&lt;/td&gt;
+    &lt;td&gt; &lt;p&gt;&lt;strong&gt; 
+        &lt;?=$cuartos5?&gt;
+        Vs 
+        &lt;?=$cuartos6?&gt;
+        &lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;Resultado: &lt;strong&gt; 
+        &lt;?=$resultado3?&gt;
+        &lt;/strong&gt;&lt;/p&gt;&lt;/td&gt;
+    &lt;td&gt; &lt;p&gt;&lt;strong&gt; 
+        &lt;?=$cuartos7?&gt;
+        Vs 
+        &lt;?=$cuartos8?&gt;
+        &lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;Resultado: &lt;strong&gt; 
+        &lt;?=$resultado4?&gt;
+        &lt;/strong&gt;&lt;/p&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=&quot;23&quot;&gt;&lt;strong&gt;Semifinales&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;strong&gt;Partido 1&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;strong&gt;Partido 2&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;td&gt; &lt;p&gt;&lt;strong&gt; 
+        &lt;?=$semifinal?&gt;
+        Vs 
+        &lt;?=$semifinal2?&gt;
+        &lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;Resultado: &lt;strong&gt; 
+        &lt;?=$resultado5?&gt;
+        &lt;/strong&gt;&lt;/p&gt;&lt;/td&gt;
+    &lt;td&gt; &lt;p&gt;&lt;strong&gt; 
+        &lt;?=$semifinal3?&gt;
+        Vs 
+        &lt;?=$semifinal4?&gt;
+        &lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;Resultado: &lt;strong&gt; 
+        &lt;?=$resultado6?&gt;
+        &lt;/strong&gt;&lt;/p&gt;&lt;/td&gt;
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=&quot;23&quot;&gt;&lt;strong&gt;Final&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;strong&gt;Partido 1&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;td&gt;&lt;p&gt;&lt;strong&gt;&lt;font color=&quot;#000000&quot;&gt; 
+        &lt;?=$final?&gt;
+        Vs 
+        &lt;?=$final2?&gt;
+        &lt;/font&gt;&lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;Resultado: &lt;strong&gt; 
+        &lt;?=$resultado7?&gt;
+        &lt;/strong&gt;&lt;/p&gt;&lt;/td&gt;
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+[/codigo]
+
+[b]registrartabladeportes.php[/b]
+[codigo]
+&lt;?
+//************************************
+//***********Realizado Por:***********
+//*************eliascm36**************
+//**************Version:**************
+//****************1.0*****************
+//************************************
+?&gt;
+&lt;? include(&quot;config.php&quot;) ?&gt;
+&lt;?
+$consulta = mysql_query(&quot;select email from usuarios order by id desc&quot;) ;
+while($datos = mysql_fetch_array($consulta)) { 
+?&gt;
+&lt;? 
+$nuevo .= &quot;&lt;?&quot;;
+$nuevo .= &quot;=&quot;;
+$nuevo .= &quot;'&quot;;
+$nuevo .= &quot;$datos[email],&quot;;
+$nuevo .= &quot;' ;&quot;;
+$nuevo .= &quot;?&gt;&quot;;
+$crea = fopen(&quot;datos/boletin.php&quot;,&quot;w&quot;);
+fputs($crea,$nuevo);
+fclose($crea);
+?&gt;
+&lt;?
+}
+?&gt;
+&lt;?
+if($_POST[enviar]) {
+mail($_POST[boletin],$_POST[asunto],$_POST[mensaje],&quot;From: $_POST[nombre] &lt;$_POST[email]&gt;&quot;) ;
+echo &quot;El email ha sido enviado con éxito.&quot; ;
+}
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;&lt;?=$_SERVER[PHP_SELF]?&gt;&quot;&gt;
+ Usuarios:&lt;br&gt;
+&lt;input name=&quot;boletin&quot; type=&quot;text&quot; id=&quot;boletin&quot; value=&quot;&lt;? include(&quot;datos/boletin.php&quot;) ?&gt;&quot;&gt;
+&lt;br&gt;
+Nombre:&lt;br&gt;
+&lt;input name=&quot;nombre&quot; type=&quot;text&quot;&gt;
+&lt;br&gt;
+Email:&lt;br&gt;
+&lt;input name=&quot;email&quot; type=&quot;text&quot; id=&quot;email&quot;&gt;&lt;br&gt;
+Asunto:&lt;br&gt;
+&lt;input name=&quot;asunto&quot; type=&quot;text&quot; id=&quot;asunto&quot;&gt;
+&lt;br&gt;
+Mensaje:&lt;br&gt;
+&lt;textarea name=&quot;mensaje&quot; cols=&quot;30&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/form&gt;
+
+&lt;?
+if($registrar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$nuevo .= &quot;&lt;&quot;.&quot;?\n&quot;;
+$nuevo .=&quot;\$nombre = \&quot;$nombre\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos = \&quot;$cuartos\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos2 = \&quot;$cuartos2\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos3 = \&quot;$cuartos3\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos4 = \&quot;$cuartos4\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos5 = \&quot;$cuartos5\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos6 = \&quot;$cuartos6\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos7 = \&quot;$cuartos7\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos8 = \&quot;$cuartos8\&quot;;\n&quot;;
+$nuevo .=&quot;\$semifinal = \&quot;$semifinal\&quot;;\n&quot;;
+$nuevo .=&quot;\$semifinal2 = \&quot;$semifinal2\&quot;;\n&quot;;
+$nuevo .=&quot;\$semifinal3 = \&quot;$semifinal3\&quot;;\n&quot;;
+$nuevo .=&quot;\$semifinal4 = \&quot;$semifinal4\&quot;;\n&quot;;
+$nuevo .=&quot;\$final = \&quot;$final\&quot;;\n&quot;;
+$nuevo .=&quot;\$final2 = \&quot;$final2\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado = \&quot;$resultado\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado2 = \&quot;$resultado2\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado3 = \&quot;$resultado3\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado4 = \&quot;$resultado4\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado5 = \&quot;$resultado5\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado6 = \&quot;$resultado6\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado7 = \&quot;$resultado7\&quot;;\n&quot;;
+$nuevo .= &quot;?&quot;.&quot;&gt;&quot;;
+$crea = fopen(&quot;torneo/datostabla.php&quot;,&quot;w&quot;);
+fputs($crea,$nuevo);
+fclose($crea);
+echo &quot;Se a registrado el torneo  con éxito. Haz click &lt;a href=tabladeportes.php&gt;aquí&lt;/a&gt; para ir a la Tabla.&quot; ;
+}
+else {
+?&gt;
+&lt;p&gt;Instrucciones:
+Se pueden dejar en blanco.
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;registrartabladeportes.php&quot; onsubmit=&quot;return revisar()&quot;&gt;
+  &lt;div align=&quot;center&quot;&gt; &lt;b&gt;Nombre del Torneo&lt;/b&gt;:&lt;br&gt;
+      &lt;input name=&quot;nombre&quot; type=&quot;text&quot; id=&quot;nombre&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+  &lt;b&gt;Los Que Pasaron a Los Cuartos de Final:&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;____________Partido 1____________&lt;/b&gt;&lt;br&gt;
+    &lt;strong&gt;Equipo 1 &lt;/strong&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos&quot; type=&quot;text&quot; id=&quot;cuartos&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos2&quot; type=&quot;text&quot; id=&quot;cuartos2&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;____________Partido 2&lt;/b&gt;&lt;b&gt;____________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo 1&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos3&quot; type=&quot;text&quot; id=&quot;cuartos3&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos4&quot; type=&quot;text&quot; id=&quot;cuartos4&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado2&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado2&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;____________Partido 3&lt;/b&gt;&lt;b&gt;____________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo 1&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos5&quot; type=&quot;text&quot; id=&quot;cuartos5&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos6&quot; type=&quot;text&quot; id=&quot;cuartos6&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado3&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado3&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;____________Partido 4&lt;/b&gt;&lt;b&gt;____________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo 1&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos7&quot; type=&quot;text&quot; id=&quot;cuartos7&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos8&quot; type=&quot;text&quot; id=&quot;cuartos8&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado4&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado4&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;_________________________________________________________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipos que pasaron a la Semifinal&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt; ____________Partido 1&lt;/b&gt;&lt;b&gt;____________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo 1:&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;semifinal&quot; type=&quot;text&quot; id=&quot;semifinal&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2:&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;semifinal2&quot; type=&quot;text&quot; id=&quot;semifinal&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado5&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado5&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt; ____________Partido 2&lt;/b&gt;&lt;b&gt;____________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo 1:&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;semifinal3&quot; type=&quot;text&quot; id=&quot;semifinal3&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2:&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;semifinal4&quot; type=&quot;text&quot; id=&quot;semifinal4&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado6&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado6&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;_________________________________________________________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo que pasaron a la Final&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;____________Partido 1&lt;/b&gt;&lt;b&gt;____________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo 1&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;final&quot; type=&quot;text&quot; id=&quot;final&quot; maxlength=&quot;40&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;final2&quot; type=&quot;text&quot; id=&quot;final2&quot; maxlength=&quot;40&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado7&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado7&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;br&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;registrar&quot; value=&quot;Registrar&quot; class=&quot;form&quot;&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+&lt;?
+}
+?&gt; 
+[/codigo]
+
+[b]editartabladeportes.php[/b]
+[codigo]
+&lt;? include(&quot;torneo/datostabla.php&quot;);?&gt; 
+&lt;?
+//************************************
+//***********Realizado Por:***********
+//*************eliascm36**************
+//**************Version:**************
+//****************1.0*****************
+//************************************
+?&gt;
+&lt;? include(&quot;config.php&quot;) ?&gt;
+&lt;?
+$consulta = mysql_query(&quot;select email from usuarios order by id desc&quot;) ;
+while($datos = mysql_fetch_array($consulta)) { 
+?&gt;
+&lt;? 
+$nuevo .= &quot;&lt;?&quot;;
+$nuevo .= &quot;=&quot;;
+$nuevo .= &quot;'&quot;;
+$nuevo .= &quot;$datos[email],&quot;;
+$nuevo .= &quot;' ;&quot;;
+$nuevo .= &quot;?&gt;&quot;;
+$crea = fopen(&quot;datos/boletin.php&quot;,&quot;w&quot;);
+fputs($crea,$nuevo);
+fclose($crea);
+?&gt;
+&lt;?
+}
+?&gt;
+&lt;?
+if($_POST[enviar]) {
+mail($_POST[boletin],$_POST[asunto],$_POST[mensaje],&quot;From: $_POST[nombre] &lt;$_POST[email]&gt;&quot;) ;
+echo &quot;El email ha sido enviado con éxito.&quot; ;
+}
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;&lt;?=$_SERVER[PHP_SELF]?&gt;&quot;&gt;
+ Usuarios:&lt;br&gt;
+&lt;input name=&quot;boletin&quot; type=&quot;text&quot; id=&quot;boletin&quot; value=&quot;&lt;? include(&quot;datos/boletin.php&quot;) ?&gt;&quot;&gt;
+&lt;br&gt;
+Nombre:&lt;br&gt;
+&lt;input name=&quot;nombre&quot; type=&quot;text&quot;&gt;
+&lt;br&gt;
+Email:&lt;br&gt;
+&lt;input name=&quot;email&quot; type=&quot;text&quot; id=&quot;email&quot;&gt;&lt;br&gt;
+Asunto:&lt;br&gt;
+&lt;input name=&quot;asunto&quot; type=&quot;text&quot; id=&quot;asunto&quot;&gt;
+&lt;br&gt;
+Mensaje:&lt;br&gt;
+&lt;textarea name=&quot;mensaje&quot; cols=&quot;30&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/form&gt;
+
+&lt;?
+if($registrar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$nuevo .= &quot;&lt;&quot;.&quot;?\n&quot;;
+$nuevo .=&quot;\$nombre = \&quot;$nombre\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos = \&quot;$cuartos\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos2 = \&quot;$cuartos2\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos3 = \&quot;$cuartos3\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos4 = \&quot;$cuartos4\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos5 = \&quot;$cuartos5\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos6 = \&quot;$cuartos6\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos7 = \&quot;$cuartos7\&quot;;\n&quot;;
+$nuevo .=&quot;\$cuartos8 = \&quot;$cuartos8\&quot;;\n&quot;;
+$nuevo .=&quot;\$semifinal = \&quot;$semifinal\&quot;;\n&quot;;
+$nuevo .=&quot;\$semifinal2 = \&quot;$semifinal2\&quot;;\n&quot;;
+$nuevo .=&quot;\$semifinal3 = \&quot;$semifinal3\&quot;;\n&quot;;
+$nuevo .=&quot;\$semifinal4 = \&quot;$semifinal4\&quot;;\n&quot;;
+$nuevo .=&quot;\$final = \&quot;$final\&quot;;\n&quot;;
+$nuevo .=&quot;\$final2 = \&quot;$final2\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado = \&quot;$resultado\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado2 = \&quot;$resultado2\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado3 = \&quot;$resultado3\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado4 = \&quot;$resultado4\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado5 = \&quot;$resultado5\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado6 = \&quot;$resultado6\&quot;;\n&quot;;
+$nuevo .=&quot;\$resultado7 = \&quot;$resultado7\&quot;;\n&quot;;
+$nuevo .= &quot;?&quot;.&quot;&gt;&quot;;
+$crea = fopen(&quot;w&quot;);
+fputs($crea,$nuevo);
+fclose($crea);
+echo &quot;Han sido editados con éxito. Haz click &lt;a href=tabladeportes.php&gt;aquí&lt;/a&gt; para ir a la Tabla.&quot; ;
+}
+else {
+?&gt;
+&lt;p&gt;Instrucciones:
+Se pueden dejar en blanco.
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;registrartabladeportes.php&quot; onsubmit=&quot;return revisar()&quot;&gt;
+  &lt;div align=&quot;center&quot;&gt; &lt;b&gt;Nombre del Torneol&lt;/b&gt;:&lt;br&gt;
+      &lt;input name=&quot;nombre&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;nombre&quot; value=&quot;&lt;?=$nombre?&gt;&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+  &lt;b&gt;Los Que Pasaron a Los Cuartos de Final:&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;____________Partido 1____________&lt;/b&gt;&lt;br&gt;
+    &lt;strong&gt;Equipo 1 &lt;/strong&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;cuartos&quot; value=&quot;&lt;?=$cuartos?&gt;&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos2&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;cuartos2&quot; value=&quot;&lt;?=$cuartos2?&gt;&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado&quot; value=&quot;&lt;?=$resultado?&gt;&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;____________Partido 2&lt;/b&gt;&lt;b&gt;____________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo 1&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos3&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;cuartos3&quot; value=&quot;&lt;?=$cuartos3?&gt;&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos4&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;cuartos4&quot; value=&quot;&lt;?=$cuartos4?&gt;&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado2&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado2&quot; value=&quot;&lt;?=$resultado2?&gt;&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;____________Partido 3&lt;/b&gt;&lt;b&gt;____________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo 1&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos5&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;cuartos5&quot; value=&quot;&lt;?=$cuartos5?&gt;&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos6&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;cuartos6&quot; value=&quot;&lt;?=$cuartos6?&gt;&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado3&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado3&quot; value=&quot;&lt;?=$resultado3?&gt;&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;____________Partido 4&lt;/b&gt;&lt;b&gt;____________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo 1&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos7&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;cuartos7&quot; value=&quot;&lt;?=$cuartos7?&gt;&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;cuartos8&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;cuartos8&quot; value=&quot;&lt;?=$cuartos8?&gt;&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado4&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado4&quot; value=&quot;&lt;?=$resultado4?&gt;&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;_________________________________________________________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipos que pasaron a la Semifinal&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt; ____________Partido 1____________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo 1:&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;semifinal&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;semifinal&quot; value=&quot;&lt;?=$semifinal?&gt;&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2:&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;semifinal2&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;semifinal&quot; value=&quot;&lt;?=$semifinal2?&gt;&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado5&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado5&quot; value=&quot;&lt;?=$resultado5?&gt;&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt; ____________Partido 2____________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo 1:&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;semifinal3&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;semifinal3&quot; value=&quot;&lt;?=$semifinal3?&gt;&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2:&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;semifinal4&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;semifinal4&quot; value=&quot;&lt;?=$semifinal4?&gt;&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado6&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado6&quot; value=&quot;&lt;?=$resultado6?&gt;&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;_________________________________________________________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo que pasaron a la Final&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;___________Partido 1___________&lt;/b&gt;&lt;br&gt;
+    &lt;b&gt;Equipo 1&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;final&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;final&quot; value=&quot;&lt;?=$final?&gt;&quot; maxlength=&quot;40&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Equipo 2&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;final2&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;final2&quot; value=&quot;&lt;?=$final2?&gt;&quot; maxlength=&quot;40&quot;&gt;
+    &lt;br&gt;
+	&lt;b&gt;Resultado&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;resultado7&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;resultado7&quot; value=&quot;&lt;?=$resultado7?&gt;&quot; size=&quot;5&quot; maxlength=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;br&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;registrar&quot; value=&quot;Editar&quot; class=&quot;form&quot;&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+&lt;?
+}
+?&gt; 
+[/codigo]

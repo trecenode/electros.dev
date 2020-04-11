@@ -1,0 +1,42 @@
+[b]¿Qué es MiniChat?[/b]
+MiniChat es un tagboard que permite que tus visitantes puedan comunicarse rápidamente a través de mensajes cortos que son publicados en tu web, de esta forma al recargar la página, se podrán ver los nuevos mensajes que se han publicado.
+
+Las características de MiniChat son:
+
+- Caretos en los mensajes.
+- Filtro Anti-SPAM.
+- Censura de palabras.
+- Detección automática de URLs (si la URL es un email o una web se crea el enlace correspondiente).
+- Limitar la cantidad de información que se puede enviar.
+- Guarda la fecha y el IP del usuario en los mensajes.
+- Y muchas cosas más.
+
+[b]1. Instalación[/b]
+
+Requisitos:
+- PHP 4.x o superior.
+
+La forma de instalación es muy sencilla, simplemente sube la carpeta minichat al servidor y
+pega el siguiente código en la página donde quieras usar MiniChat:
+
+&lt;iframe src=&quot;minichat/minichat.php&quot; width=&quot;150&quot; height=&quot;250&quot; frameborder=&quot;0&quot; scrolling=&quot;no&quot;&gt;&lt;/iframe&gt;
+
+El directorio &quot;minichat&quot; requiere el permiso CHMOD 777.
+
+Los mensajes son almacenados en un archivo llamado minichat.txt, el cuál se crea automáticamente
+si no existe.
+
+[b]Nota:[/b] Si has respaldado el archivo minichat.txt y lo vuelves a subir, puede que sea necesario
+darle el permiso CHMOD 666.
+
+[b]Aviso:[/b] El MiniChat deja un salto de línea al final del archivo minichat.txt, si has editado este archivo
+es necesario que al final exista un salto de línea, o de lo contrario el primer mensaje que escribas
+quedará en la misma línea del último mensaje y por lo tanto no será visible.
+
+[b]4. Actualización a v1.5[/b]
+
+Para actualizar MiniChat deberás sustituir todos los archivos, excepto la carpeta &quot;caretos&quot; y el
+archivo mensajes.txt, una vez subidos los archivos ejecuta el archivo actualizar.php y sigue las
+instrucciones, una vez que el archivo minichat.txt se haya actualizado se creará un archivo
+llamado minichat_res.txt que contiene los mensajes de la versión antigua, esto es por si hubo
+algún error durante la actualización, si todo salió correctamente puedes eliminar este archivo.

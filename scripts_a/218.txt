@@ -1,0 +1,102 @@
+Es una pequeña adaptación del script mandado por  phpmysql, en el que  a parte de añadir automáticamente el nombre, o poner [b]Invitado[/b] en caso que no usemos el sistema de usuarios usado en esta web, elimina los tags /n y y genera un nuevo codigo con &lt;br&gt; 
+Nuevo codigo mejorado gracias a phpmysql
+
+
+
+[codigo]&lt;head&gt;
+
+&lt;div align=&quot;center&quot;&gt;&lt;/div&gt;
+&lt;table width='100%' border='3'  cellpadding='5' cellspacing='0' align='center' style='border:#CCCCCC 2 solid'&gt;
+  &lt;tr&gt;
+    &lt;td height='7' colspan=&quot;2&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Opinar sobre &lt;/b&gt;&lt;font color=&quot;#0099FF&quot;&gt; 
+      &lt;i&gt;
+      &lt;? echo $a ?&gt;
+      &amp;nbsp;&lt;/i&gt;&lt;/font&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td BGCOLOR=&quot;#CCCCCC&quot; height='7' class=&quot;tabla_mensaje&quot; width=&quot;19%&quot;&gt; 
+      &lt;div align=&quot;left&quot;&gt;&lt;b&gt;Nombre&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;td class=&quot;tabla_mensaje&quot; width=&quot;81%&quot; bgcolor=&quot;#CCCCCC&quot;&gt;&lt;b&gt;Opini&amp;oacute;n&lt;/b&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+
+     &lt;?php
+$nombre =$_COOKIE['unick'];
+if($nombre == &quot;&quot;) {
+echo &quot;Eres un Invitado &lt;br&gt;&lt;br&gt;&quot;;
+}
+else{
+echo &quot;Hola $_COOKIE[unick] &lt;br&gt;&lt;br&gt;&quot;;
+ }
+$elemento = $a ;
+$file = &quot;$elemento.txt&quot;;
+if($nombre == &quot;&quot;) { $nombre = &quot;Invitado&quot; ; }
+else { $nombre = $_COOKIE[&quot;unick&quot;] ; }
+
+//Se tramita el formulario y se guardan los nuevos datos.
+if(!empty($output))
+{
+$output = str_replace(&quot;rn&quot;,&quot;&lt;br&gt;&quot;,$output) ;
+$fichero = fopen($file, &quot;a&quot;);
+fwrite($fichero, &quot;$nombre////$outputn&quot;);
+fclose($fichero);
+}
+//Se inicia el proceso de impresion de los datos
+if(file_exists($file)&amp;&amp;is_file($file))
+{
+$fichero = fopen($file, &quot;r&quot;);
+//Se extraen todas las lineas.
+while(!feof($fichero))
+{
+$cadena = fgets($fichero, 4096);
+
+list($nom, $men)=split('////', $cadena);
+//Se elimina la lectura de los n r
+if(!empty($cadena)){
+?&gt;
+  &lt;tr&gt;
+    &lt;td BGCOLOR=&quot;#CCCCCC&quot; height='7' class=&quot;tabla_mensaje&quot; width=&quot;19%&quot;&gt; 
+      &lt;div align=&quot;left&quot;&gt;
+        &lt;? echo $nom ?&gt;
+        &lt;/div&gt;&lt;/td&gt;
+    &lt;td class=&quot;tabla_mensaje&quot; width=&quot;81%&quot;&gt; 
+      &lt;? echo $men ?&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;? }
+}//END WHILE
+fclose($fichero);
+}
+?&gt;
+
+  &lt;/table&gt;
+
+ &lt;br&gt;
+&lt;FORM METHOD=&quot;Post&quot; ACTION=&quot;&lt;? echo $_SERVER[REQUEST_URI] ?&gt;&quot;&gt;
+&lt;table width=&quot;100%&quot;&gt;
+
+ &lt;tr&gt;
+    &lt;td&gt;
+    &lt;fieldset&gt;
+      &lt;legend align=&quot;left&quot;&gt;&lt;font size=&quot;4&quot; color=&quot;red&quot;&gt; Envía tu opinión&lt;/font&gt;&lt;/legend&gt;
+  &lt;div align=&quot;center&quot;&gt;
+
+    &lt;b&gt;Nombre:
+    &lt;INPUT NAME=&quot;nombre&quot;  TYPE=&quot;Text&quot; id=&quot;nombre&quot; SIZE=60 MAXLENGTH=60 style=&quot;font-size:10px;font-family:verdana;&quot; readonly class=&quot;form&quot; value=&quot;&lt;? echo $nombre ?&gt;&quot;&gt;
+    &lt;br&gt;
+    Mensaje: &lt;br&gt;
+    &lt;textarea class=&quot;form&quot; name=&quot;output&quot; cols=&quot;70&quot; rows=&quot;6&quot;&gt;
+&lt;/textarea&gt;
+    &lt;/b&gt;&lt;b&gt;
+
+    &lt;br&gt;
+    &lt;INPUT TYPE=&quot;Submit&quot; VALUE=&quot;Enviar Opinión&quot; class=&quot;form&quot;&gt;
+    &lt;/b&gt;&lt;/div&gt;
+    &lt;/fieldset&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;/table&gt;
+
+&lt;/FORM&gt;
+&lt;div align=&quot;center&quot;&gt;&lt;br&gt;
+  &lt;a href=&quot;index.php&quot;&gt;Volver&lt;/a&gt;&lt;br&gt;
+&lt;/div&gt;[/codigo]

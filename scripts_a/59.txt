@@ -1,0 +1,80 @@
+Como registrar las estaditicas totales de nuestra web
+(usuario,fecha,hora,refer,ip,entrada a la pagina,navegador e idioma),en un solo archivo.
+Lo primero que haremos sera hacer un include en nuestro index.php
+
+[codigo]
+&lt;?php include(&quot;nuevasestadisticas.php&quot;); ?&gt;
+[/codigo]
+
+Luego Deberemos crear una archivo llamado [b]nuevasestadisticas.php[/b]
+
+[codigo]
+&lt;?
+// De donde provine el usuario o Invitado
+$url=$HTTP_REFERER;
+if($url==&quot;&quot;){
+$url=&quot;Su PC&quot;; 
+}
+// Si el Invitado es un usuario anonimo o es un usuario registrado
+$usuario=$_COOKIE[&quot;unick&quot;];
+if($usuario==&quot;&quot;){
+$usuario=&quot;Invitado&quot;;
+}
+// Mostramos ip
+if ($HTTP_SERVER_VARS[&quot;HTTP_X_FORWARDED_FOR&quot;] != &quot;&quot;) 
+{ $ip = $HTTP_SERVER_VARS[&quot;HTTP_X_FORWARDED_FOR&quot;]; } 
+else { $ip = $HTTP_SERVER_VARS[&quot;REMOTE_ADDR&quot;];
+$ip = substr($ip,0,5).&quot;..&quot;; 
+}
+$abrir = fopen('nuevasestadisticas.log','a'); 
+fputs($abrir,$file.&quot;
+    &lt;tr&gt; 
+    &lt;td&gt;&quot;.$usuario.&quot;&lt;/td&gt;
+    &lt;td&gt;&quot;.date(&quot;d/M/Y&quot;).&quot;&lt;/td&gt;
+    &lt;td&gt;&quot;.date(&quot;H:i:s&quot;).&quot;&lt;/td&gt;
+    &lt;td&gt;&quot;.$url.&quot;&lt;/td&gt;
+    &lt;td&gt;&quot;.$ip.&quot;&lt;/td&gt;
+    &lt;td&gt;&quot;.$_SERVER['REQUEST_URI'].&quot;&lt;/td&gt;
+	&lt;td&gt;&quot;.$_SERVER['HTTP_USER_AGENT'].&quot;&lt;/td&gt;
+	&lt;td&gt;&quot;.$_SERVER['HTTP_ACCEPT_LANGUAGE'].&quot;&lt;/td&gt;
+	&quot;);
+fclose($abrir);
+?&gt;[/codigo]
+
+y tambien el archivo [b]nuevasestadisticas.log[/b]
+que dejaremos en blanco y sera donde se guarden los datos,
+hay que asinarle permisos chmod 777, si os funciona sin
+permisos es mejor,solo es cuestion de probar.
+
+Y por ultimo el archivo donde veriamos las estadisticas
+dentro de una tabla.
+[b]estadisticas.php[/b]
+
+[codigo]
+&lt;?
+echo &quot;&lt;table border='1' cellpadding='2' &gt;
+  &lt;tr&gt; 
+    &lt;td &gt;&lt;b&gt;Usuario&lt;/b&gt;&lt;/td&gt;
+    &lt;td &gt;&lt;b&gt;Fecha&lt;/b&gt;&lt;/td&gt;
+    &lt;td &gt;&lt;b&gt;Hora&lt;/b&gt;&lt;/td&gt;
+    &lt;td &gt;&lt;b&gt;Refer&lt;/b&gt;&lt;/td&gt;
+    &lt;td &gt;&lt;b&gt;Ip&lt;/b&gt;&lt;/td&gt;
+	&lt;td &gt;&lt;b&gt;Entrada a&lt;/b&gt;&lt;/td&gt;
+	&lt;td &gt;&lt;b&gt;Navegador&lt;/b&gt;&lt;/td&gt;
+	&lt;td &gt;&lt;b&gt;Idioma&lt;/b&gt;&lt;/td&gt;
+  &lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&quot; ;
+include(&quot;nuevasestadisticas.log&quot;);
+echo &quot;&lt;/tr&gt;&lt;/table&gt;&quot;;
+?&gt;
+[/codigo]
+
+
+La ip que queda registrada es remplazada, si quereis que registre
+la ip entera bastaria con quitar en [b]nuevasestadisticas.php[/b]
+la linea para tener un mayor control de los usuarios.
+
+[codigo]
+$ip = substr($ip,0,5).&quot;..&quot;; 
+[/codigo]
+
+Podeis ver un ejemplo en http://recursosphp.iefactory.com/index.php?id=estadisticas

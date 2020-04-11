@@ -1,0 +1,8 @@
+<?
+ $directorio = "noticias/";     //se declara el directorio a leer
+ $abrir = opendir($directorio);  //se abre el directorio
+ while($file = readdir($abrir)){  //se hace un bucle para revisar cada archivo del directorio
+   echo $file."<br>";              //se muestra el archivo
+ }
+ closedir($abrir);                //se cierra el directorio
+ ?>

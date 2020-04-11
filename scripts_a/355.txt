@@ -1,0 +1,17 @@
+[b]Dias Online[/b]
+
+Es un script sencillo pero útil. Lo primero que debemos hacer es crear una variable con la fecha en la que se lanzó o se lanzará la web, luego creamos otra variable con la fecha del momento en que se ejecuta el script. Buscamos la diferencia, redondeamos el flotante que surge de la división de la diferencia entre 86400 que es el esquivalente de una dia en la fecha Unix. Si los dias son mayor que 0 quiere decir que ya se lanzó la web, de lo contrario todavía no se ha lanzado.
+
+[codigo]&lt;?php
+$lanzamiento = mktime(0,0,0,01,01,2006); /*Dia del Lanzamiento*/
+$ahora = time(); /*Fecha de ahora*/
+$diferencia = $ahora - $lanzamiento; 
+$dias = round($diferencia/86400);
+if($dias&gt;0){
+echo $dias,' días on-line';
+}
+else{
+$dias = -$dias;
+echo 'Faltan ',$dias, ' dias para el Lanzamiento';
+}
+?&gt;[/codigo]

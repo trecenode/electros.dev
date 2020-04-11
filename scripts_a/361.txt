@@ -1,0 +1,1 @@
+Este sistema d encuestas puede entrar cualquier persona y agregar una encuesta, x eso recomiendo que bajen algun sistema de admin :p xD

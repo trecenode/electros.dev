@@ -1,0 +1,13 @@
+Bueno, es un script que deja de ser script para ser sistema. 
+Ya anuncié que la versión anterior del script está rota, y no se pudió actualizar; pero aquí os dejo la versioón mejorada.
+Que mejoras hay en este sistema?
+un panel de copntrol protejido con contraseña
+el sistema se adapta automaticamente a l diseño de nuestra web
+nos cuenta las entradas, salidas
+podemos banear refers no deseados
+podemos borrar
+tenemos estadisticas de la ip, la fecha de entrada, la fecha de la ultima entrada.
+Nos muestra enlaces de la url exacta desde donde vienen, y el servidor y dominio web de la entrada.
+Todo esto y más 
+[url=http://studios.clangatsu.com/main.php?id=gts_descargas_main&amp;file=8]Descargar[/url]
+[url=http://studios.clangatsu.com/main.php?id=gts_refv2/gts_ver]Ejemplo Real[/url]

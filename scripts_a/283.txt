@@ -1,0 +1,88 @@
+Para empezar creen la carpeta /fotos y el archivo /fotos.php con el codigo:
+[codigo]&lt;?
+// Configuracion
+$path_absoluto = &quot;fotos/&quot;;
+
+if(!$secciones) {
+// Recorremos el directorio
+$path = $path_absoluto;
+$dir = opendir($path);
+while ($elemento = readdir($dir))
+{
+ // Extensiones en los archivos
+ $extensiones = explode(&quot;.&quot;,$elemento) ;
+ $nombre = $extensiones[0] ;
+ $nombre2  = $extensiones[1] ;
+ if ($nombre2 == &quot;&quot;) { $nombre2 = &quot;carpeta.gif&quot;;}
+ if(!file_exists(&quot;$nombre2.gif&quot;) &amp;&amp; $nombre2 != &quot;carpeta.gif&quot;) { $nombre2 = &quot;defecto.gif&quot;;}
+ if(file_exists(&quot;$nombre2.gif&quot;) &amp;&amp; $nombre2 != &quot;carpeta.gif&quot;) { $nombre2 = &quot;$nombre2.gif&quot;;}
+ // Fin extensiones en los archivos
+ 
+if($nombre2 != &quot;carpeta.gif&quot; &amp;&amp; $elemento != &quot;.&quot; &amp;&amp; $elemento != &quot;..&quot;){
+echo &quot;&lt;a target=\&quot;_blank\&quot; href='$path_absoluto$elemento'&gt;&lt;img src='$nombre2' border='0'&gt; $elemento&lt;br&gt;&lt;/a&gt;&quot; ;
+}
+if($nombre2 == &quot;carpeta.gif&quot; &amp;&amp; $elemento != &quot;.&quot; &amp;&amp; $elemento != &quot;..&quot;){
+echo &quot;&lt;a target=\&quot;_blank\&quot; href='$path_absoluto$elemento/'&gt;&lt;img src='$nombre2' border='0'&gt; &lt;b&gt;$elemento&lt;/b&gt;&lt;br&gt;&lt;/a&gt;&quot; ;
+}
+}
+closedir($dir);
+}
+// Anti-hackeos
+if(ereg(&quot;\.\./&quot;,$secciones) || ereg(&quot;/\.\.&quot;,$secciones) || ereg(&quot;\\\\.\.&quot;,$secciones) || ereg(&quot;\.\.\\\\&quot;,$secciones)){
+    die(&quot;Hacking Attempt&quot;);
+}
+if($secciones == &quot;&quot;) { $path3 = $path_absoluto; }
+if($secciones != &quot;&quot;) { $path3 = $path_absoluto.$_GET[&quot;secciones&quot;].&quot;/&quot;; }
+if($secciones != &quot;&quot;) { $sec = &quot;.. &lt;a  href='javascript:history.go(-1);'&gt; Atras&lt;/a&gt;&lt;br&gt;&lt;br&gt;&quot;;}
+if($secciones != &quot;&quot;) { $seccion = &quot;Directorio : &lt;b&gt;$secciones&lt;/b&gt;&lt;hr&gt;$sec&quot;;}
+echo &quot;&lt;div align=left&gt;$seccion&lt;/div&gt;&quot;;
+
+if ($dir3 = @opendir($path3)) {
+  while (($file3 = readdir($dir3)) !== false &amp;&amp; $secciones) {
+  
+    // Extensiones en los archivos
+	$extensiones = explode(&quot;.&quot;,$file3) ;
+    $nombre = $extensiones[0] ;
+    $nombre2  = $extensiones[1] ;
+	if ($nombre2 == &quot;&quot;) { $nombre2 = &quot;subcarpeta.gif&quot;;}
+	if(!file_exists(&quot;$nombre2.gif&quot;) &amp;&amp; $nombre2 != &quot;subcarpeta.gif&quot;) { $nombre2 = &quot;defecto.gif&quot;;}
+	if(file_exists(&quot;$nombre2.gif&quot;) &amp;&amp; $nombre2 != &quot;carpeta.gif&quot;) { $nombre2 = &quot;$nombre2.gif&quot;;}
+	// Fin Extensiones en los archivos
+if ($nombre2 != &quot;subcarpeta.gif&quot; &amp;&amp; $file3 != &quot;.&quot; &amp;&amp; $file3 != &quot;..&quot;) {
+echo &quot;&lt;a target=\&quot;_blank\&quot; href='$path_absoluto$secciones$file3'&gt;&lt;img src='$nombre2' border='0'&gt; $file3&lt;/a&gt;&lt;br&gt;&quot;;
+}
+if ($nombre2 == &quot;subcarpeta.gif&quot; &amp;&amp; $file3 != &quot;.&quot; &amp;&amp; $file3 != &quot;..&quot;) {
+echo &quot;&lt;a target=\&quot;_blank\&quot; href='$path_absoluto$secciones$file3/'&gt;&lt;img src='$nombre2' border='0'&gt; $file3&lt;/a&gt;&lt;br&gt;&quot;;
+}
+}
+closedir($dir3);
+}
+// fin secciones
+?&gt;[/codigo]
+a continuación crear dentro de la carpeta /fotos carpetas con el nombre de los albumes, es decir, si el album se llama pepito, crear la carpeta /fotos/pepito
+
+dentro de /fotos/pepito debemos crear otra carpeta llamada fotos donde iremos metiendo las fotos y un archivo index.php con el siguiente codigo:
+
+[code]&lt;?
+// utilizando readdir
+$path = &quot;fotos/&quot;;
+// defino el directorio a leer
+
+$directorio = opendir(&quot;$path&quot;);
+// leo los elementos del directorio
+while($archivo=readdir($directorio))
+{ 
+if ($archivo==&quot;.&quot;){
+} else {
+if ($archivo==&quot;..&quot;){
+} else { 
+$link = $path.&quot;&quot;.$archivo ;
+$link_llest = str_replace(&quot; &quot;,&quot;%20&quot;,$link);
+echo &quot;&lt;a href=$link_llest&gt;&lt;img src=\&quot;$path$archivo\&quot; border=\&quot;0\&quot; alt=\&quot;$archivo\&quot; width=\&quot;150\&quot; align=\&quot;middle\&quot;&gt;&lt;/a&gt; &quot; ;
+}
+}
+} ?&gt;[/code]
+
+Esto seria el album sin ningún tipo de diseño, aqui se le tendrian que poner tablas, colores, etc... 
+
+Enga os lo dejo y si lo quereis ver es la seccion de fotos de  [url=http://www.esporlesbc.com]www.esporlesbc.com[/url]

@@ -1,0 +1,24 @@
+Atención: BitZig es imposible desencriptarlo, es perfecto para contraseñas ya que la única forma
+de comprobar una contraseña, es encriptándola y comparándola con el texto encriptado.
+
+
+[b]1) ¿Como funciona?[/b]
+
+[img]http://proyectos.funkybytes.com/bitzig/bitzig.jpg[/img]
+
+[b]2) como encriptar[/b]
+
+ Solo debes incluir bitzig.php en la página web en la que utilizarás la función bitzig();
+ Para incluirla usa un -&gt; include include(&quot;bitzig.php&quot;); 
+ Ejemplo de utilización -&gt; bitzip(&quot;esto es un ejemplo&quot;,&quot;password&quot;);
+ Recuerda que la KEY debe ser de 8 caracteres, ya que en el caso contrario, el script devolverá  un error.
+
+[b]3)Infomación general[/b]
+
+ Esto es una versión Freeware, está prohibido la venta y la modificación de este.
+ Este sistema y el script han sido desarrollados por completo por José Fernández Alameda (Funkyslim)
+
+ ----------------------------------------
+ Web: [url=http://www.proyectos.funkybytes.com/bitzig]www.proyectos.funkybytes.com/bitzig[/url]
+ Email: admin@funkybytes.com     
+ --------------------------------

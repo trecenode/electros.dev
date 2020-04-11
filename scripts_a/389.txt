@@ -1,0 +1,20 @@
+Este es un template en el cual he integrado tambien una encuesta.
+
+//Instrucciones//
+
+Descomprrimes el zip, luego subes todos los archivos a tu web, no deberas crear ninguna carpeta nueva ni meter los archivos en alguna carpeta predeterminada. Ahora subes la tablas de datos de las encuestas, entra a tu bd, luego sube el archivo tablas.sql, ahora abres el archivo enc_config.php y lo configuras con los datos de tu bd. Para ingresar una nueva encuestas te logueas con la cuenta del administrador y al inferior derecho esta el menu administrar en el cual haces click en enviar encuesta y listo :P, Le puse al archivo electros.php ya que ese archivo es el template predeterminado de electros
+
+Demo: www.xtreme-web.net/web/
+Creador: KekoGrama
+Correo de contacto: ralsalamanca(arroba)gmail.com
+
+Para cuando quieras cambiar lo del menu y todo:
+
+footer.php = Esta es la parte de abajo
+top.php = La parte de arriba donde ta la imagen
+header.php = La parte del medio
+menu_1.php = El primer menu que aparece
+menu_admin.php = La parte del administrador
+left.php = El lado izquierdo de la pag
+right.php = El lado derecho de la pag
+encuestas.php = La parte de las encuestas

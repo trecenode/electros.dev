@@ -1,0 +1,139 @@
++---------------------+
+| Referers PHP Script |
++---------------------+
+Autor: Gohrum
+Email: webmaster@clangatsu.com
+Web:   [url=http://www.gatsu-studios.tk]Gatsu Studios[/url]
+
+Requerimientos:
+===============
+Este script funciona con php + mysql en el servidor.
+
+Instalación:
+============
+Crea una tabla en tu base de datos llamada referer con esta estructura:
+  
+  [b]CREATE TABLE gts_referer (
+    fecha int(10) NOT NULL default '0',
+    referer text
+  )[/b]
+
+Configura los archivos ref_get.php y ref_mostrar.php
+con los datos de tu base de datos.
+
+Incluye el archivo referers_get.php en la página que quieras saber sus referers:
+
+	&lt;? include(&quot;includes/ref_get.php&quot;); ?&gt;
+
+Incluye el archivo referers_mostrar.php donde quieras mostrar los últimos referers:
+
+	&lt;? include(&quot;includes/ref_mostrar.php&quot;); ?&gt;
+
+Y eso es todo; si lo has hecho bien debería funcionar correctamente.
+Recuerda que para que funcione tu servidor debe soportar php y las páginas donde
+hagas los includes deben tener extensión .php
+
+============
+Ref_get.php
+============
+
+&lt;?
+/*
++---------------------+
+| Referers PHP Script |
++---------------------+
+Autor: Gohrum
+Email: webmaster@clangatsu.com
+Web:   http://www.gatsu-studios.tk
+*/
+
+//--------CONFIGURACIÓN----------
+$host = &quot;localhost&quot;;            //suele ser localhost
+$user = &quot;***&quot;;         //nombre de usuario de la base de datos
+$pass = &quot;***&quot;;      //contraseña de la base de datos
+$dbname = &quot;***&quot;; //nombre de la base de datos (en lycos es nombre_es_db)
+$tabla = &quot;gts_referer&quot;;        //nombre de la tabla que hemos creado
+//------FIN CONFIGURACIÓN--------
+
+$conecta = mysql_connect($host,$user,$pass);
+mysql_select_db($dbname,$conecta);
+
+$time = time(); //establecemos el tiempo actual para la fecha
+$ref=$HTTP_REFERER; //pasamos el referer a la variable $ref
+
+if ($ref!=&quot;&quot;) //validamos el referer
+{
+  $query = &quot;insert into $tabla (fecha, referer) values ('$time', '$ref')&quot;;
+  mysql_query($query); //insertamos el dato
+  mysql_close($conecta); //cierra la conexion
+}
+
+?&gt;
+
+============
+Ref_mostrar.php
+============
+
+&lt;?
+/*
++---------------------+
+| Referers PHP Script |
++---------------------+
+Autor: Gohrum
+Email: webmaster@clangatsu.com
+Web:   http://www.gatsu-studios.tk
+*/
+
+//--------CONFIGURACIÓN----------
+$host = &quot;localhost&quot;;            //suele ser localhost
+$user = &quot;***&quot;;         //nombre de usuario de la base de datos
+$pass = &quot;***&quot;;      //contraseña de la base de datos
+$dbname = &quot;***&quot;; //nombre de la base de datos (en lycos es nombre_es_db)
+$tabla = &quot;gts_referer&quot;;        //nombre de la tabla que hemos creado
+$mostrar = 50;             //número de referers a mostrar
+//------FIN CONFIGURACIÓN--------
+
+
+$conecta = mysql_connect($host,$user,$pass);
+mysql_select_db($dbname,$conecta);
+echo &quot;
+&lt;table width='100%' border='0' cellspacing='0' cellpadding='0'&gt;
+  &lt;tr&gt; 
+    &lt;td width='5%'&gt;&lt;b&gt;#&lt;/b&gt;&lt;/td&gt;
+    &lt;td width='75%'&gt;&lt;div align='left'&gt;&lt;b&gt;Link&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;td width='20%'&gt;&lt;div align='right'&gt;&lt;b&gt;Visitas&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt; &quot;;
+
+
+$query = &quot;select * from $tabla order by fecha desc&quot;;
+$resp = mysql_query($query);
+$xcontador = 1;
+while ($datos = mysql_fetch_array($resp)) 
+{ 
+while ($datos = mysql_fetch_array($resp))
+{
+  $dia = date(&quot;d/m/Y&quot;,$datos[fecha]); //nos muestra la fecha
+  $hora = date(&quot;H:i:s&quot;,$datos[fecha]); //nos muestra la hora
+  if ($mostrar &gt; 0)
+  {
+    echo &quot;
+	&lt;tr&gt;
+  		&lt;td &gt;$xcontador&lt;/td&gt;
+    	&lt;td &gt;&lt;div align='left'&gt;&lt;a href=&quot;$datos[referer]&quot; target=&quot;_blank&quot;&gt;$datos[referer]&lt;/a&gt;&lt;/div&gt;&lt;/td&gt;
+    	&lt;td &gt;&lt;div align='right'&gt;$dia&lt;br&gt;$hora&lt;/div&gt;&lt;hr&gt;&lt;/td&gt;
+  		&lt;/tr&gt;
+		
+	&quot;;
+    $mostrar--;
+    $xcontador++;
+	} 
+	 
+  }
+}
+echo &quot;&lt;/table&gt;
+		&lt;hr&gt;
+	  &lt;div align='center'&gt;Gts_Ref v1.1Creado por &lt;a href='http://www.gatsu-studios.tk' target='_blanck'&gt;Gatsu Studios&lt;/a&gt; :: &lt;/div&gt;&quot;; 
+mysql_close($conecta); //cierra la conexion
+?&gt;
+
+Ejemplo practico = [url=http://www.clangatsu.com/main.php?id=ref&amp;q=js/ref_mostrar.php]Listado de Refers[/url]

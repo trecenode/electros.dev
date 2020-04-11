@@ -1,0 +1,44 @@
+Debido a uno que otro dolor de cabeza que tuve al tratar de hacer el parche que actualizara automáticamente foros anteriores, prefiero explicarlo por partes, ya que así cada quien podrá personalizarlo a su gusto. En si los archivos .php y las carpetas de &quot;eforo_imagenes&quot; y &quot;eforo_estilo&quot; de eForo deben ser borrados y usarse los de la nueva versión, pero el problema es que hace falta actualizar la base de datos, para eso diré como hacerlo.
+
+Lo primero es saber si en la versión 2.0 utilizaste compatibilidad con el registro de usuarios, si es así debes modificar el archivo foroconfig.php de la nueva versión y en la línea $tabla_usuarios cambiar &quot;eforo_usuarios por &quot;usuarios&quot;. Ahora toda la configuración se hará desde el panel de administración, por lo que no necesitarás modificar nada más del foroconfig.php.
+
+Se agregó una nueva tabla llamada &quot;eforo_config&quot; que es la que guarda la configuración, para crearla mete el siguiente código en el phpMyAdmin, debes modificar en donde dice Administrador y poner el nick con el que quieres administrar el foro:
+
+[codigo]create table eforo_config (
+administrador varchar(20) not null,
+temas tinyint(3) unsigned not null,
+mensajes tinyint(3) unsigned not null,
+ultimos tinyint(3) unsigned not null,
+codigo enum('ON','OFF') not null,
+caretos enum('ON','OFF') not null,
+url enum('ON','OFF') not null,
+censurar enum('ON','OFF') not null,
+estilo varchar(30) not null,
+privados tinyint(3) unsigned not null,
+avatarlargo smallint(5) unsigned not null,
+avatarancho smallint(5) unsigned not null,
+avatartamano smallint(5) unsigned not null
+) ;
+insert into eforo_config values ('[color=#ff0000]Administrador[/color]','25','15','15','ON','ON','ON','OFF','electros.php','50','150','150','50')
+[/codigo]
+
+La tabla eforo_mensajes que almacena todos los mensajes también ha cambiado y se le han agregado 4 campos más, aparte de una que otra modificación menor, para esto mete el siguiente código:
+
+[codigo]alter table eforo_mensajes
+change foromostrar foromostrar enum('0','1') not null,
+add caretos enum('0','1') not null,
+add codigo enum('0','1') not null,
+add url enum('0','1') not null,
+add firma enum('0','1') not null
+;
+update eforo_mensajes set caretos='1',codigo='1',url='1',firma='1'[/codigo]
+
+Por último hay que actualizar la tabla de eforo_usuarios o usuarios dependiendo si elegiste compatibilidad con el registro de usuarios o si estás usandolo la tabla por defecto del eForo, para esto mete el siguiente código en el phpMyAdmin:
+
+[codigo]alter table eforo_usuarios
+change sexo sexo enum('0','1') not null,
+add web varchar(100) not null,
+add firma text not null,
+add avatar char(3) not null[/codigo]
+
+Si después de actualizar obtienes errores de &quot;Warning: mysql_fetch_array() on line 100&quot; o alguno parecido deja aquí tus comentarios.

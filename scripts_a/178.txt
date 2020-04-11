@@ -1,0 +1,21 @@
+Webexplorer realizado por elcidop
+http://wwww.elcidop.com
+http://wwww.phpmysql.tk
+
+Este webexplorer es un script que recorre todos los ficheros de la
+carpeta [b]web/[/b] en tu sitio para cambiarlo
+modifica [b]$path_absoluto = &quot;web/&quot;;[/b] por 
+[b]$path_absoluto = &quot;./&quot;;[/b] si deseas que recorra
+los ficheros de tu directorio raiz.
+Sirve tambien para subir archivos y para eliminarlos,
+se le puede agregar una zona de administracion solo
+para usuarios permitidos.
+
+Instalacion :
+1) Sube el index.php y las imagenes a tu web.
+2) Da chmod 777 a la carpeta [b]web/[/b].
+3) Disfruta del script.
+
+Novedad :
+Ahora incluye un panel de control dentro del zip explorador_administrar.zip
+con el que podras ofrecer espacio web a tus clientes, si deseas proteger esta pagina es tan simple como incluir una proteccion con contraseña que podras encontrar en la seccion scripts de esta misma pagina.

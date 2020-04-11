@@ -1,0 +1,63 @@
+^_^ Ahora les traigo este MOD de ultimos post de tu EForo (Lo he probado en la versiòn 2.1, si las tablas son las mismas en las versiones superiores, supongo que debe funcionar igual :D )
+
+A ver, este es el còdigo:
+[b]marqueeultimospost.php[/b] (Podemos modificar en las lìneas, los mensajes a mostrar y el nùmero de caracteres)
+[codigo]
+&lt;?//Ultimos post by Arturo8a?&gt;
+&lt;SCRIPT type=text/javascript&gt;maximo = 1024 ;function regresar(a) {	a.direction=\'down\' ; a.scrollAmount=8 ;}function adelantar(a) {	a.direction=\'up\' ; a.scrollAmount=8 ;}function continuar(a) {	a.direction=\'up\' ; a.scrollAmount=2 ;}function detener(a) {	a.direction=\'up\' ; a.scrollAmount=0 ;}      
+&lt;/SCRIPT&gt;
+&lt;TABLE width=147       border=0 align=&quot;center&quot; cellPadding=2 cellSpacing=0 class=tabla_principal&gt;        
+&lt;TBODY&gt;        
+&lt;TR&gt;          
+&lt;TD width=&quot;143&quot; class=tabla_titulo&gt;            
+&lt;DIV class=t1 align=right&gt;Ultimos Post &lt;/DIV&gt;
+&lt;/TD&gt;&lt;/TR&gt;        
+&lt;TR&gt;          
+&lt;TD class=tabla_mensaje vAlign=top height=257&gt;            
+&lt;MARQUEE id=m onmouseover=this.stop() onmouseout=this.start()             scrollAmount=2 direction=up width=&quot;155&quot; height=250             align=&quot;center&quot;&gt;
+&lt;?//**************Edita sólo esta parte, configuración de marquee***********************************//
+$mostrarmensajes = &quot;13&quot;; //Número de mensajes que se mostrarán. 
+$caracteres = &quot;60&quot;; //Numero de caracteres que se mostraran por mensaje. 
+//******************** Hasta aquí llegas, no modifiques nada a partir de aquí, si no sabes lo que haces, puedes causar grave daño******//
+$mostrar = $mostrarmensajes-1;include(&quot;config.php&quot;); 
+echo &quot; 
+&lt;script type=text/javascript&gt; 
+function sobre(texto) { subnav.innerHTML = texto; } 
+function fuera(texto) { subnav.innerHTML = \\&quot;&lt;a href=index.php?id=foro&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Ir a los Foros&lt;/a&gt;\\&quot; } 
+&lt;/script&gt; &quot;; 
+$conexion = mysql_connect($dbhost,$dbuser,$dbpass); 
+mysql_select_db($db,$conexion); 
+$resultado = mysql_query(&quot;select * from eforo_mensajes order by ultimo desc&quot;); 
+$rows = mysql_fetch_array($resultado);$i = 0; 
+while ($rows = mysql_fetch_array($resultado)) {         
+if ($i &lt;= $mostrar) {                 
+$consulta1 = &quot;select * from eforo_mensajes where id=\'$rows[id]\'&quot;;                 $resultado1 = mysql_query($consulta1);                 
+$datos1 = mysql_fetch_array($resultado1);                 
+$consulta2 = &quot;select * from eforo_foros where id=\'$rows[foro]\'&quot;;                 $resultado2 = mysql_query($consulta2);                 
+$datos2 = mysql_fetch_array($resultado2);                 
+if (strlen($rows[mensaje]) &gt; $caracteres) {                         
+$rows[mensaje] = substr($rows[mensaje],0,$caracteres).&quot;...&quot;;                 
+}                 
+echo &quot;›&lt;b&gt;›&lt;/b&gt;&amp;nbsp;&lt;img src=eforo_imagenes/usuario2.gif&gt;&amp;nbsp;&amp;nbsp;$rows[usuario]:&lt;br&gt;&lt;br&gt;&lt;a href=\\&quot;index.php?id=foro&amp;foroid=$datos2[id]&amp;temaid=$rows[forotema]\\&quot; onmouseover=\'sobre(\\&quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;› Foro: &lt;b&gt;$datos2[foro]&lt;/b&gt;&lt;/font&gt;\\&quot;)\' onmouseout=\'fuera()\'&gt;$rows[mensaje]&lt;/a&gt;&lt;br&gt;&lt;br&gt;&lt;hr&gt;&lt;br&gt;&quot;;
+$i++;         
+} 
+} 
+?&gt;            
+&lt;/MARQUEE&gt;&lt;BR&gt;&lt;/TD&gt;&lt;/TR&gt;        
+&lt;tr&gt;          
+&lt;TD class=tabla_mensaje vAlign=top height=15&gt;            
+&lt;p align=&quot;center&quot;&gt;&lt;? echo &quot;&lt;br&gt;&lt;table width=153 border=0 cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td id=subnav name=subnav&gt;&lt;a href=index.php?id=foro&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Ir a Los Foros&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot;; ?&gt;&lt;/TD&gt;        &lt;/tr&gt;        
+&lt;tr&gt;          
+&lt;TD class=tabla_mensaje vAlign=top height=14&gt;            
+&lt;p align=&quot;center&quot;&gt;&lt;A name=#a&gt;&lt;/A&gt;&lt;A onmouseover=regresar(m)             onmouseout=continuar(m) href=&quot;javascript:regresar(m)&quot;&gt;&lt;IMG height=15             alt=Regresar src=&quot;eforo_imagenes/flecha_izq.gif&quot; width=15             border=0&gt;&lt;/A&gt; &lt;A onmouseover=adelantar(m) onmouseout=continuar(m)             href=&quot;javascript:adelantar(m)&quot;&gt;&lt;IMG height=15 alt=Adelantar             src=&quot;eforo_imagenes/flecha_der.gif&quot; width=15 border=0&gt;&lt;/A&gt; &lt;/TD&gt;        &lt;/tr&gt;      &lt;/TBODY&gt;&lt;/TABLE&gt;      
+[/codigo]
+
+Nada, es fàcil entenderlo, ahora, para ponerlo solo ponemos lo siguiente : (de preferencia en nuestro menù)
+
+[codigo]&lt;?include(&quot;marqueeultimospost.php&quot;);?&gt;[/codigo]
+
+y ya ta ! :P
+
+Salu2!
+
+Arturo8a

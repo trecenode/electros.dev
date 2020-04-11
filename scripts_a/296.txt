@@ -1,0 +1,31 @@
+Después de un largo tiempo he decidido poner a disposición eForo v3.0 como una versión Release Candidate, esto quiere decir que estará a prueba por un tiempo y dependiendo de su funcionamiento se liberará una versión definitiva libre de errores y bugs.
+
+Esto no quiere decir que eForo no funcione, es para que el usuario tome las debidas precauciones como hacer un respaldo y evitar lo que sucedió hace unos meses cuando se liberó la primera versión de eForo v3.0 donde se corrompieron las tablas de eForo haciendo que los usuarios aparecieran como anónimos, problemas de inicio de sesión, entre otros errores.
+
+Ahora mismo he probado eForo v3.0 con PHP 5.0.3 y MySQL 4.1.11, ha funcionado sin problemas excepto por un detalle que ya fue corregido, el problema fue en la consulta que muestra los mensajes de cada subforo ordenando primero los mensajes importantes antes de los demás temas, con la nueva versión de MySQL 4.1.x fue cambiada una regla sobre las sentencias que utilizan UNION y ahora fue necesario que las consultas individuales tuvieran un LIMIT [numero] después de un ORDER BY o de lo contrario este último sería ignorado, mostrando los mensajes de forma desordenada.
+
+Ha sido agregado un archivo para poder instalar eForo v3.0 para los usuarios que lo utilicen por primera vez.
+
+[b]Requisitos de instalación[/b]
+* PHP 4.3.x o superior.
+* MySQL 4.x o superior.
+Opcionales:
+* Servidor SMTP (para enviar notificaciones por email).
+
+[b]Instrucciones de instalación (uso de eForo por primera vez)[/b]
+
+[b]1.[/b] Sube todos los archivos al servidor.
+[b]2.[/b] Ejecuta el archivo instalar.php.
+[b]3.[/b] Aplica el permiso CHMOD 777 a la carpeta &quot;avatares&quot; que se encuentra dentro de &quot;eforo_imagenes&quot;.
+[b]4.[/b] Ya puedes usar eForo v3.0.
+
+[b]Actualización de v.2.2.x a v3.0[/b]
+
+[b]1.[/b] Modifica el archivo config.php con los datos de conexión a la base de datos.
+[b]2.[/b] Elimina todos los archivos del eForo anterior excepto las carpetas &quot;avatares&quot;. Si existe un archivo llamado defecto.xxx dentro de la carpeta &quot;avatares&quot; elimínalo.
+[b]3.[/b] Respalda la carpeta &quot;avatares&quot;. Para facilitar esta tarea sin tener que descargar toda la carpeta, renombra &quot;eforo_imagenes&quot; por  &quot;eforo_imagenes2&quot;, al finalizar la instalación de eForo puedes mover la carpeta a &quot;eforo_imagenes&quot; y después borrar &quot;eforo_imagenes2&quot;.
+[b]4.[/b] Sube todos los archivos al servidor.
+[b]5.[/b] Ejecuta el archivo v22x_v30.php que se encuentra en &quot;eforo_parches&quot;.
+[b]6.[/b] Ya puedes usar eForo v3.0.
+
+Cualquier problema no duden en escribirlo en el subforo Bugs, si tienen sugerencias sobre eForo pueden escribirlas aquí mismo o en el subforo Comentarios y sugerencias.

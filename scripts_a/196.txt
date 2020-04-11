@@ -1,0 +1,12 @@
+ElectrosNuke es un script creado por phpmysql, es la recopilación de los scripts de Electros y phpmysql para crear un portal con todo lo necesario para un webmaster que busca una solución fácil y rápida.
+
+El anterior:
+http://recursosphp.iefactory.com/electros/electrosnuke/electrosnukev12plus/
+
+La nueva version de la anterior remejorada: 
+http://recursosphp.iefactory.com/electros/electrosnuke/electrosnukev13/
+
+El electrosnuke v12plus es semiautomatico y el v13 es totalmente automatico ya el que decidais,
+podeis descargaros el electrosnuke correspondiente dentro de ambas direcciones.
+
+eforo_imagenes requiere chmod 777, borrar administrar2.php siempre igual que instalar.php.

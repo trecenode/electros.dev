@@ -1,0 +1,14 @@
+function es_correo ($correo) {
+		$patron = &quot;/^([a-z0-9+_]|\\-|\\.)+@(([a-z0-9_]|\\-)+\\.)+[a-z]{2,6}\$/i&quot;;
+		if(strstr($correo, '@') &amp;&amp; strstr($correo, '.')) {
+			if (preg_match($patron, $correo)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+//devuelve true si es un correo la cadena

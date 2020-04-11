@@ -1,0 +1,18 @@
+Hola muy buenas lo siento por eso esq estaba aprendiendo y..... pues ahora ya se aqui os voy a dejar uno echo por mi :D y bien perdonarme :p tomen.
+anonimo.php
+[codigo]
+&lt;form action=&quot;anonimo.php&quot; method=&quot;post&quot;&gt;
+aqui creamos el resto del formulario los nombres tienen q ser 
+$destino sera donde llegara el email
+$asunto sera el asunto
+$mensaje sera el mensaje
+$nombre sera su nombre
+$email sera su email
+[/codigo]
+[codigo]
+&lt;?
+mail($destino,$asunto,$mensaje,&quot;From: $nombre &lt;$email&gt;&quot;);
+?&gt;
+Esto q hace? pues es muy simple esto es una funcion para q mande un email a esa persona mira $destino es donde llega el email $asunto es el asunto del mensaje $mensaje hay llegara el mensaje y $nombre sera el nombre del email q llegue y $email es el email del  q mande el mensaje q le llegara al email de destinatario su email :)
+[/codigo]
+Listo espero q os guste

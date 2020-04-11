@@ -1,0 +1,22 @@
+Les dejo este script, que se utiliza de cualquier pagina PHP impidiendo que determinados usuarios ingresen o visualice su contenido.
+Por supuesto funciona con IP fijas y se pueden agregar las IP que queremos excluir, mirando el siguiente ejemplo:
+
+&lt;?php 
+$banned_ip = array();
+$banned_ip[] = '10.0.5.64';
+$banned_ip[] = '10.0.7.20';
+$banned_ip[] = '10.0.7.21';
+foreach($banned_ip as $banned) { 
+    $ip = $_SERVER['REMOTE_ADDR']; 
+    if($ip == $banned){ 
+        echo &quot;&lt;p align=center&gt;&lt;font face=Verdana size=1&gt;09-Ago-04&lt;br&gt;Ingreso registrado en el sistema.&lt;br&gt;&lt;/font&gt;&lt;/p&gt;
+
+&lt;p align=center&gt;&lt;font face=Verdana size=4 color=#FF0000&gt;&lt;strong&gt;IP DENEGADA&lt;/strong&gt;&lt;/font&gt;&lt;/p&gt;
+
+&lt;p align=center&gt;&lt;font face=Verdana size=1&gt;El sistema de ha denegado el acceso de esta IP &lt;strong&gt;$banned&lt;/strong&gt;.&lt;/font&gt;&lt;/p&gt;&quot;; 
+        exit(); 
+    } 
+} 
+?&gt;
+
+Un cordial saludo. Roberto.

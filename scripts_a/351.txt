@@ -1,0 +1,12 @@
+bueno es un sistema de usuarios facil de instalar, es de phpfacil y utiliza una base de datos MySQL
+bueno el scrip se instala de la siguiente forma
+1.Descargas el archivo que yo e subido
+2.descomprimes
+3.miras el configurar y registrar y creas la base de datos MySQL
+4.vas a config.php y modificas tus datos de tu server normal y MySQL
+5.subes todo TODO a tu servidor y ejecutas instalar.php
+6.en instalar.php pondras el nic contraseña e-mail del administrador
+7.en instalar.php apretas en instalar
+8.vas al administrador de archivos de tu web y borras instalar.php y udapte.php
+
+un sistema de usuarios en 8 pasos facilisimos!

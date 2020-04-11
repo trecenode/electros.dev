@@ -1,0 +1,92 @@
+[b]Este codigo sirve para paginar, utiliza base de datos como es logico pero cada uno aplique la suya[/b]
+
+[codigo]
+&lt;?
+/*************************************************************************/
+/* Este script fuen creado por la necesidad de pagina muchos registros   */
+/* Se presta debido a que se quiere enseñar a la gente                   */
+/* Solo de pide mantener estos creditos y saber que, ha sido prestado    */
+/* por Pecados-X http://www.pk2x.net/                                    */
+/* Cualquier coincidencia con algun otro script parecido que sea paginar */
+/* es eso, coincidencia, porque los demas no funcionan correctamente y   */
+/* este si, para cualquier duda o aclaracion,                            */ 
+/*               webmaster@pk2x.net nik: forber                          */
+/*************************************************************************/
+
+//conexion a la base de datos
+$host=&quot;localhost&quot;;
+$user=&quot;user&quot;;
+$pass=&quot;tu_pass&quot;;
+$db=&quot;Tu_db&quot;;
+$tabla=&quot;tu_tabla&quot;;
+
+//conectamos con la base de datos
+
+$con=mysql_connect($host,$user,$pass);
+mysql_select_db($db,$con);
+
+//establecemos condiciones de paginacion
+
+if (!isset($pg))
+$pg = 0;
+$cantidad = 10;
+$inicial = $pg * $cantidad;
+
+//realizamos la busqueda en la base de datos
+$pegar = &quot;SELECT * FROM $tabla ORDER BY id DESC LIMIT $inicial,$cantidad&quot;;
+$cad = mysql_db_query($db,$pegar) or die (mysql_error());
+
+//calculamos las paginas a mostrar
+
+$contar = &quot;SELECT * FROM $tabla&quot;;
+$contarok = mysql_db_query($db,$contar);
+$total_records = mysql_num_rows($contarok);
+$pages = intval($total_records / $cantidad);
+
+//imprimiendo los resultados
+echo &quot;&lt;br&gt;&quot;;
+echo &quot;&lt;span class=&quot;14pix&quot;&gt;&lt;b&gt;Id&lt;/b&gt; | &lt;/span&gt;
+	  &lt;span class=&quot;14pix&quot;&gt;&lt;b&gt;Titulo&lt;/b&gt;&lt;/span&gt;
+      &lt;br&gt;&quot;;
+	  
+while ($array = mysql_fetch_array($cad))
+{
+echo &quot;&lt;tr&gt;
+	&lt;font&gt;&lt;b&gt;$array[id]&lt;/b&gt; | &lt;/font&gt;
+	&lt;font&gt;$array[titulo] | &lt;/font&gt;
+
+    &lt;br&gt;&quot;;
+} //fin imprimir resultados
+echo &quot;&lt;br&gt;&quot;;
+
+
+//creando los enlaces de paginacion de resultados
+
+echo &quot;&lt;center&gt;&lt;p&gt;&quot;;
+if ($pg &lt;&gt;0)
+{
+$url = $pg - 1;
+echo &quot;&lt;font&gt;&lt;a href='archivo.php?id=&quot;.$id.&quot;&amp;pg=&quot;.$url.&quot;'&gt;&amp;laquo; Anterior&lt;/a&gt;&amp;nbsp;&lt;/font&gt;&quot;;
+}
+else {
+echo &quot; &quot;;
+}
+for ($i = 0; $i&lt;($pages + 1); $i++) {
+if ($i == $pg) {
+echo &quot;&lt;font&gt;&lt;b&gt;&amp;nbsp;$i&amp;nbsp;&lt;/b&gt;&lt;/font&gt;&quot;;
+}
+else {
+echo &quot;&lt;font&gt;&lt;a href='archivo.php?id=&quot;.$id.&quot;&amp;pg=&quot;.$i.&quot;'&gt;&quot;.$i.&quot;&lt;/a&gt;&amp;nbsp;&lt;/font&gt;&quot;;
+}
+}
+if ($pg &lt; $pages) {
+$url = $pg + 1;
+echo &quot;&lt;font&gt;&lt;a href='archivo.php?id=&quot;.$id.&quot;&amp;pg=&quot;.$url.&quot;'&gt;Siguiente &amp;raquo;&lt;/a&gt;&lt;/font&gt;&quot;;
+}
+else {
+echo &quot; &quot;;
+}
+echo &quot;&lt;/p&gt;&lt;/center&gt;&quot;;
+?&gt;
+
+[/codigo]

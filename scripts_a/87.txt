@@ -1,0 +1,44 @@
+[b] Contador de Visitas [/b]
+Aqui presento un sencillo contador de visitas, el cual consta de 2 archivos, un php donde se contiene todo el Codigo Fuente y 1 txt que es donde se guardara el conteo, cabe destacar que para que este Contador funcione correctamente debemos dar un chmod 777 al archivo txt.
+ExTRa
+http://www.laguneros.com/LinuxTeam
+[codigo]
+&lt;html&gt;
+
+&lt;head&gt;
+
+&lt;title&gt;Contador&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body link=&quot;#000080&quot; vlink=&quot;#000080&quot; alink=&quot;#000080&quot; text=&quot;#000080&quot; bgcolor=&quot;#FFFFFF&quot;&gt;
+&lt;?php
+// Archivo en donde se acumulará el numero de visitas
+$archivo = &quot;counter.txt&quot;;
+
+// Abrimos el archivo para solamente leerlo (r de read)
+$abre = fopen($archivo, &quot;r&quot;);
+
+// Leemos el contenido del archivo
+$total = fread($abre, filesize($archivo));
+
+// Cerramos la conexión al archivo
+fclose($abre);
+
+// Abrimos nuevamente el archivo
+$abre = fopen($archivo, &quot;w&quot;);
+
+// Sumamos 1 nueva visita
+$total = $total + 1;
+
+// Y reemplazamos por la nueva cantidad de visitas 
+$grabar = fwrite($abre, $total);
+
+// Cerramos la conexión al archivo
+fclose($abre);
+
+// Imprimimos el total de visitas dándole un formato
+echo &quot;&lt;font face='verdana' size='2' color='#000080'&gt;Total de visitas:&lt;br&gt;&quot;.$total.&quot;&lt;/font&gt;&quot;;
+?&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;[/codigo]

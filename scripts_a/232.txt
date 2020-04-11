@@ -1,0 +1,101 @@
+[codigo]&lt;?php  
+     
+     /******************************************************/  
+     /****** Creado por rINg0WEB **************************/  
+     /******     18/7/2004       *************************/  
+     /***************************************************/  
+       
+     /*****  EXPLICACION  ****  
+     + La variable $size indicarlo en kbytes  
+     + $input se refiere al name=&quot;algo&quot; que le habeis dao al campo del formulario  
+     + $carpeta se refiere al nombre de la carpeta donde alojareis las o cualquier cosa  
+     + En el array $permitidos indicar los formatos permitidos  
+     + En el array $ext indicamos las extensiones  
+     **********************/  
+       
+     function upload($input,$carpeta,$size) {  
+       
+    // Comprobamos que exista la carpeta, sino existe se crea y se da permisos, si existe se da permisos  
+           
+         if(!file_exists($carpeta)) {  
+           
+             mkdir($carpeta);  
+               
+             @chmod($carpeta, 0777);  
+               
+         } else {  
+           
+             @chmod($carpeta, 0777);  
+               
+         }  
+       
+         $peso_permitido = $size * 1024;  
+         $permitidos = array('image/jpeg','image/pjpeg','image/jpg','image/gif');  
+         $ext = array('jpeg','pjpeg','jpg','gif');  
+           
+         $name = $_FILES[$input]['name'];  
+         $peso = $_FILES[$input]['size'];  
+         $tmp  = $_FILES[$input]['tmp_name'];  
+         $type = $_FILES[$input]['type'];  
+           
+         if(is_uploaded_file($tmp)) { // Comprobamos haber cargado la imagen  
+           
+             if((in_array($type,$permitidos)== 1) &amp;&amp; (($peso) &lt;= ($peso_permitido))) { // Comprobamos que sea permitido tanto peso como formato  
+           
+                 $extension = strrchr($name,'.');  
+                   
+                 if(file_exists($carpeta.'/'.$name)) { // Miramos si eiste con el nombre que se sube, si existe le asignamosun valor variable time(), asi nunca se repetira, y sino existe lo dejamos como esta  
+                   
+                     $nombre = time().'.'.$extension;  
+                       
+                 } else {  
+                   
+                     $nombre = $name;  
+                       
+                 }  
+                   
+                 if(move_uploaded_file($tmp, $carpeta.'/'.$nombre)) { // Movemos el archivo a la carpeta  
+                       
+                     echo 'Imagen subida con exito';  
+                       
+                 } else {  
+                   
+                     echo 'Imagen no subida';  
+                       
+                 }  
+               
+             } else {  
+               
+                 for($i = 0;$i &lt; count($ext);$i++) { // Bucle para sacar las extensiones permitidas del array $ext  
+                      
+                     $ficheros .= $ext[$i] .',';  
+                       
+                }  
+                   
+                 // Comprobamos la longitud de la cadena $ficheros y le restamos 1 asi con un substr extraemos toda la cadena menos la ultima ',' que sobra  
+                   
+                 $sin_coma = strlen($ficheros) - 1;  
+                 $muestro = substr($ficheros, 0, $sin_coma);  
+           
+                 echo 'Solo se permiten archivos en formato '. $muestro .' y que pesen '. $size .'kb, Intentalo de nuevo.';  
+                   
+             }  
+               
+         } else {  
+               
+             echo 'Imagen no cargada correctamente';  
+           
+         }  
+           
+     }  
+       
+     /********  FORMA DE USO *********/  
+       
+     upload('imagen','x',110);  
+       
+     /********************************/  
+       
+               
+ ?&gt;[/codigo]
+
+Aqui teneis una pequeña funcion que sirve de upload

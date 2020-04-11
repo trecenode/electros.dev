@@ -1,0 +1,65 @@
+Mod sacado de la url
+http://miarroba.com/foros/ver.php?temaid=1251651&amp;foroid=235370
+
+En la base de datos lo unico que he cambiado es el nombre de la tabla a escritores (en lugar de usuarios) de esta manera: 
+
+[codigo]
+create table escritores (
+id smallint(5) unsigned not null auto_increment,
+fecha int(10) unsigned not null,
+nick varchar(20) not null,
+contrasena varchar(20) not null,
+email varchar(40) not null,
+ip varchar(15) not null,
+primary key (id),
+index (nick)
+)
+[/codigo]
+
+Y el archivo para registro lo he llamado [b]nuevoescritor.php[/b], y al modificarlo queda asi:
+
+[codigo]
+&lt;?
+include(&quot;config.php&quot;) ;
+if($registrar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$nick = quitar($nick) ;
+$email= quitar($email) ;
+// Comprobar si ya existe este usuario en la base de datos
+$resp = mysql_query(&quot;select id from escritores where nick='$nick' or email='$email'&quot;) ;
+if(mysql_num_rows($resp) != 0) {
+echo &quot;Ya existe un usuario con ese nick o email en la base de datos. Haz click &lt;a href=&quot;javascript:history.back()&quot;&gt;aquí&lt;/a&gt; para regresar.&quot; ;
+}
+else {
+$fecha = time() ;
+$contrasena = quitar($contrasena) ;
+mysql_query(&quot;insert into usuarios (fecha,nick,contrasena,email,ip) values ('$fecha','$nick','$contrasena','$email','$REMOTE_ADDR')&quot;) ;
+echo &quot;Has sido registrado con éxito. Haz click &lt;a href=&quot;index.php&quot;&gt;aquí&lt;/a&gt; para ir a la página principal.&quot; ;
+}
+}
+else {
+?&gt;
+&lt;script&gt;
+function revisar() {
+if(formulario.nick.value.length &lt; 3) { alert('El nick debe contener como mínimo 3 caractéres') ; return false ; }
+if(formulario.contrasena.value.length &lt; 4) { alert('La contraseña debe contener como mínimo 4 caractéres') ; return false ; }
+if(formulario.email.value.length == 0) { alert('Debes poner un email válido') ; return false ; }
+}
+&lt;/script&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;nuevoescritor.php&quot; onsubmit=&quot;return revisar()&quot;&gt;
+&lt;b&gt;Nick:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;nick&quot; maxlength=&quot;20&quot;&gt;&lt;br&gt;
+&lt;b&gt;Contraseña:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; maxlength=&quot;20&quot;&gt;&lt;br&gt;
+&lt;b&gt;Email:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;email&quot; maxlength=&quot;40&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;registrar&quot; value=&quot;Registrar&quot;&gt;
+&lt;/form&gt;
+&lt;?
+}
+mysql_close($conectar) ;
+?&gt;[/codigo]

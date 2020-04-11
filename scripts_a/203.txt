@@ -1,0 +1,31 @@
+Pues eso, una chorradilla que hace que en si que se registre un usuario (del sistema de electros), le aparezca un mensaje de bienvenida en su bandeja de entrada de mensajes:
+
+Crear el siguiente archivo: [b]bienvenida registrado.php[/b]
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+
+////// Configurar //////
+$mensaje = &quot;Bienvenido como usuario.&lt;br&gt; Estas invitado a recorrer nuestra web. Recibe un cordial saludo&quot; ;
+//Pon tu nick entre las comillas de remite, o dejalo en blanco, para q llegue el mensaje como anonimo.
+$remite = &quot;&quot; ;
+/////////////////////// 
+
+$fecha = time() ;
+mysql_query(&quot;insert into mensajes (fecha,destinatario,remitente,mensaje) values ('$fecha','$nick','$remite','$mensaje')&quot;) ;
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;
+[/codigo]
+
+Ahora edita el archivo uregistrar.php del sistema de usuario de electros.
+Localiza la linea:
+
+mysql_query(&quot;insert into usuarios (fecha,nick,contrasena,email,ip) val....
+
+y debajo de ella, pega lo siguiente:
+
+[codigo]include(&quot;bienvenida registrado.php&quot;) ;
+[/codigo]
+
+fácil, ¿noo? el remitente no ha sido puesto para evitar que lleguen demasiados mensajes de contestación, pero bueno si quieres ponerlo... tu mismo.

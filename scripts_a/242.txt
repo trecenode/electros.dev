@@ -1,0 +1,24 @@
+Aquí os dejo un script de un web-mail que podreis ver en funcionamiento en mi web: http://usuarios.lycos.es/elrefranero. Si por algún motivo no funcionara comunicarmelo a rogelio_o@terra.es. Si quereis preguntarme algo del script me podreis encontrar conectao en el msn messenger, mi dirección es rogelio2c@hotmail.com. Que disfruteis este script.
+A ya se me olvidaba las bases de datos deben de tener la siguiente forma:
+
+CREATE TABLE usuarios (
+  id tinyint(4) NOT NULL auto_increment,
+  usuario varchar(30) NOT NULL default '',
+  contrasena varchar(30) NOT NULL default '',
+  firma varchar(150) NOT NULL default '',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+CREATE TABLE usuarios (
+  id tinyint(4) NOT NULL auto_increment,
+  usuario varchar(30) NOT NULL default '',
+  contrasena varchar(30) NOT NULL default '',
+  firma varchar(150) NOT NULL default '',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+Y por último y MUY IMPORTANTE debeis saber que el archivo en el que debeis de poner vuestros datos es el que pone conections/webmail.php. Si quereis hacer cualquier cambio en el diseño y no entendeis el codigo ya sabeis en el messenger m encontrareis.
+
+SALU2 A TO LA PEÑA DE ELECTROS Y QUE TA LA WEB MU CURRA
+
+Post-data: Habe si visitais mi web y me dais vuestra opinion http://usuarios.lycos.es/elrefranero, enga gracias.

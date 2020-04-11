@@ -1,0 +1,42 @@
+Este script lo pille en http://www.programacion.net de unos de sus foros haber si lo podeis modificar un poco pa que renombre archivos :) , no pregunteis como va porque ni idea quise hacer eso de cambiar el nombre al archivo pero no pude :(.
+
+Se que funciona en mi@.com y en lycos.es, iespana.es nop.
+
+&lt;FORM ENCTYPE=&quot;multipart/form-data&quot; ACTION=&quot;&quot; METHOD=&quot;POST&quot;&gt; 
+Archivo de Tu foto: &lt;INPUT NAME=&quot;userfile&quot; TYPE=&quot;file&quot;&gt; 
+&lt;INPUT TYPE=&quot;submit&quot; VALUE=&quot;Upload&quot;&gt; 
+&lt;/FORM&gt; 
+
+&lt;?php 
+
+$muestra =&quot;nuevo.jpg&quot;; 
+$GLOBALS[&quot;muestra&quot;] =$muestra; 
+if ($muestra!=&quot;N&quot;){ 
+$path = &quot;&quot;; 
+$max_size = 200000; 
+echo &quot;Valor1 $muestra&quot;; 
+if (is_uploaded_file($userfile)) { 
+
+if ($userfile_size&gt;$max_size) { echo &quot;El Archivo Es Demasiado Grande&lt;br&gt;n&quot;; exit; } 
+
+if (($userfile_type==&quot;image/gif&quot;) || ($userfile_type==&quot;image/pjpeg&quot;) || ($userfile_type==&quot;image/bmp&quot;)) { 
+
+if (file_exists($path . $userfile_name)) { echo &quot;El Archivo ya Exixte &lt;br&gt;n&quot;; exit; } 
+
+$res = copy($userfile, $path . $userfile_name); 
+if (!$res) { 
+echo &quot;Error Al Subir El Archivo!&lt;br&gt;n&quot;; exit; } 
+else 
+echo &quot;Archivo Actualizado con exito&lt;br&gt;n&quot;; 
+
+echo &quot;Nombre De Archivo: $userfile_name&lt;br&gt;n&quot;; 
+echo &quot;Tamaño de Archivo: $userfile_size bytes&lt;br&gt;n&quot;; 
+echo &quot;Tipo De Archivo: $userfile_type&lt;br&gt;n&quot;; 
+//aqui necesito mantener el valor de $muestra = &quot;nuevo.jpg&quot;; 
+
+} else { echo &quot;Tipo de Archivo invalido&lt;br&gt;n&quot;; exit; } 
+
+} 
+
+} 
+?&gt;

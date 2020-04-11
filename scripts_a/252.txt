@@ -1,0 +1,11 @@
+Con este scipt podremos crear y administrar un Rotador de Banners al completo.
+Elscipt trae un archivo de texto en el cual aparece como instalarlo. 
+Consta de 9 archivos en php. En el cual aparece uno de ayuda y una Demo.
+
+
+Autor: Víctor Simental
+Email: victor@puentedeixtla.com
+Web: http://www.kurt-cobain.info
+
+Lo pongo para q lo descargueis. 
+Un saludo.

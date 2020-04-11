@@ -1,0 +1,227 @@
+[b]Aviso:[/b] Gracias a [b]kzale[/b] que me dió información detallada de los errores que tenía este script, lo he actualizado y ya debe funcionar correctamente.
+
+Con este script todos tus usuarios tendrán un perfil de usuario que podrán editar en cualquier momento, también podrás mostrar una lista de todo los usuarios registrados de tu web en el cuál podrás ver el perfil de cada uno de ellos.
+
+El script se compone de 3 archivos:
+
+[b]uperfil.php[/b]
+[b]ueditar.php[/b]
+[b]usuarios.php[/b]
+
+El funcionamiento de los archivos es el siguiente:
+
+[b]uperfil.php[/b]
+En esta página el usuario podrá editar su perfil.
+
+[b]ueditar.php[/b]
+Esta página procesará el formulario y actualizará los datos en la base de datos.
+
+[b]usuarios.php[/b]
+Esta página mostrará todos los usuarios registrados de tu web, y también podrás ver el perfil de cada usuario.
+
+Las páginas de uperfil.php y usuarios.php puedes enlazarlas directamente o meterlas en otra página, la página de ueditar.php debe estar totalmente sóla o te dará errores.
+
+Primero hay que actualizar la tabla de los usuarios y agregar los campos que hacen falta, para esto mete el siguiente código en el phpMyAdmin:
+
+[codigo]alter table usuarios
+add pais varchar(20) not null,
+add edad tinyint(2) unsigned not null,
+add sexo enum('0','1') not null,
+add descripcion tinytext not null
+after email[/codigo]
+
+Ahora crea la página uperfil.php con el siguiente código:
+
+[codigo]&lt;?
+include(&quot;ulogin.php&quot;) ;
+?&gt;
+&lt;?
+include(&quot;config.php&quot;) ;
+$resp = mysql_query(&quot;select * from usuarios where nick='$HTTP_COOKIE_VARS[unick]'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+if($editarconfirmacion) {
+echo &quot;Tus datos han sido editados con éxito. Haz click &lt;a href=index.php&gt;aquí&lt;/a&gt; para regresar a la página principal.&lt;br&gt;&lt;br&gt;&quot; ;
+}
+// Si no se pone la edad esta se guarda como cero, para evitar mostrar el cero se hace lo siguiente
+if($datos[edad] == 0) { $datos[edad] = &quot;&quot; ; }
+// El sexo se guarda como 0 y 1 que es masculino y femenino respectivamente, si se elige femenino la opción debe aparecer seleccionada
+// aparecer seleccionada
+if($datos[sexo] == 1) { $sexo = &quot; selected&quot; ; }
+// Mostrar la fecha en texto
+$fecha = $datos[fecha] ;
+$diassemana = array(&quot;Domingo&quot;,&quot;Lunes&quot;,&quot;Martes&quot;,&quot;Miércoles&quot;,&quot;Jueves&quot;,&quot;Viernes&quot;,&quot;Sábado&quot;) ;
+$mesesano = array(&quot;Ene&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Abr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Ago&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dic&quot;) ;
+$diasemana = date(w,$fecha) ; $diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diassemana[$diasemana] $diames de $mesesano[$mesano] del $ano&quot; ;
+?&gt;
+&lt;p class=&quot;titulo&quot;&gt;Perfil
+&lt;p&gt;&lt;b&gt;Usuario desde el:&lt;/b&gt; &lt;? echo $fecha ?&gt;
+&lt;p&gt;En esta sección puedes editar tus datos de registro. Los campos con un asterisco (*) son obligatorios.
+&lt;script&gt;
+function revisar() {
+if(formulario.contrasena.value.length &lt; 5) { alert('La contraseña debe contener por lo mínimo 5 caractéres.') ; return false ; }
+if(formulario.email.value.length == 0) { alert('Debes poner un email válido.') ; return false ; }
+if(formulario.descripcion.value.length &gt; 255) { alert('La descripción supera los 255 caractéres.') ; return false ; }
+}
+&lt;/script&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;ueditar.php&quot; onsubmit=&quot;return revisar()&quot;&gt;
+&lt;b&gt;* Nick:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;nick&quot; value=&quot;&lt;? echo $datos[nick] ?&gt;&quot; class=&quot;form&quot; style=&quot;color: #757575&quot; readonly&gt;&lt;br&gt;
+&lt;b&gt;* Contraseña:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; maxlength=&quot;20&quot; value=&quot;&lt;? echo $datos[contrasena] ?&gt;&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;* Email:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;email&quot; maxlength=&quot;40&quot; value=&quot;&lt;? echo $datos[email] ?&gt;&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;País:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;pais&quot; maxlength=&quot;20&quot; value=&quot;&lt;? echo $datos[pais] ?&gt;&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;Edad:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;edad&quot; maxlength=&quot;2&quot; size=&quot;3&quot; value=&quot;&lt;? echo $datos[edad] ?&gt;&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;Sexo:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;sexo&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot;&gt;Masculino
+&lt;option value=&quot;1&quot;&lt;? echo $sexo ?&gt;&gt;Femenino
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Descripción:&lt;/b&gt;&lt;br&gt;
+&lt;textarea name=&quot;descripcion&quot; cols=&quot;30&quot; rows=&quot;5&quot; class=&quot;form&quot; style=&quot;font-family: verdana&quot;&gt;&lt;? echo $datos[descripcion] ?&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;editar&quot; value=&quot;Editar&quot; class=&quot;form&quot;&gt;
+&lt;/form&gt;
+&lt;?
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;[/codigo]
+
+Ahora crea el archivo ueditar.php:
+
+[codigo]&lt;?
+include(&quot;ulogin.php&quot;) ;
+?&gt;
+&lt;?
+include(&quot;config.php&quot;) ;
+if($editar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$contrasena = quitar($contrasena) ;
+$email = quitar($email) ;
+$pais = quitar($pais) ;
+$edad = quitar($edad) ;
+$descripcion = quitar($descripcion) ;
+mysql_query(&quot;update usuarios set contrasena='$contrasena',email='$email',pais='$pais',
+edad='$edad',sexo='$sexo',descripcion='$descripcion' where nick='$_COOKIE[unick]'&quot;) ;
+$contrasena = md5(md5($contrasena)) ;
+setcookie(&quot;ucontrasena&quot;,$contrasena,time()+7776000) ;
+header(&quot;location: uperfil.php?editarconfirmacion=si&quot;) ;
+}
+mysql_close($conectar) ;
+?&gt;[/codigo]
+
+Por último crea el archivo usuarios.php:
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+echo &quot;
+&lt;p class=titulo&gt;Usuarios
+&quot; ;
+if($u) {
+$resp = mysql_query(&quot;select * from usuarios where id='$u'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+$fecha = $datos[fecha] ;
+$diassemana = array(&quot;Domingo&quot;,&quot;Lunes&quot;,&quot;Martes&quot;,&quot;Miércoles&quot;,&quot;Jueves&quot;,&quot;Viernes&quot;,&quot;Sábado&quot;) ;
+$mesesano = array(&quot;Ene&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Abr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Ago&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dic&quot;) ;
+$diasemana = date(w,$fecha) ; $diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diassemana[$diasemana] $diames de $mesesano[$mesano] del $ano&quot; ;
+if($datos[edad] == 0) { $edad = &quot;&quot; ; }
+else { $edad = $datos[edad] ; }
+$sexonumero = $datos[sexo] ;
+$sexotexto = array(&quot;Masculino&quot;,&quot;Femenino&quot;) ;
+echo &quot;
+&lt;p&gt;&lt;b&gt;Usuario desde el:&lt;/b&gt; $fecha
+&lt;p&gt;
+&lt;table width=100% border=0 cellpadding=5 cellspacing=0&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Nick:&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;$datos[nick]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;País:&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;$datos[pais]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Edad:&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;$edad&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Sexo:&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;$sexotexto[$sexonumero]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Descripción:&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;$datos[descripcion]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;a href=usuarios.php&gt;Regresar a Usuarios&lt;/a&gt;
+&quot; ;
+}
+else {
+$resp = mysql_query(&quot;select id from usuarios&quot;) ;
+$usuarios = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+$mostrar = 25 ;
+if(!$desde) { $desde = 0 ; }
+$resp = mysql_query(&quot;select id,nick,sexo,pais from usuarios order by id desc limit $desde,$mostrar&quot;) ;
+$desde = $desde + $mostrar ;
+echo &quot;
+&lt;p&gt;&lt;b&gt;Usuarios registrados en la web:&lt;/b&gt; $usuarios
+&lt;p&gt;
+&lt;table width=100% border=0 cellpadding=5 cellspacing=0&gt;
+&lt;tr bgcolor=#252525&gt;
+&lt;td width=50%&gt;&lt;b&gt;Nick&lt;/b&gt;&lt;/td&gt;
+&lt;td width=25%&gt;&lt;b&gt;Sexo&lt;/b&gt;&lt;/td&gt;
+&lt;td width=25%&gt;&lt;b&gt;País&lt;/b&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&quot; ;
+while($datos = mysql_fetch_array($resp)) {
+$sexonumero = $datos[sexo] ;
+$sexotexto = array(&quot;Masculino&quot;,&quot;Femenino&quot;) ;
+echo &quot;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=usuarios.php?u=$datos[id]&gt;$datos[nick]&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;$sexotexto[$sexonumero]&lt;/td&gt;
+&lt;td&gt;$datos[pais]&lt;/td&gt;
+&lt;/tr&gt;
+&quot; ;
+}
+echo &quot;
+&lt;/table&gt;
+&quot; ;
+if($desde &gt; $mostrar) {
+$anteriores = $mostrar * 2 ;
+if($desde == $anteriores) {
+echo &quot;&lt;p align=right&gt;&lt;a href=?ver=usuarios&gt;Anteriores $mostrar usuarios&lt;/a&gt; | &quot; ;
+}
+else {
+$anteriores = $desde - $mostrar * 2 ;
+echo &quot;&lt;p align=right&gt;&lt;a href=?ver=usuarios&amp;desde=$anteriores&gt;Anteriores $mostrar usuarios&lt;/a&gt; | &quot; ;
+}
+}
+else {
+echo &quot;&lt;p align=right&gt;&quot; ;
+}
+if($desde &lt; $usuarios) {
+echo &quot;&lt;a href=?ver=usuarios&amp;desde=$desde&gt;Siguientes $mostrar usuarios&lt;/a&gt;&quot; ;
+}
+}
+?&gt;[/codigo]
+
+[b]Explicación de su uso[/b]
+
+El archivo uperfil.php puedes ponerlo en el menú de usuario registrado, para que de esta forma el usuario tenga acceso a su perfil y lo pueda editar cuando el lo desee.
+
+El archivo ueditar.php debe estar totalmente sólo, si usas un sistema de enlaces del tipo index.php?id=pagina no metas la página de ueditar.php o te dará errores de Cannot add headers.
+
+La página usuarios.php puedes ponerla en cualquier parte de tu web ya que sirve para mostrar a todos los usuarios registrados de tu web y para poder ver su perfil.
+
+Listo el script para ver el perfil de los usuarios está terminado, ahora ve al siguiente script [b]Registro de usuarios 5 - Mensajes[/b].
+
+Para cualquier duda pueden entrar en el foro.

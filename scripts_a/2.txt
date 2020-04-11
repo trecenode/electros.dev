@@ -1,0 +1,44 @@
+[b]Novedad:[/b] He modificado el script cambiando algunas variables por variables superglobales, esto es con el fin de que sea compatible en la mayoría de las versiones de PHP (no importa si tienes Register_globals On o Off).
+
+Este tutorial es muy sencillo simplemente se utilizará un sólo archivo llamado usuariosenlinea.php.
+
+Primero creamos la base de datos:
+
+[codigo]create table usuariosenlinea (
+ip varchar(15) not null,
+fecha int(10) unsigned not null,
+primary key (ip),
+index (fecha)
+)[/codigo] 
+
+Ahora creamos el archivo usuariosenlinea.php con el siguiente código:
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+$fecha = time() ;
+$ip = $_SERVER[REMOTE_ADDR] ;
+$tiempo = 10 ; // Tiempo máximo en el cual se considerará al usuario en línea en minutos.
+$tiempo = $fecha-$tiempo*60 ;
+mysql_query(&quot;delete from usuariosenlinea where fecha&lt;'$tiempo'&quot;) ;
+$con = mysql_query(&quot;select ip from usuariosenlinea where ip='$ip'&quot;) ;
+if(mysql_num_rows($con) == 0) {
+mysql_query(&quot;insert into usuariosenlinea (ip,fecha) values ('$ip','$fecha')&quot;) ;
+}
+else {
+mysql_query(&quot;update usuariosenlinea set fecha='$fecha' where ip='$ip'&quot;) ;
+}
+mysql_free_result($con) ;
+$con = mysql_query(&quot;select ip from usuariosenlinea&quot;) ;
+$usuariosenlinea = mysql_num_rows($con) ;
+mysql_free_result($con) ;
+mysql_close($conectar) ;
+?&gt;[/codigo]
+
+Por último debes colocar en todas las páginas de tu web el siguiente código:
+
+[codigo]&lt;?
+include(&quot;usuariosenlinea.php&quot;) ;
+echo &quot;Hay $usuariosenlinea usuarios en línea visitando la web.&quot; ;
+?&gt;[/codigo]
+
+Listo ya puedes saber el número de usuarios en línea en tu web.

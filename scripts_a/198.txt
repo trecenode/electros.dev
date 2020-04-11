@@ -1,0 +1,206 @@
+Esta es una mejora del sistema de mensajes privados del registro de usuarios, esta versión trae muchas mejoras que son las siguientes:
+
+- Ahora se permite un máximo de 1024 caractéres.
+- Podrás poner el número máximo de mensajes que podrá recibir cada usuario.
+- Se pueden borrar múltiples mensajes seleccionando las casillas correspondientes y haciendo click en &quot;Borrar&quot;.
+- Indicador de espacio utilizado por los mensajes.
+- Los mensajes están paginados por lo que es más facil desplazarse por todos los mensajes.
+
+Lo primero es cambiar el campo mensaje de la base de datos, para esto mete el siguiente código en el phpMyAdmin:
+
+[codigo]alter table mensajes change mensaje mensaje text not null[/codigo]
+
+Solamente sustituye el archivo mensajes.php con el siguiente código:
+
+[codigo]&lt;?
+include(&quot;ulogin.php&quot;) ;
+?&gt;
+&lt;p&gt;&lt;b&gt;Mensajes&lt;/b&gt;
+&lt;p&gt;Esta es tu bandeja de mensajes privados, para eliminar mensajes selecciona las casillas y después haz click en &quot;Borrar&quot;.
+&lt;?
+include(&quot;config.php&quot;) ;
+// Máximo de mensajes que se permitirán por usuario
+$maximo = 50 ;
+$resp = mysql_query(&quot;select id from mensajes where destinatario='$_COOKIE[unick]'&quot;) ;
+$mensajes = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+$porcentaje = round($mensajes/$maximo,2) * 100 ;
+if($mensajes &lt; ($maximo - 5)) {
+$barra = &quot;#c0c0c0&quot; ;
+}
+else {
+$barra = &quot;#800000&quot; ;
+$aviso = &quot;&lt;b&gt;&lt;span style=&quot;color: #ff0000&quot;&gt;Atención:&lt;/span&gt;&lt;/b&gt; Te estás acercando al límite de almacenamiento, recuerda tener despejada la bandeja para poder seguir recibiendo mensajes.&quot; ;
+}
+if($porcentaje == 100) {
+$barra = &quot;#800000&quot; ;
+$aviso = &quot;&lt;b&gt;&lt;span style=&quot;color: #ff0000&quot;&gt;Atención:&lt;/span&gt;&lt;/b&gt; Tu bandeja se encuentra al máximo de almacenamiento, no podrás recibir mensajes hasta que te encuentres abajo del límite.&quot; ;
+}
+?&gt;
+&lt;p&gt;Espacio utilizado: &lt;b&gt;&lt;? echo $mensajes ?&gt;/&lt;? echo $maximo ?&gt; &lt;? echo $porcentaje ?&gt;%&lt;/b&gt;
+&lt;table width=&quot;100&quot; border=&quot;0&quot; cellpadding=&quot;1&quot; cellspacing=&quot;0&quot; style=&quot;border-color: #000000 ; border-width: 1 ; border-style: solid&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;table width=&quot;&lt;? echo $porcentaje ?&gt;%&quot; border=&quot;0&quot; cellpadding=&quot;0&quot; style=&quot;background: &lt;? echo $barra ?&gt;&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;? echo $aviso ?&gt;
+&lt;?
+if($mensaje == &quot;nuevo&quot;) {
+?&gt;
+&lt;script&gt;
+maximo = 1024 ;
+function caracteres() {
+if(formulario.mensaje.value.length &gt; maximo)
+formulario.mensaje.value = formulario.mensaje.value.substring(0,maximo) ;
+else
+formulario.contador.value = maximo - formulario.mensaje.value.length ; 
+}
+onload = caracteres ;
+&lt;/script&gt;
+&lt;p&gt;&lt;b&gt;Nuevo&lt;/b&gt;
+&lt;p&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;mensajes.php&quot;&gt;
+&lt;b&gt;Destinatario:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;destinatario&quot; maxlength=&quot;20&quot;&gt;&lt;br&gt;
+&lt;b&gt;Mensaje:&lt;/b&gt;&lt;br&gt;
+&lt;textarea name=&quot;mensaje&quot; cols=&quot;30&quot; rows=&quot;5&quot; onkeyup=&quot;caracteres()&quot;&gt;&lt;/textarea&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;contador&quot; size=&quot;3&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/form&gt;
+&lt;?
+}
+else {
+echo &quot;&lt;p&gt;&lt;a href=mensajes.php?mensaje=nuevo&gt;» Nuevo mensaje&lt;/a&gt;&quot; ;
+}
+if($responder) {
+?&gt;
+&lt;script&gt;
+maximo = 1024 ;
+function caracteres() {
+if(formulario.mensaje.value.length &gt; maximo)
+formulario.mensaje.value = formulario.mensaje.value.substring(0,maximo) ;
+else
+formulario.contador.value = maximo - formulario.mensaje.value.length ; 
+}
+onload = caracteres ;
+&lt;/script&gt;
+&lt;p&gt;&lt;b&gt;Responder&lt;/b&gt;
+&lt;p&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;mensajes.php&quot;&gt;
+&lt;b&gt;Destinatario:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;destinatario&quot; maxlength=&quot;20&quot; value=&quot;&lt;? echo $responder ?&gt;&quot;&gt;&lt;br&gt;
+&lt;b&gt;Mensaje:&lt;/b&gt;&lt;br&gt;
+&lt;textarea name=&quot;mensaje&quot; cols=&quot;30&quot; rows=&quot;5&quot; onkeyup=&quot;caracteres()&quot; style=&quot;font-family: verdana&quot;&gt;&lt;/textarea&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;contador&quot; size=&quot;3&quot; value=&quot;0&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/form&gt;
+&lt;?
+}
+if($borrar) {
+while(list($mensaje,$num) = each($_POST)) {
+if(ereg(&quot;^mensaje&quot;,$mensaje)) {
+mysql_query(&quot;delete from mensajes where id='$num' and destinatario='$_COOKIE[unick]'&quot;) ;
+}
+}
+echo &quot;&lt;p&gt;Los mensajes han sido borrados con éxito. Haz click &lt;a href=&quot;mensajes.php&quot;&gt;aquí&lt;/a&gt; para regresar.&quot; ;
+}
+else {
+if($enviar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$fecha = time() - 25200 ;
+$destinatario = quitar($destinatario) ;
+$mensaje = quitar($mensaje) ;
+$resp = mysql_query(&quot;select id from usuarios where nick='$destinatario'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+if(mysql_num_rows($resp) == 0) {
+echo &quot;&lt;p&gt;Este usuario no existe en la base de datos. Haz click &lt;a href=javascript:history.back()&gt;aquí&lt;/a&gt; para regresar.&quot;;
+}
+else {
+// Comprobar máximo mensajes
+// --&gt; Inicio
+$resp = mysql_query(&quot;select id from mensajes where destinatario='$destinatario'&quot;) ;
+$mensajes = mysql_num_rows($resp) ;
+if($mensajes &lt; $maximo) {
+mysql_query(&quot;insert into mensajes (fecha,destinatario,remitente,mensaje) values ('$fecha','$destinatario','$_COOKIE[unick]','$mensaje')&quot;) ;
+echo &quot;&lt;p&gt;El mensaje ha sido enviado con éxito. Haz click &lt;a href=&quot;mensajes.php&quot;&gt;aquí&lt;/a&gt; para regresar.&quot; ;
+}
+else {
+echo &quot;
+&lt;p&gt;La bandeja de este usuario ha superado el límite.
+&lt;p&gt;No se pudo entregar el siguiente mensaje:
+&lt;p&gt;$mensaje
+&quot; ;
+}
+}
+// --&gt; Fin
+mysql_free_result($resp) ;
+}
+else {
+$resp = mysql_query(&quot;select id from mensajes where destinatario='$_COOKIE[unick]'&quot;) ;
+$mensajes = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+$mostrar = 10 ;
+if(!$desde) { $desde = 0 ; }
+$resp = mysql_query(&quot;select * from mensajes where destinatario='$_COOKIE[unick]' order by id desc limit $desde,$mostrar&quot;) ;
+$desde = $desde + $mostrar ;
+if(mysql_num_rows($resp) == 0) { echo &quot;&lt;p&gt;No se encontraron mensajes.&quot; ; }
+else {
+?&gt;
+&lt;p&gt;&lt;b&gt;Total de mensajes:&lt;/b&gt; &lt;? echo $mensajes ?&gt;
+&lt;p&gt;
+&lt;form method=&quot;post&quot; action=&quot;mensajes.php&quot;&gt;
+&lt;input type=&quot;submit&quot; name=&quot;borrar&quot; value=&quot;Borrar&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;?
+while($datos = mysql_fetch_array($resp)) {
+$fecha = $datos[fecha] ;
+$mesesano = array(&quot;Ene&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Abr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Ago&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dic&quot;) ;
+$diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ; $hora = date(&quot;h:i A&quot;,$fecha) ;
+$fecha = &quot;$diames $mesesano[$mesano] $ano $hora&quot; ;
+$datos[mensaje] = str_replace(&quot;rn&quot;,&quot;&lt;br&gt;&quot;,$datos[mensaje]) ;
+?&gt;
+&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellpadding=&quot;1&quot; cellspacing=&quot;0&quot; style=&quot;border: #000000 1 solid ; background: #dddddd&quot;&gt;
+&lt;tr&gt;
+&lt;td width=&quot;10%&quot;&gt;&lt;b&gt;&lt;? echo $datos[remitente] ?&gt;&lt;/b&gt;&lt;/td&gt;
+&lt;td width=&quot;90%&quot;&gt;&lt;div align=&quot;right&quot;&gt;&lt;b&gt;&lt;? echo $fecha ?&gt;&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td valign=&quot;top&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;input type=&quot;checkbox&quot; name=&quot;mensaje&lt;? echo $datos[id] ?&gt;&quot; value=&quot;&lt;? echo $datos[id] ?&gt;&quot;&gt;&lt;/div&gt;&lt;/td&gt;
+&lt;td valign=&quot;top&quot;&gt;&lt;? echo $datos[mensaje] ?&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan=&quot;2&quot;&gt;
+&lt;div align=&quot;right&quot;&gt;
+&lt;a href=&quot;mensajes.php?responder=&lt;? echo $datos[remitente] ?&gt;&quot;&gt;» Responder&lt;/a&gt;
+&lt;/div&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;&lt;br&gt;
+&lt;?
+if($datos[nuevo] == 0) {
+mysql_query(&quot;update mensajes set nuevo='1' where id='$datos[id]'&quot;) ;
+}
+}
+?&gt;
+&lt;input type=&quot;submit&quot; name=&quot;borrar&quot; value=&quot;Borrar&quot;&gt;
+&lt;/form&gt;
+&lt;?
+echo &quot;
+&lt;p align=&quot;right&quot;&gt;&lt;a href=&quot;mensajes.php?desde=$desde&quot;&gt;» Siguientes $mostrar mensajes&lt;/a&gt;
+&quot; ;
+}
+mysql_free_result($resp) ;
+}
+}
+?&gt;[/codigo]
+
+Para cualquier duda pueden dejar sus comentarios y sugerencias aquí y en el foro.

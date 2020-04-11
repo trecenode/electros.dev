@@ -1,0 +1,13 @@
+Bien aquí está la versión mas reciente de mi Tagboard PHP sin mysql.
+Pueden probarlo desde:
+http://raymondjavaxx.webcindario.com/pruebas/ndb1.3/ejemplo_de_instalacion.htm
+
+Nuevo de esta versión:
+-Nuevas mejoras de seguridad.
+-Mensajes limitados a cierta cantidad de caracteres.
+-Librería de emoticonos[smlies, smiles, caretos] propia diseñada por &quot;Lestad&quot; Augusto García Rios.
+
+Ademas de las anteriores caracteristicas:
+-Censura de palabras.
+-Apariencia modificable mediante CSS.
+-Smiles.

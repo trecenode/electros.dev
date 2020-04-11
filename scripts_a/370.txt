@@ -1,0 +1,271 @@
+Saludos amigos!
+
+Este script es muy pedido para las webs, pues bueno aqui esta el Rbackup (creacion, modificacion y adaptacion mia)
+
+Les dejo el codigo aqui y lo pongo para bajar, entren a etececlub.com, para bajarse este y otros codigos muy pronto:
+
+
+Nombre del Archivo: Backup.php
+[codigo]
+&lt;?php
+
+/************************************************************************/
+/* Modifica estas lineas para que el archivo respalde tu BD             */
+/* Creado por Renzo Zamora, visita: www.etececlub.com                   */
+/************************************************************************/
+
+$dbhost = &quot;localhost&quot;;
+$dbuser = &quot;usuario&quot;;
+$dbpass = &quot;clave&quot;;
+$dbname = &quot;tabla&quot;;
+//$dbname = &quot;nuke_completo7_0&quot;;
+$prefix = &quot;&quot;;
+$user_prefix = &quot;&quot;;
+$dbtype = &quot;MySQL&quot;;
+$sitekey = &quot;SdFk*fa28367-dm56w69.3a2fDS+e9&quot;;
+$gfx_chk = 7;
+
+
+$administrador = &quot;nick&quot; ; //cambia nick por tu nick de admin
+if($HTTP_COOKIE_VARS[unick] == &quot;$administrador&quot;) {
+
+//    switch($op) {
+    
+//        case &quot;backup&quot;:
+        @set_time_limit(600);
+        $crlf=&quot;\n&quot;;
+
+        switch($lang)
+        {
+            case french : 
+                // French Text
+                $strNoTablesFound    = &quot;Aucune table n'a été trouvée dans cette base.&quot;;
+                $strHost        = &quot;Serveur&quot;;
+                $strDatabase        = &quot;Base de données&quot;;
+                $strTableStructure    = &quot;Structure de la table&quot;;
+                $strDumpingData        = &quot;Contenu de la table&quot;;
+                $strError        = &quot;Erreur&quot;;
+                $strSQLQuery        = &quot;requête SQL&quot;;
+                $strMySQLSaid        = &quot;MySQL a répondu:&quot;;
+                $strBack        = &quot;Retour&quot;;
+                $strFileName        = &quot;Sauvegarde BD&quot;;
+                $strName        = &quot;Sauvegarde de la base de données&quot;;
+                $strDone        = &quot;effectuée le&quot;;
+                $strat            = &quot;à&quot;;
+                $strby            = &quot;par&quot;;
+                $date_jour = date (&quot;d-m-Y&quot;);
+                break;
+                
+            default : 
+                // English Text    
+                $strNoTablesFound = &quot;No tables found in database.&quot;;
+                $strHost = &quot;Host&quot;;
+                $strDatabase = &quot;Database &quot;;
+                $strTableStructure = &quot;Table structure for table&quot;;
+                $strDumpingData = &quot;Dumping data for table&quot;;
+                $strError = &quot;Error&quot;;
+                $strSQLQuery = &quot;SQL-query&quot;;
+                $strMySQLSaid = &quot;MySQL said: &quot;;
+                $strBack = &quot;Back&quot;;
+                $strFileName = &quot;Save Database&quot;;
+                $strName = &quot;Database saved&quot;;
+                $strDone = &quot;On&quot;;
+                $strat = &quot;at&quot;;
+                $strby = &quot;by&quot;;
+                $date_jour = date (&quot;m-d-Y&quot;);        
+                break;
+        }
+        
+        header(&quot;Content-disposition: filename=$strFileName $dbname $date_jour.sql&quot;);
+        header(&quot;Content-type: application/octetstream&quot;);
+        header(&quot;Pragma: no-cache&quot;);
+        header(&quot;Expires: 0&quot;);
+        
+        // doing some DOS-CRLF magic...
+        $client = $_SERVER[&quot;HTTP_USER_AGENT&quot;];
+        if(ereg('[^(]*\((.*)\)[^)]*',$client,$regs)) 
+        {
+        $os = $regs[1];
+        // this looks better under WinX
+        if (eregi(&quot;Win&quot;,$os)) 
+            $crlf=&quot;\r\n&quot;;
+        }
+        
+        
+        function my_handler($sql_insert)
+        {
+            global $crlf;
+            echo &quot;$sql_insert;$crlf&quot;;
+        }
+        
+        // Get the content of $table as a series of INSERT statements.
+        // After every row, a custom callback function $handler gets called.
+        // $handler must accept one parameter ($sql_insert);
+        function get_table_content($db, $table, $handler)
+        {
+            $result = mysql_db_query($db, &quot;SELECT * FROM $table&quot;) or mysql_die();
+            $i = 0;
+            while($row = mysql_fetch_row($result))
+            {
+        //        set_time_limit(60); // HaRa
+                $table_list = &quot;(&quot;;
+        
+                for($j=0; $j&lt;mysql_num_fields($result);$j++)
+                    $table_list .= mysql_field_name($result,$j).&quot;, &quot;;
+        
+                $table_list = substr($table_list,0,-2);
+                $table_list .= &quot;)&quot;;
+        
+                if(isset($GLOBALS[&quot;showcolumns&quot;]))
+                    $schema_insert = &quot;INSERT INTO $table $table_list VALUES (&quot;;
+                else
+                    $schema_insert = &quot;INSERT INTO $table VALUES (&quot;;
+        
+                for($j=0; $j&lt;mysql_num_fields($result);$j++)
+                {
+                    if(!isset($row[$j]))
+                        $schema_insert .= &quot; NULL,&quot;;
+                    elseif($row[$j] != &quot;&quot;)
+                        $schema_insert .= &quot; '&quot;.addslashes($row[$j]).&quot;',&quot;;
+                    else
+                        $schema_insert .= &quot; '',&quot;;
+                }
+                $schema_insert = ereg_replace(&quot;,$&quot;, &quot;&quot;, $schema_insert);
+                $schema_insert .= &quot;)&quot;;
+                $handler(trim($schema_insert));
+                $i++;
+            }
+            return (true);
+        }
+        
+        // Return $table's CREATE definition
+        // Returns a string containing the CREATE statement on success
+        function get_table_def($db, $table, $crlf)
+        {
+            $schema_create = &quot;&quot;;
+            //$schema_create .= &quot;DROP TABLE IF EXISTS $table;$crlf&quot;;
+            $schema_create .= &quot;CREATE TABLE $table ($crlf&quot;;
+        
+            $result = mysql_db_query($db, &quot;SHOW FIELDS FROM $table&quot;) or mysql_die();
+            while($row = mysql_fetch_array($result))
+            {
+                $schema_create .= &quot;   $row[Field] $row[Type]&quot;;
+        
+                if(isset($row[&quot;Default&quot;]) &amp;&amp; (!empty($row[&quot;Default&quot;]) || $row[&quot;Default&quot;] == &quot;0&quot;))
+                    $schema_create .= &quot; DEFAULT '$row[Default]'&quot;;
+                if($row[&quot;Null&quot;] != &quot;YES&quot;)
+                    $schema_create .= &quot; NOT NULL&quot;;
+                if($row[&quot;Extra&quot;] != &quot;&quot;)
+                    $schema_create .= &quot; $row[Extra]&quot;;
+                $schema_create .= &quot;,$crlf&quot;;
+            }
+            $schema_create = ereg_replace(&quot;,&quot;.$crlf.&quot;$&quot;, &quot;&quot;, $schema_create);
+            $result = mysql_db_query($db, &quot;SHOW KEYS FROM $table&quot;) or mysql_die();
+            while($row = mysql_fetch_array($result))
+            {
+                $kname=$row['Key_name'];
+                if(($kname != &quot;PRIMARY&quot;) &amp;&amp; ($row['Non_unique'] == 0))
+                    $kname=&quot;UNIQUE|$kname&quot;;
+                 if(!isset($index[$kname]))
+                     $index[$kname] = array();
+                 $index[$kname][] = $row['Column_name'];
+            }
+        
+            while(list($x, $columns) = @each($index))
+            {
+                 $schema_create .= &quot;,$crlf&quot;;
+                 if($x == &quot;PRIMARY&quot;)
+                     $schema_create .= &quot;   PRIMARY KEY (&quot; . implode($columns, &quot;, &quot;) . &quot;)&quot;;
+                 elseif (substr($x,0,6) == &quot;UNIQUE&quot;)
+                    $schema_create .= &quot;   UNIQUE &quot;.substr($x,7).&quot; (&quot; . implode($columns, &quot;, &quot;) . &quot;)&quot;;
+                 else
+                    $schema_create .= &quot;   KEY $x (&quot; . implode($columns, &quot;, &quot;) . &quot;)&quot;;
+            }
+        
+            $schema_create .= &quot;$crlf)&quot;;
+            return (stripslashes($schema_create));
+        }
+        
+        function mysql_die($error = &quot;&quot;)
+        {
+            echo &quot;&lt;b&gt; $strError &lt;/b&gt;&lt;p&gt;&quot;;
+            if(isset($sql_query) &amp;&amp; !empty($sql_query))
+            {
+                echo &quot;$strSQLQuery: &lt;pre&gt;$sql_query&lt;/pre&gt;&lt;p&gt;&quot;;
+            }
+            if(empty($error))
+                echo $strMySQLSaid.mysql_error();
+            else
+                echo $strMySQLSaid.$error;
+            echo &quot;&lt;br&gt;&lt;a href=\&quot;javascript:history.go(-1)\&quot;&gt;$strBack&lt;/a&gt;&quot;;
+            exit;
+        }
+        
+        global $dbhost, $dbuser, $dbpass, $dbname;
+        mysql_pconnect($dbhost, $dbuser, $dbpass);
+        @mysql_select_db(&quot;$dbname&quot;) or die (&quot;Unable to select database&quot;);
+        
+        $tables = mysql_list_tables($dbname);
+        
+        $num_tables = @mysql_numrows($tables);
+        if($num_tables == 0)
+        {
+            echo $strNoTablesFound;
+        }
+        else
+        {
+            $i = 0;
+            $heure_jour = date (&quot;H:i&quot;);
+            print &quot;# ========================================================$crlf&quot;;
+            print &quot;#$crlf&quot;;
+            print &quot;# $strName : $dbname$crlf&quot;;
+            print &quot;# $strDone $date_jour $strat $heure_jour $strby $name !$crlf&quot;;
+            print &quot;#$crlf&quot;;
+            print &quot;# ========================================================$crlf&quot;;
+            print &quot;$crlf&quot;;
+            
+            while($i &lt; $num_tables)
+            { 
+                $table = mysql_tablename($tables, $i);
+        
+                print $crlf;
+                print &quot;# --------------------------------------------------------$crlf&quot;;
+                print &quot;#$crlf&quot;;
+                print &quot;# $strTableStructure '$table'$crlf&quot;;
+                print &quot;#$crlf&quot;;
+                print $crlf;
+        
+                echo get_table_def($dbname, $table, $crlf).&quot;;$crlf$crlf&quot;;
+                
+            print &quot;#$crlf&quot;;
+            print &quot;# $strDumpingData '$table'$crlf&quot;;
+            print &quot;#$crlf&quot;;
+            print $crlf;
+            
+            get_table_content($dbname, $table, &quot;my_handler&quot;);
+        
+                $i++;
+            }
+        }
+        
+        //Header(&quot;Location: admin.php?op=adminMain&quot;);
+//        break;
+
+    }
+
+            
+ else {
+    echo &quot;Access Denied&quot;;
+}
+
+?&gt;[/codigo]
+
+Para que funcione en su PANEL DE ADMINISTRACION en ElectrosNuke, no lo coloquen asi:
+[codigo]
+&lt;a href=&quot;index.php?id=backup&quot;&gt;Respaldar base de datos&lt;/a&gt;
+[/codigo]
+
+Coloquenlo asi:
+[codigo]
+&lt;a href=&quot;backup.php&quot;&gt;Respaldar base de datos&lt;/a&gt;
+[/codigo]

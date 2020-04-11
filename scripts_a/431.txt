@@ -1,0 +1,1 @@
+Este es mi sistema de paginacion para MySQL. Permite usar cualquier consulta SQL y es compatible con las webs q usen urls del tipo index.php?algo=loqea o index.php?algo=lo_q_sea&amp;algomas=todo\r\nEn el zip esta la clase asi como un ejemplo y un txt con las variables y funciones para usar.\r\nespero q os guste.

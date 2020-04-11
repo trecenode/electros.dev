@@ -1,0 +1,36 @@
+Con esta funcion podremos saber el tiempo que ha transcurrido desde una fecha en formato UNIX (los segundos que han pasado desde el 01/01/1970) que le pasamos como argumento. La fecha puede estar guardada en un archivo de texto o en una base de datos, pero siempre cogiendola con la funcion time() ( http://www.php.net/manual/es/function.time.php ), que directamente nos guarda la fecha actual en formato UNIX.
+
+[codigo]&lt;? 
+function hace($dato) { 
+    $actual = time() ; 
+    $transcurrido = $actual - $dato ; 
+    if ($transcurrido &gt;= (3600 * 24 * 365)) { 
+        $med = &quot;año/s&quot; ; 
+        $fecha = round($transcurrido / (3600 * 24 * 365)) ; 
+    } else if ($transcurrido &gt;= (3600 * 24 * 30)) { 
+        $med = &quot;mes/es&quot; ; 
+        $fecha = round($transcurrido / (3600 * 24 * 30)) ; 
+    } else if ($transcurrido &gt;= (3600 * 24 * 7)) { 
+        $med = &quot;sem&quot; ; 
+        $fecha = round($transcurrido / (3600 * 24 * 7)) ; 
+    } else if ($transcurrido &gt;= (3600 * 24)) { 
+        $med = &quot;dia/s&quot; ; 
+        $fecha = round($transcurrido / (3600 * 24)) ; 
+    } else if ($transcurrido &gt;= 3600) { 
+        $med = &quot;hora/s&quot; ; 
+        $fecha = round($transcurrido / 3600) ; 
+    } else if ($transcurrido &gt;= 60) { 
+        $med = &quot;min&quot; ; 
+        $fecha = round($transcurrido / 60) ; 
+    } else { 
+        $med = &quot;seg&quot; ; 
+        $fecha = $transcurrido ; 
+    } 
+    return &quot;hace&amp;nbsp;$fecha$med&quot; ; 
+} 
+?&gt;[/codigo]
+Para mostrarlo en pantalla, lo que hacemos es:
+
+[codigo]&lt;? 
+echo hace($fecha_a_formatear); 
+?&gt;[/codigo]

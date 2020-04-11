@@ -1,0 +1,4 @@
+[b]Bueno este es el sistema de descargas que uso en mi web, me gustarìa ke lo probaran y vean que tal si les gusta o no les gusta[/b]
+El sistema se basa en 2 tablas de mysql una para las descargas y otra para las categorías donde el valor en comun es ke la id de la tabla de categorias es la categoria de las descargas en sí no tiene mucha cienci ademas de que es un script muy básico sólo se ocupan dos archivos y le puedes agregar todas las categorias que quieras desde internet
+pueden ver como funciona pulsando [url=http://psicosis.webcindario.com/index.php?id=descargas]aquí[/url]
+espero que les guste.

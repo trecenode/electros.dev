@@ -1,0 +1,22 @@
+[b]Poniendo un simple escaneador de puertos en tu web. [/b]
+
+Si no creias que se podia hacer un simple escaneador de puertos en PHP, aqui ya lo tienes... Para que veas, en sencillimo pero funcional.
+
+[codigo]
+ &lt;? 
+$host = &quot;http://electros.iefactory.com&quot;; 
+for($i=0;$i&lt;500;$i++) { 
+    $fp = fsockopen($host,$i,$errno,$errstr,10); 
+    if($fp) 
+    { 
+        echo &quot;port &quot; . $i . &quot; open on &quot; . $host . &quot;n&quot;; 
+        fclose($fp); 
+    } 
+    else 
+    { 
+        echo &quot;port &quot; . $i . &quot; closed on &quot; . $host . &quot;n&quot;; 
+    } 
+    flush(); 
+} //Aqui acaba el for
+?&gt;  
+[/codigo]

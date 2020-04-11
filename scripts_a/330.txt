@@ -1,0 +1,107 @@
+Bueno este script lo que hace es trabajar con archivos (Mostrar Archivos de Directorio, Dar Permisos chmod 777 algun archivo, renombrar archivo, eliminar archivos)
+
+Pongo el codigo y luego le explico como usarlo
+[b]class.php[/b]
+[codigo]&lt;?
+//Script By Berna
+class Dir {
+var $path;
+var $chmod;
+var $rename;
+var $eliminar;
+
+           function Dir($directory) {
+           if (file_exists($directory)) {
+           $this-&gt;path=$directory;
+           } else {
+           $this-&gt;error(1);
+           }
+           }
+
+           function Show() {
+           $dir = @opendir($this-&gt;path);
+
+           $i = 0;
+           echo &quot;&lt;table border='0' width='20%'&gt;&lt;tr&gt;&quot;;
+           while ($file = @readdir($dir)){
+           $i++;
+
+           if ($i==1) {
+           $color = &quot;#FAFAFA&quot;;
+           } else {
+           $color = &quot;#F0F0F0&quot;;
+           } 
+           if ($i==2) {
+           $i = 0;
+           }
+
+           echo &quot;&lt;td bgcolor=$color&gt;&lt;font face='verdana' style='font-size:11px'&gt;$file&lt;/td&gt;&lt;/tr&gt;&quot;;
+           }
+           echo &quot;&lt;/table&gt;&quot;;
+           }
+
+           function chmod($dir){
+           $this-&gt;chmod=$dir;
+           $directorio = &quot;$this-&gt;path&quot;.&quot;$dir&quot;;
+           if (file_exists($directorio)) {
+           $permisos = @mkdir($dir, 0777);
+           if (!$permisos) {
+           $this-&gt;error(&quot;2&quot;);
+           }
+           } else {
+           $this-&gt;error(&quot;1&quot;);
+           }
+           }
+
+           function Renombrar($old,$new) {
+           $this-&gt;rename=$old;
+           if (file_exists($old)){
+           $rename = &quot;$this-&gt;path&quot;.&quot;$old&quot;;
+           $ren = @rename($rename,&quot;$this-&gt;path&quot;.&quot;$new&quot;);
+           if (!$ren) {
+           $this-&gt;error(&quot;3&quot;);
+           }
+           } else {
+           $this-&gt;error(&quot;1&quot;);
+           }
+           }
+
+           function Delete($dir){
+           $this-&gt;eliminar=$dir;
+           $directorio = &quot;$this-&gt;path&quot;.&quot;$dir&quot;;
+           if (file_exists($directorio)) {
+           $eliminar = @unlink($directorio);
+           if (!$eliminar) {
+           $this-&gt;error(&quot;4&quot;);
+           }
+           } else {
+           $this-&gt;error(&quot;1&quot;);
+           }
+           }
+
+           function error($error) {
+           switch ($error) {
+           case 1: echo &quot;&lt;b&gt;Error: Ese archivo o directorio no existe&lt;/b&gt;&lt;br&gt;&quot;; break;
+           case 2: echo &quot;&lt;b&gt;Error: Imposible dar permisos 777 : &lt;font color='red'&gt;$this-&gt;chmod&lt;/font&gt;&lt;/b&gt;&lt;br&gt;&quot;; break;
+           case 3: echo &quot;&lt;b&gt;Error: Imposible renombrar : &lt;font color='red'&gt; $this-&gt;rename &lt;/font&gt;&lt;/b&gt;&lt;br&gt;&quot;; break;
+           case 4: echo &quot;&lt;b&gt;Error: Imposible borrar : &lt;font color='red'&gt; $this-&gt;eliminar &lt;/font&gt;&lt;/b&gt;&lt;br&gt;&quot;; break;
+           }
+           }
+
+}
+?&gt;[/codigo]
+
+Bueno eso lo guardan como class.php por ejemplo.
+Luego hacen esto:
+
+Archivo.php
+[codigo]&lt;?
+//Script By Berna
+include(&quot;class.php&quot;);
+
+$dir = new Dir(&quot;imagenes/&quot;); // Abrimos Directorio y empezamos la clase
+$dir-&gt;Show(); //mostramos archivos
+$dir-&gt;chmod(&quot;archivo&quot;); //Damos los permisos chmod 777
+$dir-&gt;Renombrar(&quot;Archivo a renombrar&quot;,&quot;Nuevo Nombre&quot;); //Simplemente renombra el archivo, en algunos servidores es necesario darle permisos 777
+$dir-&gt;Delete(&quot;archivo&quot;);
+?&gt;[/codigo]

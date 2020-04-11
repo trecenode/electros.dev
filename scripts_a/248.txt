@@ -1,0 +1,8 @@
+Este es un pekeño y sencillo script de una agenda telefonica..
+
+solo utiliza 2 archivos de texto..
+uno para los nombres y otro para los telefonos..
+
+esta muy sencillo.. ustedes podrian modificarlo y agregarle cosas...
+
+[script creado por daga§ - http://dagasmx.tk]

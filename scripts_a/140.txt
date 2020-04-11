@@ -1,0 +1,172 @@
+bueno aunque a muchos les parecera que no tiene utilidad y esta un poco pesadito pero como quiera se los posteo para quien le pueda servir y ahorrar un poco de espacio
+es sencillisimo
+
+primero tienes que tener estas tablas yo creo que la mayoria ya las tiene pero bueno aqui estan
+
+CREATE TABLE `uenlineareg` (
+  `usuario` varchar(20) NOT NULL default '',
+  `fecha` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`usuario`),
+  KEY `fecha` (`fecha`)
+) TYPE=MyISAM;
+
+CREATE TABLE `uenlineavis` (
+  `ip` varchar(15) NOT NULL default '',
+  `fecha` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`ip`),
+  KEY `fecha` (`fecha`)
+) TYPE=MyISAM;
+
+
+primero este archivo de electros
+[b]uenlinea.php[/b]
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+$fecha = time() ;
+// Tiempo en el cuál se considerará al usuario en línea en minutos
+$tiempo = 10 ;
+// Se le resta el tiempo en minutos a la fecha actual
+$tiempo = $fecha-$tiempo*60 ;
+$ip = $REMOTE_ADDR ;
+$usuario = $_COOKIE[&quot;unick&quot;] ;
+// Se eliminan las fechas que sean menores al tiempo límite
+mysql_query(&quot;delete FROM uenlineavis where fecha &lt; $tiempo&quot;) ;
+mysql_query(&quot;delete FROM uenlineareg where fecha &lt; $tiempo&quot;) ;
+// Para los usuarios no registrados
+$resp = mysql_query(&quot;select ip FROM uenlineavis where ip='$ip'&quot;) ;
+if(mysql_num_rows($resp) == 0) {
+mysql_query(&quot;insert INTO uenlineavis values ('$ip','$fecha')&quot;) ;
+}
+else {
+mysql_query(&quot;update uenlineavis set fecha='$fecha' where ip='$ip'&quot;) ;
+}
+mysql_free_result($resp) ;
+// Para los usuarios registrados
+if($_COOKIE[&quot;unick&quot;]) {
+$resp = mysql_query(&quot;select usuario FROM uenlineareg where usuario='$usuario'&quot;) ;
+if(mysql_num_rows($resp) == 0) {
+mysql_query(&quot;insert INTO uenlineareg values ('$usuario','$fecha')&quot;) ;
+}
+else {
+mysql_query(&quot;update uenlineareg set fecha='$fecha' where usuario='$usuario'&quot;) ;
+}
+mysql_free_result($resp) ;
+}
+// Se obtiene el número de usuarios en línea
+$resp = mysql_query(&quot;select ip FROM uenlineavis&quot;) ;
+// Número de usuarios
+$usuarios = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+$resp = mysql_query(&quot;select usuario FROM uenlineareg&quot;) ;
+// Número de registrados
+$registrados = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+// Número de anonimos
+$anonimos = $usuarios - $registrados ;
+// Se obtiene el nick de los usuarios que se encuentran en línea
+$resp = mysql_query(&quot;select usuario FROM uenlineareg&quot;) ;
+if(mysql_num_rows($resp) != 0) {
+$renlinea = &quot;&quot; ;
+while($datos = mysql_fetch_array($resp)) {
+$renlinea = &quot; &lt;a href=mensajes.php?responder=$datos[usuario]&gt;$datos[usuario]&lt;/a&gt;&quot; ;
+}
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt; [/codigo]
+
+[b]marquesina.php[/b] o como quieras ponerle aqui viene el javascripts
+
+[codigo]
+&lt;?php include(&quot;uenlinea.php&quot;); ?&gt;
+&lt;script language=&quot;JavaScript1.2&quot;&gt;
+/*
+Cross browser Marquee script- © Dynamic Drive 
+For full source code, 100's more DHTML scripts, and Terms Of Use, visit 
+Credit MUST stay intact
+*/
+//ANCHO EN PIXELES
+var marqueewidth=&quot;300px&quot;
+//ALTO EN PIXELES
+var marqueeheight=&quot;25px&quot;
+//VELOCIDAD DEL 1-10
+var marqueespeed=1
+//color de fondo
+var marqueebgcolor=&quot;#FFFFFF&quot;
+//ACTIVAR PAUSA (0=no. 1=si)?
+var pauseit=1
+
+//Specify the marquee's content (don't delete &lt;nobr&gt; tag)
+//Keep all content on ONE line, and backslash any single quotations (ie: that's great):
+
+var marqueecontent='&lt;?=$renlinea?&gt;' //aqui pones el contenido que quieras en este caso solo los que estan en linea
+
+
+////NO NEED TO EDIT BELOW THIS LINE////////////
+marqueespeed=(document.all)? marqueespeed : Math.max(1, marqueespeed-1) //slow speed down by 1 for NS
+var copyspeed=marqueespeed
+var pausespeed=(pauseit==0)? copyspeed: 0
+var iedom=document.all||document.getElementById
+if (iedom)
+document.write('&lt;span id=&quot;temp&quot; style=&quot;visibility:hidden;position:absolute;top:-100px;left:-9000px&quot;&gt;'+marqueecontent+'&lt;/span&gt;')
+var actualwidth=''
+var cross_marquee, ns_marquee
+
+function populate(){
+if (iedom){
+cross_marquee=document.getElementById? document.getElementById(&quot;iemarquee&quot;) : document.all.iemarquee
+cross_marquee.style.left=parseInt(marqueewidth)+8+&quot;px&quot;
+cross_marquee.innerHTML=marqueecontent
+actualwidth=document.all? temp.offsetWidth : document.getElementById(&quot;temp&quot;).offsetWidth
+}
+else if (document.layers){
+ns_marquee=document.ns_marquee.document.ns_marquee2
+ns_marquee.left=parseInt(marqueewidth)+8
+ns_marquee.document.write(marqueecontent)
+ns_marquee.document.close()
+actualwidth=ns_marquee.document.width
+}
+lefttime=setInterval(&quot;scrollmarquee()&quot;,20)
+}
+window.onload=populate
+
+function scrollmarquee(){
+if (iedom){
+if (parseInt(cross_marquee.style.left)&gt;(actualwidth*(-1)+8))
+cross_marquee.style.left=parseInt(cross_marquee.style.left)-copyspeed+&quot;px&quot;
+else
+cross_marquee.style.left=parseInt(marqueewidth)+8+&quot;px&quot;
+
+}
+else if (document.layers){
+if (ns_marquee.left&gt;(actualwidth*(-1)+8))
+ns_marquee.left-=copyspeed
+else
+ns_marquee.left=parseInt(marqueewidth)+8
+}
+}
+
+if (iedom||document.layers){
+with (document){
+document.write('&lt;table border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;&lt;td&gt;')
+if (iedom){
+write('&lt;div style=&quot;position:relative;width:'+marqueewidth+';height:'+marqueeheight+';overflow:hidden&quot;&gt;')
+write('&lt;div style=&quot;position:absolute;width:'+marqueewidth+';height:'+marqueeheight+';background-color:'+marqueebgcolor+'&quot; onMouseover=&quot;copyspeed=pausespeed&quot; onMouseout=&quot;copyspeed=marqueespeed&quot;&gt;')
+write('&lt;div id=&quot;iemarquee&quot; style=&quot;position:absolute;left:0px;top:0px&quot;&gt;&lt;/div&gt;')
+write('&lt;/div&gt;&lt;/div&gt;')
+}
+else if (document.layers){
+write('&lt;ilayer width='+marqueewidth+' height='+marqueeheight+' name=&quot;ns_marquee&quot; bgColor='+marqueebgcolor+'&gt;')
+write('&lt;layer name=&quot;ns_marquee2&quot; left=0 top=0 onMouseover=&quot;copyspeed=pausespeed&quot; onMouseout=&quot;copyspeed=marqueespeed&quot;&gt;&lt;/layer&gt;')
+write('&lt;/ilayer&gt;')
+}
+document.write('&lt;/td&gt;&lt;/table&gt;')
+}
+}
+&lt;/script&gt;
+
+[/codigo]
+
+bueno yo se que se pude hacer conseguir esto con tan solo una linea como esta &lt;marquee&gt;&lt;?=$renlinea?&gt;&lt;/marquee&gt; pero quien lo para xD 
+bueno y eso es todo

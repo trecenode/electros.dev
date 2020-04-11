@@ -1,0 +1,84 @@
+Aqui les dejo una funcion para llenar un select desde una base de datos
+puedes guardar este codigo en un archivo llamado [b]localidades.php[/b] para que lo pruebes
+
+[codigo]
+&lt;?php
+include(&quot;config.php&quot;);
+
+#********************************************************************************
+function Localidades(){
+	$sql = &quot;SELECT * FROM tbllocalidades ORDER BY localidad;&quot;;
+	$resultado = mysql_query($sql) or die(&quot;No se realizo la consulta&quot;);
+	#se inicia el select
+	echo &quot;&lt;SELECT NAME=&quot;localidades&quot;&gt;&quot;;
+    echo &quot;&lt;option value=&quot;0&quot; selected&gt;--- Escoge una localidad ---&lt;/option&gt;n&quot;;
+	#aqui se llena el select
+	while($fila = mysql_fetch_array($resultado)){
+		echo &quot;&lt;option value=&quot;&quot;.$fila[&quot;id_localidad&quot;].&quot;&quot;&gt;&quot;;
+		echo $fila[&quot;localidad&quot;].&quot;&lt;/option&gt;n&quot;;
+    }#end while
+	echo &quot;&lt;/SELECT&gt;&quot;;
+	#termina el select
+	mysql_close($conectar);
+}
+#*********************************************************************************
+#se hace uso de la funcion
+echo &quot;Mexico: n&quot;;
+Localidades();
+?&gt;
+[/codigo]
+
+Esta es la tabla con todo y datos para que hagas la prueba en tu BD
+
+[b]tbllocalidades.sql[/b]
+[codigo]
+#
+# Estructura de tabla para la tabla `tbllocalidades`
+#
+
+CREATE TABLE tbllocalidades (
+  id_localidad char(2) NOT NULL default '',
+  localidad varchar(25) NOT NULL default '',
+  PRIMARY KEY  (id_localidad)
+) TYPE=MyISAM;
+
+#
+# Volcar la base de datos para la tabla `tbllocalidades`
+#
+
+INSERT INTO tbllocalidades VALUES ('1', 'Aguascalientes');
+INSERT INTO tbllocalidades VALUES ('2', 'B.California Norte');
+INSERT INTO tbllocalidades VALUES ('3', 'B.California Sur');
+INSERT INTO tbllocalidades VALUES ('4', 'Campeche');
+INSERT INTO tbllocalidades VALUES ('5', 'Chiapas');
+INSERT INTO tbllocalidades VALUES ('6', 'Chihuahua');
+INSERT INTO tbllocalidades VALUES ('7', 'Coahuila');
+INSERT INTO tbllocalidades VALUES ('8', 'Colima');
+INSERT INTO tbllocalidades VALUES ('9', 'D.F.');
+INSERT INTO tbllocalidades VALUES ('10', 'Durango');
+INSERT INTO tbllocalidades VALUES ('11', 'Edo.Mex.');
+INSERT INTO tbllocalidades VALUES ('12', 'Guanajuato');
+INSERT INTO tbllocalidades VALUES ('13', 'Guerrero');
+INSERT INTO tbllocalidades VALUES ('14', 'Hidalgo');
+INSERT INTO tbllocalidades VALUES ('15', 'Jalisco');
+INSERT INTO tbllocalidades VALUES ('16', 'Michoacan');
+INSERT INTO tbllocalidades VALUES ('17', 'Morelos');
+INSERT INTO tbllocalidades VALUES ('18', 'Nayarit');
+INSERT INTO tbllocalidades VALUES ('19', 'Nuevo Leon');
+INSERT INTO tbllocalidades VALUES ('20', 'Oaxaca');
+INSERT INTO tbllocalidades VALUES ('21', 'Puebla');
+INSERT INTO tbllocalidades VALUES ('22', 'Queretaro');
+INSERT INTO tbllocalidades VALUES ('23', 'Quintana Roo');
+INSERT INTO tbllocalidades VALUES ('24', 'San Luis Potosi');
+INSERT INTO tbllocalidades VALUES ('25', 'Sinaloa');
+INSERT INTO tbllocalidades VALUES ('26', 'Sonora');
+INSERT INTO tbllocalidades VALUES ('27', 'Tabasco');
+INSERT INTO tbllocalidades VALUES ('28', 'Tamaulipas');
+INSERT INTO tbllocalidades VALUES ('29', 'Tlaxcala');
+INSERT INTO tbllocalidades VALUES ('30', 'Veracruz');
+INSERT INTO tbllocalidades VALUES ('31', 'Yucatan');
+INSERT INTO tbllocalidades VALUES ('32', 'Zacatecas');
+[/codigo]
+
+Espero sea de utilidad :)
+Hasta pronto.

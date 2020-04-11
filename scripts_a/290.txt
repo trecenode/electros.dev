@@ -1,0 +1,26 @@
+SI DA ERROR LA DESCARGA DESDE AQUI LO PUEDEN HACER DESDE:
+
+http://web.n-anuket.net/~pepitoc/noticiasconimagenes.zip
+
+PUEDEN VERLO FUNCIONANDO EN:
+
+http://web.n-anuket.net/~pepitoc/noticiasconimagenes/noticias.php
+
+(El usuario y contraseña han sido modificados con respecto al zip)
+
+DETALLE: Este script con un total de SOLO 8K., es una modificacion del scripts noticiastxt, en el cual se han corregido problemas de paginacion, vinculos y permite la incorporacion dinamica de imagenes a través de uploading y imagecreatefromjpeg.
+Para agregar noticias el user y pass por defecto son &quot;admin&quot; y se encuentran en el archivo login.php.
+Las noticias se muestran en el archivo noticias.php de forma paginada ascendente (scrips de Quikescrips y PHPMYSQL).
+Las imagenes son generadas en el archivo ver.php (deben ser jpg) a traves de variables y a partir del formulario crearnoticias.php
+Existe un archivo denominado &quot;ninguna.jpg&quot; que tiene 1x1 pixel en blanco que se puede utilizar desde el disco para subir noticias que no nos interesa que se muestren imagenes. Si no se sube una imagen JPG genera error.
+
+MEJORA DEL SCRIPT: Seria bueno que se pudieran mejorar los siguientes detalles del script:
+1) Que el archivo &quot;ver.php&quot; fuera modificado para limitar el ancho maximo de una imagen cargada por ej. 200 px (SOLO SI ESTA EXCEDIERA DE DICHO TAMAÑO ) y se fuera menor que no la modificara. Por supuesto manteniendo la proporcion cuando la modificara en ancho y alto, sin deformacion y para evitar desfasajes en las imagenes de gran tamaño.
+2) Que se pudiera editar por id de noticias a traves de un formulario que abriera los arrays de una linea en campos individuales y los guardara en el mismo archivo txt a traves de un formaulario (actualmente para editar se hace directamente sobre todo el txt con el archivo editarnoticias.php).
+En el ejemplo anterior del sistema de noticias si se podia pero estaba programado diferente. Tambien que permitera borrar mensajes por id, borrando ademas la imagen vinculada de la noticia.
+3) Que no fuera obligatorio subir una imagen, y no mostrara error, evitando utilizar el archivo &quot;ninguna.jpg&quot;.
+
+
+Creo que estan mejoras van a dar la base para utilizar este script en portales sin base de datos o actualizacion de contenidos dinamicos por parte de gente sin grandes conocimientos de internet.
+Quedo a su disposicion y creo que como está a muchos les va a ser de gran utilidad.
+Saludos. Roberto.

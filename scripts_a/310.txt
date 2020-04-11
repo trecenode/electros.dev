@@ -1,0 +1,12 @@
+[codigo]
+&lt;?
+$dbhost = &quot;localhost&quot; ; //host, normalmente usamos localhost en, mi@ mysql.webcindario.com
+$dbuser = &quot;Nick&quot; ; //Aqui va el nick que tiene del servidor bueno depende de varias cosas para informarse busque donde lo bajaste o donde lo viste
+$dbpass = &quot;Contraseña&quot; ; //aqui la contraseña que le proporciona el servidor etc...
+$db = &quot;DB&quot; : //Se la tiene que dar el servidor o crearla usted mismo
+$conectar = mysql_connect($dbhost,$dbuser,$dbpass) ;
+mysql_select_db($db,$conectar) ;
+?&gt;
+[/codigo]
+Este si que lo hice yo bueno pues es el antiguo clasico y nuevo jaja para mi por lo menos [b]pues mirar en dbuser teneis que poner el nick que os registrais el hosting pero si os da otra de ftp siempre poner la de ftp :) y la de dbpass igual pero la contraseña[/b]
+Ok y lo siento por el otro me equiboque al subir el script porque tengo muchos scripts y subi aquel sinquerer :D

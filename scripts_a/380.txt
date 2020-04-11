@@ -1,0 +1,13 @@
+este es el electrosnuke con unas cuantas modificaciones sacadas de aki mismo, para k no anden buscando algunos mods para su electrosnuke aki lo tienen completito.
+
+Lo que le agregue (lo agregado no lo he echo yo, son solo script sacados de la web):
+
+- Buscador interno
+- Avatar en el menu
+- Panel de usuario parecido al de php nuke
+- Validacion de noticias, asi la noticia no se envia directamente. Se envia directo cuando el admin la envia
+- Mensaje global, desde aqui puedes mandar un mensaje a todos los usuarios de una vez
+- uregistrar.php mas completo
+- Muestra avatar del usuario en los comentarios
+
+y eso, buscare mas scruipt para ver si les agrego mas

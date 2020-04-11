@@ -1,0 +1,11 @@
+ElectrosNuke es un script creado por phpmysql, es la recopilación de los scripts de Electros y phpmysql para crear un portal con todo lo necesario para un webmaster que busca una solución fácil y rápida.
+
+De todas las versiones echas de electrosnuke que salgan
+en mismo subforo http://electros.iefactory.com/?ver=foro&amp;foroid=5&amp;temaid=501 se pondra aqui la beta y definitiva.
+
+Ya tenemos una version que he echo yo mismo de prueba, como es beta es para testearlo.
+Solo cuando se saque la version definitiva ya me preocupare de dar explicaciones.
+Y el diseño no es el definitivo es un cualquiera que he elegido al azar y luego cambiara.
+
+El script funciona de la seguiente manera, tiene el eforo 2.1 y el registro de usuario de electros : noticias,minichat,mensajes,usuarios online....
+Para instalarlo solo debes modificar el archivo [b]config.php[/b] y abrir el archivo [b]instalar.php[/b] y se instalara solo ( no requiere conocimientos avanzados para hacer este proceso)

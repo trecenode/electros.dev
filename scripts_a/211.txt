@@ -1,0 +1,2 @@
+Holas, este miniforo esta basado en el minichat de electros, lo que le cambie fueron algunas cosas: en lugar de el cuadro de texto para escribir puse un textarea, osea, eso hace que el escribir sea mas comodo, agregue mas caracteres (se pueden escribir hasta 500) y puse los emoticonos(caretos) arriba del cuadro de texto donde se pone el nick como hipervinculos.
+No voy a hacer ninguna explicacion, solo bajense el zip, o si quieren saber como instalarlo vayan al minichat que de Electros, ahi esta todo mejor explicado.

@@ -1,0 +1,1 @@
+&lt;? mysql_close($conectar) ?&gt;

@@ -1,0 +1,32 @@
+Script de noticias con mysql y php con bbcode, smiles, viene con instalador y trae las opciones de añadir noticias, modificar y borrar. Todo esto viene con un sistema de administracion ke encripta la contraseña 2 veces en md5 para ke no se puede desencriptar.
+El archivo news.php el ke muestra las noticias:
+[codigo]
+&lt;?
+///////////////////////////////////
+//          NEWS-K V1.1          //
+//SCRIPT DE NOTICIAS DESARROLLADO//
+//COMPLETAMENTE EN PHP,HTML Y SQL//
+//           POR KENKE           //
+//  pepino_maduro@hotmail.com    //
+// PARA BUGS,ERRORES,SUGERENCIAS //
+//    ENTRAR EN WWW.KENKE.NET    //
+///////////////////////////////////
+include(&quot;config.php&quot;);
+$result = mysql_query(&quot;SELECT * FROM &quot;.$tabla.&quot; ORDER by id DESC&quot;, $link);
+while ($myrow = mysql_fetch_array($result)) {
+....................
+....................
+....................
+//ESTA ECHO ES LA KE MUESTRA LAS NOTICIAS, PUEDES MODIFICARLO SI KIERES - WWW.KENKE.NET[/b]
+echo &quot;&lt;table border=0 cellpadding=0 cellspacing=0 width=100% class=Tabla&gt;
+&lt;tr&gt;&lt;td width=63% style=padding-right: 5px align=left&gt;&lt;b&gt;» &quot;.$myrow[&quot;titulo&quot;].&quot;&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&quot;.$contenido.&quot;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td width=36% style=padding-left: 5px&gt;Escrito el 
+&lt;b&gt;&quot;.$myrow[&quot;fecha&quot;].&quot;&lt;/b&gt; Por &lt;b&gt;&quot;.$myrow[&quot;nombre&quot;].&quot;&lt;/b&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;hr color=#000000 size=1&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot;;
+//ESTA ECHO ES LA KE MUESTRA LAS NOTICIAS, PUEDES MODIFICARLO SI KIERES - WWW.KENKE.NET[/b]
+}
+?&gt;
+[/codigo]
+[b]Para cualquier duda, sugerencia o bug entrar en:
+[url]http://kenke.net[/url][/b]

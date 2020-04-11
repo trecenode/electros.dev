@@ -1,0 +1,47 @@
+Aqui tienes tres ejemplos de fecha.
+
+[b]Fecha normal[/b]
+
+[codigo]&lt;?php 
+#****Fecha normal****#
+print date(&quot;d-&quot;);
+print date(&quot;m-&quot;);
+print date(&quot;Y&quot;);
+
+?&gt;[/codigo]
+
+
+[b]Fecha en la barra de titulos[/b]
+
+[codigo]&lt;?php 
+#********fecha********#
+#***barra de titulo***#
+#****Raymondjavaxx****#
+echo &quot;&lt;title&gt;Hoy es &quot;;
+print date(&quot;d /&quot;);
+print date(&quot; m /&quot;);
+print date(&quot;Y &quot;);
+echo &quot;- Bievenido a mi página&lt;/title&gt;&quot;;
+
+?&gt;[/codigo]
+
+Este muestra el mes en letras en el siguiente formato:
+
+[b]Santo Domingo, R.D.
+14 de Julio del 2003.[/b]
+
+[codigo]&lt;?php 
+#****Mes en letras****#
+#****Raymondjavaxx****#
+echo &quot;&lt;b&gt;Santo Domingo, R.D.&lt;br&gt;&quot;;
+print date(&quot;d&quot;);
+$m = date(&quot;m&quot;) -1;
+$ma= array(&quot;Enero&quot;,&quot;Febrero&quot;,&quot;Marzo&quot;,&quot;Abril&quot;,
+&quot;Mayo&quot;,&quot;Junio&quot;,&quot;Julio&quot;,&quot;Agosto&quot;,&quot;Septiembre&quot;,
+&quot;Octubre&quot;,&quot;Noviembre&quot;,&quot;Diciembre&quot;) ;
+$ml = &quot; de $ma[$m] del &quot;;
+echo &quot;$ml&quot;;
+print date(&quot;Y&quot;);
+echo &quot;.&lt;/b&gt;&quot;;
+
+?&gt;[/codigo]

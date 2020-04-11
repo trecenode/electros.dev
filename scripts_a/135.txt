@@ -1,0 +1,92 @@
+Este es el mismo script que el anterior, la unica diferencia es que utiliza una tabla MySQL y la URL es mas corta.
+
+la URL seria asi: http://tuweb.com/descargar.php?descarga=[b]1[/b]
+
+Para añadir una descarga, nos vamos al phpmyadmin, y añadimos una fila nueva a la tabla descargas1.
+
+1º crear tabla:
+[codigo]create table descargas1 (
+id smallint(5) unsigned not null auto_increment,
+url varchar(255) NOT NULL,
+titulo varchar (255) NOT NULL,
+);[/codigo]
+
+2º creamos la pagina &quot;descargar.php&quot;
+[codigo]&lt;?php
+
+//conexion MySQL
+
+$host=&quot;localhost&quot;; 
+$user=&quot;Tu_Usuario&quot;;
+$pass=&quot;*******&quot;;
+$db=&quot;Tu_BaseDeDatos&quot;;
+$tabla=&quot;descargas1&quot;;
+
+$link = mysql_connect ($host, $user, $pass);
+mysql_select_db($db, $link);
+?&gt;&lt;style type=&quot;text/css&quot;&gt;
+&lt;!--
+body,td,th {
+	color: #FFFFFF;
+}
+body {
+	background-color: #31333E;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.Estilo2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 18px;
+}
+.Estilo3 {font-family: Verdana, Arial, Helvetica, sans-serif}
+.Estilo4 {font-size: 12px}
+.Estilo5 {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; }
+--&gt;
+&lt;/style&gt;&lt;?php
+
+//Conectamos a la base de datos
+//Enviamos la consulta a la base de datos
+
+$query = &quot;select * from $tabla where id=$descarga&quot;;
+$resultado = mysql_db_query ($db, $query, $link);
+//Busca resultados en la base de datos
+
+while ($datos = mysql_fetch_array ($resultado))
+
+//impresion del resultado
+
+{
+echo &quot;  &lt;p&gt;&amp;nbsp;&lt;/p&gt;
+  &lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p class=Estilo2&gt;Preparando descarga: &lt;span class=Estilo2&gt;$datos[titulo]
+    
+&lt;/span&gt;&lt;/p&gt;
+  &lt;p class=Estilo4&gt;&lt;img src=http://webtutorial.webcindario.com/pics/zip.gif width=15 height=16 align=absmiddle&gt; &lt;span class=Estilo3&gt;$datos[url]&lt;/span&gt;&lt;/p&gt;
+  &lt;p class=Estilo5&gt;En &lt;strong&gt;5&lt;/strong&gt; segundos se prepara la descarga&lt;/p&gt;&quot;;
+
+
+?&gt;&lt;SCRIPT language=JavaScript&gt;
+&lt;!--
+var TargetURL = &quot;&lt;? echo $datos[url] ?&gt;&quot;;
+var Sec = 5 * 1000
+
+function doRedirect()
+{
+	setTimeout( &quot;window.location.href = TargetURL&quot;, Sec);
+}
+//--&gt;
+&lt;/SCRIPT&gt;
+
+&lt;SCRIPT language=JavaScript1.1&gt;
+&lt;!--
+function doRedirect()
+{
+	setTimeout( &quot;window.location.replace(TargetURL);&quot;, Sec);
+}
+//--&gt;
+&lt;/SCRIPT&gt;&lt;? } //cerramos la conexion
+
+mysql_close ($link);
+?&gt;
+[/codigo]

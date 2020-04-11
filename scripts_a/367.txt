@@ -1,0 +1,155 @@
+Bueno.. vi un script para poder comprobar si el dominio esta libre pero era muy malo.. entonces pense en poner el que uso, no es tan bueno, pero es mejor que el que esta y sobre todo me dice si hay datos de el dominio en la base de datos de WHOIS :)
+
+Usaremos 4 archivos
+Index.php
+[codigo]
+&lt;?
+/**********************************
+WnWhois v1.1.0
+Copyright 2006 Erick Vallenas.
+Last Updated: 08/02/2006
+***********************************/
+?&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;
+
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+  &lt;title&gt;WaypointNet WHOIS v.1.1.0&lt;/title&gt;
+    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot; /&gt;
+  &lt;meta http-equiv=&quot;Cache-Control&quot; content=&quot;no-cache&quot; /&gt;
+  &lt;meta http-equiv=&quot;Pragma&quot; content=&quot;no-cache&quot; /&gt;
+  &lt;meta name=&quot;robots&quot; content=&quot;all&quot; /&gt;
+
+  &lt;script type=&quot;text/javascript&quot; src=&quot;js/main.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;js/way_main.js&quot;&gt;&lt;/script&gt;
+ &lt;/head&gt;
+
+ &lt;body&gt;
+  &lt;h1&gt;&lt;a href='./index.php'&gt;WaypointNet.&lt;/a&gt;&lt;/h1&gt;
+  &lt;div id='main'&gt;
+	&lt;p&gt;Dominio:&lt;br /&gt;
+	  &lt;input type='text' name='domain' id='domain' size='40' /&gt;
+	  &lt;input type='button' id='submit' value='Check!' onclick='checkDomain(); return false;' /&gt;
+    &lt;/p&gt;
+	&lt;form action='' method='get' onsubmit='checkDomain(); return false;'&gt;
+	&lt;/form&gt;
+	&lt;div id='result'&gt; &lt;/div&gt;
+  &lt;/div&gt;
+&lt;p&gt;&amp;copy; Waypointnet.com 2005 - 2006&lt;/p&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+[/codigo]
+
+Luego whois.php
+[codigo]
+&lt;?
+/*
+ #
+ # Revisa el Dominio para poder verificarlo
+ #
+*/
+
+
+#
+# Sacamos el dominio para poder revisarlo
+#
+$domain = explode ( '.', $_GET['domain'] );
+
+
+#
+# Luego, revisamos que haya algo para revisar..
+#
+if ( empty ( $_GET['domain'] ) )
+ {
+	echo 'Debe escribir un dominio para poder revisarlo.';
+	exit;
+ }
+
+
+#
+# Si el dominio contiene http://? damos error
+#
+if ( preg_match( '/http:\/\//i', $domain[0] ) )
+ {
+	echo 'El dominio no puede contener http://';
+	exit;
+ }
+
+#
+# Incluyendo el www.
+#
+if ( $domain[0] == 'www' )
+ {
+	echo nl2br ( shell_exec ( 'whois '.escapeshellarg ( $domain[1].'.'.$domain[2] ).'' ) );
+ }
+else
+ {
+	echo nl2br ( shell_exec ( 'whois '.escapeshellarg ( $_GET['domain'] ).'' ) );
+ }
+
+?&gt;
+[/codigo]
+
+Ahora crearemos una carpeta llamada js para incluir estos dos archivos Javascript
+main.js
+[codigo]
+function checkDomain()
+ {
+
+		 d = new Date(); now = d.getTime();
+		 var url = 'whois.php?domain=' + document.getElementById('domain').value;
+		 ajax ( url, handleInfo );  
+
+ }
+
+function handleInfo()
+ {
+	
+	if(http.readyState == 1)
+	 {
+		document.getElementById('submit').disabled = true;
+		document.getElementById('result').innerHTML = 'Revisando la base de datos WHOIS...';
+	 }
+
+	if(http.readyState == 4)
+	 {
+		var response = http.responseText;
+		document.getElementById('submit').disabled = false;
+		document.getElementById('result').innerHTML = response;
+	 }
+ }
+[/codigo]
+way_main.js
+[codigo]
+function createRequestObject()
+{
+	var request_;
+	var browser = navigator.appName;
+	
+	if(browser == &quot;Microsoft Internet Explorer&quot;)
+	{
+		request_ = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+	}
+	else
+	{
+		request_ = new XMLHttpRequest();
+	}
+	
+return request_;
+}
+
+
+var http = createRequestObject();
+
+function ajax ( url, callback )
+{
+	http.open ( 'get', url, true );
+
+	http.onreadystatechange = callback;
+
+	http.send(null);
+
+}
+[/codigo]
+
+Ponganlo en su web y listo :) ya tienen un simple formulario de WHOIS..

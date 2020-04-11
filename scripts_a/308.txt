@@ -1,0 +1,24 @@
+Muchos ya conocieron las versiones pasadas del RPS, despues de mucho tiempo regresa, pero ahora con un cambio drastico, ya que antes era mas un portal, ahora cambio mas a un blog, tiene mejores cosas integradas al sistema y hasta ahora con 0 bugs.
+
+Features:
+- Instalador
+- Noticias
+- Comentarios en las Noticias
+- Galeria de Imagenes
+- Sistema de Links
+- Formulario de Contato
+- Panel de Administracion
+- Intercambio de Templates
+- Sistema Multi Admin
+- CSS al 100%
+- Categoria de Mensajes
+- Archivo de Mensajes
+
+Ejemplo:
+[url=http://rps.rigtersir.com]http://rps.rigtersir.com[/url]
+
+Descarga:
+[url]http://sourceforge.net/projects/rps/[/url]
+
+Foros de Soporte:
+[url=http://rps.rigtersir.com/foro/]http://rps.rigtersir.com/foro/[/url]

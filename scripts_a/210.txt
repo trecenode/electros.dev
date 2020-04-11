@@ -1,0 +1,45 @@
+[b]Con este script lograremos crear un panel de control de usuarios, donde podrán elegir entre muchas opciones.[/b]
+A este archivo lo llamaremos [b]upanel.php[/b]:
+
+[codigo]&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Documento sin t&amp;iacute;tulo&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;font size=&quot;2&quot; face=&quot;Comic Sans MS&quot;&gt;Panel de usuario de &lt;b&gt;&lt;? echo $_COOKIE[&quot;unick&quot;]  ?&gt;&lt;/b&gt; 
+&lt;/font&gt; 
+&lt;p align=&quot;left&quot;&gt;&lt;font color=&quot;#FF0000&quot; size=&quot;2&quot; face=&quot;Comic Sans MS&quot;&gt;Opciones:&lt;/font&gt;&lt;/p&gt;
+&lt;table width=&quot;75%&quot; border=&quot;1&quot;&gt;
+  &lt;tr&gt; 
+    &lt;td&gt;&lt;a href=&quot;uperfil.php&quot;&gt;Mi 
+      perfil&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td&gt;&lt;a href=&quot;mensajes.php&quot;&gt;Bandeja 
+      de mensajes privados&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td&gt;&lt;a href=&quot;noticiasenviar.php&quot;&gt;Enviar 
+      noticias&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td&gt;&lt;a href=&quot;index.php?id=noticias&quot;&gt;Indice&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td&gt;&lt;a href=&quot;usalir.php&quot;&gt;Salir&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td&gt;&lt;a href=&quot;mailto:tucorreo@tudominio.com.ar&quot;&gt;Cont&amp;aacute;ctarme&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td&gt;&lt;a href=&quot;http://www.tupagina.com.ar&quot;&gt;Página principal de la web&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;p align=&quot;left&quot;&gt; &lt;a href=&quot;index.php?id=noticias&quot;&gt;&lt; 
+  Regresar&lt;/a&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt; [/codigo]
+Gracias al usuario [b]guillemweb[/b], que saqué la idea de su script, pero no es un mod, lo hice yo ;-)
+Ojalá les sea útil

@@ -1,0 +1,77 @@
+Con este script podrás hacer que tus usuarios puedan recuperar su contraseña, para esto el usuario ingresará el email con el que se registró en la web, si el correo existe en la base de datos, se le enviará un email con todos sus datos a este correo, también está agregada una protección para evitar que alguien haga spam enviando varios correos si es que conoce el email del usuario.
+
+El sistema se compone de 2 archivos:
+
+[b]ucontrasena.php[/b]
+[b]ucontrasenaenviar.php[/b]
+
+Crea el archivo [b]ucontrasena.php[/b] con el siguiente código:
+
+[codigo]&lt;?
+if($confirmacion) {
+if($confirmacion == &quot;si&quot;) {
+echo &quot;
+&lt;p&gt;Se te ha enviado un email con tus datos de registro.
+&quot; ;
+}
+if($confirmacion == &quot;no&quot;) {
+echo &quot;
+&lt;p&gt;No existe ningún usuario con este email. Haz click &lt;a href=javascript:history.back()&gt;aquí&lt;/a&gt; para regresar.
+&quot; ;
+}
+if($confirmacion == &quot;esperar&quot;) {
+echo &quot;
+&lt;p&gt;Por seguridad sólo puedes pedir tus datos una vez cada 30 minutos.
+&quot; ;
+}
+}
+else {
+?&gt;
+&lt;p&gt;Para recuperar tus datos debes escribir el email con el que te registraste en la web.
+&lt;form method=&quot;post&quot; action=&quot;ucontrasenaenviar.php&quot;&gt;
+&lt;div style=&quot;position: absolute ; visibility: hidden&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;aaa&quot;&gt;&lt;/div&gt;
+&lt;input type=&quot;text&quot; name=&quot;email&quot; maxlength=&quot;40&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/form&gt;
+&lt;?
+}
+?&gt;[/codigo]
+
+Si te fijas hay un campo oculto que no es visible al usuario, esto se hace ya que al enviar la información de un formulario oprimiendo enter, si es un sólo campo, ignora el botón enviar, y como en el botón enviar hay una variable, hay errores al momento de procesar el formulario, para esto agregamos otro campo más para que el navegador vea 2 campos y de esta forma la información sea enviada correctamente.
+
+Por último debes crear el archivo [b]ucontrasenaenviar.php[/b]:
+
+[codigo]&lt;?
+if($enviar) {
+if(!$HTTP_COOKIE_VARS[ucontrasena]) {
+include(&quot;config.php&quot;) ;
+$resp = mysql_query(&quot;select nick,contrasena from usuarios where email='$email'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+if(mysql_num_rows($resp) != 0) {
+$mensaje = &quot;
+Estos son tus datos de registro:
+
+Nick: $datos[nick]
+Contraseña: $datos[contrasena]
+
+Recuerda guardar bien tus datos.
+&quot; ;
+mail($email,&quot;Recuperación de contraseña&quot;,$mensaje) ;
+setcookie(&quot;ucontrasena&quot;,&quot;ucontrasena&quot;,time()+1800) ;
+header(&quot;location: ucontrasena.php?confirmacion=si&quot;) ;
+}
+else {
+header(&quot;location: ucontrasena.php?confirmacion=no&quot;) ;
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+}
+else {
+header(&quot;location: ucontrasena.php?confirmacion=esperar&quot;) ;
+}
+}
+?&gt;[/codigo]
+
+[b]Explicación de uso[/b]
+
+Puedes incluír la página [b]ucontrasena.php[/b] en otra página, la página de [b]ucontrasenaenviar.php[/b] debe estar totalmente sóla.

@@ -1,0 +1,314 @@
+Para poder utilizar esta galeria tienes que tener librerias gd activadas para comprobarlo crea un archivo con el contenido siguiente, y busca si pone &quot;gd enabled&quot; esto significara que si puedes utilizar este script ( mi@ notiene phpgd enabled, ni lycos ) :
+
+[codigo]&lt;? echo phpinfo(); ?&gt;[/codigo]
+
+Galeria de imagenes en color y en blanco y negro, lista todos los archivos [b]jpg[/b] del directorio en el que se encuentre y los pagina de 20 en 20 mostrando minaturas de esta tamaño , tambien permite subir archivos o borrar imagenes 
+
+hay que darle chmod 777 al archivo contador.txt y a la carpeta donde subas el script
+
+[b]index.php[/b]
+
+[codigo]
+&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Jeremias&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;style&gt;
+/* Cuerpo del modulo */
+body,table {
+font-family: verdana ;
+font-size: 8pt ;
+color: #000000 ;
+text-align: justify ;
+}
+/* Titulos */
+.t1 {
+color: #ffa500 ;
+font-size: 10pt ;
+font-weight: bold ;
+filter: glow(color=#000000,strength=3) ;
+height: 1 ;
+}
+/* descargas */
+a {
+color: #000000 ;
+text-decoration: none ;
+font-weight: bold ;
+}
+/* Negrita */
+b {
+color: #000000 ;
+}
+/* Formulario */
+.form {
+border: #000000 1 solid ;
+background: #cccccc ;
+font-family: verdana ;
+font-size: 8pt ;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;center&gt;&lt;br&gt;
+&lt;font size=&quot;5&quot;&gt;Jeremias&lt;/font&gt; &lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;!-- ver imagenes --&gt;&lt;table width='40%' border='0' cellpadding='5' cellspacing='0' align='center'&gt;
+&lt;tr&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;table width='30%' border='0' cellpadding='5' cellspacing='0' align='center'&gt;
+
+&lt;?php
+// Le damos valor a las variables de configuración
+$Config['Path'] = &quot;.&quot;; // Directorio donde stan los archivos a mostrar.
+$Config['Show'] = 20; // Numero de archivos a mostrar por páginas.
+
+$Show['20 Anteriores'] = 0; // Por defecto no se mostrara 10 Anteriores
+$Show['20 Siguientes'] = 0; // Por defecto no se mostrara 10 Siguientes
+
+if ($c == &quot;&quot;) $c = 0; // Si $c no tiene valor es porque es la primera vez que se visita la página.
+$dir = opendir($Config['Path']); // Abrimos el directorio donde estan los archivos
+$Plus = $c; // Le damos el valor de $c a $plus porque el valor de $c se perdera y lo necessitaremos mas tarde.
+
+while ($c &gt; 0 &amp;&amp; $elemento = readdir($dir)) // Mientras la variable $c sea mayor de 0 saltamos archivos.
+{
+$Show['20 Anteriores'] = 1;
+$c--;
+}
+
+$Counter = 0; // Ponemos a 0 el contador
+
+// Si es la primera vez que vez añadimos 2 filas, si no lo es se las quitamos.
+if ($Show['20 Anteriores'] == 0) $Counter=$Counter-2; else {
+$c = 2;
+while ($c &gt; 0 &amp;&amp; $elemento = readdir($dir)) // Mientras la variable $c sea mayor de 0 saltamos archivos.
+{
+$Show['20 Anteriores'] = 1;
+$c--;
+}
+}
+echo&quot;&lt;tr&gt;&quot;;
+// Mostramos el numero de archivos que se tienen que mostrar por página.
+while (($Counter != $Config['Show']) &amp;&amp; ($elemento = readdir($dir)))
+{
+$Counter++;
+
+$extensiones = explode(&quot;.&quot;,$elemento) ;
+$nombre = $extensiones[0] ;
+$nombre2 = $extensiones[1] ;
+$tipo = array (&quot;jpg&quot;);
+if(in_array($nombre2, $tipo)){
+
+if (($i % 3) == 0) {
+echo &quot;&lt;/tr&gt;&lt;tr&gt;&quot;;
+}
+?&gt;
+&lt;td height='7' &gt;&lt;a href=&quot;&lt;?php echo $elemento ?&gt;&quot; target='_blank'&gt;&lt;img src=&quot;imagenes2.php?img=&lt;?php echo $elemento ?&gt;&quot; border=&quot;0&quot; height=&quot;140&quot; width=&quot;180&quot;&gt; &lt;/a&gt;&lt;/td&gt;
+&lt;?
+$i++;
+}
+}
+echo&quot;&lt;/tr&gt;&quot;;
+
+// Si sobran archivos pondremos el &quot;10 Siguientes&quot;
+if ($elemento = readdir($dir))
+{
+$Show['20 Siguientes'] = 1;
+}
+//Cerramos el directorio
+closedir($dir);
+?&gt;
+&lt;/table&gt;
+&lt;div align=&quot;center&quot;&gt;
+&lt;table width=&quot;10%&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
+&lt;tr&gt;
+&lt;td colspan=&quot;2&quot;&gt;&amp;nbsp; &lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;div align=&quot;right&quot;&gt;
+&lt;?php
+// Mostraos si es necessario el &quot;10 Anteriores&quot; y &quot;10 Siguientes&quot;.
+if ($Show['20 Anteriores'] == 1) echo(&quot;&lt;a href=&quot;index.php?c=&quot;.($Plus-$Config['Show']).&quot;&quot;&gt;20 Anteriores | &lt;/a&gt;&quot;);
+if ($Show['20 Siguientes'] == 1) echo(&quot;&amp;nbsp;&lt;a href=&quot;index.php?c=&quot;.($Plus+$Config['Show']).&quot;&quot;&gt;20 Siguientes&lt;/a&gt;&lt;/p&gt;&quot;);
+?&gt;
+&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+&lt;/tr&gt;
+&lt;/table&gt;&lt;!-- fin ver imagenes --&gt;
+&lt;table width=&quot;40%&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
+&lt;tr&gt;
+&lt;td width=&quot;100%&quot; height=&quot;18&quot;&gt;&lt;br&gt;
+&lt;br&gt; &lt;div align=&quot;left&quot;&gt;
+&lt;?
+// Contrasena admin
+$pass = &quot;123456&quot;;
+// Subida de archivos
+if($enviar &amp;&amp; $_POST[&quot;contrasena&quot;] == $pass) {
+if($archivo != &quot;&quot; ) {
+$extensiones = explode(&quot;.&quot;,$archivo_name) ;
+$num = count($extensiones) - 1 ;
+if($extensiones[$num] != &quot;jpg&quot; ) { $error = &quot;Sólo se permiten archivos .jpg&lt;br&gt;&quot; ; }
+
+if($error) {
+echo &quot;
+&lt;p class=&quot;titulo&quot;&gt;Error
+&lt;p&gt;$error
+&lt;p&gt;&lt;a href=&quot;javascript:history.back()&quot;&gt;Regresar&lt;/a&gt;
+&quot; ;
+exit ;
+}
+
+
+$file = &quot;contador.txt&quot;;
+$nclicks = fopen($file,&quot;r+&quot;);
+$clicks = fgets($nclicks,1024);
+$clicks++;
+rewind($nclicks);
+fwrite($nclicks,$clicks);
+fclose($nclicks);
+
+copy($archivo,&quot;$clicks.jpg&quot;) ;
+echo &quot;&lt;div aling=left&gt;El archivo &lt;a href='$clicks.jpg' target='_blank'&gt;$clicks.jpg&lt;/a&gt; ha sido subido con éxito. &lt;a href='$_SERVER[REQUEST_URI]'&gt;pulsa aqui&lt;/a&gt;&lt;/div&gt;&quot; ;
+}
+else {
+echo &quot;El archivo &lt;b&gt;$archivo_name&lt;/b&gt; supera los 250 Kb&quot; ;
+}
+}
+?&gt;
+&lt;br&gt;
+&lt;form method=&quot;post&quot; action=&quot;&lt;? echo $_SERVER[REQUEST_URI] ?&gt;&quot; enctype=&quot;multipart/form-data&quot;&gt;
+&lt;br&gt;
+&lt;strong&gt;Subir archivo :&lt;/strong&gt;&lt;br&gt;
+&lt;br&gt;
+Contrase&amp;ntilde;a&lt;strong&gt;&lt;/strong&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;contrasena&quot; class=&quot;form&quot;&gt;
+&lt;br&gt;
+Archivo :&lt;br&gt;
+&lt;input type=&quot;file&quot; name=&quot;archivo&quot; class=&quot;form&quot;&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot; class=&quot;form&quot;&gt;
+&lt;/form&gt;
+&lt;/div&gt;
+
+&lt;br&gt;
+&lt;?
+if($borrar) {
+if ($pass != &quot;123456&quot;) { exit; }{
+unlink(&quot;$archivo&quot;) ;
+echo &quot;Archivo &lt;b&gt;$archivo&lt;/b&gt; borrado satisfactoriamente. &lt;a href='$_SERVER[REQUEST_URI]'&gt;pulsa aqui&lt;/a&gt;&quot;;
+}
+}
+?&gt;
+&lt;br&gt; &lt;form method=&quot;post&quot; action=&quot;&lt;? echo $_SERVER[REQUEST_URI] ?&gt;&quot; enctype=&quot;multipart/form-data&quot;&gt;
+&lt;strong&gt;Borrar archivo :&lt;/strong&gt;&lt;br&gt;
+&lt;br&gt;
+Contrase&amp;ntilde;a:
+&lt;input type=&quot;text&quot; name=&quot;pass&quot; class=&quot;form&quot;&gt;
+&lt;br&gt;
+Archivo:
+&lt;select name=&quot;archivo&quot; class=&quot;form&quot;&gt;
+&lt;?
+//definimos el path de acceso
+$path = &quot;.&quot;;
+//abrimos el directorio
+$dir = opendir($path);
+//Mostramos las informaciones
+while ($elemento = readdir($dir))
+{
+$element = strtolower($elemento);
+if (strpos($element, &quot;.jpg&quot;) &gt; 0) {
+echo &quot;&lt;option value='$elemento'&gt;$elemento&lt;/option&gt;&quot;;
+}
+}
+//Cerramos el directorio
+closedir($dir);
+?&gt;
+&lt;/select&gt;
+&lt;br&gt;
+&lt;input name=&quot;borrar&quot; type=&quot;submit&quot; class=&quot;form&quot; id=&quot;borrar&quot; value=&quot;Borrar&quot;&gt;
+&lt;/form&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;a href=&quot;http://recursosphp.iefactory.com/jeremias/jeremias.zip&quot;&gt;Jeremias&lt;/a&gt;
+by elcidop
+&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+[/codigo]
+
+[b]imagenes2.php[/b] muestra la imagen original pero restandole calidad por lo que asi va mas rapida la cargar y se puede reducir a cualquier tamaño, la forma en que le script reduce la imagen es esta imagenes2.php?img=1.jpg
+
+[codigo]
+&lt;?
+Header(&quot;Content-type: image/jpeg&quot;);
+$im = imagecreatefromjpeg(&quot;$img&quot;);
+Imagejpeg($im,'',15);
+ImageDestroy($im);
+?&gt; 
+[/codigo]
+
+
+[b]imagenes.php[/b] estas tiene la Imagenes en blanco y negro ,tamaño 140x180 la url a especificar para ver un demostracion seria imagenes.php?img=1.jpg
+
+[codigo]&lt;? 
+header(&quot;Content-type: image/jpeg&quot;);
+$x=180;
+$y=140;
+$im = imagecreate($x, $y);
+$bg=imagecolorallocate($im, 0,0,0);
+imagefill($im, 0,0, $bg);
+
+
+$negro=imagecolorallocate($im, 0,0,0);
+$blanco=imagecolorallocate($im, 255,255,255);
+$naranja=imagecolorallocate($im, 220, 210, 60);
+$rojo=imagecolorallocate($im, 255, 0, 0);
+$amarillo=imagecolorallocate($im, 255,204,0);
+$verde=imagecolorallocate($im, 0,204,0);
+$azul=imagecolorallocate($im, 51,153,255);
+$gris=imagecolorallocate($im, 187,187,187);
+$rosa=imagecolorallocate($im, 255,153,255);
+$marron=imagecolorallocate($im, 204,102,0);
+
+
+
+for ($i = 0; $i &lt; 255; $i++){
+
+
+$c[i]=imagecolorallocate($im, $c[i], $c[i], $c[i]);
+
+
+}
+
+
+
+
+$em= $img;
+$size = getimagesize($em);
+$anc=$size[0];
+$alt=$size[1];
+$source = imagecreatefromjpeg($em);
+imagecopyresized($im, $source, 0, 0, 0, 0, 180, 140, $anc, $alt);
+imagejpeg($im);   
+imagedestroy($source); 
+imagedestroy($im); 
+
+?&gt;[/codigo]
+
+y el archivo donde se guarda el numero total de imagenes
+
+[b]contador.txt[/b]
+
+[codigo]0[/codigo]
+
+Un ejemplo en esta url:
+http://recursosphp.iefactory.com/jeremias/
+en la que podras encontrar nuevas versiones de el script o mejoras , cosa que pasa con los script de pruebas en recursosphp que se actulizan cuando hay alguna novedad que incluirle o modificarle.

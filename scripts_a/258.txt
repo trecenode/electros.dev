@@ -1,0 +1,36 @@
+[codigo]
+&lt;?
+function Contar($inicio,$fin,$antes_i,$despues_i,$antes_f,$despues_f) { 
+$numElements = $fin - $inicio;
+for ($i=0;$i&lt;$numElements;$i++){ 
+if ($i==$numElements-1){ 
+$contar .= $antes_f.$inicio.$despues_f ; 
+}else{ 
+$contar .= $antes_i.$inicio.$despues_i ; 
+}
+$inicio = $inicio + 1 ;
+}
+echo $contar ;
+}
+?&gt;[/codigo]
+[b]Bueno este codigo lo podeis guardar en una pagina llamada por ejemplo:[/b] func_contar.php
+
+[b]y meterlo en la pagina donde la vais a usar con: [/b]
+[codigo]&lt;?php include(&quot;func_contar.php&quot;) ; ?&gt;[/codigo]
+
+[b]Para usarlo debeis usarlo asi:[/b]
+[codigo]
+Contar($inicio,$fin,$antes_i,$despues_i,$antes_f,$despues_f)
+// donde:
+// $inicio = numero desde el que se empezará a contar
+// $fin = Numero hasta el que se debe contar
+// $antes_i = lo que habra antes de cada numero
+// $despues_i = lo que habra després de cada numero
+// $antes_f = lo que habra antes del ultimo numero
+// $despues_f = lo que habrá después de el ultimo numero
+[/codigo]
+
+[b]Un ejemplo simple seria poner en el navegador: [/b]
+archivo.php?inicio=2&amp;fin=4&amp;antes_i=antes_i&amp;despues_i=despues_i&amp;antes_f=antes_f&amp;despues_f=despues_f
+[b]lo que nos mostraria:[/b]
+antes_i2despues_iantes_f3despues_f

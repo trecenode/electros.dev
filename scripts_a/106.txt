@@ -1,0 +1,7 @@
+&lt;html&gt;
+&lt;body&gt;
+&lt;!-- Copiar dentro del tag BODY --&gt;
+&lt;a href=&quot;http://www.tu-sitio.com&quot; onClick=&quot;javascript:window.location='http://www.mentira.com'
+return false&quot;&gt;Haga click aqui&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;

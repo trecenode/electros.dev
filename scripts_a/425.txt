@@ -1,0 +1,27 @@
+[codigo]&lt;?
+$ip=$REMOTE_ADDR;
+$baneada1=&quot;aqui la ip que quieres banear, si quieres poner mas de una ip crea una array llamado:$baneada1 no cambies el nombre, y si tienes ip fija y a tu web demomento solo quieres entrar tu en baneada1 escribe tu ip, y en el primer if cambia la exclamacion por un signo = de modo que quedaria: if($ip == $baneada1)&quot;;
+
+if($ip != $baneada1)
+{
+?&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;/head&gt;
+&lt;body&gt;&lt;center&gt;aqui la pagina que deseas proteger&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?
+}
+else
+{
+?&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Estas baneado!!&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;strong&gt;Error:&lt;/strong&gt;Estas baneado en esta página, te es prohibido entrar. Por favor, abandona el sitio.
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?
+}
+?&gt;[/codigo]

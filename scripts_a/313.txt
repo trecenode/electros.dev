@@ -1,0 +1,182 @@
+Bueno este es mi segundo script y bueno hise lo mejor posible por que este chat fuera lo mas parecido al de Java, pienso que como chat en PHP/MySQL tiene muchas deficiencias pero bueno ahi les dejo el script para los que deseen tener un chat en su web =); este solo funciona con el sistema de usuarios de electros:
+
+Bueno ahora la version 1.1, Ya viene con Instalador, El instalador no es la gran cosa, pero en fin para todos aquellos que les es dificil controlar PHPMyAdmin y Pues que ya se va a poder utilizar con PHP 5 =).
+
+En este chat tambien puedes usar, un comando que se usa en los chat de Java, el cual es: /clear, que sirve para limpiar la pantalla, bueno en este caso, yo por hablar Español le puse: /limpiar , Para borrar todo la conversacion.
+
+[b]Primero se crea una tabla llamada chat:[/b]
+[codigo]
+CREATE TABLE `chat` (
+`id` VARCHAR( 255 ) NOT NULL ,
+`usuario` VARCHAR( 255 ) NOT NULL ,
+`texto` VARCHAR( 255 ) NOT NULL
+);
+[/codigo]
+
+Despues creamos otra tabla llamada eforo_enlinea (Los que usen el eforo ya no es necesario crearla):
+[codigo]
+create table eforo_enlinea (
+  fecha int(10) unsigned not null,
+  ip varchar(15) not null,
+  id_usuario smallint(5) not null,
+  key fecha (fecha)
+)
+[/codigo]
+[b]Ahora crearemos el script en donde se va a descargar todo el contenido de la base de datos el cual se va a llamar texto.php:[/b]
+
+[codigo]
+&lt;?
+//************************************
+//***********Realizado Por:***********
+//*************eliascm36**************
+//**************Version:**************
+//****************1.1*****************
+//************************************
+?&gt;
+&lt;!-- se refressca, se actualiza en tantos segundos --&gt;
+&lt;meta http-equiv=&quot;refresh&quot; content=&quot;5&quot;&gt;
+&lt;!-- va a hacia otra pagina en tantos segundos --&gt;
+&lt;meta http-equiv=&quot;refresh&quot; content=&quot;8;URL=texto.php&quot;&gt;
+&lt;? include(&quot;config.php&quot;) ?&gt;
+&lt;?
+$consulta = mysql_query(&quot;select * from chat order by id desc&quot;) ;
+while($datos = mysql_fetch_array($consulta)) { 
+?&gt;
+&lt;strong&gt;&lt;? echo $datos[usuario] ?&gt;:&lt;/strong&gt;&lt;? echo $datos[texto] ?&gt;&lt;br&gt;
+&lt;? } ?&gt;
+[/codigo]
+
+[b]Ahora crearemos el script donde se van a ver los que están conectados, el cual lo saque del eforo de electros y lo modifique para que no mostrara a los visitantes; a este se le llamara enlinea.php:[/b]
+[codigo]
+&lt;?
+//Realizado por Electros
+//Modificado por eliascm36
+?&gt;
+&lt;!-- se refressca, se actualiza en tantos segundos --&gt;
+&lt;meta http-equiv=&quot;refresh&quot; content=&quot;5&quot;&gt;
+&lt;!-- va a hacia otra pagina en tantos segundos --&gt;
+&lt;meta http-equiv=&quot;refresh&quot; content=&quot;8;URL=enlinea.php&quot;&gt;
+&lt;?
+include(&quot;config.php&quot;) ;
+# * La fecha que será usada en el foro (por defecto se usará la fecha GMT)
+# Esta fecha se guardará en todos los mensajes así como en todas las funciones del foro,
+# después mediante la zona GMT que eligió el usuario se le sumará o restará la diferencia
+# de horas a la fecha guardada y con una simple llamada a date() obtendremos esa fecha
+$fecha = strtotime(gmdate('d M Y H:i:s')) ;
+
+# * Fecha corta (Formato: 1 Ene 2004 12:00 AM)
+function fecha($a) {
+	$fecha_actual = $GLOBALS[fecha] - $a ;
+	switch (true) {
+		case $fecha_actual &gt; 0 &amp;&amp; $fecha_actual &lt; 3600 :
+			$minutos = round($fecha_actual / 60) ;
+			return ($minutos == 0 || $minutos == 1) ? 'Hace 1 minuto' : &quot;Hace $minutos minutos&quot; ;
+			break ;
+		case $fecha_actual &gt;= 3600 &amp;&amp; $fecha_actual &lt; 86400 :
+			$horas = round($fecha_actual / 3600) ;
+			return ($horas == 1) ? 'Hace 1 hora' : &quot;Hace $horas horas&quot; ;
+			break ;
+		default :
+			$gmt = $a + 3600 * $GLOBALS[usuario][gmt] ;
+			$meses = array('','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic') ;
+			return date('j',$gmt).' '.$meses[date('n',$gmt)].' '.date('Y',$gmt).' '.date('h:i A',$gmt) ;
+	}
+}
+# * Obtener datos del usuario que está conectado en este momento
+if($_COOKIE[unick]) {
+$con = mysql_query(&quot;select id from usuarios where nick='$_COOKIE[unick]'&quot;) ;
+$datos = mysql_fetch_array($con) ;
+# Id del usuario
+$usuario[id] = $datos[id] ;
+# * Se obtienen los usuarios en línea en el foro
+$tiempo_limite = 600 ; # &lt;-- Tiempo en segundos en el cuál se mantendrá al usuario en línea
+$fecha_limite = $fecha - $tiempo_limite ;
+# --&gt; Se eliminan los usuarios que superaron el tiempo límite
+mysql_query(&quot;delete from eforo_enlinea where fecha&lt;'$fecha_limite'&quot;) ;
+# --&gt; Si es un usuario registrado se guarda su ID
+if($_COOKIE[unick]) {
+	$con = mysql_query(&quot;select * from eforo_enlinea where id_usuario='$usuario[id]'&quot;) ;
+	if(mysql_num_rows($con)) {
+		mysql_query(&quot;update eforo_enlinea set fecha='$fecha' where id_usuario='$usuario[id]'&quot;) ;
+	}
+	else {
+		mysql_query(&quot;delete from eforo_enlinea where ip='$_SERVER[REMOTE_ADDR]'&quot;) ;
+		mysql_query(&quot;insert into eforo_enlinea (fecha,id_usuario) values ('$fecha','$usuario[id]')&quot;) ;
+	}
+	mysql_free_result($con) ;
+	}
+# --&gt; Si es un usuario no registrado se guarda su IP
+else {
+	$con = mysql_query(&quot;select * from eforo_enlinea where ip='$_SERVER[REMOTE_ADDR]'&quot;) ;
+	if(mysql_num_rows($con)) {
+		mysql_query(&quot;update eforo_enlinea set fecha='$fecha' where ip='$_SERVER[REMOTE_ADDR]'&quot;) ;
+	}
+	else {
+		mysql_query(&quot;insert into eforo_enlinea (fecha,ip) values ('$fecha','$_SERVER[REMOTE_ADDR]')&quot;) ;
+	}
+	mysql_free_result($con) ;
+}
+# --&gt; Se obtiene el total de usuarios
+# No registrados
+$con = mysql_query(&quot;select ip from eforo_enlinea where ip!=''&quot;) ;
+$total_enlinea[0] = mysql_num_rows($con) ;
+mysql_free_result($con) ;
+# Registrados
+$con = mysql_query(&quot;select id_usuario from eforo_enlinea where id_usuario!='0' order by fecha asc&quot;) ;
+$total_enlinea[1] = mysql_num_rows($con) ;
+# Total
+$total_enlinea[2] = $total_enlinea[0] + $total_enlinea[1] ;
+# --&gt; Se obtiene el nick de los usuarios registrados en línea
+$reg_enlinea = false ;
+for($i = 1 ; $datos = mysql_fetch_array($con) ; $i++) {
+	$con2 = mysql_query(&quot;select nick from usuarios where id='$datos[id_usuario]'&quot;) ;
+	$datos2 = mysql_fetch_array($con2) ;
+	if($i &lt; $total_enlinea[1]) {
+		$reg_enlinea .= &quot;$datos2[nick]&lt;br&gt; &quot; ;
+	}
+	else {
+		$reg_enlinea .= &quot;$datos2[nick]&quot; ;
+	}
+	mysql_free_result($con2) ;
+}
+mysql_free_result($con) ;
+}
+?&gt;
+&lt;?=$reg_enlinea?&gt;
+[/codigo]
+
+Y ya creamos el script en donde se van a mostrar todos los anteriores juntos ya para que ahora si sea un chat =) este se va a llamar chat.php:
+
+[codigo]
+&lt;?
+//************************************
+//***********Realizado Por:***********
+//*************eliascm36**************
+//**************Version:**************
+//****************1.1*****************
+//************************************
+?&gt;
+&lt;table width=&quot;358&quot; height=&quot;122&quot; border=&quot;0&quot;&gt;
+  &lt;tr&gt;
+    &lt;td width=&quot;241&quot;&gt;&lt;iframe src=&quot;texto.php&quot; width=&quot;500&quot; height=&quot;400&quot; frameborder=&quot;1&quot; scrolling=&quot;yes&quot;&gt;&lt;/iframe&gt;&lt;/td&gt;
+    &lt;td width=&quot;107&quot;&gt;&lt;iframe src=&quot;enlinea.php&quot; width=&quot;100&quot; height=&quot;400&quot; frameborder=&quot;1&quot; scrolling=&quot;yes&quot;&gt;&lt;/iframe&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;form name=&quot;form1&quot; method=&quot;post&quot; action=&quot;chat.php&quot;&gt;
+  &lt;input name=&quot;texto&quot; type=&quot;text&quot; id=&quot;texto&quot; size=&quot;50&quot;&gt;
+  &lt;input name=&quot;enviar&quot; type=&quot;submit&quot; id=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+  &lt;? include('config.php') ?&gt;
+  &lt;? if($enviar){
+  $limpiar = '/limpiar' ;
+  if($texto == $limpiar){
+ mysql_query(&quot;TRUNCATE chat&quot;) ; 
+ }
+ else
+ {
+$usuario = $_COOKIE[unick] ;
+mysql_query(&quot;insert into chat (texto,usuario,id) values ('$texto','$usuario','1')&quot;) ;
+}
+}
+?&gt;
+&lt;/form&gt;
+[/codigo]

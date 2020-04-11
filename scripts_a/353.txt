@@ -1,0 +1,29 @@
+este script sensillo y chafa echo por mi hace un ratito para una pregunta del foro..:
+[codigo]&lt;?
+//Nosferatusoft
+$ruta = $_POST[&quot;ruta&quot;]; //el input de donde viene el archivo...
+$archivo = $ruta;
+//para agregar extencion solo agrega elementos al array con la extencion
+$ext = Array(&quot;jpg&quot;,&quot;png&quot;,&quot;bmp&quot;,&quot;gif&quot;); 
+$archivo = strtolower(basename($archivo)); //quito la ruta y cambio mayusculas por minusculas...
+for($i=0;$i&lt;count($ext);$i++){ //hago un buche para fijarme si la extencion está...
+	if(ereg($ext[$i].&quot;$&quot;, $archivo)){ //si se encuntra la una de las extencion permitidas al final de la cadena
+		$si=true; //entonces $si es igual a true
+		}
+	else{ //si no, sumo 1 a $no.
+		$no++;
+		}
+	}//termino el bucle...
+if($si){//si $si es igual a true (que ha sido declarado asi anteriormente) entonces.. subo el archivo
+	@move_uploaded_file($ruta,&quot;destino/$archivo&quot;) or die(&quot;error... no se pudo enviar el archivo...&quot;);
+	echo &quot;Se sibio tu archivo...&quot;;
+	}
+if($no==count($ext)){//si $no es igual al numero de elementos q tiene el array de las extenciones
+					//osea, que el bucle ya termino y como no encontro ninguna extencion permitida
+					//al final de la cadena entonces $no debe ser igual al numero de elementos del array
+					//de las extenciones perminidas...
+	echo &quot;se encontro una extencion no segura !&quot;;
+	}
+?&gt;[/codigo]
+
+NOTA: si no funciona la parte de move_uploaded_file entonces cambiala a como te funcione :S

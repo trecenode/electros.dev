@@ -1,0 +1,249 @@
+Este es un script para enviar,editar y borrar direcciones ftp he conseguido permitiera a los usuarios enviar sus direcciones ftp con su propia pass y que luego pudieran editarlos ,asi como el admin pudiera editar y borrar todos las descargas ftp con su pass y todo ello en un solo archivo.
+
+La pass del admin por defecto es 123456 y se cambia desde el archivo.
+
+Puedes guardar el archivo con el nombre que quieras, quizas requiera chmod 666
+
+[codigo]&lt;?
+// Configuracion
+// Recomiendo especificar una pagina donde guardar los datos, si es que vas a utilizar la opcion de editar
+$contrasena = &quot;123456&quot;;
+$pagina_guardar_datos = &quot;&quot;;
+// Inicio Script, no tocar si no sabes lo que haces
+if($pagina_guardar_datos == &quot;&quot;){
+$pagina_guardar_datos = $_SERVER[SCRIPT_FILENAME];
+}
+else {
+$pagina_guardar_datos = $pagina_guardar_datos;
+}
+
+echo &quot;&lt;title&gt;Directorio ftp&lt;/title&gt;&quot;;
+echo &quot;&lt;style&gt;
+body,table { 
+font-family: verdana ; 
+font-size: 8pt ; 
+color: #000000 ;
+scrollbar-arrow-color: #757575;
+scrollbar-3dlight-color: #757575;
+scrollbar-highlight-color: #FFFFFF;
+scrollbar-face-color: #F2F2FF;
+scrollbar-shadow-color: #FFFFFF;
+scrollbar-darkshadow-color: #757575;
+scrollbar-track-color: #FFFFFF;
+}
+/* Estilo del formulario */
+input { 
+font-family: verdana ; 
+font-size: 8pt ; 
+color: #000000 ;
+border: #000000 1 solid ; 
+background: #FFFFFF ; 
+color: #000000 
+}
+select { 
+font-family: verdana ; 
+font-size: 8pt ; 
+color: #000000 ;
+border: #000000 1 solid ; 
+background: #FFFFFF ; 
+color: #000000 
+}
+option { 
+font-family: verdana ; 
+font-size: 8pt ; 
+color: #000000 ;
+border: #000000 1 solid ; 
+background: #FFFFFF ; 
+color: #000000 
+}
+textarea { 
+font-family: verdana ; 
+font-size: 8pt ; 
+background: #FFFFFF ; 
+color: #000000 
+}
+&lt;/style&gt;&quot;;
+if($enviar){
+// Comprobamos que los datos no estan vacios
+if($titulo == &quot;&quot;){ $error .= &quot;No has puesto el titulo&lt;br&gt;&quot;;}
+if($url == &quot;http://&quot;){ $error .= &quot;No has puesto la url&lt;br&gt;&quot;;}
+if($descripcion == &quot;&quot;){$error .= &quot;No has puesto una descripcion&lt;br&gt;&quot;;}
+if($error) {
+echo &quot;
+&lt;b&gt;Error&lt;/b&gt;
+&lt;p&gt;&lt;font color='#FF0000'&gt;$error&lt;/font&gt; 
+&lt;p&gt;&lt;a href='javascript:history.back()'&gt;Regresar&lt;/a&gt;
+&quot; ;
+exit ;
+}
+// Quitamos el html
+$titulo = htmlspecialchars(stripslashes(trim($_POST[&quot;titulo&quot;])));
+$url = htmlspecialchars(stripslashes(trim($_POST[&quot;url&quot;])));
+$descripcion = htmlspecialchars(stripslashes(trim($_POST[&quot;descripcion&quot;])));
+$password = md5($_POST[&quot;password&quot;]);
+$crea = fopen($pagina_guardar_datos,&quot;a&quot;); 
+fwrite($crea, &quot;&lt;table width='100%' border='0' cellpadding='0' cellspacing='0'&gt;
+  &lt;form name='form' method='post' action=''&gt;
+    &lt;tr&gt; 
+      &lt;td width='70%' height='26'&gt;· &lt;a href='$url' target='_blank'&gt;&lt;!----&gt;$titulo&lt;!----&gt;&lt;/a&gt; 
+        &lt;!----&gt;$descripcion&lt;!----&gt; &lt;input name='titulo' type='hidden' id='titulo' value='&lt;!----&gt;$titulo&lt;!----&gt;'&gt; 
+        &lt;input name='url' type='hidden' value='$url'&gt; 
+		&lt;input name='descripcion' type='hidden' id='descripcion' value='&lt;!----&gt;$descripcion&lt;!----&gt;'&gt;
+		&lt;input name='password' type='hidden' id='password' value='$password'&gt; 
+      &lt;/td&gt;
+      &lt;td width='30%'&gt;&amp;nbsp;&lt;input type='submit' name='editar' value='Editar'&gt;
+        &lt;input name='borrar' type='submit' id='borrar' value='Borrar'&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/form&gt;
+&lt;/table&gt;\n&quot;);
+fclose($crea);
+echo &quot;Dato agregado satisfactoriamente, &lt;a href='$PHP_SELF'&gt;pulsa aqui&lt;/a&gt;&lt;br&gt;&lt;br&gt;&quot;;
+}
+// El formulario para enviar
+if(!$editar){
+if(!$editado){
+if(!$borrar){
+if(!$borra){
+echo &quot;&lt;form name='form' method='post' action='$_SERVER[REQUEST_URI]'&gt;
+  Titulo : 
+  &lt;input name='titulo' type='text' id='titulo'&gt;
+  P&amp;aacute;gina del URL: 
+  &lt;input name='url' type='text' value='http://'&gt;
+  Descripcion: 
+  &lt;input name='descripcion' type='text' id='descripcion' value=''&gt;
+  Pass :
+  &lt;input name='password' type='text' id='password'&gt;
+  &lt;input type='submit' name='enviar' value='Enviar'&gt;
+&lt;/form&quot;;
+}
+}
+}
+}
+// El formulario para editar
+if($editar or $editado) {
+$titulo = str_replace(&quot;&lt;!----&gt;&quot;, &quot;&quot;, $titulo);
+$descripcion = str_replace(&quot;&lt;!----&gt;&quot;, &quot;&quot;, $descripcion);
+
+echo &quot;&lt;form name='form' method='post' action='$_SERVER[REQUEST_URI]'&gt;
+  Titulo : 
+  &lt;input name='titulo' type='text' id='titulo' value='$titulo'&gt;
+  P&amp;aacute;gina del URL: 
+  &lt;input name='url' type='text' value='$url'&gt;
+  Descripcion: 
+  &lt;input name='descripcion' type='text' id='descripcion' value='$descripcion'&gt;
+  Pass: 
+  &lt;input name='pass' type='text' id='pass'&gt;
+  &lt;input name='titulo2' type='hidden' id='titulo' value='$_POST[titulo]'&gt;
+  &lt;input name='url2' type='hidden' value='$_POST[url]'&gt;
+  &lt;input name='descripcion2' type='hidden' id='descripcion' value='$_POST[descripcion]'&gt;
+  &lt;input name='password2' type='hidden' id='password2' value='$_POST[password]'&gt;
+  &lt;input type='submit' name='editado' value='Editar'&gt;
+&lt;/form&gt;&quot;;
+// Editamos los datos fisicamente
+if($editado){
+if($pass != $contrasena) { 
+if(md5($pass) != $password2) { 
+die(&quot;Contraseña incorrecta, &lt;a href='$PHP_SELF'&gt;pulsa aqui&lt;/a&gt;&lt;br&gt;&lt;br&gt;&quot;);
+}
+}
+
+function abrirf($filename)
+{								
+$fd = @fopen ($filename, &quot;a+&quot;);	
+$archivo = @fread ($fd, filesize ($filename));
+@fclose ($fd);
+return $archivo;				
+}
+
+function guardarf($filename,$valor)
+{								
+$fe = @fopen ($filename, &quot;w+&quot;);	
+@fputs ($fe,$valor);
+@fclose ($fe);					
+}
+// Comprobamos que los datos no estan vacios
+if($titulo == &quot;&quot;){ $error .= &quot;No has puesto el titulo&lt;br&gt;&quot;;}
+if($url == &quot;http://&quot;){ $error .= &quot;No has puesto la url&lt;br&gt;&quot;;}
+if($descripcion == &quot;&quot;){$error .= &quot;No has puesto una descripcion&lt;br&gt;&quot;;}
+if($error) {
+echo &quot;
+&lt;b&gt;Error&lt;/b&gt;
+&lt;p&gt;&lt;font color='#FF0000'&gt;$error&lt;/font&gt; 
+&lt;p&gt;&lt;a href='javascript:history.back()'&gt;Regresar&lt;/a&gt;
+&quot; ;
+exit ;
+}
+// Quitamos el html
+$titulo = htmlspecialchars(stripslashes(trim($_POST[&quot;titulo&quot;])));
+$url = htmlspecialchars(stripslashes(trim($_POST[&quot;url&quot;])));
+$descripcion = htmlspecialchars(stripslashes(trim($_POST[&quot;descripcion&quot;])));
+
+$archivo = abrirf ($pagina_guardar_datos);
+$archivo = str_replace($_POST[titulo2], &quot;&lt;!----&gt;$titulo&lt;!----&gt;&quot;, $archivo);
+$archivo = str_replace($_POST[url2], $url, $archivo);
+$archivo = str_replace($_POST[descripcion2], &quot;&lt;!----&gt;$descripcion&lt;!----&gt;&quot;, $archivo);
+guardarf ($pagina_guardar_datos,$archivo);
+
+echo &quot;Datos modificado satisfactoriamente, &lt;a href='$PHP_SELF'&gt;pulsa aqui&lt;/a&gt;&lt;br&gt;&lt;br&gt;&quot;;
+}
+}
+// Borrar
+if($borrar or $borra){
+
+echo &quot;&lt;form name='form' method='post' action='$_SERVER[REQUEST_URI]'&gt;
+  Pass: 
+  &lt;input name='pass' type='text' id='pass'&gt;
+  &lt;input name='titulo' type='hidden' id='titulo' value='$_POST[titulo]'&gt;
+  &lt;input name='url' type='hidden' value='$_POST[url]'&gt;
+  &lt;input name='descripcion' type='hidden' id='descripcion' value='$_POST[descripcion]'&gt;
+  &lt;input name='password2' type='hidden' id='password2' value='$_POST[password]'&gt;
+  &lt;input type='submit' name='borra' value='Borrar'&gt;
+&lt;/form&gt;&quot;;
+
+if($borra){
+if($pass != $contrasena) { 
+if(md5($pass) != $password2) { 
+die(&quot;Contraseña incorrecta, &lt;a href='$PHP_SELF'&gt;pulsa aqui&lt;/a&gt;&lt;br&gt;&lt;br&gt;&quot;);
+}
+}
+
+function abrirf($filename)
+{								
+$fd = @fopen ($filename, &quot;a+&quot;);	
+$archivo = @fread ($fd, filesize ($filename));
+@fclose ($fd);
+return $archivo;				
+}
+
+function guardarf($filename,$valor)
+{								
+$fe = @fopen ($filename, &quot;w+&quot;);	
+@fputs ($fe,$valor);
+@fclose ($fe);					
+}
+
+$archivo = abrirf ($pagina_guardar_datos);
+$archivo = str_replace(&quot;&lt;table width='100%' border='0' cellpadding='0' cellspacing='0'&gt;
+  &lt;form name='form' method='post' action=''&gt;
+    &lt;tr&gt; 
+      &lt;td width='70%' height='26'&gt;· &lt;a href='$_POST[url]' target='_blank'&gt;$_POST[titulo]&lt;/a&gt; 
+        $_POST[descripcion] &lt;input name='titulo' type='hidden' id='titulo' value='$_POST[titulo]'&gt; 
+        &lt;input name='url' type='hidden' value='$_POST[url]'&gt; 
+		&lt;input name='descripcion' type='hidden' id='descripcion' value='$_POST[descripcion]'&gt;
+		&lt;input name='password' type='hidden' id='password' value='$_POST[password2]'&gt; 
+      &lt;/td&gt;
+      &lt;td width='30%'&gt;&amp;nbsp;&lt;input type='submit' name='editar' value='Editar'&gt;
+        &lt;input name='borrar' type='submit' id='borrar' value='Borrar'&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/form&gt;
+&lt;/table&gt;\n&quot;, &quot;&quot;, $archivo);
+guardarf ($pagina_guardar_datos,$archivo);
+
+echo &quot;Datos borrados satisfactoriamente, &lt;a href='$PHP_SELF'&gt;pulsa aqui&lt;/a&gt;&lt;br&gt;&lt;br&gt;&quot;;
+}
+}
+?&gt;
+
+[/codigo]
+
+Creditos de www.phpmysql.tk

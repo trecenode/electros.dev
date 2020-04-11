@@ -1,0 +1,23 @@
+Testeado en Electros v 3 
+
+[codigo]
+&lt;?
+include(&quot;config.php&quot;) ;
+$usuario = $HTTP_COOKIE_VARS[unick] ;
+$resp = mysql_query(&quot;select  * from usuarios where nick='$usuario'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+if($datos[avatar] == &quot;&quot;) {
+$avatar = &quot;&quot; ;
+}
+else {
+$avatar = &quot;&lt;img src=\&quot;eforo_imagenes/avatares/$datos[id].$datos[avatar]\&quot;&gt;&quot; ; 
+
+}
+
+echo $avatar ;    
+?&gt;
+[codigo]
+
+Esto lo pegan donde kieran ke aparesca y ya =)
+
+P.D. ya se ke es muy simple pero varios preguntan por eso :?

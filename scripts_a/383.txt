@@ -1,0 +1,26 @@
+Ya Salio Uno de los Mas Grandes Programas Script de Habbo Hotel con Varias Opciones que te Permite Hacer Muchas cosas Script en el Habbo Hotel, El te Permitira Hacer Varias Opciones Utiles en Habbo Tales como:
+
+-Sacar la Habbo Cola.
+-Creación de Placas de Toda Plase.
+-Creación de Furnis Scripts's
+
+Tambien Trae una Opción especial Llamada ''AntivetCanet'' Que te Permite saber cuando hay un Mod en la sala y cuando estas Banedo, Tambien esa Opción Permite Desbanearte si te Baneo el MOD. El Programa Nesecita Pequeños Requerimientos del SIstemas que son:
+
+-Tener Windows XP, XP Prosional.
+-Tener 2Megas de Espacio en Disco.
+-Procesador Pentiun 3 o 4.
+
+Para Poder Usar el Programa se nesecita Que tengas Permisos de Administración ya que el Programa no Funcióna sin Permisos de Administración, Si no Tienes Sigue estos Pasos:
+
+Para Conseguir Permisos de Administración:
+
+Si No eres El Dueño de tu Computadora No Tienes Permisos De Administración Aunque Hay una Forma de que Tengas, Para Poder Conseguirlos Nesecitas esto:
+
+Pedir Permiso al Dueño Total de tu Computadora Ocea el Administrador Total.
+El Administrador te dara Permisos de Adminitración pero para Ello Nesecitas un Buen Anivirus Ya Sea el Panda Antivirus Patinun o el Titaniun Ya que si descargas Programas de Internet y Hat un Virus eres responsable de eso.
+
+A Continuación se Hablara de la Opción AntivetCanet:
+
+La Opción AntivetCanet Es solo un Plut-In Que Biene Con el Programa, es como una Bace del Programa. El AntivetCanet Es una Opción que te Permite salver Si Hya Mod's en una sala, Si el Mod Sabe Que estas Usando el Programa el Mod Puede Banearte, Por eso se Creo AntivetCanet Para Informarte de la Preciensia de un MOD En una Sala. Si el Mod Te Baneo y no Puedes Entrar a Habbo el AntivetCanet Puede Desbanear el Nick Baneado. Si el Plut-In AntivetCanet No Viene En el Programa, se Pondrá una Descarga en donde estara el Plut-In.
+
+Attm: BabyJuan1

@@ -1,0 +1,35 @@
+Bueno este script es muy sencillo y no tiene ningun misterio, tiene dos partes una [b]formulario.htm[/b] y otra [b]enviar.php[/b]. Para poder usar este script tu servidor debe tener activada la funcion mail (mi@rroba y lycos no funcionan).
+
+formulario.htm
+[codigo] &lt;html&gt;
+&lt;head&gt;
+       &lt;title&gt;Formulario&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form action=&quot;enviar.php&quot; method=&quot;post&quot;&gt;
+  &lt;div align=&quot;center&quot;&gt;
+    &lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;288&quot; height=&quot;168&quot;&gt;
+      &lt;tr&gt;
+        &lt;td width=&quot;288&quot; height=&quot;168&quot;&gt;
+        &lt;font size=&quot;1&quot; face=&quot;Tahoma&quot; color=&quot;#00A3F0&quot;&gt;Nombre:&amp;nbsp;
+        &lt;br&gt;
+        &lt;input type=&quot;text&quot; name=&quot;keko&quot; size=&quot;20&quot;&gt;&lt;br&gt;Tu
+        Mail&lt;br&gt;
+        &lt;input type=&quot;text&quot; name=&quot;mail&quot; size=&quot;20&quot;&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;strong&gt;Script por &lt;a href=&quot;http://www.diver-habbo.net&quot;&gt;NaVeDa&lt;/a&gt;&lt;/strong&gt;
+&lt;br&gt;E-mail: &lt;a mailto=&quot;contacto@diver-habbo.net&quot;&gt; contacto@diver-habbo.net&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;
+&lt;/html&gt;[/codigo]
+Claramente puedes añadir mas campos en el formulario pero debes seguir un cosa que te dire un poco mas abajo.
+
+&lt;b&gt;enviar.php&lt;/b&gt;
+[codigo] &lt;?mail(&quot;correo@servidor.com&quot;,&quot;Asunto&quot;,&quot;Nombre: $nombre
+Mail: $mail
+
+&quot;,&quot;From: $nombre&lt;$mail&gt;&quot;) ;echo &quot;Mensaje de informacion diciendo que ha sido enviado.&quot; ;
+?&gt;[/codigo]
+Si añades mas campos debes poner el valor de &quot;name&quot; en el enviar.php, es decir, si añadimos el campo
+&lt;input type=&quot;text&quot; name=&quot;contenido&quot; size=&quot;20&quot;&gt; debes poner $contenido en el enviar.php.
+
+Espero que este script os sirva, si teneis dudas ya sabeis preguntar que yo os contestaré sin problemas.

@@ -1,0 +1,32 @@
+Bien este script no es de php pero es bastante bueno. Su funcion es que mientras la pagina web esta cargando sale un texto cargando nose explicarlo muy bien mejor comprobarlo vosotros 
+
+Podeis ver un ejemplo en www.divxcenter.tk 
+
+[codigo]
+&lt;SCRIPT language=VBScript&gt;
+   &lt;!--
+   Dim Bar, Line, SP
+   Bar = 0 
+   Line = &quot;|&quot;
+   sP = 250
+   
+   Function Window_onLoad()
+     Bar = 95
+     sP = 10
+   END Function
+   
+   Function Count()
+   If Bar &lt; 100 Then
+      Bar = Bar + 1
+      Window.Status = &quot;Cargando D I V X C E N T E R: &quot; &amp; Bar &amp; &quot;%&quot; &amp; &quot; &quot; &amp; String(Bar, Line)
+      setTimeout &quot;Count()&quot;, SP
+   Else
+      Window.Status = &quot;D I V X C E N T E R&quot;
+      Document.Body.Style.Display = &quot;&quot; 
+   End If 
+   End Function
+   
+   Call Count()
+   --&gt;
+   &lt;/SCRIPT&gt;
+[/codigo]

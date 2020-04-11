@@ -1,0 +1,67 @@
+Pues, estoy aprendiendo PHP... Es decir que soy Novato aun... (xD)...
+
+Y bien, como se que hay mucha gente como yo, que se pasaba como invitado, sin saber que era PHP, por aquí, seguro que mis novatadas de PHP, ah alguien le sera util (xD)...
+
+Pues bien, este codigo, detecta si se esta usando el Navegador Web InternetExplorer(Alias: ElPortalVirus xD)... Y detecta si se esta usando otro...
+
+Lo basico, es crear una Sentencia si se esta usando el InternetExplorer, y crear una sentencia, si se esta usando cualquier otro navegador(Como el Grandioso FireFox xD)...
+
+Pues bien, aquí les dejo este priemr script que pude hacer(lo cual es una completa novatada xD):
+[codigo]&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;Pagína PHP&lt;/title&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;?php
+    if (strstr($_SERVER[&quot;HTTP_USER_AGENT&quot;], &quot;MSIE&quot;)) {
+  ?&gt;
+   &lt;p&gt;Ponemos sentencia que pasara si se esta usando el IE&lt;/p&gt;
+  &lt;?php
+    } else {
+  ?&gt;
+   &lt;p&gt;Ponemos sentencia que pasara si se usa cualquier otro navegador&lt;/p&gt;
+  &lt;?php
+    }
+  ?&gt;
+ &lt;/body&gt;
+&lt;/html&gt;[/codigo]
+
+Muy simple, no lo creen?...
+
+Ahora, para el que no quiera sentencia de cuando se usa cualquier navegador, ponga esto:
+[codigo]&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;Pagína PHP&lt;/title&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;?php
+    if (strstr($_SERVER[&quot;HTTP_USER_AGENT&quot;], &quot;MSIE&quot;)) {
+  ?&gt;
+   &lt;p&gt;Ponemos sentencia que pasara si se esta usando el IE&lt;/p&gt;
+  &lt;?php
+    }
+  ?&gt;
+ &lt;/body&gt;
+&lt;/html&gt;[/codigo]
+
+Bien, quiza sea muy estupido de mi parte publicar algo tan tonto, simple y novato xD... Pero estoy seguro de que ah alguien que no sabe mucho PHP, le servira... =D...
+
+En mi caso, en mi Web uso este script, para que se cambien a FireFox, para que mi Web se mire mejor xD:
+[codigo]&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;Pagína PHP&lt;/title&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;?php
+    if (strstr($_SERVER[&quot;HTTP_USER_AGENT&quot;], &quot;MSIE&quot;)) {
+  ?&gt;
+   &lt;center&gt;&lt;font color=&quot;red&quot;&lt;h3&gt;&lt;p&gt;&lt;b&gt;Hey! Estas usando esa puerta de virus, llamado 'Internet Explorer', dejate de batallar y de arriesgarte, cambiate a FireFox!, la mejor alternativa, asi no batallas con Virus, ni problemas de velocidad ;).&lt;/b&gt;&lt;/p&gt;&lt;/h3&gt;&lt;/font&gt;&lt;/center&gt;
+  &lt;?php
+    }
+  ?&gt;
+ &lt;/body&gt;
+&lt;/html&gt;[/codigo]
+
+Pues bien, es todo, supongo que es demasiado tonto, pero ahy esta =D...
+
+[i]Agradecimientos a PHP.net por su guia de PHP, de donde aprendi lo poco que se xD[/i]

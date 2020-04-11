@@ -1,0 +1,35 @@
+Estos dos ejemplos sirven para verficar la url antes de enviar al usuario a ella o tambien para borrar una url incorrecta o notificarlo al usuario, los usos que tiene podrian ser ilimitados:
+
+El primero codigo para verficar la existencia de una url es este :
+
+[codigo]
+&lt;?
+$idurl = &quot;www.elcidop.com&quot;;
+function verificar_url($idurl)
+{
+   $id = @fopen($idurl,&quot;r&quot;);
+   if ($id) $abierto = true;
+   else $abierto = false;
+   return $abierto;
+   fclose($id);
+}
+$abierto = verificar_url($idurl);
+if ($abierto) {
+echo &quot;La URL existe!&quot;; }
+else
+{
+echo &quot;La URL no existe o es inaccesible...&quot;;}
+?&gt;[/codigo]
+
+
+El otro codigo que sirver para lo mismo, pero que es diferente es este otro que comprueba la existencia de la url a traves de la funcion gethostbyname, auque no es tan efectivo como el de arriba pero si es mas rapido :
+
+[codigo]&lt;?
+$url = &quot;www.elcidop.com&quot;;
+$ip = gethostbyname($url);
+if(strcmp($url,$ip)==0)
+$existe = &quot;No existe&quot;;
+else
+$existe = &quot;Existe&quot;;
+echo $existe;
+?&gt;[/codigo]

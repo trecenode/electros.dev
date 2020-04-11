@@ -1,0 +1,18 @@
+Si usas un sistema de noticias cn base de datos o electrosnuke, puedes usar este sencillo mod que sirve para mostrar el numero de noticias que quieras y linkearlas automaticamente. Mas bien sirve ara electrosnuke.
+Aqui esta el codigo:
+
+[codigo]
+&lt;?
+include(&quot;config.php&quot;);
+$r2 = mysql_query(&quot;select * from noticias ORDER BY id DESC LIMIT 1&quot;);
+while($d2 = mysql_fetch_array($r2)) 
+echo&quot;&lt;a href='index.php?id=noticias&amp;n=$d2[id]'&gt;$d2[titulo]&lt;/a&gt;&lt;br&gt;&quot;
+
+?&gt;
+[/codigo]	
+
+Donde pone :
+$r2 = mysql_query(&quot;select * from noticias ORDER BY id DESC LIMIT 1 este numero es el numero de noticias que quereis que os muestren.
+Esto muestra el titulo de la noticia linkeada a a nticia extensa.
+Espero que os haya servido.
+Si quereis echad una visita a [url=http://www.carche.net]CaRcHe.NeT[/url]pondre cosas asi.

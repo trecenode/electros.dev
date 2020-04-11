@@ -1,0 +1,19 @@
+He aquí un extra para el sistema de usuarios de electros, para bannear, entrad al mysql y cambiarle al usuario el valos &quot;banneado&quot; por si, o bien, crearos un panel de administración como hice yo ^^.
+
+[codigo]
+&lt;?php 
+include(&quot;conexion.php&quot;); 
+$comprueba = mysql_query(&quot;select * from usuarios where nick = '$_COOKIE[unick]'&quot;); 
+while ($dato = mysql_fetch_array($comprueba)) { 
+$noentra = $dato['banneado']; 
+} 
+if($noentra == &quot;si&quot;){ 
+die(&quot;Estás banneado, fuera de aquí&quot;);
+exit; 
+} 
+?&gt; 
+[/codigo]
+
+Luego creáis un campo en la tabla usuarios llamada banneado char(2) y valor por defecto no.
+
+Espero que os sirva ^^, yo lo uso en mi web, lo bueno es que bannea por una cookie, la del sistema de usuario, ya que casi todo el mundo tiene ip dinámica y no merece la pena bannear por ip, eso sí, si borra las cookie, podrá volver a entrar.

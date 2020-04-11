@@ -1,0 +1,41 @@
+Este mod creado por electros seguro que le sera de utilidad a muchos, sive para autoconfigurar el config y crearlo en nuestro espacio.
+Este archivo lo podemos llamar [b]instalar.php[/b]
+
+
+[codigo]&lt;?
+if($enviar) {
+$config = &quot;&lt;?
+$dbhost = &quot;$dbhost&quot; ; 
+$dbuser = &quot;$dbuser&quot; ; 
+$dbpass = &quot;$dbpass&quot; ; 
+$db = &quot;$db&quot; ; 
+$conectar = mysql_connect($dbhost,$dbuser,$dbpass) ; mysql_select_db($db,$conectar) ;
+?&gt;&quot; ;
+if(!file_exists(&quot;config.php&quot;)) {
+// Se abre el archivo, como abrir una tabla en mysql, si el archivo no existe se crea, el
+// directorio debe tener permiso chmod 777 
+$abrir = fopen(&quot;config.php&quot;,&quot;w&quot;) ;
+// Se escribe con ese archivo parecido a lo del config.php $conectar = mysql.......   mysql_select_db($db,$conectar)
+// una funcion dentro de otra funcion
+fwrite($abrir,$config) ;
+fclose($abrir) ;
+echo &quot;Las tablas y el archivo config.php ha sido creados con éxito. Ahora ya puedes usar el script.&quot; ;
+}
+else {
+echo &quot;Ya hay un archivo config.php previamente creado&quot; ;
+}
+}
+?&gt;
+&lt;form enctype=&quot;multipart/form-data&quot; action=&quot;&lt;?PHP echo $PHP_SELF ?&gt;&quot; 
+method=&quot;post&quot;&gt;
+&lt;b&gt;Servidor:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;dbhost&quot;&gt;
+  ej) locahost &lt;br&gt;
+&lt;b&gt;Usuario:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;dbuser&quot;&gt;&lt;br&gt;
+&lt;b&gt;Contraseña:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;dbpass&quot;&gt;&lt;br&gt;
+&lt;b&gt;Base de datos:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;db&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/form&gt;[/codigo]

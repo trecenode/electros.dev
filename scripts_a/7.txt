@@ -1,0 +1,65 @@
+Como subir archivos a sitios restingidos como miarroba.com y ademas ver el directorio.
+
+Todos estos pasos se realizan en una pagina llamada upload.php y dentro de la etiqueta body.
+
+Primero Hacemos el formulario para enviar el archivo:
+
+[codigo]
+&lt;form enctype=&quot;multipart/form-data&quot; action=&quot;&lt;?PHP echo $PHP_SELF ?&gt;&quot; 
+method=&quot;post&quot;&gt;
+  &lt;div align=&quot;left&quot;&gt;
+    &lt;input type=&quot;hidden&quot; name=&quot;MAX_FILE_SIZE&quot; value=&quot;1000000&quot;&gt;
+    Enviar un archivo: 
+    &lt;input name=&quot;userfile&quot; type=&quot;file&quot;&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;Enviar&quot;&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+[/codigo]
+
+Despues creamos el script para enviar el archivo
+
+[codigo]
+&lt;?PHP 
+
+// copy to this directory 
+$dir=&quot;./&quot;; 
+
+// copy the file to the server 
+if (isset($submit)){ 
+
+if (!is_uploaded_file ($userfile)){ 
+
+echo &quot;&lt;b&gt;$userfile_name&lt;/b&gt; ERROR DE ARCHIVO !!&quot;; 
+} 
+
+// check whether it has been uploaded 
+if (is_uploaded_file ($userfile)){ 
+move_uploaded_file($userfile,$dir.$userfile_name) ;} 
+
+echo &quot;Archivo correctamente copiado !! &lt;a href=&quot;$userfile_name&quot; target=&quot;_blank&quot; &gt;abrirlo&lt;/a&gt;&quot;; 
+} 
+
+?&gt;
+[/codigo]
+
+Y por ultimo  , ponemos el script para ver el directorio de la pagina web (opcional)
+
+[codigo]
+&lt;?
+//definimos el path de acceso
+$path=&quot;./&quot;;
+
+//instanciamos el objeto
+$dir=dir($path);
+
+//Mostramos las informaciones
+echo &quot;Directorio &quot;.$dir-&gt;path.&quot;:&lt;br&gt;&lt;br&gt;&quot;;
+
+while ($elemento = $dir-&gt;read())
+{
+   echo $elemento.&quot;&lt;br&gt;&quot;;
+}
+//Cerramos el directorio
+$dir-&gt;close();
+?&gt;
+[/codigo]

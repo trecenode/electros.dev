@@ -1,0 +1,42 @@
+Hola a todos aqui os dejo la descripcion:
+
+Script en php para mostrar los ultimos posts en un subforo de tu foro phpbb como noticias.
+
+Podeis verlo en accion en:
+
+
+http://www.elpueblomagico.net/~area-zone/index.php
+
+
+Y ahora pongo el contenido del readme:
+
+[Instrucciones]
+
+
+Descomprimir el zip, abrir el archivo phpbbnews.php y configurar los
+datos de la base de datos y demas configuraciones y ale ya esta
+subes los archivos phpbbnews.php y theme.htm and Done! xD
+
+Ahora solo tienes que incluir el archivo phpbbnews.php en cualquier
+sitio de tu web, tienes que hacerlo asi:
+
+&lt;? include(&quot;phpbbnews.php&quot;); ?&gt; y recuerda que la pagina donde lo incluyas
+tiene que tener extension .php
+
+
+Si tienes alguna duda, encuentras algun bug, o simplemente
+quieres darnos algun consejo lo posteas en el foro:
+
+http://www.elpueblomagico.net/~area-zone/foro/viewforum.php?f=17
+
+thx :)
+
+Eso es todo, chaus!
+
+///////////////////////////////////////////
+
+PD: ya que no me deja subir el zip
+os lo podeis bajar de:
+http://www.elpueblomagico.net/~area-zone/zips/scripts/phpbbnews_es.zip
+
+///////////////////////////////////////////

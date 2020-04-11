@@ -1,0 +1,41 @@
+[codigo]
+&lt;?php 
+/* 
+Funcion destinada a ahorrar tiempo a la hora de comprobar formularios. 
+Primeramente realizamos un foreach indicandole la variable $metodo declarada en la funcion. Asignamos una variable($campo) 
+para mediante un if comprobar que los campos no estan vacios. 
+
+Antes abrimos una variable $count y le asignamos el valor 0 para llevar la cuenta de los mensajes que imprime la funcion 
+en caso de que algun campo este en blanco, ya que el foreach actuaria como un bucle y saldria repetidamente el mensaje. 
+
+Si imprime alguna vez el error aumentamos en uno la variable $count y realizamos un if para que si la variable $count 
+es igual a uno interrumpa el foreach. 
+*/ 
+
+function vacio($metodo) { 
+foreach($metodo as $campos) { 
+$count = 0; 
+if(empty($campos)) { echo &quot;No dejes ningun campo en blanco&quot;; 
+$count++; 
+if($count == 1) { 
+break; 
+} 
+} 
+} 
+} 
+
+/* 
+++ APLICACION ++ 
+A la hora de aplicar la funcion debemos hacer lo siguiente: 
+
+vacio(indicar metodo que usamos); 
+
+Donde indicar metodo que usamos seria o bien $_POST o $_GET, 
+ej: 
+vacio($_POST) o vacio($_GET) 
+
+++ NOTA ++
+Al usar esta funcion ningun campo del formulario puede quedar vacio
+*/
+?&gt;
+[/codigo]

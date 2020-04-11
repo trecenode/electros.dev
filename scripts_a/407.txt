@@ -1,0 +1,131 @@
+Es una calculadora muy simple, es mi primer script y tambien como estoy aprendiendo solo me costo programarlo, aun asi es muy malo y talvez incluso lo quiten por esto jajaja.
+
+Aqui va
+[codigo]
+
+'calc.php'
+
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=windows-1252&quot;&gt;
+&lt;meta name=&quot;GENERATOR&quot; content=&quot;Microsoft FrontPage 4.0&quot;&gt;
+&lt;meta name=&quot;ProgId&quot; content=&quot;FrontPage.Editor.Document&quot;&gt;
+&lt;title&gt;Calculadora simple (PHP) by Wign&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body bgcolor=&quot;#FFFFFF&quot;&gt;
+
+&lt;div align=&quot;center&quot;&gt;
+  &lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;175&quot; height=&quot;56&quot; bgcolor=&quot;#0053CE&quot;&gt;
+    &lt;tr&gt;
+      &lt;td width=&quot;158&quot; height=&quot;22&quot; bgcolor=&quot;#005BE6&quot; align=&quot;center&quot;&gt;&lt;font color=&quot;#E6E6E6&quot;&gt;Calculadora&lt;/font&gt;&lt;/td&gt;
+      &lt;td width=&quot;9&quot; height=&quot;22&quot; bgcolor=&quot;#1171FF&quot; align=&quot;center&quot;&gt;&amp;nbsp;&lt;/td&gt;
+      &lt;td width=&quot;10&quot; height=&quot;22&quot; bgcolor=&quot;#3399FF&quot; align=&quot;center&quot;&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td width=&quot;180&quot; height=&quot;57&quot; bgcolor=&quot;#3399FF&quot; align=&quot;center&quot; colspan=&quot;3&quot;&gt;
+&lt;FORM ACTION=&quot;calc2.php&quot; METHOD=&quot;GET&quot;&gt;
+&lt;font color=&quot;#E6E6E6&quot;&gt;
+Introduzca 1er numero:&lt;INPUT TYPE=&quot;text&quot; NAME=&quot;n1&quot;&gt;
+&lt;/font&gt;
+    &lt;tr&gt;
+      &lt;td width=&quot;158&quot; height=&quot;22&quot; bgcolor=&quot;#005BE6&quot; align=&quot;center&quot;&gt;&lt;font color=&quot;#E6E6E6&quot;&gt;Operacion:&lt;/font&gt;&lt;/td&gt;
+      &lt;td width=&quot;9&quot; height=&quot;22&quot; bgcolor=&quot;#1171FF&quot; align=&quot;center&quot;&gt;&amp;nbsp;&lt;/td&gt;
+      &lt;td width=&quot;10&quot; height=&quot;22&quot; bgcolor=&quot;#3399FF&quot; align=&quot;center&quot;&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+      &lt;td height=&quot;49&quot; width=&quot;158&quot;&gt;
+        &lt;p align=&quot;center&quot;&gt;
+&lt;font color=&quot;#E6E6E6&quot;&gt;
+&lt;input type=&quot;radio&quot; value=&quot;1&quot; checked name=&quot;accion&quot;&gt;sumar&lt;br&gt;
+&lt;input type=&quot;radio&quot; value=&quot;2&quot; name=&quot;accion&quot;&gt;restar&lt;br&gt;
+&lt;input type=&quot;radio&quot; value=&quot;3&quot; name=&quot;accion&quot;&gt;multiplicar&lt;br&gt;
+&lt;input type=&quot;radio&quot; value=&quot;4&quot; name=&quot;accion&quot;&gt;dividir&lt;br&gt;
+&lt;input type=&quot;radio&quot; value=&quot;5&quot; name=&quot;accion&quot;&gt;promedio&lt;/font&gt;
+    &lt;tr&gt;
+      &lt;td width=&quot;158&quot; height=&quot;22&quot; bgcolor=&quot;#005BE6&quot; align=&quot;center&quot;&gt;&amp;nbsp;&lt;/td&gt;
+      &lt;td width=&quot;9&quot; height=&quot;22&quot; bgcolor=&quot;#1171FF&quot; align=&quot;center&quot;&gt;&amp;nbsp;&lt;/td&gt;
+      &lt;td width=&quot;10&quot; height=&quot;22&quot; bgcolor=&quot;#3399FF&quot; align=&quot;center&quot;&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+      &lt;td height=&quot;9&quot; bgcolor=&quot;#3399FF&quot; width=&quot;158&quot;&gt;
+        &lt;p align=&quot;center&quot;&gt;&lt;font color=&quot;#E6E6E6&quot;&gt;Introduzca 2do numero:&lt;/font&gt;&lt;INPUT TYPE=&quot;text&quot; NAME=&quot;n2&quot;&gt;&lt;font color=&quot;#E6E6E6&quot;&gt;&lt;BR&gt;
+        &lt;INPUT TYPE=&quot;submit&quot; VALUE=&quot;Calcular&quot;&gt;
+&lt;/font&gt;
+&lt;/FORM&gt;
+      &lt;tr&gt;
+        &lt;td height=&quot;5&quot; width=&quot;158&quot; bgcolor=&quot;#0000FF&quot;&gt;&amp;nbsp;
+      &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+
+[/codigo]
+Todo esto no creo que necesite explicacion, basicamente son los formularios de los numeros a realizar la operacion matematica.
+
+[codigo]
+Y por ultimo 'calc2.php'
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;html&gt;
+&lt;head&gt;
+   &lt;title&gt;Calculadora by Wign&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;?php 
+	//Se definen las variables.
+
+	$n1 =$_GET['n1'];
+	$n2 =$_GET['n2']; 
+	$msn= &quot;&lt;p align=center&gt;&lt;font face=tahoma size=2&gt;&lt;b&gt;&lt;font color=#FF0000&gt;Su resultado es:&lt;/font&gt;&quot;;
+	$back= &quot;calc.php&quot;;
+//Comprobamos que los campos del formulario se encuentren completos.
+
+if(empty($n1)){
+echo &quot;&lt;p align=center&gt;&lt;font face=tahoma size=2&gt;&lt;b&gt;&lt;font color=#FF0000&gt;Error:&lt;/font&gt; 
+Debes seleccionar 1er numero.&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&quot;;
+}
+if(empty($n2)){
+echo &quot;&lt;p align=center&gt;&lt;font face=tahoma size=2&gt;&lt;b&gt;&lt;font color=#FF0000&gt;Error:&lt;/font&gt; 
+Debes seleccionar 2do numero.&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&quot;;
+}
+if(empty($_GET['accion'])){
+echo &quot;&lt;p align=center&gt;&lt;font face=tahoma size=2&gt;&lt;b&gt;&lt;font color=#FF0000&gt;Error:&lt;/font&gt; Debes
+seleccionar una accion (sumar, restar, dividir o multiplicar).&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&quot;;
+}
+if($_GET['accion'] &gt;= 6){
+echo &quot;&lt;p align=center&gt;&lt;font face=tahoma size=2&gt;&lt;b&gt;&lt;font color=#FF0000&gt;Error:&lt;/font&gt; Debes
+seleccionar una accion (sumar, restar, dividir o multiplicar) valida.&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;&quot;;
+}
+else
+{
+
+//Prosesamos la informacion.
+
+		if($_GET['accion'] == 1)
+		{
+		echo &quot;$msn &quot;, $n1 + $n2;
+		}
+		if($_GET['accion'] == 2)
+		{
+		echo &quot;$msn &quot;, $n1 - $n2;
+		}
+		if($_GET['accion'] == 3)
+		{
+		echo &quot;$msn &quot;, $n1 * $n2;
+		}
+		if($_GET['accion'] == 4)
+		{
+		echo &quot;$msn &quot;, $n1 / $n2;
+		}
+		if($_GET['accion'] == 5)
+		{
+		echo &quot;$msn &quot;, ($n1 + $n2) / 2;
+		}
+}
+	echo &quot;&lt;br&gt;&lt;a href=\&quot;$back\&quot;&gt;Atras&lt;/a&gt;&quot;; 
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt; 
+[/codigo]

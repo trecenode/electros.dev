@@ -1,0 +1,28 @@
+Este pequeño muestra el tamaño en mb de todos los archivos que contiene un directorio y sus subdirectorios, que a su vez pueen contener otros archivos.
+Sirve por ejemplo para controlar cuentas que creamos o el tamaño en mb de un sitio completo.
+
+
+[codigo]&lt;?
+$total = 0;
+function spaceUsed($dir) {
+ if (is_dir($dir)) {
+  if ($dh = opendir($dir)) {
+   while (($file = readdir($dh)) !== false) {
+   if (is_dir($dir.$file) &amp;&amp; $file != '.' &amp;&amp; $file != '..') {
+     spaceUsed($dir.$file.'/');
+   } else {
+     $GLOBALS['total'] += filesize($dir.$file);
+   }
+   }
+  closedir($dh);
+  }
+ }
+}
+spaceUsed('tucarpeta/');
+$total /= 1048576;
+echo round($total, 1).' mb';
+?&gt;[/codigo]
+
+
+Espero que le sirva.
+Sldos.

@@ -1,0 +1,33 @@
+Saludos!
+
+Al lanzar el RN2 parece que hubieron varios errores que están siendo corregidos en el RN2.2 o casi 3.0, en el cual se esta incluyendo:
+
+- Instalador y tablas SQL con instrucciones (en caso falle el instalador)
+- Noticias con tópicos, buscador y clasificador
+- Tagboard (al parecer PHP Tag Cool) 
+- Galeria de Imagenes 
+- Sistema de Links 
+- Libro de Visitas 
+- Sistema de Articulos 
+- Sistema de Descargas 
+- Formulario de Contato 
+- Panel de Administracion 
+- Intercambio de Themes (con manual para creación)
+- Sistema de Usuarios 
+- Sistema de Administradores 
+- Posibilidad de Añadir varios Admins a la web 
+- Envio de secciones con editor
+- Secciones seguras
+- Sistema de afiliados
+- Respaldo de base de datos
+- Administrador de menús
+- Sistema de puntos
+- Eforo 2.2 modificado (posiblemente)
+
+Para los que quieren el RN2:
+[img]http://www.etececlub.com/images/media/renznuke2.jpg[/img]
+Para mas informacion :[url]http://www.etececlub.com[/url]
+Para descargar :[url]http://www.etececlub.com/scripts/RenzNuke2.rar[/url]
+El Primer Fix :[url]http://www.etececlub.com/scripts/rn2_fix.rar[/url]
+
+Mientras vaya avanzando con el RenzNuke voy a colocar mas información aquí, dejen sus comentarios y que cosa quisieran para el nuevo RenzNuke (algunos seran tomados en cuenta).

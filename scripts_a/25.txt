@@ -1,0 +1,163 @@
+Este script crea las tablas y te las muestra.
+Llamalo con el nombre que quieras, ej) instalar.php
+
+Lo unico que hay que modificar es las siguientes variables
+
+[b]
+$servidor = &quot;localhost&quot;;
+$usuario = &quot;usuario&quot;;
+$password = &quot;contraseña&quot;;
+$base_de_datos = &quot;nombre_BD&quot;;
+[/b]
+
+el nombre de la tabla
+
+[b]
+$nombre_tabla = &quot;noticias&quot;;
+[/b]
+
+y por ultimo los datos de la tabla a crear, no hay que poner lo de [b]CREATE TABLE noticias ([/b] ,(ya que no hace falta) solo quitarle esa parte que he mencionado y poner el resto del codigo.
+
+[b]
+id int auto_increment NOT NULL, 
+    titulo char(200) NOT NULL, 
+    fecha char(10) NOT NULL, 
+    cuerpo longtext NOT NULL, 
+    PRIMARY KEY (id)
+[/b]
+
+[codigo]
+&lt;?
+
+// ***** Modificar las siguientes lineas con sus datos *****
+$servidor = &quot;localhost&quot;;
+$usuario = &quot;usuario&quot;;
+$password = &quot;contraseña&quot;;
+$base_de_datos = &quot;nombre_BD&quot;;
+
+// nombre de la tabla...
+$nombre_tabla = &quot;noticias&quot;;
+// estructura de la tabla...
+$sql =&quot;CREATE TABLE &quot;.$nombre_tabla.&quot;(
+    id int auto_increment NOT NULL, 
+    titulo char(200) NOT NULL, 
+    fecha char(10) NOT NULL, 
+    cuerpo longtext NOT NULL, 
+    PRIMARY KEY (id) 
+	);&quot;;
+// ********************** Fin modificacion **********************
+
+$myconn = mysql_connect($servidor,$usuario,$password);
+if (!@mysql_select_db($base_de_datos)){
+	echo (&quot;Imposible abrir la BD&quot;);
+	exit();
+}
+
+if(!@mysql_query($sql,$myconn))	echo &quot;Error: &quot;.mysql_error();
+else{
+	echo (&quot;&lt;P ALIGN=center&gt;&lt;B&gt;Tabla creada con éxito&lt;/B&gt;&lt;/P&gt;&quot;);
+	
+	// Muestro los datos de la tabla creada...
+	$result = mysql_query(&quot;SELECT * FROM $nombre_tabla&quot;);
+	$fields = mysql_num_fields($result);
+	$i = 0;
+	$table = mysql_field_table($result,$i);
+	echo &quot;&lt;BR&gt;&quot;;
+	echo &quot;&lt;B&gt;Nombre de la tabla:&lt;/B&gt; &quot;.$table.&quot;&lt;BR&gt;&quot;;
+	echo &quot;&lt;B&gt;Cantidad de campos:&lt;/B&gt; &quot;.$fields.&quot;&lt;BR&gt;&quot;;
+	echo &quot;&lt;TABLE WIDTH=100% BORDER=1&gt;&lt;TR&gt;&quot;;
+	echo &quot;&lt;TD ALIGN=center&gt;Tipo&lt;/TD&gt;
+		&lt;TD ALIGN=center&gt;Nombre&lt;/TD&gt;
+		&lt;TD ALIGN=center&gt;Largo&lt;/TD&gt;
+		&lt;TD ALIGN=center&gt;Flags / Atributos&lt;/TD&gt;&quot;;
+	echo &quot;&lt;/TR&gt;&quot;;
+	while($i &lt; $fields){
+	    $type  = mysql_field_type  ($result, $i);
+	    $name  = mysql_field_name  ($result, $i);
+	    $len   = mysql_field_len   ($result, $i);
+	    $flags = mysql_field_flags ($result, $i);
+		if ($flags == &quot;&quot;) $flags = &quot;&amp;nbsp;&quot;;
+		echo &quot;&lt;TR&gt;&quot;;
+		echo &quot;&lt;TD&gt;&quot;.$type.&quot;&lt;/TD&gt;&quot;;
+		echo &quot;&lt;TD&gt;&quot;.$name.&quot;&lt;/TD&gt;&quot;;
+		echo &quot;&lt;TD&gt;&quot;.$len.&quot;&lt;/TD&gt;&quot;;
+		echo &quot;&lt;TD&gt;&quot;.$flags.&quot;&lt;/TD&gt;&quot;;
+		echo &quot;&lt;/TR&gt;&quot;;
+	    $i++;
+	}
+	echo &quot;&lt;/TABLE&gt;&quot;;
+}
+?&gt;
+[/codigo]
+
+[b]Archivo con conexion al config.php[/b]
+Como conectar el archivo al config.php, para ello son necesarios este archivo instalar.php y el config.php
+
+[codigo]
+&lt;?
+
+// ***** Modificar las siguientes lineas con sus datos *****
+
+include(&quot;config.php&quot;);
+
+$usuario = &quot;usuario&quot;;
+$password = &quot;contraseña&quot;;
+$base_de_datos = &quot;nombre_BD&quot;;
+
+// nombre de la tabla...
+$nombre_tabla = &quot;noticias&quot;;
+// estructura de la tabla...
+$sql =&quot;CREATE TABLE &quot;.$nombre_tabla.&quot;(
+id int auto_increment NOT NULL, 
+titulo char(200) NOT NULL, 
+fecha char(10) NOT NULL, 
+cuerpo longtext NOT NULL, 
+PRIMARY KEY (id) 
+);&quot;;
+// ********************** Fin modificacion **********************
+
+
+if(!@mysql_query($sql,$conectar)) echo &quot;Error: &quot;.mysql_error();
+else{
+echo (&quot;&lt;P ALIGN=center&gt;&lt;B&gt;Tabla creada con éxito&lt;/B&gt;&lt;/P&gt;&quot;);
+
+// Muestro los datos de la tabla creada...
+$result = mysql_query(&quot;SELECT * FROM $nombre_tabla&quot;);
+$fields = mysql_num_fields($result);
+$i = 0;
+$table = mysql_field_table($result,$i);
+echo &quot;&lt;BR&gt;&quot;;
+echo &quot;&lt;B&gt;Nombre de la tabla:&lt;/B&gt; &quot;.$table.&quot;&lt;BR&gt;&quot;;
+echo &quot;&lt;B&gt;Cantidad de campos:&lt;/B&gt; &quot;.$fields.&quot;&lt;BR&gt;&quot;;
+echo &quot;&lt;TABLE WIDTH=100% BORDER=1&gt;&lt;TR&gt;&quot;;
+echo &quot;&lt;TD ALIGN=center&gt;Tipo&lt;/TD&gt;
+&lt;TD ALIGN=center&gt;Nombre&lt;/TD&gt;
+&lt;TD ALIGN=center&gt;Largo&lt;/TD&gt;
+&lt;TD ALIGN=center&gt;Flags / Atributos&lt;/TD&gt;&quot;;
+echo &quot;&lt;/TR&gt;&quot;;
+while($i &lt; $fields){
+$type = mysql_field_type ($result, $i);
+$name = mysql_field_name ($result, $i);
+$len = mysql_field_len ($result, $i);
+$flags = mysql_field_flags ($result, $i);
+if ($flags == &quot;&quot;) $flags = &quot;&amp;nbsp;&quot;;
+echo &quot;&lt;TR&gt;&quot;;
+echo &quot;&lt;TD&gt;&quot;.$type.&quot;&lt;/TD&gt;&quot;;
+echo &quot;&lt;TD&gt;&quot;.$name.&quot;&lt;/TD&gt;&quot;;
+echo &quot;&lt;TD&gt;&quot;.$len.&quot;&lt;/TD&gt;&quot;;
+echo &quot;&lt;TD&gt;&quot;.$flags.&quot;&lt;/TD&gt;&quot;;
+echo &quot;&lt;/TR&gt;&quot;;
+$i++;
+}
+echo &quot;&lt;/TABLE&gt;&quot;;
+}
+?&gt;
+
+[/codigo]
+
+
+Por ultimo basta con abrir el archivo y se crearan las tablas automaticamente.
+
+Salu2. 
+
+http://www.phpmysql.tk

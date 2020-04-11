@@ -1,0 +1,42 @@
+[codigo]
+&lt;?
+
+// ESTE ES EL NOMBRE DEL FOTOLOG QUE QUIERES VER LA ULTIMA FOTO
+$fotolog = &quot;&quot;;
+
+// ALTO DE LA IMAGEN (el ancho es en proporcion al alto)
+$alto = &quot;&quot;;
+
+// ESTA FUNCIÓN TE DEJA LA IMAGEN LIMPIA
+
+function funcion($img,$alto) {
+   $img = str_replace(&quot;&lt;img &quot;,&quot;&lt;img height=\&quot;$alto\&quot;&quot;,&quot;$img&quot;);
+   $img = str_replace(&quot;&lt;!--foto--&gt;&quot;,&quot;&quot;,&quot;$img&quot;);
+   $img = str_replace(&quot;	&quot;,&quot;&quot;,&quot;$img&quot;);
+   $img = str_replace(&quot;\n&quot;,&quot;&quot;,&quot;$img&quot;);
+   return $img;
+}
+
+// SE OBTIENE LA ULTIMA IMAGEN ABRIENDO EL DIRECTORIO
+
+$dir=&quot;http://www.fotolog.com/$fotolog/&quot;;
+$abrir=@fopen($dir,&quot;r&quot;);
+while(!(@feof($abrir)))
+$contenido.=@fgets($abrir,102400);
+$inicio = strpos($contenido,'&lt;!--foto--&gt;');
+$fin=strpos($contenido,'&lt;ul id=&quot;mainFotoTools&quot;&gt;',$inicio);
+$fin=substr($contenido,$inicio,($fin - $inicio));
+
+// SE MUESTRA LA IMAGEN
+
+echo funcion($fin,$alto);
+
+// SE CIERRA EL DIRECTORIO
+
+fclose($abrir);
+
+?&gt;
+[/codigo]
+
+Este code me lo mando un amigo, no lo he probado pero si no funciona bien avisenme
+Solo funciona con fotolog.com

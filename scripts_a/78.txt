@@ -1,0 +1,40 @@
+En este script podras dejar que los visitantes de tu web la recomienden a sus amigos.
+[codigo]
+&lt;?php 
+if(isset($submit)): 
+$email = &quot;recomendacion@electros.tk&quot;; 
+$recomendar = &quot;$minombre te recomienda visitar $mipagina n 
+Su direccion de correo es $mimail n Su mensaje es: $comentario nn Muchas gracias&quot;; 
+$asunto = &quot;Un amigo te ah recomendado una pagina&quot;; 
+$mipagina = &quot;http://www.electros.tk&quot;;
+$cuerpoa = &quot;Estimado/a $nombrea . n $recomendar&quot;; 
+$cuerpob = &quot;Estimado/a $nombreb . n $recomendar&quot;; 
+mail($paraa, $asunto, $cuerpoa, &quot;From: recomendacion &lt;$email&gt;&quot;);
+mail($parab, $asunto, $cuerpob, &quot;From: recomendacion &lt;$email&gt;&quot;);
+echo &quot;Gracias por recomendarnos&quot; ; 
+else: 
+?&gt; 
+&lt;form action=&quot;recomendar.php&quot; method=&quot;post&quot;&gt;
+&lt;table align=&quot;center&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;h1&gt;Recomienda esta pagina&lt;/h1&gt;&lt;table&gt;&lt;tr&gt;&lt;td&gt;tu nombre &lt;/td&gt;&lt;td&gt; &lt;input type=&quot;text&quot; name=&quot;minombre&quot;&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt; &lt;td&gt;tu e-mail&lt;/td&gt;&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;mimail&quot;&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;su nombre&lt;/td&gt;&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;nombrea&quot;&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;su mail&lt;/td&gt;&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;paraa&quot;&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;su nombre&lt;/td&gt;&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;nombreb&quot;&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;su mail&lt;/td&gt;&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;parab&quot;&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table&gt;&lt;tr&gt;&lt;td&gt;
+&lt;font color=&quot;0000ff&quot;&gt;&lt;br&gt;&lt;b&gt;Tu mensaje&lt;/b&gt;&lt;/font&gt;&lt;br&gt; 
+&lt;textarea cols=35 rows=15 name=&quot;comentario&quot;&gt; 
+&lt;/textarea&gt; 
+&lt;BR&gt; 
+&lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;recomendar&quot;&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/form&gt;&lt;/center&gt; 
+&lt;? 
+endif; 
+
+[/codigo]
+
+Guarda este archivo con el nombre recomendar.php.
+Modificar en la parte donde dice mipagina, cambiar electros.tk por el nombre de tu sitio web.
+si quieres le puedes modificar la tercera linea  donde dice recomendacion@electros.tk , cambiarlo por el mail que quieras

@@ -1,0 +1,46 @@
+Este, es como este script: http://electros.iefactory.com/?ver=scripts&amp;s=146 pero en este, es como un explorador de windows, que se puede canviar de directorio mediante un campo de texto.
+
+Solo teneis que crear una pagina llamada &quot;explorador.php&quot; y pegar el siguiente codigo:
+[codigo]&lt;? 
+$web = &quot;Webtutorial&quot;; // el nombre de tu web
+$url = &quot;http://webtutorial.webcindario.com&quot;; // la direccion exacta sin / al final
+$pagina = &quot;explorador.php&quot;; // el nombre de esta pagina
+?&gt;
+
+Explorando &lt;? echo $web ?&gt;&lt;br&gt;
+&lt;form action=&quot;&lt;? echo $pagina ?&gt;&quot; method=&quot;post&quot; name=&quot;enviar&quot; id=&quot;enviar&quot;&gt;
+Direccion:  &lt;? echo $url ?&gt;/
+&lt;input name=&quot;directorio&quot; type=&quot;text&quot; class=&quot;form&quot;&gt; 
+&lt;input type=&quot;Submit&quot; name=&quot;enviar&quot; value=&quot;ver directorio&quot; class=&quot;form&quot;&gt; 
+&lt;/form&gt; 
+&lt;?
+if($enviar) {
+// configuramos el directorio que queremos listar:
+$directorio = $directorio ;
+$dir = opendir(&quot;$directorio&quot;) ;
+$parimpar = 0 ;
+echo &quot;&lt;center&gt;&lt;table width=80%  border=1 cellspacing=0 cellpadding=0 aling=center&gt;&quot; ;
+
+while ($file = readdir($dir)) { 
+ $parimpar++ ;
+
+ // evitamos q muestre los puntos de volver al directorio superior
+if ($file != &quot;.&quot; &amp;&amp; $file != &quot;..&quot;) { 
+
+//mostramos columnas
+   if($parimpar % 2 == 1) { echo &quot;&lt;tr&gt;&lt;td&gt; &lt;a href=&quot;$directorio/$file&quot;&gt;$file&lt;/a&gt; &lt;/td&gt;&quot; ; }
+   if($parimpar % 2 == 0) { echo &quot;&lt;td&gt; &lt;a href=&quot;$directorio/$file&quot;&gt;$file&lt;/a&gt; &lt;/td&gt;&lt;/tr&gt;&quot; ; }
+ } }
+
+// si el numero de archivos es impar añadimos esta columna para no descudrar la tabla
+ if($parimpar % 2 == 1) { echo &quot;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;&quot; ; }
+
+echo &quot;&lt;/table&gt;&lt;/center&gt;&quot;;
+
+closedir($dir);
+ } 
+?&gt; [/codigo]
+
+No se proque pero, solo funciona si pulsais el boton, si le dais a enter, no se ve ningun directorio. 
+
+Si quereis ver un ejemplo: http://webtutorial.webcindario.com/explorador2.php

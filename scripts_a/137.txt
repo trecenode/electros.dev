@@ -1,0 +1,573 @@
+Codigo fuente,muestra todos los archivos (se guarda como index.php) :
+
+[codigo]&lt;table width='100%' border='1' cellpadding='5' cellspacing='0' align='center' style='border: #757575 1 solid'&gt;
+&lt;tr&gt; 
+&lt;td width=&quot;78%&quot; height=&quot;7&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Archivo&lt;/b&gt;&lt;/td&gt;
+&lt;td class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Tamaño&lt;/b&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;?
+//definimos el path de acceso
+$path = &quot;.&quot;;
+//abrimos el directorio
+$dir = opendir($path);
+//Mostramos las informaciones
+while ($elemento = readdir($dir))
+{
+// pasamos el tamaño del archivo a kb
+$tamano = filesize($elemento)/1024 ;
+$tamano = ceil($tamano) ;
+?&gt;
+&lt;tr&gt; 
+&lt;td height='7' class=&quot;tabla_mensaje&quot;&gt;&lt;a href=&quot;&lt;? echo $elemento ?&gt;&quot; &gt;&lt;img src=&quot;../imagenes/zip.gif&quot; border=&quot;0&quot; width=&quot;16&quot; height=&quot;16&quot;&gt; 
+&lt;? echo $elemento ?&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td height='7' class='tabla_mensaje'&gt;&lt;? echo $tamano ; ?&gt; Kb &lt;/td&gt;
+&lt;/tr&gt;
+&lt;?
+}
+//Cerramos el directorio
+closedir($dir); 
+?&gt;
+&lt;/table&gt; [/codigo]
+
+Codigo fuente,muestra solo los archivos con extension .zip (se guarda como index.php) :
+
+[codigo]&lt;table width='100%' border='1' cellpadding='5' cellspacing='0' align='center' style='border: #757575 1 solid'&gt; 
+&lt;tr&gt; 
+&lt;td width=&quot;78%&quot; height=&quot;7&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Archivo&lt;/b&gt;&lt;/td&gt; 
+&lt;td class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Tamaño&lt;/b&gt;&lt;/td&gt; 
+&lt;/tr&gt; 
+&lt;? 
+//definimos el path de acceso 
+$path = &quot;.&quot;; 
+//abrimos el directorio 
+$dir = opendir($path); 
+//Mostramos las informaciones 
+while ($elemento = readdir($dir)) 
+{ 
+$elemento1 = strtolower($elemento); 
+if (strpos ($elemento1, &quot;.zip&quot;) &gt; 1){ 
+// pasamos el tamaño del archivo a kb 
+$tamano = filesize($elemento)/1024 ; 
+$tamano = ceil($tamano) ; 
+?&gt; 
+&lt;tr&gt; 
+&lt;td height='7' class=&quot;tabla_mensaje&quot;&gt;&lt;a href=&quot;&lt;? echo $elemento ?&gt;&quot; &gt;&lt;img src=&quot;../imagenes/zip.gif&quot; border=&quot;0&quot; width=&quot;16&quot; height=&quot;16&quot;&gt; 
+&lt;? echo $elemento ?&gt;&lt;/a&gt;&lt;/td&gt; 
+&lt;td height='7' class='tabla_mensaje'&gt;&lt;? echo $tamano ; ?&gt; Kb &lt;/td&gt; 
+&lt;/tr&gt; 
+&lt;? 
+} 
+} 
+//Cerramos el directorio 
+closedir($dir); 
+?&gt; 
+&lt;/table&gt; [/codigo]
+
+Codigo fuente,muestra solo los archivos con extension .zip y paginarlo de 10 en 10 : (POR DaRKMaSTeR)(se guarda como index.php)
+
+[codigo]&lt;table width='100%' border='1' cellpadding='5' cellspacing='0' align='center' style='border: #757575 1 solid'&gt; 
+&lt;tr&gt; 
+  &lt;td width=&quot;78%&quot; height=&quot;7&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Archivo&lt;/b&gt;&lt;/td&gt; 
+  &lt;td class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Tamaño&lt;/b&gt;&lt;/td&gt; 
+&lt;/tr&gt; 
+
+&lt;?php
+                                 // Le damos valor a las variables de configuración
+$Config['Path'] = &quot;.&quot;;         // Directorio donde stan los archivos a mostrar.
+$Config['Show'] = 10;             // Numero de archivos a mostrar por páginas.
+
+$Show['10 Anteriores'] = 0;        // Por defecto no se mostrara 10 Anteriores
+$Show['10 Siguientes'] = 0;        // Por defecto no se mostrara 10 Siguientes
+
+if ($c == &quot;&quot;) $c = 0;            // Si $c no tiene valor es porque es la primera vez que se visita la página.
+$dir = opendir($Config['Path']);         // Abrimos el directorio donde estan los archivos
+$Plus = $c;                    // Le damos el valor de $c a $plus porque el valor de $c se perdera y lo necessitaremos mas tarde.
+
+while ($c &gt; 0 &amp;&amp; $elemento = readdir($dir))        // Mientras la variable $c sea mayor de 0 saltamos archivos.
+{
+  $Show['10 Anteriores'] = 1;
+  $c--;
+}
+
+$Counter = 0;            // Ponemos a 0 el contador
+
+// Si es la primera vez que vez añadimos 2 filas, si no lo es se las quitamos.
+if ($Show['10 Anteriores'] == 0) $Counter=$Counter-2; else {
+  $c = 2;
+  while ($c &gt; 0 &amp;&amp; $elemento = readdir($dir))        // Mientras la variable $c sea mayor de 0 saltamos archivos.
+  {
+   $Show['10 Anteriores'] = 1;
+   $c--;
+  }
+}
+
+// Mostramos el numero de archivos que se tienen que mostrar por página.
+while (($Counter != $Config['Show']) &amp;&amp; ($elemento = readdir($dir)))
+{
+  $Counter++;
+
+  $elemento1 = strtolower($elemento); 
+  if (strpos($elemento1, &quot;.zip&quot;) &gt; 1) {
+
+   // pasamos el tamaño del archivo a kb
+   $tamano = filesize($elemento)/1024;
+   $tamano = ceil($tamano) ; 
+?&gt; 
+&lt;tr&gt; 
+    &lt;td height='7' class=&quot;tabla_mensaje&quot;&gt;&lt;a href=&quot;&lt;?php echo $elemento ?&gt;&quot; &gt;&lt;img src=&quot;../imagenes/zip.gif&quot; border=&quot;0&quot; width=&quot;16&quot; height=&quot;16&quot;&gt; 
+      &lt;? echo $elemento ?&gt;&lt;/a&gt;&lt;/td&gt; 
+  &lt;td height='7' class='tabla_mensaje'&gt;&lt;?php echo $tamano ; ?&gt; Kb &lt;/td&gt; 
+&lt;/tr&gt; 
+&lt;?php
+  }
+}
+  
+// Si sobran archivos pondremos el &quot;10 Siguientes&quot;
+if ($elemento = readdir($dir))
+{
+  $Show['10 Siguientes'] = 1;
+}
+
+//Cerramos el directorio 
+closedir($dir); 
+?&gt; 
+&lt;/table&gt;
+&lt;div align=&quot;right&quot;&gt;
+&lt;?php
+// Mostraos si es necessario el &quot;10 Anteriores&quot; y &quot;10 Siguientes&quot;.
+if ($Show['10 Anteriores'] == 1) echo(&quot;&lt;a href=&quot;index.php?c=&quot;.($Plus-$Config['Show']).&quot;&quot;&gt;10 Anteriores | &lt;/a&gt;&quot;);
+if ($Show['10 Siguientes'] == 1) echo(&quot;&amp;nbsp;&lt;a href=&quot;index.php?c=&quot;.($Plus+$Config['Show']).&quot;&quot;&gt;10 Siguientes&lt;/a&gt;&lt;/p&gt;&quot;);
+?&gt;
+&lt;/div&gt; [/codigo]
+
+Codigo fuente,muestra solo los archivos con extension .zip y paginarlo de 10 en 10,contar las descargas : (se guarda como index.php)
+
+[codigo]1) Guardamos este archivo con el nombre index.php
+
+&lt;table width='100%' border='1' cellpadding='5' cellspacing='0' align='center' style='border: #757575 1 solid'&gt;
+&lt;tr&gt; 
+&lt;td width=&quot;48%&quot; height=&quot;7&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Archivo&lt;/b&gt;&lt;/td&gt;
+&lt;td width=&quot;12%&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Tamaño&lt;/b&gt;&lt;/td&gt;
+&lt;td width=&quot;26%&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Fecha&lt;/b&gt;&lt;/td&gt;
+&lt;td width=&quot;14%&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Hits&lt;/b&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;?php
+// Le damos valor a las variables de configuración
+$Config['Path'] = &quot;.&quot;; // Directorio donde stan los archivos a mostrar.
+$Config['Show'] = 10; // Numero de archivos a mostrar por páginas. $Show['10 Anteriores'] = 0; // Por defecto no se mostrara 10 Anteriores
+$Show['10 Siguientes'] = 0; // Por defecto no se mostrara 10 Siguientes
+
+if ($c == &quot;&quot;) $c = 0; // Si $c no tiene valor es porque es la primera vez que se visita la página.
+$dir = opendir($Config['Path']); // Abrimos el directorio donde estan los archivos
+$Plus = $c; // Le damos el valor de $c a $plus porque el valor de $c se perdera y lo necessitaremos mas tarde.
+
+while ($c &gt; 0 &amp;&amp; $elemento = readdir($dir)) // Mientras la variable $c sea mayor de 0 saltamos archivos.
+{
+$Show['10 Anteriores'] = 1;
+$c--;
+}
+
+$Counter = 0; // Ponemos a 0 el contador
+
+// Si es la primera vez que vez añadimos 2 filas, si no lo es se las quitamos.
+if ($Show['10 Anteriores'] == 0) $Counter=$Counter-2; else {
+$c = 2;
+while ($c &gt; 0 &amp;&amp; $elemento = readdir($dir)) // Mientras la variable $c sea mayor de 0 saltamos archivos.
+{
+$Show['10 Anteriores'] = 1;
+$c--;
+}
+}
+
+// Mostramos el numero de archivos que se tienen que mostrar por página.
+while (($Counter != $Config['Show']) &amp;&amp; ($elemento = readdir($dir)))
+{
+$Counter++;
+
+$elemento1 = strtolower($elemento); 
+if (strpos($elemento1, &quot;.zip&quot;) &gt; 1) {
+
+// pasamos el tamaño del archivo a kb
+$tamano = filesize($elemento)/1024;
+$tamano = ceil($tamano) ; 
+// fecha de subida del archivo
+$elementotiempo = filectime(&quot;$elemento&quot;);
+$fecha=explode(&quot;·&quot;,date(&quot;·d·m·Y·h·i&quot;,$elementotiempo));
+$ano=str_replace(&quot;2001&quot;,&quot;01&quot;,$fecha[3]);
+$ano=str_replace(&quot;2002&quot;,&quot;02&quot;,$ano);
+$ano=str_replace(&quot;2003&quot;,&quot;03&quot;,$ano);
+$ano=str_replace(&quot;2004&quot;,&quot;04&quot;,$ano);
+$ano=str_replace(&quot;2005&quot;,&quot;05&quot;,$ano);
+$ano=str_replace(&quot;2006&quot;,&quot;06&quot;,$ano);
+$ano=str_replace(&quot;2007&quot;,&quot;07&quot;,$ano);
+$ano=str_replace(&quot;2008&quot;,&quot;08&quot;,$ano);
+$ano=str_replace(&quot;2009&quot;,&quot;09&quot;,$ano);
+$ano=str_replace(&quot;2010&quot;,&quot;10&quot;,$ano);
+$fecha=&quot;$fecha[1]/$fecha[2]/$ano a las $fecha[4]:$fecha[5]&quot;;
+?&gt;
+&lt;tr&gt; 
+&lt;td height='7' class=&quot;tabla_mensaje&quot;&gt;&lt;a href=&quot;click.php?&lt;?php echo $elemento ?&gt;&quot; &gt;&lt;img src=&quot;../imagenes/zip.gif&quot; border=&quot;0&quot; width=&quot;16&quot; height=&quot;16&quot;&gt; 
+&lt;? echo $elemento ?&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td height='7' class='tabla_mensaje'&gt;&lt;?php echo $tamano ; ?&gt; Kb &lt;/td&gt;
+&lt;td class='tabla_mensaje'&gt;&lt;? echo $fecha ; ?&gt;&lt;/td&gt;
+&lt;td class='tabla_mensaje'&gt;
+&lt;?php @include(&quot;estadisticas/$elemento.txt&quot;); ?&gt;&amp;nbsp;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;?php
+}
+}
+
+// Si sobran archivos pondremos el &quot;10 Siguientes&quot;
+if ($elemento = readdir($dir))
+{
+$Show['10 Siguientes'] = 1;
+}
+
+//Cerramos el directorio 
+closedir($dir); 
+?&gt;
+&lt;/table&gt;
+&lt;div align=&quot;right&quot;&gt;
+&lt;?php
+// Mostraos si es necessario el &quot;10 Anteriores&quot; y &quot;10 Siguientes&quot;.
+if ($Show['10 Anteriores'] == 1) echo(&quot;&lt;a href=&quot;index.php?c=&quot;.($Plus-$Config['Show']).&quot;&quot;&gt;10 Anteriores | &lt;/a&gt;&quot;);
+if ($Show['10 Siguientes'] == 1) echo(&quot;&amp;nbsp;&lt;a href=&quot;index.php?c=&quot;.($Plus+$Config['Show']).&quot;&quot;&gt;10 Siguientes&lt;/a&gt;&lt;/p&gt;&quot;);
+?&gt;
+
+2) Guardamos este archivo con el nombre click.php
+
+&lt;?
+//Solo se nesesita poner la url de click.php?http://www.sudominio.com/pagina/fichero
+
+$permisodecomentarios= sprintf (&quot;%o&quot;, (fileperms(&quot;estadisticas&quot;)) &amp; 0777);
+if($permisodecomentarios == 777){
+}else{
+$errores.=&quot;La carpeta estadisticas no tiene permiso 777&lt;br&gt;&quot;;
+$errordepermisoswebdeebps=&quot;No tiene permiso de escritura &gt;,&lt;&quot;;
+}
+
+
+if($errordepermisoswebdeebps == &quot;Pon permiso de escritura a la carpeta estadisticas &gt;,&lt;&quot;){
+echo&quot;&lt;title&gt;Error de permisos de archivos de datos&lt;/title&gt;&quot;;
+echo&quot;&lt;font face=Arial size=1&gt;&quot;;
+echo&quot;&lt;center&gt;&lt;h3&gt;Error de permisos de archivos de datos&lt;/h3&gt;&lt;/center&gt;&quot;;
+echo&quot;&lt;br&gt;&quot;;
+echo&quot;&lt;font face=Arial size=1&gt;&quot;;
+echo$errores;
+exit;
+}
+
+
+if(file_exists(&quot;estadisticas&quot;)){
+}else{
+mkdir(&quot;estadisticas&quot;,0777);
+}
+
+$es = explode(&quot;?&quot;,$REQUEST_URI); $archivo=$es[1];
+$direccion=&quot;$archivo&quot;;
+$archivo=str_replace(&quot;/&quot;,&quot;#&quot;,$archivo);
+$archivo=str_replace(&quot;%20&quot;,&quot; &quot;,$archivo);
+
+if($archivo){
+
+
+if(is_file(&quot;estadisticas/$archivo.txt&quot;)){
+
+$fp=fopen(&quot;estadisticas/$archivo.txt&quot;,&quot;r&quot;);
+$numero=fread($fp,filesize(&quot;estadisticas/$archivo.txt&quot;));
+$clicks=1+$numero;
+
+$archivo = fopen (&quot;estadisticas/$archivo.txt&quot;, &quot;w&quot;);
+fputs ($archivo,$clicks);
+fclose ($archivo);
+
+header(&quot;Location:$direccion&quot;);
+
+}else{
+$archivo = fopen (&quot;estadisticas/$archivo.txt&quot;, &quot;w&quot;);
+fputs ($archivo,1);
+fclose ($archivo);
+header(&quot;Location:$direccion&quot;);
+}
+}
+else{
+echo &quot;&lt;style&gt;
+/* Cuerpo del foro */
+body,table {
+font-family: verdana ;
+font-size: 8pt ;
+color: #000000 ;
+text-align: justify ;
+scrollbar-face-color: #FFE7B3 ;
+scrollbar-darkshadow-color: #FFAE06 ;
+scrollbar-shadow-color: #FFB722 ;
+scrollbar-highlight-color: #ffffff ;
+scrollbar-3dlight-color: #FFAE06 ;
+scrollbar-track-color: #ffffff ;
+scrollbar-arrow-color: #FFAE06 ;
+}
+/* Titulos */
+.t1 {
+color: #ffa500 ;
+font-size: 10pt ;
+font-weight: bold ;
+filter: glow(color=#000000,strength=3) ;
+height: 1 ;
+}
+.tema {
+font-size: 10pt ;
+font-weight: bold ;
+}
+/* Enlaces */
+a {
+color: #B97C00 ;
+text-decoration: none ;
+font-weight: bold ;
+}
+/* Negrita */
+b {
+color: #A46F00 ;
+}
+/* Tablas del foro */
+.tabla_principal {
+border: #FFAE06 0 solid ;
+}
+.tabla_titulo {
+border-left: #FFB722 2 solid ; border-top: #FFB722 2 solid ; border-right: #FFB722 2 solid ; border-bottom: #FFB722 2 solid ;
+background: #FFAE06 ;
+}
+.tabla_subtitulo {
+border-left: #FFCF6A 2 solid ; border-top: #FFCF6A 2 solid ; border-right: #FFB722 2 solid ; border-bottom: #FFB722 2 solid ;
+background: #FFC64F ;
+}
+.tabla_mensaje {
+border-left: #FFE7B3 2 solid ; border-top: #FFE7B3 2 solid ; border-right: #FFCF6A 2 solid ; border-bottom: #FFCF6A 2 solid ;
+background: #FFDA8C ;
+}
+/* Formulario */
+.form {
+border: #FFAE06 1 solid ;
+background: #FFCF6A ;
+font-family: verdana ;
+font-size: 8pt ;
+}
+&lt;/style&gt;&quot; ;
+echo &quot;&lt;title&gt;Estadisticas&lt;/title&gt;&quot;;
+echo &quot;&quot;;
+echo &quot;&lt;br&gt;Estadisticas&lt;br&gt;&quot;;
+echo &quot;&lt;br&gt;&quot;;
+echo &quot;&lt;table width='100%' border='1' cellpadding='5' cellspacing='0' align='center' style='border: #757575 1 solid'&gt;
+&lt;tr&gt; 
+&lt;td width='73%' height='7' class='tabla_subtitulo'&gt;&lt;b&gt;Url&lt;/b&gt;&lt;/td&gt;
+&lt;td width='17%' class='tabla_subtitulo'&gt;&lt;b&gt;Fecha&lt;/b&gt;&lt;/td&gt;
+&lt;td width='10%' class='tabla_subtitulo'&gt;&lt;b&gt;Hits&lt;/b&gt;&lt;/td&gt;
+&lt;/tr&gt;&quot;;
+$dir=opendir(&quot;estadisticas&quot;);
+while($archivo = readdir($dir)){
+if($archivo==&quot;.&quot;){
+}else{
+if($archivo == &quot;..&quot;){
+}else{
+
+$fp=fopen(&quot;estadisticas/$archivo&quot;,&quot;r&quot;);
+$clicks=fread($fp,filesize(&quot;estadisticas/$archivo&quot;));
+$url=str_replace(&quot;#&quot;,&quot;/&quot;,substr($archivo,0,-4));
+$url=str_replace(&quot;%20&quot;,&quot; &quot;,substr($archivo,0,-4));
+$archivotiempo = filectime(&quot;estadisticas/$archivo&quot;);
+$fecha=explode(&quot;·&quot;,date(&quot;·d·m·Y·h·i&quot;,$archivotiempo));
+$ano=str_replace(&quot;2001&quot;,&quot;01&quot;,$fecha[3]);
+$ano=str_replace(&quot;2002&quot;,&quot;02&quot;,$ano);
+$ano=str_replace(&quot;2003&quot;,&quot;03&quot;,$ano);
+$ano=str_replace(&quot;2004&quot;,&quot;04&quot;,$ano);
+$ano=str_replace(&quot;2005&quot;,&quot;05&quot;,$ano);
+$ano=str_replace(&quot;2006&quot;,&quot;06&quot;,$ano);
+$ano=str_replace(&quot;2007&quot;,&quot;07&quot;,$ano);
+$ano=str_replace(&quot;2008&quot;,&quot;08&quot;,$ano);
+$ano=str_replace(&quot;2009&quot;,&quot;09&quot;,$ano);
+$ano=str_replace(&quot;2010&quot;,&quot;10&quot;,$ano);
+$fecha=&quot;$fecha[1]/$fecha[2]/$ano a las $fecha[4]:$fecha[5]&quot;;
+
+echo &quot;&lt;tr&gt; 
+&lt;td height='7' class='tabla_mensaje'&gt; 
+&lt;a href='$url' target='_blank'&gt;$url&lt;/a&gt;&lt;/td&gt;
+&lt;td height='7' class='tabla_mensaje'&gt;$fecha&lt;/td&gt;
+&lt;td class='tabla_mensaje'&gt; 
+$clicks
+&lt;/td&gt;
+&lt;/tr&gt;&quot;;
+}
+}
+}
+echo &quot;&lt;/table&gt;&quot;;
+echo &quot;&lt;br&gt;&quot;; 
+echo &quot;&lt;center&gt;&lt;a href='index.php'&gt;volver&lt;/a&gt;&lt;/center&gt;&quot;;
+closedir($dir);
+}
+?&gt;
+
+3) Creamos una carpeta llamada estadisticas/ y le damos permisos chmod 777 con nuestro programa ftp[/codigo]
+
+Codigo fuente,muestra solo los archivos con extension .zip y paginarlo de 10 en 10 y en dos columnas : (POR Aeoris)(se guarda como index.php)
+
+[codigo]&lt;!-- Titulo: phpmysql.php
+Autor: phpmysql
+Fecha: 14 de Diciembre del 2003 --&gt;
+&lt;style&gt;
+/* Cuerpo del foro */
+body,table { 
+font-family: verdana ; 
+font-size: 8pt ; 
+color: #000000 ;
+scrollbar-arrow-color: #757575;
+scrollbar-3dlight-color: #757575;
+scrollbar-highlight-color: #FFFFFF;
+scrollbar-face-color: #F2F2FF;
+scrollbar-shadow-color: #FFFFFF;
+scrollbar-darkshadow-color: #757575;
+scrollbar-track-color: #FFFFFF;
+}
+/* Titulos */
+.t1 
+{ font-size: 10pt ; 
+font-weight: bold ; 
+color: #F4F4F4 ; 
+width:100%; 
+filter:dropshadow(color=#000000,offx=1, offy=1, positive=1), glow(color=#000000, strength=0) ; 
+height: 1 ; }
+.tema {
+font-size: 10pt ;
+font-weight: bold ;}
+/* Enlaces */
+a 
+{ color: #000059 ; 
+font-weight: bold ; 
+text-decoration: none 
+}
+a:hover 
+{BACKGROUND: none; COLOR: #000000; TEXT-DECORATION: none; color: 9393FF
+}
+/* Negrita */
+b {
+color: #000000 ;
+}
+/* Tablas del foro */
+.tabla {
+background: #D9D9FF ;
+}
+.tabla_principal {
+border: #000000 0 solid ;
+}
+.tabla_titulo {
+border-left: #A8A8FF 2 solid ; border-top: #A8A8FF 2 solid ; border-right: #505050 2 solid ; border-bottom: #505050 2 solid ;
+background: #9393FF ;
+}
+.tabla_subtitulo {
+border-left: #CACAFF 2 solid ; border-top: #CACAFF 2 solid ; border-right: #A8A8FF 2 solid ; border-bottom: #A8A8FF 2 solid ;
+background: #B9B9FF ;
+}
+.tabla_mensaje {
+border-left: #EAEAFF 2 solid ; border-top: #EAEAFF 2 solid ; border-right: #CACAFF 2 solid ; border-bottom: #CACAFF 2 solid ;
+background: #D9D9FF ;
+}
+/* Formulario */
+/* Formulario */
+.form{ 
+font-family: verdana ; 
+font-size: 8pt ; 
+color: #000000 ;
+border: #000000 1 solid ; 
+background: #FFFFFF ; 
+}
+&lt;/style&gt;
+&lt;table width='100%' border='1' cellpadding='5' cellspacing='0' align='center' style='border: #757575 1 solid;background-color:#D9D9FF'&gt;
+&lt;tr&gt; 
+&lt;td width=&quot;20%&quot; height=&quot;7&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Archivo&lt;/b&gt;&lt;/td&gt;
+&lt;td width=&quot;11%&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Tamaño&lt;/b&gt;&lt;/td&gt;
+&lt;td width=&quot;27%&quot; height=&quot;7&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Archivo&lt;/b&gt;&lt;/td&gt;
+&lt;td width=&quot;8%&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Tamaño&lt;/b&gt;&lt;/td&gt;
+
+&lt;/tr&gt;
+&lt;?php
+// Le damos valor a las variables de configuración
+$Config['Path'] = &quot;.&quot;; // Directorio donde stan los archivos a mostrar.
+$Config['Show'] = 10; // Numero de archivos a mostrar por páginas. $Show['10 Anteriores'] = 0; // Por defecto no se mostrara 10 Anteriores
+$Show['10 Siguientes'] = 0; // Por defecto no se mostrara 10 Siguientes
+
+if ($c == &quot;&quot;) $c = 0; // Si $c no tiene valor es porque es la primera vez que se visita la página.
+$dir = opendir($Config['Path']); // Abrimos el directorio donde estan los archivos
+$Plus = $c; // Le damos el valor de $c a $plus porque el valor de $c se perdera y lo necessitaremos mas tarde.
+
+while ($c &gt; 0 &amp;&amp; $elemento = readdir($dir)) // Mientras la variable $c sea mayor de 0 saltamos archivos.
+{
+$Show['10 Anteriores'] = 1;
+$c--;
+}
+
+$Counter = 0; // Ponemos a 0 el contador
+
+// Si es la primera vez que vez añadimos 2 filas, si no lo es se las quitamos.
+if ($Show['10 Anteriores'] == 0) $Counter=$Counter-2; else {
+$c = 2;
+while ($c &gt; 0 &amp;&amp; $elemento = readdir($dir)) // Mientras la variable $c sea mayor de 0 saltamos archivos.
+{
+$Show['10 Anteriores'] = 1;
+$c--;
+}
+}
+echo&quot;&lt;tr&gt;&quot;;
+// Mostramos el numero de archivos que se tienen que mostrar por página.
+while (($Counter != $Config['Show']) &amp;&amp; ($elemento = readdir($dir)))
+{
+$Counter++;
+
+$elemento1 = strtolower($elemento);
+if (strpos($elemento1, &quot;.zip&quot;) &gt; 1) {
+
+// pasamos el tamaño del archivo a kb
+$tamano = filesize($elemento)/1024;
+$tamano = ceil($tamano) ;
+// fecha de subida del archivo
+$elementotiempo = filectime(&quot;$elemento&quot;);
+$fecha=explode(&quot;·&quot;,date(&quot;·d·m·Y·h·i&quot;,$elementotiempo));
+$ano=str_replace(&quot;2001&quot;,&quot;01&quot;,$fecha[3]);
+$ano=str_replace(&quot;2002&quot;,&quot;02&quot;,$ano);
+$ano=str_replace(&quot;2003&quot;,&quot;03&quot;,$ano);
+$ano=str_replace(&quot;2004&quot;,&quot;04&quot;,$ano);
+$ano=str_replace(&quot;2005&quot;,&quot;05&quot;,$ano);
+$ano=str_replace(&quot;2006&quot;,&quot;06&quot;,$ano);
+$ano=str_replace(&quot;2007&quot;,&quot;07&quot;,$ano);
+$ano=str_replace(&quot;2008&quot;,&quot;08&quot;,$ano);
+$ano=str_replace(&quot;2009&quot;,&quot;09&quot;,$ano);
+$ano=str_replace(&quot;2010&quot;,&quot;10&quot;,$ano);
+$fecha=&quot;$fecha[1]/$fecha[2]/$ano a las $fecha[4]:$fecha[5]&quot;;
+
+if (($i % 2) == 0) {
+echo &quot;&lt;/tr&gt;&lt;tr&gt;&quot;;
+}
+?&gt;
+&lt;td height='7' class=&quot;tabla_mensaje&quot;&gt;&lt;a href=&quot;click.php?&lt;?php echo $elemento ?&gt;&quot; &gt;&lt;img src=&quot;../imagenes/zip.gif&quot; border=&quot;0&quot; width=&quot;16&quot; height=&quot;16&quot;&gt; 
+&lt;? echo $elemento ?&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td height='7' class='tabla_mensaje'&gt;&lt;?php echo $tamano ; ?&gt; Kb &lt;/td&gt;
+&lt;?php
+$i++;
+}
+}
+echo &quot;&lt;/tr&gt;&quot;;
+
+// Si sobran archivos pondremos el &quot;10 Siguientes&quot;
+if ($elemento = readdir($dir))
+{
+$Show['10 Siguientes'] = 1;
+}
+
+//Cerramos el directorio
+closedir($dir);
+?&gt;
+&lt;/table&gt;
+&lt;div align=&quot;right&quot;&gt;
+&lt;?php
+// Mostraos si es necessario el &quot;10 Anteriores&quot; y &quot;10 Siguientes&quot;.
+if ($Show['10 Anteriores'] == 1) echo(&quot;&lt;a href=&quot;index.php?c=&quot;.($Plus-$Config['Show']).&quot;&quot;&gt;10 Anteriores | &lt;/a&gt;&quot;);
+if ($Show['10 Siguientes'] == 1) echo(&quot;&amp;nbsp;&lt;a href=&quot;index.php?c=&quot;.($Plus+$Config['Show']).&quot;&quot;&gt;10 Siguientes&lt;/a&gt;&lt;/p&gt;&quot;);
+?&gt;[/codigo]

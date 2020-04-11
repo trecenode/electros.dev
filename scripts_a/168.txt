@@ -1,0 +1,101 @@
+En este tutorial realizado por electros veremos como el PHP en conjunto con el MySQL nos ofrece una gran cantidad de opciones, aquí veremos un ejemplo básico, como crear un libro de visitas con PHP y MySQL, la base de datos MySQL se usará para guardar todos los mensajes que los visitantes dejen en el libro de visitas.
+
+Lo primero es crear la tabla en la base de datos, esta tabla contendrá los campos fecha, nombre y mensaje.
+
+Para crear la tabla entren al phpMyAdmin de su página web, hagan click en la parte izquierda donde aparece el nombre de su base de datos, después hagan click del lado derecho donde dice SQL y por último en la casilla SQL copien el siguiente código:
+
+[b]
+create table libro (
+fecha int(10) unsigned not null,
+nombre varchar(100) not null,
+mensaje text not null
+)[/b]
+
+El atributo int sirve para guardar sólo números enteros hasta una cifra máxima de 4,294,967,296, el atributo varchar almacena texto hasta un máximo de 255 caractéres, y text almacena grandes textos hasta un maximo de 65,536 caractéres.
+
+En realidad se podría usar un solo atributo, como varchar o text en los 3 campos, pero esta clasificación se hace para optimizar las consultas en la base de datos y consumir menos recursos del servidor.
+
+Ya que tenemos nuestra tabla creada, del lado izquierdo del phpMyAdmin, abajo del nombre de la base de datos, verás la tabla creada que se llama libro.
+
+Listo, ahora empecemos con la parte PHP.
+
+Nota: Debido a que haremos uso de la base de datos MySQL, necesitaremos crear un código para poder conectarnos y de esta forma accesar a las tablas, guarda el siguiente código en un archivo llamado config.php.
+
+[codigo]
+&lt;?
+$dbhost = &quot;mysql.webcindario.com&quot; ;
+$dbuser = &quot;nombre pagina web&quot; ;
+$dbpass = &quot;**********&quot; ;
+$db = &quot;nombre pagina web&quot; ;
+$conectar = mysql_connect($dbhost,$dbuser,$dbpass) ;
+mysql_select_db($db,$conectar) ;
+?&gt;
+[/codigo]
+
+Este script está pensado para los usuarios que están probando sus scripts en miarroba, en la mayoría de los servidores, $dbhost debe
+llamarse &quot;localhost&quot;.
+
+Crearemos la página donde se enviarán los mensajes, para esto crea una página llamada librofirmar.php con el siguiente código:
+
+[codigo]
+&lt;?
+if($enviar) {
+include(&quot;config.php&quot;) ;
+$fecha = time() ;
+mysql_query(&quot;insert into libro (fecha,nombre,mensaje) values ('$fecha','$nombre','$mensaje')&quot;) ;
+echo &quot;
+&lt;p&gt;El libro ha sido firmado con éxito.
+&lt;p&gt;&lt;a href=&quot;libro.php&quot;&gt;Regresar al libro de visitas&lt;/a&gt;
+&quot; ;
+}
+else {
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;librofirmar.php&quot;&gt;
+Nombre:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;nombre&quot;&gt;&lt;br&gt;
+Mensaje:&lt;br&gt;
+&lt;textarea name=&quot;mensaje&quot; cols=&quot;30&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Firmar&quot;&gt;
+&lt;/form&gt;
+&lt;?
+}
+?&gt;
+[/codigo]
+
+Ahora crearemos la página donde se mostrarán los mensajes del libro de visitas:
+
+[codigo]
+&lt;?
+include(&quot;config.php&quot;) ;
+$resp = mysql_query(&quot;select * from libro order by fecha desc&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+$fecha = date(&quot;d m Y&quot;,$datos[fecha]) ;
+?&gt;
+&lt;table border=&quot;0&quot; cellpadding=&quot;5&quot; cellspacing=&quot;0&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Nombre:&lt;/b&gt; &lt;? echo $datos[nombre] ?&gt;&lt;/td&gt;
+&lt;td&gt;&lt;b&gt;Fecha:&lt;/b&gt; &lt;? echo $fecha ?&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;td&gt;&lt;b&gt;Mensaje:&lt;/b&gt; &lt;? echo $datos[mensaje] ?&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;&lt;br&gt;
+&lt;?
+}
+?&gt;
+[/codigo]
+
+En la consulta se usó el siguiente código:
+
+[b]
+&quot;select * from libro order by fecha desc&quot;
+[/b]
+
+Aquí esto significaría:
+
+&quot;Seleccionar - todos los datos - de - libro - ordenar - por - fecha - en orden descendiente&quot;
+
+En orden descendiente significa desde el valor más nuevo hasta el más antiguo.
+
+El script está puesto de una forma sencilla, aún le faltan cosas como comprobación de campos vacíos, esto se puede hacer sencillamente con javascript, pero yo lo pongo así para que sea totalmente entendible.
+
+Este es el último tutorial de introducción al PHP y MySQL, ahora en el siguiente veremos como crear nuestro propio sistema de registro de usuarios.

@@ -1,0 +1,25 @@
+[b] solo tenemos que pegar este código en vuesta web y hacer un archivos llamado &quot; contador_de_visitas.txt &quot;[/b] 
+
+[codigo]
+&lt;?
+
+$counterFile = &quot;contador_de_visitas.txt&quot;;
+
+function displayCounter($counterFile) { 
+   $fp = fopen($counterFile,rw); 
+   $num = fgets($fp,5); 
+   $num = 1; 
+   echo &quot;$num&quot;; 
+   exec( &quot;rm -rf $counterFile&quot;); 
+   exec( &quot;echo $num &gt; $counterFile&quot;);
+}
+
+if (!file_exists($counterFile)) { 
+   exec( &quot;echo 1 &gt; $counterFile&quot;); 
+}
+
+displayCounter($counterFile);
+?&gt;
+[/codigo]
+
+[b] este script solo vale si la web esta en PHP , no en HTML

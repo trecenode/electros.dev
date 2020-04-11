@@ -1,0 +1,95 @@
+Ahora podrás saber cuantos usuarios en línea hay en tu web tanto anonimos como registrados, además verás quienes se encuentran en línea.
+
+Primero debes crear las tablas en la base de datos, copia y pega el siguiente código en el phpMyAdmin en SQL:
+
+[codigo]create TABLE uenlineavis (
+ip varchar(15) not null,
+fecha int(10) unsigned not null,
+primary key (ip),
+index (fecha)
+) ;
+create TABLE uenlineareg (
+usuario varchar(20) not null,
+fecha int(10) unsigned not null,
+primary key (usuario),
+index (fecha)
+)[/codigo]
+
+Ahora debes crear el archivo [b]uenlinea.php[/b] con el siguiente código:
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+$fecha = time() ;
+// Tiempo en el cuál se considerará al usuario en línea en minutos
+$tiempo = 10 ;
+// Se le resta el tiempo en minutos a la fecha actual
+$tiempo = $fecha-$tiempo*60 ;
+$ip = $REMOTE_ADDR ;
+$usuario = $_COOKIE[&quot;unick&quot;] ;
+// Se eliminan las fechas que sean menores al tiempo límite
+mysql_query(&quot;delete from uenlineavis where fecha &lt; $tiempo&quot;) ;
+mysql_query(&quot;delete from uenlineareg where fecha &lt; $tiempo&quot;) ;
+// Para los usuarios no registrados
+$resp = mysql_query(&quot;select ip from uenlineavis where ip='$ip'&quot;) ;
+if(mysql_num_rows($resp) == 0) {
+mysql_query(&quot;insert into uenlineavis values ('$ip','$fecha')&quot;) ;
+}
+else {
+mysql_query(&quot;update uenlineavis set fecha='$fecha' where ip='$ip'&quot;) ;
+}
+mysql_free_result($resp) ;
+// Para los usuarios registrados
+if($_COOKIE[&quot;unick&quot;]) {
+$resp = mysql_query(&quot;select usuario from uenlineareg where usuario='$usuario'&quot;) ;
+if(mysql_num_rows($resp) == 0) {
+mysql_query(&quot;insert into uenlineareg values ('$usuario','$fecha')&quot;) ;
+}
+else {
+mysql_query(&quot;update uenlineareg set fecha='$fecha' where usuario='$usuario'&quot;) ;
+}
+mysql_free_result($resp) ;
+}
+// Se obtiene el número de usuarios en línea
+$resp = mysql_query(&quot;select ip from uenlineavis&quot;) ;
+// Número de usuarios
+$usuarios = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+$resp = mysql_query(&quot;select usuario from uenlineareg&quot;) ;
+// Número de registrados
+$registrados = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+// Número de anonimos
+$anonimos = $usuarios - $registrados ;
+// Se obtiene el nick de los usuarios que se encuentran en línea
+$resp = mysql_query(&quot;select usuario from uenlineareg&quot;) ;
+if(mysql_num_rows($resp) != 0) {
+$renlinea = &quot;·&quot; ;
+while($datos = mysql_fetch_array($resp)) {
+$renlinea .= &quot; &lt;a href=&quot;mensajes.php?responder=$datos[usuario]&quot;&gt;$datos[usuario]&lt;/a&gt; ·&quot; ;
+}
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;[/codigo]
+
+Una vez que está creado el archivo solamente debes poner el siguiente código en todas las páginas de tu web:
+
+[codigo]&lt;?
+include(&quot;uenlinea.php&quot;) ;
+echo &quot;
+Hay $usuarios usuarios: $anonimos anonimos y $registrados registrados&lt;br&gt;
+$renlinea
+&quot; ;
+?&gt;[/codigo]
+
+Como un detalle más se puede hacer que en el momento que el usuario se desconecte de la web, se elimine de la lista de usuarios registrados en línea, simplemente elimina el archivo [b]usalir.php[/b] y vuévelo a crear con el siguiente código:
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+mysql_query(&quot;delete from uenlineareg where usuario='$_COOKIE[unick]'&quot;) ;
+setcookie(&quot;unick&quot;) ;
+setcookie(&quot;ucontrasena&quot;) ;
+header(&quot;location: index.php&quot;) ;
+?&gt;[/codigo]
+
+Listo el script de usuarios en línea está terminado, ahora puedes pasar al siguiente script [url=?ver=scripts&amp;s=21]Registro de usuarios 4 - Perfil[/url].

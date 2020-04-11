@@ -1,0 +1,24 @@
+Este es un Fantastico foro demasiado facil de instalar tiene un panel de admin muyy facil de utilisar y ademas de la pagina oficial(www.simplemachines.org)puedes bajarte un pack de idiomas de español o te puedes bajar templates tambien de la pagina oficial o hacerlos tú mismo(es medio dificil xD) weno espero que les guste aquí dejo algunas imagenes:
+
+[img]http://img82.imageshack.us/img82/5452/foro15gk.png[/img]
+
+[img]http://img88.imageshack.us/img88/7773/foro27io.png[/img]
+
+PD:manera de instalacion:
+
+Descomprimes el RAR y vacias todo el contenido en una carpeta ,subes la carpeta al FTP y vas a www.tudominio.com/foro(o como se llama la carpeta donde pusiste el foro)/install.php
+
+seria:
+
+www.tudominio.com/foro/install.php
+
+hay tienes que poner :
+
+el servidor de la base de datos, el nombre de tu comunidad,el nombre de la base de datos,el user de la base de datos y la pass despues de esoo te sale una pag. que te hace crear el nombre de user y la pass del admin principal del foro y listo foro instalado.
+
+gracias a 
+
+[codigo]www.simplemachines.org[/codigo]
+
+Se lo bajan de:[url=http://www.simplemachines.org/download/index.php?thanks;filename=smf_1-0-7_install.zip]Aqui[/url]
+Saludos

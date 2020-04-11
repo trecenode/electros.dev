@@ -1,0 +1,36 @@
+[b]1.-[/b]  Debeis crear y guardar un archivo llamado por ejemplo download.php con el siguiente código.
+
+[codigo]&lt;?
+$extension = &quot;.zip&quot;; // EXTENSION DE ARCHIVOS
+
+if (file_exists(&quot;$archivo$extension&quot;)) {
+     header(&quot;location: $archivo$extension&quot;);
+     $countplus = file_get_contents(&quot;contador/$archivo.txt&quot;) + 1 ;
+     $fileb = fopen(&quot;contador/$archivo.txt&quot;,&quot;w&quot;);
+     fwrite($fileb, $countplus);
+     fclose($fileb);
+}
+
+else { echo &quot;El archivo &lt;b&gt;$archivo$extension&lt;/b&gt; no existe&quot;; }
+
+?&gt;[/codigo]
+
+
+2.- Seguidamente debeis crear en vuestro ftp una carpeta que se llame contador y le dais CHMOD 777
+
+El download.php tiene que estar en el mismo directorio o carpeta donde esté el archivo a descargar. Para que el contador funcione correctamente debemos colocar todo en el mismo sitio.
+* EJEMPLO:
+Si tenemos un archivo para descargar llamado cancion.zip, pues download.php y el archivo cancion.zip lo meteremos en el mismo lugar, y la carpeta &quot;contador&quot; también. Y colocaremos la siguiente url para descargar el archivo:
+
+[b]http://tupagina.com/download.php?archivo=cancion[/b]
+
+Para mostrar en cualquier lugar de tu página el número de descargas realizadas debereis colocar el siguiente código:
+
+[codigo]&lt;? include(&quot;contador/cancion.txt&quot;) ?&gt;[/codigo]
+
+Debes saber que para cada archivo debes crear un .txt con su respectivo nombre, tantos archivos txt como archivos a descargar tengas o quieras saber sus estadisticas de descarga, que los subirás en la carpeta &quot;contador&quot;, y les darás CHMOD 666.
+
+Por ejemplo si tu descarga se llama musica.mp3 deberás crear un archivo llamado musica.txt dentro de la carpeta &quot;contador&quot;, en estos archivos es donde se irán sumando las visitas para esta descarga.
+
+Espero que os sirva ;)
+http://www.djpunch.com

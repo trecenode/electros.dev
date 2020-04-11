@@ -1,0 +1,81 @@
+FunkyslimCount 1.0
+
+
+FCount es un contador desarrollado en php, el cual dota
+a tu página web de un control de accesos sin necesidad
+de saber Php u otros lenguajes dinámicos.
+
+Este consta de varios módulos, FCount.actualizacion.php,
+el cual no deberas manupulas, ya que este es el encarga-
+do de que el contador funcione. El siguiente archivo es
+contador.php, el cual muestra en la web el número de vi-
+sitas que tiene la web, este archivo puede modificarse
+para dotarlo de un estilo que se amolde a tu página, eso
+si deberas asegurarte que este parametro aparece,
+&lt;?
+include (&quot;FCount.actualizacion.php&quot;);
+?&gt;
+ya que este es el encargado de que se incluya en la pá-
+gina. Para incluir el contador en tu pagina web, lo pue-
+des hacer de varias formas:
+ 
+  1- Mediante un iframe -&gt; &lt;iframe src=contador.php&gt;...
+  2- Incluyendo contador.php en tu pagina, eso si, solo
+  en el caso de que tus paginas tengan la extension *.php
+  no obstante, el procedimiento es el siguiente
+  &lt;?
+  include (&quot;contador.php&quot;);
+  ?&gt;
+
+  *Nota: debes tener cuidado con las rutas, debido a que
+  el contador puede encontrarse en una carpeta distinta
+  a donde se encuentren los archivos de tu web.
+
+el archivo de configuracion nos permite indicar los nom-
+bre de las imagenes (números) y la ruta de estas.
+Vienen marcados de esta forma:
+
+$_num[0] = &quot;imagenes/0.jpg&quot;;
+
+esta es la pagina encargada de contabilizar el numero de visitas y de actualizar el archivo visitas.dat, ademas de substituir los numeros por imagenes. Para que el script funcione no bastara con este archivo solomente, por lo que te lo deberas descargar.
+[codigo]
+&lt;?php
+#============== FunkyslimCount  ==================#
+#Contador grafico para paginas web                #
+#FunkyslimCount esta distribuido bajo la licencia #
+#GNU, por lo que no da ninguna garantia           #
+#  Autor: Funkyslim (Jose Fernandez Alameda)      #
+#  E-Mail: Djfunkyslim@hotmail.com                #
+#=================================================#
+
+
+include (&quot;configuracion.php&quot;);
+
+$ruta = &quot;visitas.dat&quot;;
+
+file_exists($ruta) or die (&quot;&lt;b&gt;Error fatal, El archivo visitas.dat no existe&lt;/b&gt;&quot;);
+
+$abrir = fopen($ruta, &quot;r&quot;);
+$lectura = fread($abrir, filesize($ruta));
+
+$lectura = ($lectura + 1);
+
+fclose($abrir);
+
+$abrir_r = fopen($ruta, &quot;w+&quot;);
+
+fwrite($abrir_r, $lectura);
+
+fclose($abrir_r);
+
+$_cad_long = strlen($lectura);
+
+	for ($a = 0; $a &lt;= $_cad_long - 1; $a++)
+	{
+	$char[$a] = substr($lectura,$a,1);
+	$num = $char[$a];
+	echo &quot;&lt;img src=&quot;.$_num[$num].&quot; alt='Powered by FCount - www.tonoslim.tk'&gt;&quot;;	
+
+	}
+
+?&gt;[/codigo]

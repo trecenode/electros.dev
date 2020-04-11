@@ -1,0 +1,77 @@
+[b]Web oficial: [/b] [url]http://proyectos.funkybytes.com/fsphpstats/[/url]
+[b]Ejemplo: [/b] [url]http://proyectos.funkybytes.com/fsphpstats/ejemplo[/url]
+
+[b]Atención: Requiere las librerias GD instaladas en el servidor.[/b]
+
+[b]1. ¿Que es FsPHPStats?[/b]
+
+FsPHPStats es un sistema preparado para funcionar bajo PHP en cualquier servidor Web. Este proporciona gráficas, y datos sobre todas las visitas ordenadas por porcentajes. La característica mas importante de este es que incorpora una clase, mediante la cual cada usuario tendrá la posibilidad de imprimir estos datos como mejor le convenga, ya sea en TXT, HTML con gráficos, sin gráficos, etc...
+
+[b]2. Instalación de FsPHPStats[/b]
+
+Para instalar FsPHPStats deberás subir todos los archivos que te descargues de la Web oficial por vía FTP y modificar el archivo configuracion.php Una vez hecho esto lo instalaremos por medio del instalador en la ruta /RUTA_A_FPS/installer el cual nos guiará a través de unos sencillos pasos. En el caso de que el instalador no funcione bastará con instalar la tabla 'tabla.sql' que encontraremos en la carpeta del instalador.
+
+[b]3. Comandos de la clase FpsData[/b]
+
+Iniciar la clase $variable = &amp;new FpsData(); 
+Llamando a las funciones $variable -&gt; funcion() [Retorna valores] 
+Conectar el sistema: Conectar() 
+Número de visitas: GetVisitas() 
+Últimos N visitantes: GetLastN(n,'ARRAY/PRINT',separador,'HTML/TXT') 
+*Para obtener data en forma de array 'ARRAY', para imprimirlo
+directamente usar 'PRINT'.
+*separador solo en caso de usar 'PRINT'
+*La ultima poción se usa en caso de utilizar 'PRINT'
+esta imprime espacios &quot; &quot; 'TXT' o espacios &quot;&amp;nbsp;&quot; 'HTML' 
+Media de paginas por visita: GetMPV(); 
+Campo mas repetido: GetMostCampo(campo,'ARRAY/PRINT',separador,'HTML/TXT',limit)
+*Para obtener data en forma de array 'ARRAY', para imprimirlo
+directamente usar 'PRINT'.
+*separador solo en caso de usar 'PRINT'
+*La ultima opción se usa en caso de utilizar 'PRINT'
+esta imprime espacios &quot; &quot; 'TXT' o espacios &quot;&amp;nbsp;&quot; 'HTML'
+*limit limita la salida de valores al número indicado
+Valores por carmpo: GetOnlyValues(campo). 
+
+[b]4. El archivo configuracion.php[/b]
+
+$cfg[&quot;BD_host&quot;] Host del servidor mysql 
+$cfg[&quot;BD_user&quot;] Usuario de mysql 
+$cfg[&quot;BD_pass&quot;] Contraseña de mysql 
+$cfg[&quot;BD_name&quot;] Nombre de la base de datos 
+$cfg[&quot;idioma&quot;] Idioma por defecto 
+$cfg[&quot;session_time&quot;] Tiempo del cookie de cada visita 
+$cfg[&quot;txt_limit&quot;] Limite de texto imprimido 
+$cfg[&quot;list_limit&quot;] Limite de valores impresos en la tabla 
+$cfg[&quot;decimales&quot;] Número de decimales 
+
+GRAFICOS
+
+Colores
+
+$cfg[&quot;COL_fondo&quot;] # Color de fondo de las gráficas
+$cfg[&quot;COL_linea&quot;] # Color de las líneas
+$cfg[&quot;COL_texto&quot;] #Color del texto
+$cfg[&quot;COL_barra&quot;] # Color de la barra 
+Fuente
+
+$cfg[&quot;FONT_name&quot;] # Nombre de la fuente sin ruta (&quot;fuentes&quot;). 
+
+[b]5. Añadir visitas[/b]
+
+Para añadir las visitas a la base de datos (Recordar que estas no se pueden almacenar dos veces en el tiempo indicado) debemos incluir a FsPhpStats.php y a la funcion FsPhpStats_count().
+
+* Importante: La llamada de esta función debe realizarse al principio del documento sin HTML, espacios o saltos de línea antes.
+
+[codigo]&lt;?php
+include(&quot;FsPhpStats.php&quot;);
+FsPhpStats_count();
+?&gt;[/codigo]
+
+[b]6. Estilo[/b]
+
+Para cambiar el estilo deberás modificar el archivo estilo.css
+
+[b]7. Ver estadísticas[/b]
+
+Para visualizar las estadísticas, solo debes linkar el archivo 'stats.php'.

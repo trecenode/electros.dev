@@ -1,0 +1,48 @@
+Bueno por una iniciativa en el foro comenzaremos a renovar el electros nuke :P ,este mod es muy util y lo hize en unos 10 min xD ,bueno subi los archivos modificados , pero como pueden interferir con otros mods ke le pudieron aver puesto a el script mejor lo explico tambien tipo mods de phpbb xD empiezo :) :
+Primero alteramos la tabla de noticias agregando los campos de &quot;validar&quot; para validacion 
+[codigo]
+alter table noticias add validar smallint(1) unsigned not null
+[/ciodigo]
+y &quot;lecturas&quot; para... bueno es obvio xD
+[codigo]
+alter table noticias add lecturas smallint(1) unsigned not null
+[/codigo]
+Despues alteramos un poco el &quot;noticiasenviar&quot;, para  acer ke , si el ke envia la noticia es un administrador  se publique directamente y si es un user normal , se kede en espera ,esto lo acemos dando un numero id si es un user el id es 1 si es administrador el id es 0 ,y en noticias.php solo se mostraran las ke tengan el id 0 :P ,encontramos esta linea :
+[codigo]
+mysql_query(&quot;insert INTO noticias (fecha,usuario,titulo,noticia,noticiaext,validar) values ('$fecha','$usuario','$titulo','$noticia','$noticiaext','$validar')&quot;) ;
+[/codigo]
+
+y Sustituimos por esto :
+[codigo]
+if( $_COOKIE[&quot;unick&quot;] == &quot;$administrador&quot;) { $validar = 0 ; } else { $validar = 1 ; }
+mysql_query(&quot;insert INTO noticias (fecha,usuario,titulo,noticia,noticiaext,validar) values ('$fecha','$usuario','$titulo','$noticia','$noticiaext','$validar')&quot;) ;
+[/codigo]
+Si la cookie es = al administrador el id es 0 y si no (else) el id es 1, ya en la validacion solo acemos un update y cambiamos el id a 0 para ke sea publicada :D ,ahora en el &quot;noticias.php&quot; primero  acemos lo de contar lecturas :P ,encontramos esta linea:
+[codigo]
+$resp = mysql_query(&quot;select * FROM noticias where id='$n'&quot;) ;
+[/codigo]
+y sustituimos por estas:
+[codigo]
+$resp = mysql_query(&quot;select * FROM noticias where id='$n' AND validar='0' &quot;) ;
+mysql_query(&quot;update noticias set  lecturas=lecturas+1  where id='$n' &quot;) ;
+[/codigo]
+en la primera . solo acemos un checkeo para lo de ke solo sean vistas las noticias ke tengan en el campo&quot;validar&quot; el numero 0 , y despues es un Update en lecturas donde (where) el id de la noticia es = a la variable $n  declarada al ver una noticia extendida :-)
+Bueno despues encontramos esta :
+[codigo]
+$resp = mysql_query(&quot;select * FROM noticias  where validar='0' ORDER BY id desc LIMIT $mostrar&quot;) ;
+[/codigo]
+esta por alli de la linea 182 y remplazamos por esta:
+[codigo]
+$resp = mysql_query(&quot;select * FROM noticias  where validar='0' ORDER BY id desc LIMIT $mostrar&quot;) ;
+[/codigo]
+aki lo ke acemos es, mostrar solo las noticias donde(where) validar tiene el numero 0 ke es identificativo de ke es una noticia validada :D ,ahora  lo de las lecturas , pueden poner donde kieran mostrarlo solo &lt;? echo $datos[lecturas] ?&gt; yo lopuse asi:
+enuentras esta linea
+[codigo]
+&lt;td class=&quot;tabla_mensaje&quot;&gt;&lt;b&gt;Comentarios:&lt;/b&gt; &lt;? echo $comentarios ?&gt;&lt;/td&gt;
+[/codigo]
+y sustituyen por 
+[codigo]
+&lt;td class=&quot;tabla_mensaje&quot;&gt;&lt;b&gt;Comentarios:&lt;/b&gt; &lt;? echo $comentarios ?&gt;&lt;/td&gt;
+&lt;td class=&quot;tabla_mensaje&quot;&gt;&lt;b&gt;Lecturas: &lt;/b&gt;&lt;? echo $datos[lecturas] ?&gt;&lt;/td&gt;
+[/codigo]
+y ya solo es aumentar +1 a los colspan de alli cerca :D ,para la validacion , como no tengo mucho tiempo solo altere un poco la parte de administrar noticias en el administrar.php :-) , lo puse como un archivo aparte llamado validacion.php, alli se muestran las noticias con id de 1 , al poner ver , se muestra , si la kieres validar le das a validar y edita la noticia (si hiziste cambios) y actualiza el id a 0 para ke sea publicada :-) , lo iba a poner en el administrar.php, pero es mejor aparte por ke este metodo se puede usar para validar descargas.enlaces etc.. , y es bueno tener una seccion aparte :D ,pero = si gustan es  facil adaptarlo al administrar ,solo cambiar  variables para ke no afece con el otro administrar noticias, y cambiar todos los  index.php?id=validacion , por index.php?id=administrar , weno vean el script en el zip :) , si kedan dudas aki abajo o en el foro Salu2 ;) .

@@ -1,0 +1,14 @@
+ESTE ESCRIPT SURGIÓ GRACIAS A UNA NECESIDAD.Está especialmente creado para páginas con música aunque se puede usar como un sistema de descargas.
+[b]Bájenlo todos y valorenlo[/b]
+
+[b]REQUERIMIENTOS[/b]
+Lo único que hace falta es tener lo de las secciones[b][index.php?id=...][/b]
+
+[b]INSTALACIÓN[/b]
+1-Abre el phpmyadmin y mete el archivo SQL
+2-Edita los archivos [b]conexio.php[/b] y [b]config.php[/b] con tus datos
+3-Sube todos los archivos y carpetas a la web
+4-Abre el archivo www.tudominio.com/index.php?id=admin/descargas
+5-Disfruta del script!!
+
+Cualquier duda postearla abajo ;)

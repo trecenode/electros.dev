@@ -1,0 +1,355 @@
+Como poner una galeria de iconos, avatares , fondos de pantalla..vale para cualquier cosa este script, ademas permite subirlos detectando su tamaño.
+
+Se guarda como [b]galeria.php[/b] y solo es para archivos del tipo .jpg y .gif auque se puede cambiar la extension si lo buscamos en el codigo. la galeria va de 50 en 50 imagenes, auque recomiendo tener muchas imagenes para que el script se organize y las detecte ya que funciona por orden alfabetico
+
+[codigo]
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Directorio iconos&lt;/title&gt;
+&lt;/head&gt;
+&lt;style&gt;
+/* Cuerpo del foro */
+body,table {
+font-family: verdana ;
+font-size: 8pt ;
+color: #000000 ;
+text-align: justify ;
+scrollbar-face-color: #eeeeee ;
+scrollbar-darkshadow-color: #000000 ;
+scrollbar-shadow-color: #aaaaaa ;
+scrollbar-highlight-color: #ffffff ;
+scrollbar-3dlight-color: #000000 ;
+scrollbar-track-color: #ffffff ;
+scrollbar-arrow-color: #000000 ;
+}
+/* Titulos */
+.t1 {
+color: #ffa500 ;
+font-size: 10pt ;
+font-weight: bold ;
+filter: glow(color=#000000,strength=3) ;
+height: 1 ;
+}
+.tema {
+font-size: 10pt ;
+font-weight: bold ;
+}
+/* Enlaces */
+a {
+color: #000000 ;
+text-decoration: none ;
+font-weight: bold ;
+}
+/* Negrita */
+b {
+color: #000000 ;
+}
+/* Tablas del foro */
+.tabla_principal {
+border: #000000 0 solid ;
+}
+.tabla_titulo {
+border-left: #aaaaaa 2 solid ; border-top: #aaaaaa 2 solid ; border-right: #505050 2 solid ; border-bottom: #505050 2 solid ;
+background: #757575 ;
+}
+.tabla_subtitulo {
+border-left: #cccccc 2 solid ; border-top: #cccccc 2 solid ; border-right: #aaaaaa 2 solid ; border-bottom: #aaaaaa 2 solid ;
+background: #bbbbbb ;
+}
+.tabla_mensaje {
+border-left: #eeeeee 2 solid ; border-top: #eeeeee 2 solid ; border-right: #cccccc 2 solid ; border-bottom: #cccccc 2 solid ;
+background: #dddddd ;
+}
+/* Formulario */
+.form {
+border: #000000 1 solid ;
+background: #cccccc ;
+font-family: verdana ;
+font-size: 8pt ;
+}
+&lt;/style&gt;
+&lt;body&gt;
+&lt;?
+// Nombre del archivo
+if($la == &quot;&quot; | $an == &quot;&quot; ) {
+$tam_largo = &quot;16&quot; ;
+$tam_ancho = &quot;16&quot; ;
+$la = &quot;16&quot;;
+$an = &quot;16&quot;;
+} 
+else 
+{ 
+$tam_largo = &quot;$la&quot; ;
+$tam_ancho = &quot;$an&quot; ;
+} 
+?&gt;
+&lt;div class=&quot;t1&quot;&gt;Directorio iconos&lt;/div&gt;
+&lt;br&gt;
+Total de imagenes : 
+&lt;?
+// abrimos el directorio
+$dir = opendir(&quot;.&quot;);
+while ($elemento = readdir($dir)) {
+// Tamaño de la imagen medido en pixeles
+$tamano = @getimagesize(&quot;$elemento&quot;) ;
+$largo = $tamano[0] ;
+$ancho = $tamano[1] ;
+if($largo == $tam_largo) {
+// leemos solo los que tengan ese tipo de extension
+$elemento1 = strtolower($elemento); 
+if ((strpos($elemento1, &quot;.gif&quot;) &gt; 1) || (strpos($elemento1, &quot;.jpg&quot;) &gt; 1))
+// mostramos el total de ficheros
+$i++;
+}
+}
+echo $i ;
+?&gt;
+&amp;nbsp;| &lt;a href=&quot;../&quot;&gt;volver&lt;/a&gt;&lt;br&gt;
+&lt;br&gt;
+1) Tama&amp;ntilde;o de las imagenes : 
+&lt;select name=&quot;select&quot; class=&quot;form&quot; onchange=&quot;window.location.href=this.options[selectedIndex].value; this.selectedIndex=0&quot;&gt;
+    &lt;option value=&quot;galeria.php?la=&lt;? echo $la ?&gt;&amp;an=&lt;? echo $an ?&gt;&quot; selected &gt;&lt;? echo $la ?&gt;x&lt;? echo $an ?&gt;&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=16&amp;an=16&quot;&gt;Iconos pequeños (16x16)&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=19&amp;an=19&quot;&gt;Iconos mensseger (19x19)&lt;/option&gt;
+    &lt;option value=&quot;galeria.php?la=20&amp;an=20&quot;&gt;Iconos medianos (20x20)&lt;/option&gt;
+    &lt;option value=&quot;galeria.php?la=30&amp;an=30&quot;&gt;Iconos medianos (30x30)&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=32&amp;an=20&quot;&gt;Banderas (32x20)&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=32&amp;an=32&quot;&gt;Caras (32x32)&lt;/option&gt;
+    &lt;option value=&quot;galeria.php?la=40&amp;an=40&quot;&gt;Iconos grandes (40x40)&lt;/option&gt;
+    &lt;option value=&quot;galeria.php?la=50&amp;an=50&quot;&gt;Iconos muy grandes (50x50)&lt;/option&gt;
+    &lt;option value=&quot;galeria.php?la=60&amp;an=60&quot;&gt;Avatares artisticos (60x60)&lt;/option&gt;
+    &lt;option value=&quot;galeria.php?la=70&amp;an=70&quot;&gt;Fotos (70x70)&lt;/option&gt;
+    &lt;option value=&quot;galeria.php?la=80&amp;an=80&quot;&gt;80x80&lt;/option&gt;
+    &lt;option value=&quot;galeria.php?la=90&amp;an=90&quot;&gt;90x90&lt;/option&gt;
+    &lt;option value=&quot;galeria.php?la=100&amp;an=100&quot;&gt;100x100&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=150&amp;an=150&quot;&gt;150x150&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=200&amp;an=200&quot;&gt;200x200&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=250&amp;an=impar&quot;&gt;250x250&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=300&amp;an=300&quot;&gt;300x300&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=350&amp;an=350&quot;&gt;350x350&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=400&amp;an=400&quot;&gt;400x400&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=450&amp;an=450&quot;&gt;450x450&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=468&amp;an=60&quot;&gt;Banners (468x60)&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=500&amp;an=500&quot;&gt;500x500&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=800&amp;an=600&quot;&gt;Fondos de escritorio (800x600)&lt;/option&gt;
+	&lt;option value=&quot;galeria.php?la=1024&amp;an=768&quot;&gt;Screenshot de paginas web (1204x768)&lt;/option&gt;
+  &lt;/select&gt;
+&lt;br&gt;
+&lt;form method=&quot;post&quot; action=&quot;galeria.php?la=&lt;? echo $la ?&gt;&amp;an=&lt;? echo $an ?&gt;&quot;&gt;
+  2) Especificar tama&amp;ntilde;o : (Enviar dos veces &lt;br&gt;
+  siempre, para situarse en el sitio correcto)&lt;br&gt;
+
+  Ancho : 
+  &lt;input name=&quot;la&quot; class=&quot;form&quot; value=&quot;&lt;? echo $la ?&gt;&quot; size=&quot;6&quot;&gt;
+  Alto: 
+  &lt;input name=&quot;an&quot; class=&quot;form&quot; value=&quot;&lt;? echo $an ?&gt;&quot; size=&quot;6&quot;&gt;
+  &lt;input type=&quot;submit&quot; name=&quot;enviar2&quot; value=&quot;Enviar&quot; class=&quot;form&quot;&gt;
+&lt;/form&gt;
+* Si no se descargan, utilizar boton derecho opcion &lt;strong&gt;guadar imagen como&lt;/strong&gt;.&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;table width='250' border='0' cellpadding='0' cellspacing='0' align='center'&gt;
+  &lt;tr&gt; 
+    &lt;td width=&quot;3%&quot; height=&quot;0&quot; &gt;&lt;/td&gt;
+    &lt;td width=&quot;97%&quot; height=&quot;0&quot; &gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;?php  
+// Forzar la descarga de ficheros
+if ($a) {
+$extensiones = explode(&quot;.&quot;,$a) ;
+$num = count($extensiones) - 1 ;
+if($extensiones[$num] != &quot;gif&quot; &amp;&amp; $extensiones[$num] != &quot;jpg&quot;) { exit ; }
+$file = &quot;$a&quot;;
+header (&quot;Content-Disposition: attachment; filename=&quot;.$file.&quot; &quot;);
+header (&quot;Content-Type: image/octet-stream&quot;);
+}
+// Le damos valor a las variables de configuración
+$Config['Path'] = &quot;.&quot;; // Directorio donde stan los archivos a mostrar.
+$Config['Show'] = 50; // Numero de archivos a mostrar por páginas.
+
+$Show['50 Anteriores'] = 0; // Por defecto no se mostrara 10 Anteriores
+$Show['50 Siguientes'] = 0; // Por defecto no se mostrara 10 Siguientes
+
+if ($c == &quot;&quot;) $c = 0; // Si $c no tiene valor es porque es la primera vez que se visita la página.
+$dir = opendir($Config['Path']); // Abrimos el directorio donde estan los archivos
+$Plus = $c; // Le damos el valor de $c a $plus porque el valor de $c se perdera y lo necessitaremos mas tarde.
+
+while ($c &gt; 0 &amp;&amp; $elemento = readdir($dir)) // Mientras la variable $c sea mayor de 0 saltamos archivos.
+{
+$Show['50 Anteriores'] = 1;
+$c--;
+}
+
+$Counter = 0; // Ponemos a 0 el contador
+
+// Si es la primera vez que vez añadimos 2 filas, si no lo es se las quitamos.
+if ($Show['50 Anteriores'] == 0) $Counter=$Counter-2; else {
+$c = 2;
+while ($c &gt; 0 &amp;&amp; $elemento = readdir($dir)) // Mientras la variable $c sea mayor de 0 saltamos archivos.
+{
+$Show['50 Anteriores'] = 1;
+$c--;
+}
+}
+echo&quot;&lt;tr&gt;&quot;;
+// Mostramos el numero de archivos que se tienen que mostrar por página.
+while (($Counter != $Config['Show']) &amp;&amp; ($elemento = readdir($dir)))
+{
+$Counter++;
+
+$elemento1 = strtolower($elemento);
+  if ((strpos($elemento1, &quot;.gif&quot;) &gt; 1) || (strpos($elemento1, &quot;.jpg&quot;) &gt; 1)) {
+
+
+if (($i % 2) == 0) {
+	echo &quot;&lt;/tr&gt;&lt;tr&gt;&quot;;
+}
+}
+// Definimos el nombre sin la extension
+$extensiones = explode(&quot;.&quot;,$elemento) ;
+$nombre = $extensiones[0] ;
+$nombre2 = $extensiones[1] ;
+// Tamaño de la imagen medido en pixeles
+$tamano = @getimagesize(&quot;$elemento&quot;) ;
+$largo = $tamano[0] ;
+$ancho = $tamano[1] ;
+if($largo == $tam_largo) {
+?&gt;
+  &lt;td width=&quot;3%&quot; height='34' &gt;&lt;div align=&quot;center&quot;&gt; &amp;nbsp; &lt;/div&gt;&lt;/td&gt;
+  &lt;td height='34' &gt;&lt;div align=&quot;center&quot;&gt; &lt;br&gt;
+      &lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; width=&quot;268&quot;&gt;
+        &lt;tr&gt; 
+            &lt;td width=&quot;42&quot; height=&quot;55&quot; valign=&quot;top&quot;&gt; 
+              &lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;4&quot;&gt;
+                &lt;tr&gt;
+                  &lt;td height=&quot;43&quot; valign=&quot;top&quot;&gt;&lt;img src=&quot;&lt;?php echo $elemento ?&gt;&quot; border=&quot;0&quot;&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/table&gt;
+              &lt;br&gt;
+            &lt;/td&gt;
+          &lt;td width=&quot;226&quot; valign=&quot;top&quot;&gt; &lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; style='padding: 3px; border: solid 1px gray; width: 210px ; background: #dddddd ;'&gt;
+              &lt;tr&gt; 
+                &lt;td&gt;&lt;b&gt;&lt;a href=&quot;galeria.php?a=&lt;?php echo $elemento ?&gt;&quot;&gt; &lt;? echo $nombre ?&gt;&lt;/a&gt; 
+                  - 
+                  &lt;?  
+// asignamos el tamaño de los archivo
+if(filesize($elemento) &gt; 1000000) {
+$tamano = filesize($elemento)/1024/1024;
+$tamano = ceil($tamano) ;
+echo &quot;$tamano Mb&quot;;
+}
+else { 
+if(filesize($elemento) &gt; 1000) {
+$tamano = filesize($elemento)/1024;
+$tamano = ceil($tamano) ;
+echo &quot;$tamano Kb&quot;;
+} 
+else {
+$tamano = filesize($elemento);
+$tamano = ceil($tamano);
+echo &quot;$tamano bytes&quot;;
+} 
+}
+?&gt;
+                  &lt;/b&gt;&lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/table&gt;
+&lt;?
+// fecha de subida del archivo
+$elementotiempo = filectime(&quot;$elemento&quot;);
+$fecha=explode(&quot;,&quot;,date(&quot;,d,m,y,h,i&quot;,$elementotiempo));
+$fecha=&quot;$fecha[1]/$fecha[2]/$fecha[3]&quot;;
+echo &quot;Fecha: $fecha&quot;;
+?&gt;
+              &lt;br&gt;
+              &lt;a href=&quot;galeria.php?a=&lt;?php echo $elemento ?&gt;&quot; &gt; &lt;/a&gt;
+			  
+&lt;?
+echo &quot;Tipo: $nombre2&quot;;
+?&gt;
+			  &lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+      &lt;br&gt;
+    &lt;/div&gt;&lt;/td&gt;
+  &lt;?php
+$i++;
+}
+}
+echo&quot;&lt;/tr&gt;&quot;;
+
+// Si sobran archivos pondremos el &quot;10 Siguientes&quot;
+if ($elemento = readdir($dir))
+{
+$Show['50 Siguientes'] = 1;
+}
+
+//Cerramos el directorio
+closedir($dir);
+?&gt;
+&lt;!-- inicio 5 siguientes arriba y abajo --&gt;
+  &lt;tr&gt;
+  &lt;td&gt;&lt;/td&gt;
+  &lt;td&gt;
+&lt;?php
+// Mostraos si es necessario el &quot;10 Anteriores&quot; y &quot;10 Siguientes&quot;.
+if ($Show['50 Anteriores'] == 1) echo(&quot;&lt;a href=&quot;galeria.php?c=&quot;.($Plus-$Config['Show']).&quot;&amp;la=$la&amp;an=$an&quot;&gt;50 Anteriores | &lt;/a&gt;&quot;);
+if ($Show['50 Siguientes'] == 1) echo(&quot;&amp;nbsp;&lt;a href=&quot;galeria.php?c=&quot;.($Plus+$Config['Show']).&quot;&amp;la=$la&amp;an=$an&quot;&gt;50 Siguientes&lt;/a&gt;&lt;/p&gt;&quot;);
+?&gt;&lt;/td&gt;
+&lt;/tr&gt; 
+&lt;!-- fin 5 siguientes arriba y abajo --&gt;
+&lt;/table&gt; 
+&lt;? 
+if($enviar) {
+if($archivo != &quot;&quot; ) {
+$extensiones = explode(&quot;.&quot;,$archivo_name) ;
+$num = count($extensiones) - 1 ;
+if($extensiones[$num] != &quot;gif&quot; &amp;&amp; $extensiones[$num] != &quot;jpg&quot; ) { $error = &quot;Sólo se permiten archivos .gif,.jpg&lt;br&gt;&quot; ; }
+
+if(file_exists(&quot;$archivo_name&quot;)) { $error = &quot;Ya existe un archivo con este nombre.&lt;br&gt;&quot; ; }
+if($archivo_size &gt; 256000 ) { $error .= &quot;El archivo debe pesar menos de 250 kb&lt;br&gt;&quot; ; }
+// Tamaño de la imagen medido en pixeles
+$tamano = @getimagesize(&quot;$archivo&quot;) ;
+$largo = $tamano[0] ;
+$ancho = $tamano[1] ;
+if($largo &gt; $tam_largo || $ancho &gt; $tam_ancho) {
+$error .= &quot;El tamaño de la imagen debe ser igual a $tam_largo x $tam_ancho pixeles.&lt;br&gt;&quot; ;
+}
+if($error) {
+echo &quot;
+&lt;p class=&quot;titulo&quot;&gt;Error
+&lt;p&gt;$error
+&lt;p&gt;&lt;a href=&quot;javascript:history.back()&quot;&gt;Regresar&lt;/a&gt;
+&quot; ;
+exit ;
+}
+move_uploaded_file($archivo,&quot;$archivo_name&quot;) ;
+echo &quot;&lt;div aling=left&gt;El archivo &lt;a href='$archivo_name' target='_blank'&gt;$archivo_name&lt;/a&gt; ha sido subido con éxito. &lt;a href='$_SERVER[REQUEST_URI]' target='_top'&gt;pulsa aqui&lt;/a&gt;&lt;/div&gt;&quot; ;
+}
+else {
+echo &quot;El archivo &lt;b&gt;$archivo_name&lt;/b&gt; supera los 250 Kb&quot; ;
+}
+}
+?&gt;
+&lt;br&gt;
+&lt;form method=&quot;post&quot; action=&quot;&lt;? echo $_SERVER[REQUEST_URI] ?&gt;&quot; enctype=&quot;multipart/form-data&quot;&gt;
+  &lt;strong&gt;Subir iconos&lt;/strong&gt;&lt;br&gt;
+  &lt;strong&gt;- &lt;/strong&gt;Solo iconos de&lt;strong&gt; &lt;? echo $tam_largo ?&gt; x &lt;? echo $tam_ancho ?&gt;&lt;/strong&gt;&lt;br&gt;
+  - Imagenes &lt;strong&gt;.gif&lt;/strong&gt; y &lt;strong&gt;.jpg&lt;/strong&gt;&lt;br&gt;
+  Numero de ficheros :&lt;br&gt;
+  &lt;br&gt;
+  Archivo :&lt;br&gt;
+  &lt;input type=&quot;file&quot; name=&quot;archivo&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+                    &lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot; class=&quot;form&quot;&gt;
+                  &lt;/form&gt;
+				 
+&lt;div align=&quot;center&quot;&gt;&lt;br&gt;
+  &lt;a href=&quot;iconos.zip&quot;&gt;Iconos&lt;/a&gt; by elcidop&lt;/div&gt;
+&lt;/body&gt;&lt;/html&gt;
+[/codigo]
+
+Podran ver un ejemplo en 
+http://www.tuarroba.net/elcidop/archivos/iconos/
+
+Gracias por su atencion, no se olviden de visitar
+http://www.phpmysql.tk

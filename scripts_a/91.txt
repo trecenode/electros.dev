@@ -1,0 +1,31 @@
+Transformar automáticamente URLs en enlaces:
+
+http://www.electros.net
+
+Mostrar imagen:
+
+[img]http://www.electros.net/eforo_imagenes/avatares/1.jpg[/img]
+
+Color en el texto:
+
+[color=#ff0000]asdflkasdjflkasdjfkljasdf[/color]
+
+Mostrar código:
+
+[codigo]&lt;?
+$a = 10 ;
+?&gt;[/codigo]
+
+Mostrar URL mediante eCodigo:
+
+[url]http://www.electros.net[/url]
+
+Texto en negrita:
+
+[b]sadlfkjaslkdjflaskdfdas[/b]
+
+Mostrar URL con texto propio:
+
+[url=http://www.electros.net]Electros - Scripts en PHP y MySQL para tu web[/url]
+
+[url=www.electros.net]Electros - Scripts en PHP y MySQL para tu web[/url]

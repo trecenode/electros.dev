@@ -1,0 +1,105 @@
+Fuente: [url]http://www.xergio.net[/url]
+Autor: [b]XeRGio[/b]
+
+Bueno Este es mi primer scrip que publico, espero que les guste como ami me gusto este sistema de descargas....
+
+Este Sistema de descarga es muy facil de manejar y muy administrable, solo cuenta con 2 archivos que son:
+-descargas_admin.php
+-download.php
+
+Bueno primero que nada deves agregar esta tabla a tu base de datos Para ello usaremos phpMyAdmin mismamente, e insertaremos este código en el espacio para hacer consultas SQL: 
+
+[codigo]CREATE TABLE descargas ( 
+    nombre VARCHAR(255) NOT NULL , 
+    url VARCHAR(255) NOT NULL , 
+    descargas INT(10) NOT NULL , 
+    PRIMARY KEY (nombre) 
+);[/codigo]
+
+
+Ahora Crearemos [b]descargas_admin.php[/b] donde introduciras este codigo:
+
+[codigo]
+&lt;? 
+
+$nombredescargas = &quot;descargas_admin.php&quot;; 
+
+$host = &quot;localhost&quot;; 
+$user = &quot;nombreDeUSuarioDelaBD&quot;; 
+$pass = &quot;TuPassAlaBD&quot;; 
+$db = &quot;NombreDelaBD&quot;; 
+
+//conecta a mysql 
+$conecta = mysql_connect($host,$user,$pass); mysql_select_db($db,$conecta); 
+
+//si se pide que se añada... 
+if ($add) { 
+   $query = &quot;insert into descargas (nombre,url,descargas) values ('$nombre','$url','0')&quot;; mysql_query($query); 
+   echo &quot;&lt;b&gt;Archivo de descarga añadido:&lt;br&gt;- Nombre identificador: $nombre&lt;br&gt;- URL: $url&lt;br&gt;&lt;br&gt;&lt;/b&gt;&quot;; 
+} 
+
+//si se pide borrar alguna descarga... 
+if ($borra) { 
+    $query = &quot;delete from descargas where nombre='$borra'&quot;; mysql_query($query); 
+    echo &quot;&lt;b&gt;Borrada la descarga $borra&lt;/b&gt;&quot;; 
+} 
+
+//muestra todos los registros de descargas 
+echo &quot;&lt;table border=1&gt;&quot;; 
+$query = &quot;select * from descargas order by nombre&quot;; $resp = mysql_query($query); 
+while ($datos = mysql_fetch_array($resp)) { echo &quot;&lt;tr&gt;&lt;td&gt;$datos[nombre]&lt;/td&gt;&lt;td&gt;$datos[url]&lt;/td&gt;&lt;td&gt;$datos[descargas]&lt;/td&gt;&lt;td&gt;&lt;a href=$nombredescargas?borra=$datos[nombre]&gt;borrar&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&quot;; } 
+echo &quot;&lt;/table&gt;&quot;; 
+
+//liberamos memoria y desconecta de mysql 
+@mysql_free_result($resp); mysql_close($conecta); 
+
+?&gt; 
+
+&lt;br&gt;&lt;br&gt; 
+&lt;form enctype=&quot;multipart/form-data&quot; method=post action=&quot;&lt;?=$nombredescargas?&gt;&quot;&gt; 
+&lt;input type=&quot;text&quot; name=&quot;nombre&quot; value=&quot;nombre&quot;&gt;&lt;br&gt; 
+&lt;input type=&quot;text&quot; name=&quot;url&quot; value=&quot;Direccion del archivo (con http://...)&quot;&gt;&lt;br&gt; 
+&lt;input type=submit name=&quot;add&quot; value=&quot;Añadir Descarga&quot;&gt; 
+&lt;/form&gt;
+[/codigo]
+
+- OJO: En [b]$nombredescargas[/b]  Puedes cambiarle el nombre, pero tambien tendras que cambiar los datos a todas las lineas con ese nombre paresido...
+
+y listo ahi esta el primer archivo... ahora crearemos el archivo [b]download.php[/b] con el cual realizaremos el fenomeno de las descargas.... introduciremos el siguiente codigo:
+
+[codigo]
+&lt;? 
+
+$nombredescargas = &quot;download.php&quot;; 
+
+$host = &quot;localhost&quot;; 
+$user = &quot;nombreDeUSuarioDelaBD&quot;; 
+$pass = &quot;TuPassAlaBD&quot;; 
+$db = &quot;NombreDelaBD&quot;; 
+
+//conecta a mysql 
+$conecta = mysql_connect($host,$user,$pass); mysql_select_db($db,$conecta); 
+
+//busca el archivo que se pide 
+$query = &quot;select * from descargas where nombre='$id'&quot;; $resp = mysql_query($query); 
+$existe = mysql_num_rows($resp); 
+
+if ($existe == 0) { echo &quot;No existe la descarga&quot;; exit(); } 
+else { 
+      $archivo = mysql_fetch_array($resp); 
+      $archivo[descargas]++; 
+      $query = &quot;update descargas set descargas='$archivo[descargas]' where nombre='$id'&quot;; mysql_query($query); 
+      header(&quot;location: $archivo[url]&quot;); 
+} 
+
+//liberamos memoria y desconecta 
+@mysql_free_result($resp); mysql_close($conecta); 
+
+?&gt;
+[/codigo]
+
+
+Ya esta, eso era todo, ahora para agregar tus descargas solo tienes que abrir desde la web descargas_admin.php y agregar tus descargas..
+Y para llamar a la descarga solo deves poner esto http://www.tuweb.com/download.php?id=[b]nombre Del archivo[/b]
+
+y listo.... espero que les ayude...

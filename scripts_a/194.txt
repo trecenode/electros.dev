@@ -1,0 +1,51 @@
+[b]Mod para verificar los datos en el registro[/b]
+
+Bueno con este mod se verifica el email y la contraseña, mediante un reingreso, es bastante simple solo debes reemplazar el siguiente codigo del archivo &quot;uregistrar.php&quot; y listo.
+
+[codigo]
+&lt;script&gt;
+function revisar() {
+if(formulario.nick.value.length &lt; 3) { alert('El nick debe contener por lo mínimo 3 caractéres') ; return false ; }
+if(formulario.contrasena.value.length &lt; 5) { alert('La contraseña debe contener por lo mínimo 5 caractéres') ; return false ; }
+if(formulario.email.value.length == 0) { alert('Debes poner un email válido') ; return false ; }
+}
+&lt;/script&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;index.php?id=uregistrar&quot; onsubmit=&quot;return revisar()&quot;&gt;
+&lt;b&gt;* Nick:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;nick&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;* Contraseña:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;* Email:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;email&quot; maxlength=&quot;40&quot; class=&quot;form&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;registrar&quot; value=&quot;Registrar&quot; class=&quot;form&quot;&gt;
+&lt;/form&gt;
+[/codigo]
+
+POR
+
+[codigo]
+&lt;script&gt;
+function revisar() {
+if(formulario.nick.value.length &lt; 3) { alert('El nick debe contener por lo mínimo 3 caractéres') ; return false ; }
+if(formulario.contrasena.value.length &lt; 5) { alert('La contraseña debe contener por lo mínimo 5 caractéres') ; return false ; }
+if(formulario.recontrasena.value.length !== formulario.contrasena.value.length ) { alert('Las contraseñas no coinciden') ; return false ; }
+if(formulario.email.value.length == 0) { alert('Debes poner un email válido') ; return false ; }
+if(formulario.reemail.value.length !== formulario.email.value.length ) { alert('Los Emails no coinciden') ; return false ; }
+}
+&lt;/script&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;index.php?id=uregistrar&quot; onsubmit=&quot;return revisar()&quot;&gt;
+&lt;b&gt;* Nick:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;nick&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;* Contraseña:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;* Contraseña (Confirmación):&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;recontrasena&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;* Email:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;email&quot; maxlength=&quot;40&quot; class=&quot;form&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;b&gt;* Email (Confirmación):&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;reemail&quot; maxlength=&quot;40&quot; class=&quot;form&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;registrar&quot; value=&quot;Registrar&quot; class=&quot;form&quot;&gt;
+&lt;/form&gt;
+[/codigo]
+
+PD: Pronto el mod para que al registrarse se encripte la contraseña mediante MD5...

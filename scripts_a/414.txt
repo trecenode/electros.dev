@@ -1,0 +1,20 @@
+[b]Descripcion:[/b]
+El FlexPHPNews  Es un Inovador Sistema de Noticias que te prermite la Posibilidad de Que tus Noticias sean Clasificadas, Opcion de Subir Imagenes, puedes agregar multi-niveles, sub-categorias y subir imagenes para tus noticias. Lo que sigue en este programa es escribir un archivo!. Una vez editado el archivo, puedes generar un nuevo lenguaje o customizar el texto. Los Usuarios Pueden Buscar el contenido de las noticias por palabras claves y tambien clasificar noticias!!
+[b]Pros:[/b]
+* Clasificacion de Noticias
+* Buscador de Noticias
+
+[b]Contras:[/b]
+* Publicidad
+
+[b]Instrucciones:[/b]
+[u]Extrae wl Archivo news.zip. Antes de Instalar el programa, asegurate de que tu host tenga activada una base de datos.[/u]
+[b]1º [/b]Sube el Contenido de la Carpeta News a tu Web
+[b]2º[/b] A el Archivo const.inc.php agregale el permiso chmod 777 (mediante un programa ftp, preferiblemente), tambien a la carpeta Photo, dale el permiso Chmod 777
+[b]3º [/b]Cuando ya hayas subido el contenido de la carpeta y agregado permisos, dirigete a: /news/admin/install.php y llena los datos
+[b]4º[/b] Borra el archivo /news/admin/install.php para evitar intrusiones hacker.
+[b]5º[/b] Administra tu Sistema como prefieras\r\ny Listo!!! Solo te falta escribir las Noticias!!
+
+[i]*Las noticias escritias se iran a news/news.php, Tambien puedes subir el contenido a la carpeta raíZ, para evitar el largo nombre[/i]
+
+[url=http://www.china-on-site.com/flexphpsite/other.php]Home[/url]

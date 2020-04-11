@@ -1,0 +1,107 @@
+Bueno, espero que os sirva este script. es para contactar con un usuario de una manera muy original, jeje.
+
+Consta de tres páginas:
+[b]msg.php[/b] - Para que el usuario vea el mensaje
+[b]msgread.php[/b] - Para escribir el mensaje
+[b]msgenviar.php[/b] - Para guardar el mensaje
+
+
+Primero teneis que agregar una nueva fila a la tabla 'usuarios' llamada msg con las mismas caracteristicas que la fila 'descripción'.
+
+
+Empecemos con la página [b]msg.php[/b]:
+
+Pones este código (podeis modificar el estilo de la tabla):
+[codigo]<?
+include("ulogin.php") ;
+?>
+<?
+include("config.php") ;
+$resp = mysql_query("select * from usuarios where nick='$HTTP_COOKIE_VARS[unick]'") ;
+$datos = mysql_fetch_array($resp) ;
+?>
+<right><table align="right" border="0" width="300" height="1" cellspacing="0" cellpadding="0" style="font-size: 8 pt">
+  <tr>
+    <td style="border-left: 1 solid #000000; border-bottom: 1 solid #000000" bgcolor="#D3A963"><b><font color="#000000">Mensajes
+      del webmaster para tí</font></b></td>
+  </tr>
+  <tr>
+    <td style="border-left: 1 solid #000000; border-bottom: 1 solid #000000"><? echo $datos[msg] ?></td>
+  </tr>
+</table></right>
+<p>
+<?
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?>[/codigo]
+
+Sigamos con la siguiente página, [b]msgread.php[/b].
+
+Poned este código (podeis modificar el estilo del formulario CON CUIDADO!):
+
+[codigo]<?
+include("ulogin.php") ;
+?>
+<?
+include("config.php") ;
+$resp = mysql_query("select * from usuarios where nick='$nick'") ;
+$datos = mysql_fetch_array($resp) ;
+if($editarconfirmacion) {
+echo "Mensaje enviado y guardado." ;
+}
+// Mostrar la fecha en texto
+$fecha = $datos[fecha] ;
+$diassemana = array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado") ;
+$mesesano = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre") ;
+$diasemana = date(w,$fecha) ; $diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = "$diassemana[$diasemana] $diames de $mesesano[$mesano] del $ano" ;
+echo "<p class=titulo>Mensajes
+<p><b>$nick</b> está registrado desde el: $fecha
+
+<form method=post action=msgenviar.php>
+<b>* Nick:</b><br>
+<input type=text name=nick maxlength=20 value=$nick class=form readonly><br>
+<b>Mensaje</b><b>:</b><br>
+<textarea name=msg cols=30 rows=5 class=form verdana>$datos[msg]</textarea><br><br>
+<input type=submit name=editar value=Enviar class=form>
+</form>
+" ;
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?>[/codigo]
+
+y luego la ultima página, [b]msgenviar.php[/b]
+
+pon este código (NO MODIFIQUES NADA):
+
+[codigo]<?
+include("ulogin.php") ;
+?>
+<?
+include("config.php") ;
+$usuario = $nick ;
+if($editar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+
+$msg = quitar($msg) ;
+mysql_query("update usuarios set msg='$msg' where nick='$usuario'") ;
+header("location: msgread.php?editarconfirmacion=si") ;
+}
+mysql_close($conectar) ;
+?>[/codigo]
+
+Para editar el mensaje de un usuario, teneis que ir a la dirección:
+[codigo]...msgread.php?nick=loquesea[/codigo]
+
+sabiendo que 'loquesea' es su nick.
+
+Podeis incluir la página msg.php en la página que desees mostrarla con un include:
+[codigo]<? include("msg.php") ?>[/codigo]
+
+Y esto es todo. Si necesitais ayuda, encontrais algun error o algo, avisadme a: webmaster@lodvg.tk
+
+Powered by Mike (c) 2001 - 2003

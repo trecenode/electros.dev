@@ -1,0 +1,41 @@
+Este Script es bastante sencillo pero a la vez bastante completo.. ademas que es una pequeña modificacion de un poco de cosas que he tomado de muuchos lados pero igual me quedo wapo ya que practicamente lo rehice yo solo
+
+bueno ya aqui esta el script!
+
+[codigo]
+
+&lt;HeaD&gt;
+&lt;SCRIPT type=&quot;text/javascript&quot;&gt;
+
+function showimage() {
+if (!document.images)
+return
+document.images.avatar.src=
+'img/' + document.formulario.avatar.options[document.formulario.avatar.selectedIndex].value
+}
+&lt;/SCRIPT&gt;
+&lt;/HeaD&gt;
+&lt;?
+$directorio = 'img' ; //aqui se coloca el directorio q queremos listar
+$dir = opendir(&quot;$directorio&quot;) ; //aqui se abre el directorio
+echo &quot;&lt;form name=formulario&gt;&lt;select name=avatar onChange= showimage()&gt; &quot;;
+echo &quot;&lt;option value=$directorio/nodisponible.gif selected&gt;- Sin imagen -&lt;/option&gt;&quot;;
+while ($file = readdir($dir)) { //aqui es donde leemos el directorio
+if ($file != &quot;.&quot; &amp;&amp; $file != &quot;..&quot;) { //esto es para que no nos muestre la salida a &quot;atras&quot;
+echo &quot;&lt;option value=$file&gt;$file&lt;/option&gt;&quot;;
+}
+}
+echo&quot; &lt;/select&gt;&quot;;
+closedir($dir); //aqui cerramos la carpeta
+echo&quot;&lt;/form&gt;&quot;;
+echo&quot;&lt;img src=img/nodisponible.gif  name=avatar&gt;&quot;; //aqui se mostraran nuestras imagenes seleccionadas
+?&gt;
+
+
+[/codigo]
+
+
+
+espero les sea de mucha utilidad.. ademas es mi primer script posteado aqui..
+
+si alguien lo puede mejorar pues q lo postee aqui para ver sus cambio..!! ale chaup!

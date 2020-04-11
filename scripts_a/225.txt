@@ -1,0 +1,612 @@
+Bueno Aqui Os dejo Una Modificacion De el Script De Electros EDESCARGAS Bueno , es una simple modificación que ize para que los elinks se bajasen directamente , Bueno Donde mejor lo veréis será en un ejemplo Aqui teneis el Ejemplo 
+http://www.emulezone.gratishost.com Este Script Utiliza  las mismas Tablas que el EDESCARGAS asi que si quereis tener el edescargas y el  Elinks Edonkey tienes que cambiar los nombres de las tablas :D Es fácil , Solo hay que ponerle Ganas ! :D y Bueno , Pues este Script , Muestra las Descargas de 50 en 50 ...
+
+
+SQL [codigo]CREATE TABLE descargas (
+  id smallint(5) unsigned NOT NULL auto_increment,
+  fecha int(10) unsigned NOT NULL default '0',
+  usuario varchar(20) NOT NULL default '',
+  titulo varchar(100) NOT NULL default '',
+  descripcion tinytext NOT NULL,
+  categoria tinyint(1) unsigned NOT NULL default '0',
+  urlsitio varchar(100) NOT NULL default '',
+  urlminibanner varchar(100) NOT NULL default '',
+  puntos smallint(5) unsigned NOT NULL default '0',
+  votos smallint(5) unsigned NOT NULL default '0',
+  calificacion decimal(3,2) unsigned NOT NULL default '0.00',
+  visitas smallint(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+[/codigo]
+
+
+
+
+
+
+Se basa , Al ? que el EDESCARGAS De 5 Archivos(incluyendo el Config)
+DESCARGAS .PHP
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+if($e) {
+$resp = mysql_query(&quot;select urlsitio,descarga from descargas where id='$e'&quot;) ;
+if(mysql_num_rows($resp) != 0) {
+$datos = mysql_fetch_array($resp) ;
+if($datos[descarga] == 1) { $datos[urlsitio] = &quot;$carpetadondeseguardanlosarchivos/$datos[urlsitio]&quot; ; }
+mysql_query(&quot;update descargas set visitas=visitas+1 where id='$e'&quot;) ;
+?&gt;
+&lt;script&gt;location='&lt;? echo $datos[urlsitio] ?&gt;'&lt;/script&gt;
+&lt;?
+}
+else {
+echo &quot;No existe esta Descarga en la base de datos.&quot; ;
+}
+}
+if($calificar == &quot;si&quot;) {
+echo &quot;&lt;p&gt;&lt;b&gt;Has votado por la Descarga.&lt;/b&gt;&quot; ;
+}
+if($calificar == &quot;no&quot;) {
+echo &quot;&lt;p&gt;&lt;b&gt;Sólo puedes votar una vez por día.&lt;/b&gt;&quot; ;
+}
+?&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+&lt;!--
+.Estilo1 {color: #FFFFFF}
+--&gt;
+&lt;/style&gt;
+
+&lt;p class=&quot;t1&quot;&gt;
+  &lt;?
+// clasificar las descargas
+if(isset($c)) {
+$clasificacion = array(&quot;$descarga0&quot;,&quot;$descarga1&quot;,&quot;$descarga2&quot;,&quot;$descarga3&quot;,&quot;$descarga4&quot;,&quot;$descarga5&quot;,&quot;$descarga6&quot;,&quot;$descarga7&quot;,&quot;$descarga8&quot;,&quot;$descarga9&quot;) ;
+?&gt;
+&lt;b&gt;Categoría:&lt;/b&gt; &lt;? echo $clasificacion[$c] ?&gt;
+&lt;?
+$mostrar = 50 ;
+$resp = mysql_query(&quot;select id from descargas where categoria='$c'&quot;) ;
+$descargas = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+?&gt;
+&lt;b&gt;Total de descargas:&lt;/b&gt; &lt;? echo $descargas ?&gt; | &lt;a href=&quot;index.php?id=descargas&quot;&gt;Volver&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt; 
+&lt;table width=&quot;593&quot; border=&quot;0&quot; align=&quot;center&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; bgcolor=&quot;#666666&quot;&gt;
+  &lt;tr bgcolor=&quot;#333333&quot;&gt;
+    &lt;td width=&quot;371&quot;&gt;&lt;div align=&quot;center&quot; class=&quot;Estilo1&quot;&gt;Nombre&lt;/div&gt;&lt;/td&gt;
+    &lt;td width=&quot;120&quot;&gt;Comparte:&lt;/td&gt;
+    &lt;td width=&quot;102&quot;&gt;Descargar&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td bgcolor=&quot;#666666&quot;&gt;&lt;span class=&quot;tabla_subtitulo&quot;&gt;&lt;a href=&quot;&lt;? echo $datos[urlsitio] ?&gt;&quot;&gt;
+      &lt;?
+$mostrar = 50 ; 
+if(!$desde) { $desde = 0 ; }  
+$resp = mysql_query(&quot;select * from descargas where categoria='$c' order by titulo asc limit $desde,$mostrar&quot;) ;
+$desde = $desde + $mostrar ;
+while($datos = mysql_fetch_array($resp)) {
+?&gt;
+    &lt;/a&gt;        &lt;strong&gt;· &lt;? echo $datos[titulo] ?&gt;&lt;/strong&gt;
+&lt;/span&gt;
+    &lt;span class=&quot;tabla_subtitulo&quot;&gt;    &lt;/span&gt;&lt;/td&gt;
+    &lt;td bgcolor=&quot;#666666&quot;&gt;&lt;span class=&quot;tabla_subtitulo&quot;&gt;&lt;? echo $datos[descripcion] ?&gt;&lt;/span&gt;    &lt;/td&gt;
+    &lt;td bgcolor=&quot;#666666&quot;&gt;&lt;a href=&quot;&lt;? echo $datos[urlsitio] ?&gt;&quot;&gt;Descargar&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;div align=&quot;left&quot;&gt;&lt;span class=&quot;tabla_subtitulo&quot;&gt;
+        &lt;?
+} 
+mysql_free_result($resp) ;
+if($desde &gt; $mostrar) {
+$anteriores = $mostrar * 2 ;
+if($desde == $anteriores) {
+echo &quot;&lt;p align=right&gt;&lt;a href=index.php?id=descargas&amp;c=$c&gt;Anteriores $mostrar descargas&lt;/a&gt; | &quot; ;
+}
+else {
+$anteriores = $desde - $mostrar * 2 ;
+echo &quot;&lt;p align=right&gt;&lt;a href=index.php?id=descargas&amp;c=$c&amp;desde=$anteriores&gt;Anteriores $mostrar descargas&lt;/a&gt; | &quot; ;
+}
+}
+else {
+echo &quot;&lt;p align=right&gt;&quot; ;
+}
+if($desde &lt; $descargas) {
+echo &quot;&lt;a href=index.php?id=descargas&amp;c=$c&amp;desde=$desde&gt;Siguientes $mostrar descargas&lt;/a&gt;&quot; ;
+}
+if($desde &gt; $descargas) {
+echo &quot;&lt;a href=index.php?id=descargas&amp;c=$c&amp;desde=$desde&gt;Siguientes $mostrar descargas&lt;/a&gt;&quot; ;
+} 
+}
+else {
+?&gt;
+    &lt;/span&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;
+  &lt;?
+$resp = mysql_query(&quot;select id from descargas where categoria=0&quot;) ;
+$c0 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=1&quot;) ;
+$c1 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=2&quot;) ;
+$c2 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=3&quot;) ;
+$c3 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=4&quot;) ;
+$c4 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=5&quot;) ;
+$c5 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=6&quot;) ;
+$c6 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=7&quot;) ;
+$c7 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=8&quot;) ;
+$c8 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=9&quot;) ;
+$c9 = mysql_num_rows($resp) ;
+?&gt;
+
+&lt;div align=&quot;center&quot;&gt; 
+  &lt;table width=&quot;798&quot; border=&quot;0&quot; align=&quot;center&quot;&gt;
+    &lt;tr&gt;
+      &lt;td width=&quot;194&quot;&gt;&lt;b&gt;· &lt;a href=&quot;index.php?id=descargas&amp;c=0&quot;&gt;
+      &lt;?  echo $descarga0 ?&gt;
+      &lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td width=&quot;133&quot;&gt;&lt;b&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=0&quot;&gt;&lt;span class=&quot;n&quot;&gt;(&lt;? echo $c0 ?&gt;&lt;/span&gt;)&lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td width=&quot;457&quot;&gt;&lt;? echo $descarga0definicion ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;b&gt;· &lt;a href=&quot;index.php?id=descargas&amp;c=1&quot;&gt;
+      &lt;?  echo $descarga1 ?&gt;
+      &lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;b&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=1&quot;&gt;&lt;span class=&quot;n&quot;&gt;(&lt;? echo $c1 ?&gt;&lt;/span&gt;)&lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;? echo $descarga1definicion ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;b&gt;· &lt;a href=&quot;index.php?id=descargas&amp;c=2&quot;&gt;
+      &lt;?  echo $descarga2 ?&gt;
+      &lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;b&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=2&quot;&gt;&lt;span class=&quot;n&quot;&gt;(&lt;? echo $c2 ?&gt;&lt;/span&gt;)&lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;? echo $descarga2definicion ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;b&gt;· &lt;a href=&quot;index.php?id=descargas&amp;c=3&quot;&gt;
+      &lt;?  echo $descarga3 ?&gt;
+      &lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;b&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=3&quot;&gt;&lt;span class=&quot;n&quot;&gt;(&lt;? echo $c3 ?&gt;&lt;/span&gt;)&lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;? echo $descarga3definicion ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;b&gt;· &lt;a href=&quot;index.php?id=descargas&amp;c=4&quot;&gt;
+      &lt;?  echo $descarga4 ?&gt;
+      &lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;b&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=4&quot;&gt;&lt;span class=&quot;n&quot;&gt;(&lt;? echo $c4 ?&gt;&lt;/span&gt;)&lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;? echo $descarga4definicion ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;b&gt;· &lt;a href=&quot;index.php?id=descargas&amp;c=5&quot;&gt;
+      &lt;?  echo $descarga5 ?&gt;
+      &lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;b&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=5&quot;&gt;&lt;span class=&quot;n&quot;&gt;(&lt;? echo $c5 ?&gt;&lt;/span&gt;)&lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;? echo $descarga5definicion ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;b&gt;· &lt;a href=&quot;index.php?id=descargas&amp;c=6&quot;&gt;
+      &lt;?  echo $descarga6 ?&gt;
+      &lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;b&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=6&quot;&gt;&lt;span class=&quot;n&quot;&gt;(&lt;? echo $c6 ?&gt;&lt;/span&gt;)&lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;? echo $descarga6definicion ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;b&gt;· &lt;a href=&quot;index.php?id=descargas&amp;c=7&quot;&gt;
+      &lt;?  echo $descarga7 ?&gt;
+      &lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;b&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=7&quot;&gt;&lt;span class=&quot;n&quot;&gt;(&lt;? echo $c7 ?&gt;&lt;/span&gt;)&lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;? echo $descarga7definicion ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;b&gt;· &lt;a href=&quot;index.php?id=descargas&amp;c=8&quot;&gt;
+      &lt;?  echo $descarga8 ?&gt;
+      &lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;b&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=8&quot;&gt;&lt;span class=&quot;n&quot;&gt;(&lt;? echo $c8 ?&gt;&lt;/span&gt;)&lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;? echo $descarga8definicion ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;b&gt;· &lt;a href=&quot;index.php?id=descargas&amp;c=9&quot;&gt;
+      &lt;?  echo $descarga9 ?&gt;
+      &lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;b&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=9&quot;&gt;&lt;span class=&quot;n&quot;&gt;(&lt;? echo $c9 ?&gt;&lt;/span&gt;)&lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;? echo $descarga9definicion ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;div align=&quot;center&quot;&gt;&lt;b&gt;
+&lt;br&gt;
+&lt;div align=&quot;center&quot;&gt;
+  &lt;?
+if($buscar) {
+include(&quot;config.php&quot;) ;
+$resp = mysql_query(&quot;select * from descargas where descripcion like '%$palabras%'&quot;) ;
+if(mysql_num_rows($resp) == 0) {
+echo &quot;No se encontraron resultados en la búsqueda.&quot; ;
+}
+else {
+while($datos = mysql_fetch_array($resp)) {
+?&gt;
+&lt;table width='100%' border='0' cellpadding='5' cellspacing='0' class='tabla_mensaje'&gt;
+  &lt;tr&gt; 
+    &lt;td width='74%' height='29' &gt;&lt;div&gt; &lt;a href='&lt;? echo $datos[urlsitio] ?&gt;' target='_blank'&gt;* 
+        &lt;? echo $datos[titulo] ?&gt;&lt;/a&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;td width='26%'&gt;compartida por : &lt;? echo $datos[descripcion] ?&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;?
+}
+}
+}
+?&gt;
+&lt;/div&gt;
+&lt;p class=&quot;t1&quot;&gt;Descarga seleccionada aleatoriamente 
+&lt;p&gt;&lt;span class=&quot;tabla_subtitulo&quot;&gt;
+&lt;?
+$resp = mysql_query(&quot;select * from descargas order by rand() limit 1&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+?&gt;
+&lt;/span&gt;
+&lt;table width='67%' border='0' cellpadding='3' cellspacing='0' class=&quot;tabla_titulo&quot;&gt;
+  &lt;form method='post' action='descargascalificar.php?d=&lt;? echo $datos[id] ?&gt;'&gt;
+    &lt;tr&gt; 
+      &lt;?
+if($datos[imagen] == &quot;&quot;) {
+echo &quot;&quot; ;
+}
+else {
+echo &quot;&lt;td width='3%' class='tabla_subtitulo'&gt;&lt;img src='$datos[imagen]' border='0' width='$tamañoanchoimagen' height='$tamañoaltoimagen' onerror=this.onerror='null';this.src='$errorimagen'&gt;&lt;/td&gt;&quot; ;
+}
+?&gt;
+      &lt;td width='97%' height=&quot;25&quot; class=&quot;tabla_subtitulo&quot;&gt;         · &lt;? echo $datos[titulo] ?&gt;&lt;/td&gt;
+      &lt;td width='97%' class=&quot;tabla_subtitulo&quot;&gt;&lt;a href=&quot;&lt;? echo $datos[urlsitio] ?&gt;&quot;&gt;Descargar elink&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/form&gt;
+&lt;/table&gt;
+&lt;?
+mysql_free_result($resp) ;
+?&gt;
+&lt;p class=&quot;t1&quot;&gt;Ultimos 10 e-links 
+&lt;span class=&quot;tabla_subtitulo&quot;&gt;
+&lt;?
+$mostrar = 10 ;
+$resp = mysql_query(&quot;select * from descargas order by id desc limit $mostrar&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+?&gt;
+&lt;/span&gt;
+&lt;table width='67%' border='0' cellpadding='3' cellspacing='0' class=&quot;tabla_titulo&quot;&gt;
+  &lt;form method='post' action='descargascalificar.php?d=&lt;? echo $datos[id] ?&gt;'&gt;
+    &lt;tr&gt;
+      &lt;?
+if($datos[imagen] == &quot;&quot;) {
+echo &quot;&quot; ;
+}
+else {
+echo &quot;&lt;td width='3%' class='tabla_subtitulo'&gt;&lt;img src='$datos[imagen]' border='0' width='$tama&amp;ntilde;oanchoimagen' height='$tama&amp;ntilde;oaltoimagen' onerror=this.onerror='null';this.src='$errorimagen'&gt;&lt;/td&gt;&quot; ;
+}
+?&gt;
+      &lt;td width='97%' height=&quot;25&quot; class=&quot;tabla_subtitulo&quot;&gt;&amp;middot; &lt;? echo $datos[titulo] ?&gt;&lt;/td&gt;
+      &lt;td width='97%' class=&quot;tabla_subtitulo&quot;&gt;&lt;a href=&quot;&lt;? echo $datos[urlsitio] ?&gt;&quot;&gt;Descargar elink&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/form&gt;
+&lt;/table&gt;
+&lt;?
+}
+mysql_free_result($resp) ;
+?&gt;
+&lt;?
+}
+?&gt;
+[/codigo]
+
+
+
+
+Descargasenviar.php , Donde Se Enviarán los elinks
+[codigo]&lt;?
+include(&quot;ulogin.php&quot;) ;
+?&gt;
+&lt;?
+include (&quot;config.php&quot;) ;
+if($enviar) {
+$descarga = 0 ;
+// Si el usuario quiere subir el archivo
+if($archivo != &quot;&quot; &amp;&amp; $envioarchivo == 1) {
+// Comprobaciones para verificar si el archivo es correcto
+$extensiones = explode(&quot;.&quot;,$archivo_name) ;
+$num = count($extensiones) - 1 ;
+if($extensiones[$num] != &quot;$extensiondelarchivosoportada&quot;) { $error = &quot;Sólo se permiten archivos .$extensiondelarchivosoportada&lt;br&gt;&quot; ; }
+
+if(file_exists(&quot;$carpetadondeseguardanlosarchivos/$archivo_name&quot;)) { $error = &quot;Ya existe un archivo con este nombre.&lt;br&gt;&quot; ; }
+if($archivo_size &gt; $tamañoporarchivoenviado) { $error .= &quot;El archivo debe pesar menos de $tamañoporarchivoenviado Bytes.&lt;br&gt;&quot; ; }
+if($error) {
+echo &quot;
+&lt;p class=&quot;titulo&quot;&gt;Error
+&lt;p&gt;$error
+&lt;p&gt;&lt;a href=&quot;javascript:history.back()&quot;&gt;Regresar&lt;/a&gt;
+&quot; ;
+exit ;
+}
+copy($archivo,&quot;$carpetadondeseguardanlosarchivos/$archivo_name&quot;) ;
+$descarga = 1 ;
+}
+$fecha = time()  ;
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$usuario = $HTTP_COOKIE_VARS[unick] ;
+$titulo = quitar($titulo) ;
+$descripcion = quitar($descripcion) ;
+$categoria = quitar($categoria) ;
+$urlsitio = quitar($urlsitio) ;
+$urlminibanner = quitar($urlminibanner) ;
+if($urlsitio == &quot;http://&quot;) { $urlsitio = &quot;&quot; ; }
+if($urlminibanner == &quot;http://&quot;) { $urlminibanner = &quot;&quot; ; }
+if($envioarchivo == 1) { $urlsitio = $archivo_name ; }
+mysql_query(&quot;insert into descargas (fecha,usuario,titulo,descripcion,categoria,urlsitio,urlminibanner,puntos,votos,calificacion,descarga)
+values ('$fecha','$usuario','$titulo','$descripcion','$categoria','$urlsitio','$urlminibanner','5','1','5','$descarga')&quot;) ;
+echo &quot;La descarga ha sido agregada con éxito. Haz click &lt;a href=index.php?id=descargas&gt;aquí&lt;/a&gt; para regresar a descargas.&lt;br&gt;&lt;br&gt;&quot; ;
+}
+?&gt;
+&lt;div class=&quot;t1&quot;&gt;Enviar elink &lt;/div&gt;
+&lt;br&gt;
+&lt;form method=&quot;post&quot; action=&quot;index.php?id=descargasenviar&quot; name=&quot;formulario&quot; enctype=&quot;multipart/form-data&quot; onsubmit=&quot;return revisar()&quot;&gt;
+  &lt;p&gt;&lt;b&gt;Título:&lt;/b&gt;&lt;br&gt;
+    &lt;input type=&quot;text&quot; name=&quot;titulo&quot; size=&quot;30&quot; maxlength=&quot;50&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;web de referencia :&lt;/b&gt;&lt;br&gt;
+    &lt;input name=&quot;descripcion&quot; type=&quot;text&quot; class=&quot;form&quot; onKeyPress=&quot;caracteres&quot; value=&quot;&quot; size=&quot;30&quot; maxlength=&quot;98&quot;&gt;
+    &lt;br&gt;
+    &lt;br&gt;
+    &lt;b&gt;Categoría:&lt;/b&gt;&lt;br&gt;
+    &lt;select name='categoria' class='form'&gt;
+    &lt;option value='0' selected&gt;&lt;? echo $descarga0 ?&gt; 
+	&lt;option value='1'&gt;&lt;? echo $descarga1 ?&gt; 
+    &lt;option value='2'&gt;&lt;? echo $descarga2 ?&gt;
+	&lt;option value='3'&gt;&lt;? echo $descarga3 ?&gt;
+	&lt;option value='4'&gt;&lt;? echo $descarga4 ?&gt;
+    &lt;option value='5'&gt;&lt;? echo $descarga5 ?&gt;
+    &lt;option value='6'&gt;&lt;? echo $descarga6 ?&gt;
+    &lt;option value='7'&gt;&lt;? echo $descarga7 ?&gt;
+	&lt;option value='8'&gt;&lt;? echo $descarga8 ?&gt;
+	&lt;option value='9'&gt;&lt;? echo $descarga9 ?&gt;
+  &lt;/select&gt;
+    &lt;br&gt;
+    &lt;b&gt;URL del elink :&lt;/b&gt;&lt;br&gt;
+    &lt;input type=&quot;text&quot; name=&quot;urlsitio&quot; size=&quot;30&quot; maxlenght=&quot;100&quot; value=&quot;http://&quot; class=&quot;form&quot;&gt;
+    &lt;br&gt;
+	&lt;br&gt;
+    &lt;br&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot; class=&quot;form&quot;&gt;
+  &lt;/p&gt;
+  &lt;/form&gt;
+
+[/codigo]
+
+
+
+Descargascalificar.php [ no es necesario ]
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+if($HTTP_GET_VARS[$administrador]) { echo &quot;Acceso denegado. Intento de hackeo.&quot; ; exit ; }
+// Se comprueba que el mensaje pertenezca al usuario que desea editar la descarga
+// Si el que desea editarlo es el administrador ya no se hace la comprobación
+if($HTTP_COOKIE_VARS[unick] != $administrador) {
+$resp = mysql_query(&quot;select id from descargas where id='$descargasid' and usuario='$HTTP_COOKIE_VARS[unick]'&quot;) ;
+// Mensaje que aparece cuando el que edita la descarga no es el propietario ni es un administrador
+if(@mysql_num_rows($resp) == 0) {
+echo &quot;No puedes editar este enlace,Haz click &lt;a href=javascript:history.back()&gt;aquí&lt;/a&gt; para regresar.&quot; ;
+exit ;
+}
+mysql_free_result($resp) ;
+}
+// Se actualizan los datos de la descarga una vez enviado el formulario
+if($enviar) {
+function quitar($texto) { 
+$texto = trim($texto) ; 
+$texto = htmlspecialchars($texto) ;
+return $texto ; 
+}
+$titulo = quitar($titulo) ;
+$descripcion = quitar($descripcion) ;
+$categoria = quitar($categoria) ;
+$urlsitio = quitar($urlsitio) ;
+$urlminibanner = quitar($urlminibanner) ;
+$imagen = quitar($imagen) ;
+mysql_query(&quot;update descargas set titulo='$titulo',descripcion='$descripcion',categoria='$categoria',urlsitio='$urlsitio',urlminibanner='$urlminibanner',imagen='$imagen' where id='$descargasid'&quot;) ;
+echo &quot;Tu descarga ha sido editada con éxito. Haz click &lt;a href='index.php?id=descargas' &gt;aquí&lt;/a&gt; para regresar a la seccion descargas.&lt;br&gt;&lt;br&gt;&quot; ;
+}
+// Se obtienen los datos de la descarga y se muestran en el forumulario a traves de su id
+$resp = mysql_query(&quot;select * from descargas where id=$descargasid&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+?&gt; 
+&lt;b&gt;Editar una descarga&lt;/b&gt;&lt;br&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;index.php?id=descargaseditar&amp;descargasid=&lt;? echo $descargasid ?&gt;&quot; onsubmit=&quot;return revisar()&quot;&gt;
+&lt;b&gt;Título:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;titulo&quot; size=&quot;30&quot; maxlength=&quot;25&quot; value=&quot;&lt;? echo $datos[titulo] ?&gt;&quot; class=&quot;form&quot;&gt;
+&lt;br&gt;
+&lt;b&gt;Descripción de archivo:&lt;/b&gt;&lt;br&gt;
+&lt;textarea name=&quot;descripcion&quot; cols=&quot;30&quot; rows=&quot;5&quot; class=&quot;form&quot; onKeyPress=&quot;caracteres&quot;&gt;&lt;? echo $datos[descripcion] ?&gt;&lt;/textarea&gt;
+&lt;br&gt;
+&lt;script&gt;
+function caracteres() {
+if(formulario.caracteres.value != formulario.descripcion.value.length) {
+formulario.caracteres.value = formulario.descripcion.value.length ;
+}
+setTimeout(&quot;caracteres()&quot;,200) ;
+}
+onload=caracteres ;
+archivo = 0 ;
+function revisar() {
+if(formulario.titulo.value.length == 0) { alert('Debes escribir un titulo.') ; return false ; }
+if(formulario.titulo.value.length &gt; 100) { alert('El tiulo del archivo supera los 100 caractéres.') ; return false ; } 
+if(formulario.descripcion.value.length == 0) { alert('Debes escribir una descripcion .') ; return false ; } 
+if(formulario.descripcion.value.length &gt; 255) { alert('La descripcion supera los 255 caractéres.') ; return false ; }
+if(formulario.urlsitio.value.length == 0) { alert('Debes escribir el enlace .') ; return false ; }
+if(formulario.urlsitio.value.length &gt; 100) { alert('La url del archivo supera los 100 caractéres.') ; return false ; }
+if(archivo == 0) { archivo++ ; } else { alert('El archivo se está subiendo por favor espera.') ; return false ; }
+}
+&lt;/script&gt;
+&lt;input type=&quot;text&quot; name=&quot;caracteres&quot; size=&quot;3&quot; value=&quot;0&quot; class=&quot;form&quot;&gt;
+Máximo 255 caractéres&lt;b&gt;&lt;br&gt;
+Categoría:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;categoria&quot; class=&quot;form&quot;&gt;
+&lt;option &lt;? if ($datos[categoria] == &quot;0&quot; ) {echo &quot;selected&quot;; } ?&gt; value='0'&gt;&lt;? echo $descarga0 ?&gt; 
+&lt;option &lt;? if ($datos[categoria] == &quot;1&quot; ) {echo &quot;selected&quot;; } ?&gt; value='1'&gt;&lt;? echo $descarga1 ?&gt; 
+&lt;option &lt;? if ($datos[categoria] == &quot;2&quot; ) {echo &quot;selected&quot;; } ?&gt; value='2'&gt;&lt;? echo $descarga2 ?&gt; 
+&lt;option &lt;? if ($datos[categoria] == &quot;3&quot; ) {echo &quot;selected&quot;; } ?&gt; value='3'&gt;&lt;? echo $descarga3 ?&gt; 
+&lt;option value='4' &lt;? if ($datos[categoria] == &quot;4&quot; ) {echo &quot;selected&quot;; } ?&gt;&gt;&lt;? echo $descarga4 ?&gt; 
+&lt;option value='5' &lt;? if ($datos[categoria] == &quot;5&quot; ) {echo &quot;selected&quot;; } ?&gt;&gt;&lt;? echo $descarga5 ?&gt; 
+&lt;option value='6' &lt;? if ($datos[categoria] == &quot;6&quot; ) {echo &quot;selected&quot;; } ?&gt;&gt;&lt;? echo $descarga6 ?&gt; 
+&lt;option value='7' &lt;? if ($datos[categoria] == &quot;7&quot; ) {echo &quot;selected&quot;; } ?&gt;&gt;&lt;? echo $descarga7 ?&gt; 
+&lt;option value='8' &lt;? if ($datos[categoria] == &quot;8&quot; ) {echo &quot;selected&quot;; } ?&gt;&gt;&lt;? echo $descarga8 ?&gt; 
+&lt;option value='9' &lt;? if ($datos[categoria] == &quot;9&quot; ) {echo &quot;selected&quot;; } ?&gt;&gt;&lt;? echo $descarga9 ?&gt; 
+&lt;/select&gt;
+&lt;br&gt;
+&lt;b&gt;URL del archivo (solo si no has subido el archivo) :&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;urlsitio&quot; size=&quot;30&quot; maxlenght=&quot;100&quot; value=&quot;&lt;? echo $datos[urlsitio] ?&gt;&quot; class=&quot;form&quot;&gt;
+&lt;br&gt;
+&lt;b&gt;URL del ejemplo practico del archivo (opcional) :&lt;/b&gt;&lt;br&gt;
+&lt;input name=&quot;urlminibanner&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;urlminibanner&quot; value=&quot;&lt;? echo $datos[urlminibanner] ?&gt;&quot; size=&quot;30&quot; maxlenght=&quot;100&quot;&gt;
+&lt;br&gt;
+&lt;b&gt;&lt;font color=&quot;#FF0000&quot;&gt;URL de la imagen del archivo &lt;br&gt;
+(Opcional, Especifica una direccion web)&lt;/font&gt; &lt;font color=&quot;#FF0000&quot;&gt;:&lt;/font&gt;&lt;/b&gt;&lt;br&gt;
+&lt;input name=&quot;imagen&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;imagen&quot; value=&quot;&lt;? echo $datos[imagen] ?&gt;&quot; size=&quot;30&quot; maxlenght=&quot;100&quot;&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;input type='submit' name='enviar' value='Editar descarga' class='form'&gt;
+&lt;/form&gt;
+&lt;?
+}
+mysql_free_result($resp) ;
+@mysql_close($conectar) ;
+?&gt;
+
+
+[/codigo]
+
+
+
+Descargaseditar.php
+[codigo]
+&lt;?
+include(&quot;config.php&quot;) ;
+if($HTTP_GET_VARS[$administrador]) { echo &quot;Acceso denegado. Intento de hackeo.&quot; ; exit ; }
+// Se comprueba que el mensaje pertenezca al usuario que desea editar la descarga
+// Si el que desea editarlo es el administrador ya no se hace la comprobación
+if($HTTP_COOKIE_VARS[unick] != $administrador) {
+$resp = mysql_query(&quot;select id from descargas where id='$descargasid' and usuario='$HTTP_COOKIE_VARS[unick]'&quot;) ;
+// Mensaje que aparece cuando el que edita la descarga no es el propietario ni es un administrador
+if(@mysql_num_rows($resp) == 0) {
+echo &quot;No puedes editar este enlace,Haz click &lt;a href=javascript:history.back()&gt;aquí&lt;/a&gt; para regresar.&quot; ;
+exit ;
+}
+mysql_free_result($resp) ;
+}
+// Se actualizan los datos de la descarga una vez enviado el formulario
+if($enviar) {
+function quitar($texto) { 
+$texto = trim($texto) ; 
+$texto = htmlspecialchars($texto) ;
+return $texto ; 
+}
+$titulo = quitar($titulo) ;
+$descripcion = quitar($descripcion) ;
+$categoria = quitar($categoria) ;
+$urlsitio = quitar($urlsitio) ;
+$urlminibanner = quitar($urlminibanner) ;
+$imagen = quitar($imagen) ;
+mysql_query(&quot;update descargas set titulo='$titulo',descripcion='$descripcion',categoria='$categoria',urlsitio='$urlsitio',urlminibanner='$urlminibanner',imagen='$imagen' where id='$descargasid'&quot;) ;
+echo &quot;Tu descarga ha sido editada con éxito. Haz click &lt;a href='index.php?id=descargas' &gt;aquí&lt;/a&gt; para regresar a la seccion descargas.&lt;br&gt;&lt;br&gt;&quot; ;
+}
+// Se obtienen los datos de la descarga y se muestran en el forumulario a traves de su id
+$resp = mysql_query(&quot;select * from descargas where id=$descargasid&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+?&gt; 
+&lt;b&gt;Editar una descarga&lt;/b&gt;&lt;br&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;index.php?id=descargaseditar&amp;descargasid=&lt;? echo $descargasid ?&gt;&quot; onsubmit=&quot;return revisar()&quot;&gt;
+&lt;b&gt;Título:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;titulo&quot; size=&quot;30&quot; maxlength=&quot;25&quot; value=&quot;&lt;? echo $datos[titulo] ?&gt;&quot; class=&quot;form&quot;&gt;
+&lt;br&gt;
+&lt;b&gt;Descripción de archivo:&lt;/b&gt;&lt;br&gt;
+&lt;textarea name=&quot;descripcion&quot; cols=&quot;30&quot; rows=&quot;5&quot; class=&quot;form&quot; onKeyPress=&quot;caracteres&quot;&gt;&lt;? echo $datos[descripcion] ?&gt;&lt;/textarea&gt;
+&lt;br&gt;
+&lt;script&gt;
+function caracteres() {
+if(formulario.caracteres.value != formulario.descripcion.value.length) {
+formulario.caracteres.value = formulario.descripcion.value.length ;
+}
+setTimeout(&quot;caracteres()&quot;,200) ;
+}
+onload=caracteres ;
+archivo = 0 ;
+function revisar() {
+if(formulario.titulo.value.length == 0) { alert('Debes escribir un titulo.') ; return false ; }
+if(formulario.titulo.value.length &gt; 100) { alert('El tiulo del archivo supera los 100 caractéres.') ; return false ; } 
+if(formulario.descripcion.value.length == 0) { alert('Debes escribir una descripcion .') ; return false ; } 
+if(formulario.descripcion.value.length &gt; 255) { alert('La descripcion supera los 255 caractéres.') ; return false ; }
+if(formulario.urlsitio.value.length == 0) { alert('Debes escribir el enlace .') ; return false ; }
+if(formulario.urlsitio.value.length &gt; 100) { alert('La url del archivo supera los 100 caractéres.') ; return false ; }
+if(archivo == 0) { archivo++ ; } else { alert('El archivo se está subiendo por favor espera.') ; return false ; }
+}
+&lt;/script&gt;
+&lt;input type=&quot;text&quot; name=&quot;caracteres&quot; size=&quot;3&quot; value=&quot;0&quot; class=&quot;form&quot;&gt;
+Máximo 255 caractéres&lt;b&gt;&lt;br&gt;
+Categoría:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;categoria&quot; class=&quot;form&quot;&gt;
+&lt;option &lt;? if ($datos[categoria] == &quot;0&quot; ) {echo &quot;selected&quot;; } ?&gt; value='0'&gt;&lt;? echo $descarga0 ?&gt; 
+&lt;option &lt;? if ($datos[categoria] == &quot;1&quot; ) {echo &quot;selected&quot;; } ?&gt; value='1'&gt;&lt;? echo $descarga1 ?&gt; 
+&lt;option &lt;? if ($datos[categoria] == &quot;2&quot; ) {echo &quot;selected&quot;; } ?&gt; value='2'&gt;&lt;? echo $descarga2 ?&gt; 
+&lt;option &lt;? if ($datos[categoria] == &quot;3&quot; ) {echo &quot;selected&quot;; } ?&gt; value='3'&gt;&lt;? echo $descarga3 ?&gt; 
+&lt;option value='4' &lt;? if ($datos[categoria] == &quot;4&quot; ) {echo &quot;selected&quot;; } ?&gt;&gt;&lt;? echo $descarga4 ?&gt; 
+&lt;option value='5' &lt;? if ($datos[categoria] == &quot;5&quot; ) {echo &quot;selected&quot;; } ?&gt;&gt;&lt;? echo $descarga5 ?&gt; 
+&lt;option value='6' &lt;? if ($datos[categoria] == &quot;6&quot; ) {echo &quot;selected&quot;; } ?&gt;&gt;&lt;? echo $descarga6 ?&gt; 
+&lt;option value='7' &lt;? if ($datos[categoria] == &quot;7&quot; ) {echo &quot;selected&quot;; } ?&gt;&gt;&lt;? echo $descarga7 ?&gt; 
+&lt;option value='8' &lt;? if ($datos[categoria] == &quot;8&quot; ) {echo &quot;selected&quot;; } ?&gt;&gt;&lt;? echo $descarga8 ?&gt; 
+&lt;option value='9' &lt;? if ($datos[categoria] == &quot;9&quot; ) {echo &quot;selected&quot;; } ?&gt;&gt;&lt;? echo $descarga9 ?&gt; 
+&lt;/select&gt;
+&lt;br&gt;
+&lt;b&gt;URL del archivo (solo si no has subido el archivo) :&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;urlsitio&quot; size=&quot;30&quot; maxlenght=&quot;100&quot; value=&quot;&lt;? echo $datos[urlsitio] ?&gt;&quot; class=&quot;form&quot;&gt;
+&lt;br&gt;
+&lt;b&gt;URL del ejemplo practico del archivo (opcional) :&lt;/b&gt;&lt;br&gt;
+&lt;input name=&quot;urlminibanner&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;urlminibanner&quot; value=&quot;&lt;? echo $datos[urlminibanner] ?&gt;&quot; size=&quot;30&quot; maxlenght=&quot;100&quot;&gt;
+&lt;br&gt;
+&lt;b&gt;&lt;font color=&quot;#FF0000&quot;&gt;URL de la imagen del archivo &lt;br&gt;
+(Opcional, Especifica una direccion web)&lt;/font&gt; &lt;font color=&quot;#FF0000&quot;&gt;:&lt;/font&gt;&lt;/b&gt;&lt;br&gt;
+&lt;input name=&quot;imagen&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;imagen&quot; value=&quot;&lt;? echo $datos[imagen] ?&gt;&quot; size=&quot;30&quot; maxlenght=&quot;100&quot;&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;input type='submit' name='enviar' value='Editar descarga' class='form'&gt;
+&lt;/form&gt;
+&lt;?
+}
+mysql_free_result($resp) ;
+@mysql_close($conectar) ;
+?&gt;
+
+
+[/codigo]
+
+
+
+
+Esta modificación esta creada para insertarla en el Electrosnuke , Si lo quiere poner aparte , tendría que cambiar algunas cosas pero , bueno eso cada cual....
+
+PD* Usa config de electrosnuke Cambien las categorias de descargas por categorias de eMule , Musica , Películas etc ... Bueno , Espero que esta modificación le sirva amuchos de gran ayuda ,
+Un saludo
+http://deabidnet.megaciudad.com

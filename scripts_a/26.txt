@@ -1,0 +1,22 @@
+[codigo]&lt;?
+   if(isset($opinion)) {   
+   $fp = fopen(&quot;comentario.txt&quot;,&quot;a&quot;); 
+
+   fwrite($fp,&quot;&quot;.nl2br($opinion).&quot;&lt;hr&gt;n&quot;); 
+   fclose($fp);
+}
+?&gt;
+
+&lt;hr&gt;
+&lt;? 
+readFile(&quot;comentario.txt&quot;) 
+?&gt;
+
+&lt;form action=&quot;&lt;? echo $PHP_SELF?&gt;&quot; method=&quot;POST&quot;&gt; 
+  &lt;input type=&quot;submit&quot; value=&quot;Enviar&quot;&gt;
+  &lt;input name=&quot;opinion&quot; type=&quot;text&quot; value=&quot;&quot;&gt;
+&lt;/form&gt;[/codigo]
+
+Es un sistema muy sencillo de comentarios sin MySQL, simplemente con un archivo de texto. El primer comentario (el mas antiguo) es el primero que ves, creo que para hacerlo ascendente se necesita otro txt (aux.txt). El script es original de un colega mio, yo lo he simplificado bastante.
+
+Por algo se empieza, no?

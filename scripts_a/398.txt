@@ -1,0 +1,5 @@
+gran portal igualito que php-nuke, pero mas personalizable y una instalacion mucho mas sencilla, sin editar ningun archivo.... subelo a tu directorio todos los archivos y habre el install.php
+
+DESCARGAR:
+
+http://files.filefront.com/DoorSoftrar/;5042589;;/fileinfo.html

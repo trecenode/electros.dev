@@ -1,0 +1,14 @@
+pues... es la version ampliada y mejorada del GTS Ref v 1.0 .
+Cómo és muy amplia, no voy a ponerla aqui archivo por archivo. 
+asi que os dejo las caracteristicas y subo el script para que os lo descargueis.
+[b]
+El sistema, tiene estas funciones. 
+- Puedes seleccionar el numero de refers que quieres enseñar. 
+- Elimina refers antiguos 
+- Cuenta el numero de entradas y salidas de cada refer. 
+- Nos enseña el dominio con un enlace completo del Refer. 
+- Mediante el Mouseover, podemos ver la fecha, el dia, la hora, las entradas, las salidas y la IP del Refer Visitante. [/b]
+
+Para descargar :
+http://studios.clangatsu.com/main.php?id=gts_descargas_main&amp;file=11
+O sino, bajar el script desde aqui.

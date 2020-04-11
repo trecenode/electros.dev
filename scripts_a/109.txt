@@ -1,0 +1,17 @@
+Aquel que tenga una pagina puesta en tripod Argentina, todavia no lo probe con los otros tripods, ponga este codigo antes del tag body y el popup va a desaparecer. Hoy estuve al pedo y lo hice. En realidad, parece una boludez, pero tuve que estudiar el script del popup cuidaddosamente para poder descubrirlo
+[codigo]
+//esto va debajo de head y arriba de body
+//creado por ebrainte http://www.counters.tk
+&lt;noscript&gt;
+
+
+
+
+&lt;body&gt;
+&lt;/noscript&gt;
+&lt;/body&gt;
+[/codigo]
+
+Lo que hace este codigo es emular un tag &lt;body&gt;, que es donde esta el codigo del popup de tripod, a eso, se le agrega la funcion(no se como se llama) &lt;noscript&gt;, este hace que todos los scripts que esten dentro de este queden inutilizables.
+
+Si no les funciona, avisenme que quisa necesito poner algun otro tag

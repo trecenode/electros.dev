@@ -1,0 +1,7 @@
+Para que no se muestren los errores en php es muy fácil simplemente debes poner un 
+
+@ ---&gt;arroba
+
+Ejemplo: 
+
+&lt;?php @include(&quot;pagina.php&quot;); ?&gt;

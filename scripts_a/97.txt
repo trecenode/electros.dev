@@ -1,0 +1,61 @@
+Este script lo he sacado de un foro de http://www.programacionweb.net y lo he modificado porque no salia el dia de la semana empezaba por el numero de dia.Pues eso, este script PHP funciona en internet explorer y nescafé .xD
+
+[codigo]
+&lt;div align=left id=&quot;reloj&quot;&gt;a&lt;/div&gt; 
+&lt;script&gt; 
+seg = &lt;? echo date(&quot;s&quot;); ?&gt;; 
+min = &lt;? echo date(&quot;i&quot;); ?&gt;; 
+hr = &lt;? echo date(&quot;h&quot;); ?&gt;; 
+ano = &lt;? echo date(&quot;Y&quot;); ?&gt;; 
+mes = '&lt;? 
+$mes=date(&quot;F&quot;); 
+if ($mes==&quot;January&quot;) $mes=&quot;Enero&quot;; 
+if ($mes==&quot;February&quot;) $mes=&quot;Febrero&quot;; 
+if ($mes==&quot;March&quot;) $mes=&quot;Marzo&quot;; 
+if ($mes==&quot;April&quot;) $mes=&quot;Abril&quot;; 
+if ($mes==&quot;May&quot;) $mes=&quot;Mayo&quot;; 
+if ($mes==&quot;June&quot;) $mes=&quot;Junio&quot;; 
+if ($mes==&quot;July&quot;) $mes=&quot;Julio&quot;; 
+if ($mes==&quot;August&quot;) $mes=&quot;Agosto&quot;; 
+if ($mes==&quot;September&quot;) $mes=&quot;Setiembre&quot;; 
+if ($mes==&quot;October&quot;) $mes=&quot;Octubre&quot;; 
+if ($mes==&quot;November&quot;) $mes=&quot;Noviembre&quot;; 
+if ($mes==&quot;December&quot;) $mes=&quot;Diciembre&quot;; 
+echo $mes; ?&gt;'; 
+
+dial = '&lt;? 
+// Obtenemos y traducimos el nombre del día 
+$dial=date(&quot;l&quot;); 
+if ($dial==&quot;Monday&quot;) $dial=&quot;Lunes&quot;; 
+if ($dial==&quot;Tuesday&quot;) $dial=&quot;Martes&quot;; 
+if ($dial==&quot;Wednesday&quot;) $dial=&quot;Miércoles&quot;; 
+if ($dial==&quot;Thursday&quot;) $dial=&quot;Jueves&quot;; 
+if ($dial==&quot;Friday&quot;) $dial=&quot;Viernes&quot;; 
+if ($dial==&quot;Saturday&quot;) $dial=&quot;Sabado&quot;; 
+if ($dial==&quot;Sunday&quot;) $dial=&quot;Domingo&quot;; 
+
+
+
+// Imprimimos la fecha completa 
+echo &quot;$dial&quot;; 
+?&gt;';  
+dia = &lt;? echo date(&quot;d&quot;); ?&gt;; 
+function cambiar(){ 
+    seg = seg*1+1; 
+    if(seg &lt; 10)seg = '0'+seg; 
+    if(seg == 60){ 
+        seg = '00'; 
+        min = min*1+1; 
+        if(min &lt; 10)min = '0'+min; 
+        if(min == 60){ 
+            hr = hr*1+1; 
+            min = '00'; 
+        } 
+    } 
+    rel = document.getElementById('reloj'); 
+    rel.innerHTML =dial+' de '+dia+' de '+mes+' de '+ano+' - '+hr+':'+min+':'+seg ;
+    setTimeout(&quot;cambiar()&quot;, 1000); 
+} 
+cambiar(); 
+&lt;/script&gt;
+[codigo]

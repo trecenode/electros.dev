@@ -1,0 +1,94 @@
+Este script es muy sencillo, lo que vamos a hacer es crear una variable con la contraseña y el formulario para poder enviar la contraseña, si esta corresponde a la de la variable, entonces se permite el acceso a la página.
+
+A continuación se mostrarán 3 formas distintas de hacerlo:
+
+[b]1.[/b] Creamos el archivo que solicitará la contraseña, este archivo se pondrá en todas las páginas que queramos proteger.
+
+Crea el archivo [b]contrasena.php[/b] con el siguiente código:
+
+[codigo]&lt;?
+# Tu contraseña
+$tucontrasena = '12345' ;
+if(empty($_POST['contrasena']) || $_POST['contrasena'] != $tucontrasena) {
+?&gt;
+&lt;div align=&quot;center&quot;&gt;
+&lt;form method=&quot;post&quot; action=&quot;&lt;?=$_SERVER['PHP_SELF']?&gt;&quot;&gt;
+&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; /&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Entrar&quot; /&gt;
+&lt;/form&gt;
+&lt;/div&gt;
+&lt;?
+exit ;
+}
+?&gt;[/codigo]
+
+En [b]$tucontrasena[/b] debes poner tu contraseña con la que protegerás las páginas.
+
+Para proteger cualquier página sólo incluye el archivo [b]contrasena.php[/b] de esta forma:
+
+[codigo]&lt;?
+require 'contrasena.php' ;
+?&gt;[/codigo]
+
+Así, cada vez que alguien intente entrar verá el formulario para escribir la contraseña.
+
+[b]2.[/b] Creamos la página que contendrá la contraseña y el formulario con el siguiente código, todo el contenido de la página que queremos proteger se tiene que insertar en donde dice &quot;Aquí el contenido de la página protegida.&quot;.
+
+[codigo]&lt;?
+// Tu contraseña
+$tucontrasena = '12345' ;
+if((!empty($_POST['contrasena']) &amp;&amp; $_POST['contrasena'] == $tucontrasena) {
+?&gt;
+
+Aquí el contenido de la página protegida.
+
+&lt;?
+}
+else {
+?&gt;
+Contraseña:
+&lt;form method=&quot;post&quot; action=&quot;&lt;?=$_SERVER['PHP_SELF']?&gt;&quot;&gt;
+&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; /&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Enviar&quot; /&gt;
+&lt;/form&gt;
+&lt;?
+}
+?&gt;[/codigo]
+
+Este código lo colocas en todas las páginas que desees proteger con contraseña.
+
+[b]3.[/b] El mismo código anterior pero usando una cookie que durará 1 hora y así no tengas que escribir varias veces tu contraseña.
+
+Para hacerlo debes meter el siguiente código en la página protegida de esta forma:
+
+[codigo]&lt;?
+# Tu contraseña
+$tucontrasena = '12345' ;
+if((!empty($_POST['contrasena']) &amp;&amp; $_POST['contrasena'] == $tucontrasena) {
+setcookie('permitido',1,time()+3600) ;
+}
+if(!empty($_GET['salir'])) {
+setcookie(&quot;permitido&quot;) ;
+}
+if(!empty($_COOKIE['permitido'])) {
+echo '&lt;p&gt;&lt;a href=&quot;'.$_SERVER['PHP_SELF'].'?salir=1&quot;&gt;Salir&lt;/a&gt;' ;
+?&gt;
+
+Aquí el contenido de la página protegida.
+
+&lt;?
+}
+else {
+?&gt;
+Contraseña:
+&lt;form method=&quot;post&quot; action=&quot;&lt;?=$_SERVER['PHP_SELF']?&gt;&quot;&gt;
+&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; /&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Enviar&quot; /&gt;
+&lt;/form&gt;
+&lt;?
+}
+?&gt;[/codigo]
+
+Estas son formas de proteger páginas de una forma muy sencilla, si quieres proteger páginas de una forma más especializada usa el script de Registro de usuarios.
+
+Para cualquier duda puedes entrar en el foro.

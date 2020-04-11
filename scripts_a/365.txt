@@ -1,0 +1,26 @@
+Script que muestra el Contenido de un Directorio con sus respectivos enlaces...
+
+[codigo]
+&lt;? 
+$path=&quot;Nombre del Directorio&quot;; 
+$directorio=dir($path); 
+while ($archivo = $directorio-&gt;read()) 
+{ 
+     echo &quot;&lt;b&gt;&lt;a href=\&quot;$path/$archivo\&quot;&gt;$archivo&lt;/a&gt;&lt;br&gt;&quot;;
+} 
+$directorio-&gt;close(); 
+?&gt; [/codigo]
+
+Este script solo muestra el listado del Directorio sin Enlazarlo...
+
+[codigo]
+&lt;? 
+$path=&quot;Nombre del Directorio&quot;; 
+$directorio=dir($path);
+
+while ($archivo = $directorio-&gt;read()) 
+{ 
+     echo &quot;&lt;b&gt;$archivo&lt;br&gt;&quot;;
+} 
+$directorio-&gt;close(); 
+?&gt;[/codigo]

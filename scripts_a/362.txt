@@ -1,0 +1,20 @@
+[b]Formulario de Contacto[/b]
+
+Bueno este script es un sistema de contacto que he hecho unicamente con el fin de adquirir nuevos conocimientos de PHP y MySQL.
+
+El script funciona sin la funcion mail(), en cambio utiliza base de datos esta en una soluion a los que quieran tener un sistema de contacto pero sus hosting (generalmente gratuitos) han desabilitado esta funcion ('mail()').
+
+Consta de 3 archivos:
+
+[b]Contacto.php[/b]
+Archivo que incluye el formulario de contacto y ademas introduce los datos de este en la base de datos.
+
+[b]Mensajes.php[/b]
+Archivo que contiene el panel de administracion de los mensajes (ver, borrar) esta protegido con contraseña mediante HTTP pero es problema de ustedes si quieres protegerlo de otra manera.
+
+[b]func.php[/b]
+Este archivo contiene algunas funciones que son utilizadas.
+
+
+Bueno pues es todo xD.
+PD: Es mi primer script chekenlo aver que tal :D

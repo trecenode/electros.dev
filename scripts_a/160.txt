@@ -1,0 +1,97 @@
+Aqui teneis un for que os seria de mucha utilidad en alguno de vuestro scripts y ahorara trabajo; os dejo los distintos usos del mismo, si quereis incluir vuestras propias modificaciones bastara con que lo pongais en los comentarios y yo me encargare de ponerlo aqui mismo.
+
+1) Utilidad
+
+[codigo]
+&lt;?
+for($i=0;$i&lt;5;$i++){ 
+echo $i ;
+}
+?&gt;
+[/codigo]
+
+Esto mostraria esto :
+[b]01234[/b]
+
+2) Utilidad
+
+[codigo]
+&lt;?
+for($i=0;$i&lt;5;$i++){ 
+echo &quot;$i&lt;br&gt;&quot; ;
+}
+?&gt;
+[/codigo]
+
+Esto mostraria esto :
+[b]
+0
+1
+2
+3
+4
+[/b]
+
+3) Utilidad
+
+[codigo]
+&lt;select name='nombre'&gt;
+&lt;?
+for($i=0;$i&lt;5;$i++){ 
+echo &quot;&lt;option value='$i'&gt;Opcion $i
+&lt;/option&gt;&quot; ;
+}
+?&gt;
+&lt;/select&gt;
+[/codigo]
+
+Esto mostraria el codigo htm siguiente :
+[b]
+&lt;select name='nombre'&gt;
+&lt;option value='0'&gt;0
+&lt;/option&gt;&lt;option value='1'&gt;Opcion 1
+&lt;/option&gt;&lt;option value='2'&gt;Opcion 2
+&lt;/option&gt;&lt;option value='3'&gt;Opcion 3
+&lt;/option&gt;&lt;option value='4'&gt;Opcion 4
+&lt;/option&gt;&lt;/select&gt;
+[/b]
+
+4) Utilidad
+
+[codigo]
+&lt;?
+for($i=0;$i&lt;5;$i++){
+echo &quot;&lt;a href='http://electros.iefactory.com/?ver=scripts&amp;s=$i' target='_blank'&gt;Script electros $i&lt;/a&gt;&lt;br&gt;&quot; ;
+}
+?&gt;[/codigo]
+
+Esto mostraria lo siguiente :
+[b]
+Script electros 0
+Script electros 1
+Script electros 2
+Script electros 3
+Script electros 4
+[/b]
+
+5) Utilidad
+
+Sirver para un sistema de enlaces en el que incluimos los datos
+en el propio archivo en forma de variable
+
+[codigo]
+&lt;?
+for($ienlaces=1;$ienlaces&lt;11;$ienlaces++){
+if(file_exists(&quot;enlaces/$ienlaces.php&quot;)) {
+include (&quot;enlaces/$ienlaces.php&quot;);
+echo &quot;&lt;a href='$url_enlace' target='_blank'&gt;· $titulo_enlace&lt;/a&gt; ($hits_enlace)&lt;br&gt;&quot; ;
+}
+}
+?&gt;
+[/codigo]
+
+Por defecto tiene hasta 5 numeros pero se puede cambiar y ponerlo incluso hasta 1000 asin 
+[codigo]for($i=0;$i&lt;1000;$i++){ [/codigo]
+
+Para quitar el 0 y tener hasta 5 asin
+[codigo]for($i=1;$i&lt;4;$i++){ [/codigo]

@@ -1,0 +1,98 @@
+Hola a todos de nuevo, en este caso les traigo un sistema de e-mail anonimos 100% funsionable.
+El e-meil llegara con el nomnbre de [b] anonymous@servidor.com[/b], asi me salio a mi en el host de sponsoradulto.
+Les va a parecer un poco raro el script, pero me gustan mas asi xDD.
+Consta de 1 solo archivo al que llamaremos [b]mail.php[/b].
+
+[b]mail.php[/b]
+
+[codigo]
+
+&lt;style type=&quot;text/css&quot;&gt;
+&lt;!--
+.estilo {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	font-style: normal;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: capitalize;
+	background-color: #006699;
+	letter-spacing: normal;
+	text-align: center;
+	vertical-align: baseline;
+	
+	}
+.Estilo1 {
+	font-size: 9px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+--&gt;
+&lt;/style&gt;
+&lt;form method=&quot;POST&quot; action=&quot;mail.php&quot;&gt;
+  &lt;table width=&quot;58%&quot; height=&quot;339&quot;  border=&quot;1&quot; align=&quot;center&quot; cellpadding=&quot;3&quot; cellspacing=&quot;1&quot; bordercolor=&quot;#000000&quot; bgcolor=&quot;#000000&quot; class=&quot;estilo&quot;&gt;
+    &lt;tr&gt;
+      &lt;td colspan=&quot;2&quot;&gt;&lt;div align=&quot;center&quot;&gt;sISTEMA DE E-MAILANONIMOS&lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td width=&quot;36%&quot;&gt;&lt;div align=&quot;center&quot;&gt;Mail del destinatario:&lt;/div&gt;&lt;/td&gt;
+      &lt;td width=&quot;64%&quot;&gt;&lt;div align=&quot;center&quot;&gt;
+          &lt;input type&quot;text&quot; name=&quot;mail_des&quot; &gt;
+      &lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;div align=&quot;center&quot;&gt;Tema:&lt;/div&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;div align=&quot;center&quot;&gt;
+          &lt;input type=&quot;text&quot; name=&quot;tema&quot;&gt;
+      &lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;div align=&quot;center&quot;&gt;Mensaje:&lt;/div&gt;&lt;/td&gt;
+      &lt;td&gt;
+        &lt;div align=&quot;center&quot;&gt;
+          &lt;textarea name=&quot;mensaje&quot; cols=&quot;25&quot; rows=&quot;10&quot; wrap=&quot;VIRTUAL&quot;&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;td&gt;&lt;div align=&quot;center&quot;&gt;Send&lt;/div&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;div align=&quot;center&quot;&gt;
+          &lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+      &lt;/div&gt;&lt;/td&gt;
+  &lt;/table&gt;
+&lt;/form&gt;
+
+&lt;?
+//Defino las variables
+//para quien es
+$mail_des = $_POST['mail_des'];
+//el tema del mail
+$tema = $_POST['tema'];
+//el mensaje
+$mensaje = $_POST['mensaje'];
+//Cuando presione enviar el email se enviara
+if($_POST['enviar'])
+{
+if(mail($mail_des, $tema, $mensaje))
+
+{
+
+echo &quot;&lt;center&gt;&lt;b&gt;El mensaje se ha enviado&lt;b&gt;&lt;br&gt;&lt;/center&gt;&quot;;
+
+}else{
+
+echo &quot;&lt;center&gt;&lt;b&gt;no se pudo enviar&lt;b&gt;&lt;br&gt;&lt;/center&gt;&quot;;
+}
+}
+
+?&gt;
+
+&lt;center&gt;
+  &lt;pre&gt;&lt;span class=&quot;Estilo1&quot;&gt;&lt;b&gt;&lt;strong&gt;Script BY:NiCoP&lt;/strong&gt;&lt;/span&gt;&lt;span class=&quot;estilo&quot;&gt;&lt;b&gt;&lt;/span&gt;
+   &lt;/pre&gt;
+&lt;/center&gt;
+[/codigo]
+Tambien lo decore un poco xD
+
+Espero que les sirva
+No tomen cerveza, no metan los dedos en el enchufe y cepillense los dientes 
+
+[b]SaY No MoRe[/b]

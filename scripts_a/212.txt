@@ -1,0 +1,65 @@
+[b]buscar.php[/b]
+
+[codigo]&lt;?
+include(&quot;config.php&quot;);
+if($buscar) {
+$ver = 5 ; // resultados a mostrar
+$resp = mysql_query(&quot;SELECT * FROM noticias WHERE noticia  LIKE '%&quot;.$_POST[palabra].&quot;%' ORDER BY `id` DESC LIMIT $ver&quot;);
+if(mysql_num_rows($resp) == 0) { echo &quot;&lt;strong&gt;NO HUBO RESULTADOS EN lA BD.&lt;/strong&gt; .&quot; ; }
+else {
+while($sql=mysql_fetch_array($resp))  //llamamos a la base de datos 
+ {
+  ?&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+&lt;!--
+.Estilo1 {color: #FFFFFF}
+--&gt;
+&lt;/style&gt;
+
+ &lt;table width=&quot;330&quot; border=&quot;1&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; bordercolor=&quot;#000000&quot;&gt;
+   &lt;tr&gt;
+     &lt;td bgcolor=&quot;##FF0000&quot;&gt;&lt;span class=&quot;Estilo1&quot;&gt;datos&lt;/span&gt;&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+     &lt;td&gt;&lt;table width=&quot;100%&quot;&gt;
+       &lt;tr&gt;
+         &lt;td&gt;Numero de la noticia:&lt;/td&gt;
+         &lt;td&gt;&lt;?php echo $sql[id] ?&gt;&amp;nbsp;&lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;tr&gt;
+         &lt;td&gt;Autor:&lt;/td&gt;
+         &lt;td&gt;&lt;?php echo $sql[usuario] ?&gt;&amp;nbsp;&lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;tr&gt;
+         &lt;td&gt;Titulo de la noticia:&lt;/td&gt;
+         &lt;td&gt;&lt;?php echo $sql[titulo] ?&gt;&amp;nbsp;&lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;tr&gt;
+         &lt;td&gt;Enlace de la noticia:&lt;/td&gt;
+         &lt;td&gt;&lt;a href=&quot;noticias.php?n=&lt;? echo &quot;$sql[id]&quot; ?&gt;&quot;&gt;Aqu&amp;iacute;&lt;/a&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;
+     &lt;/table&gt;&lt;/td&gt;
+   &lt;/tr&gt;
+ &lt;/table&gt;
+&lt;br&gt;
+
+&lt;?
+}
+echo &quot;&lt;strong&gt; RESULTADOS OBTENIDOS&lt;/strong&gt;&quot;;
+}
+}
+?&gt;
+&lt;form action=&quot;buscar.php&quot; method=&quot;post&quot;&gt; 
+&lt;table width=&quot;140&quot; cellspacing=&quot;2&quot;&gt;
+  &lt;tr&gt;
+    &lt;td width=&quot;72&quot;&gt;&lt;input type=&quot;text&quot; size=&quot;15&quot; maxlength=&quot;65&quot; name=&quot;palabra&quot; class=&quot;form&quot;&gt;      &lt;/td&gt;
+    &lt;td width=&quot;112&quot;&gt;&lt;input type=&quot;submit&quot; name=&quot;buscar&quot; value=&quot;Buscar&quot; class=&quot;form&quot;&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+
+
+[/codigo]
+
+Base apartir de los mods de Younglink y ringoweb
+si tienes electrosnuke pon en action=&quot;index.php?id=buscar&quot;
+y en link a noticia href=&quot;index.php?id=noticias&amp;n=&lt;? echo $sql[id] ?&gt;

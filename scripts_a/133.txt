@@ -1,0 +1,69 @@
+[b] Con este script podremos dejar a nuestros usuarios que recomienden nuestra web [/b]
+
+A este archivo lo llamaremos [b]recomendar_pagina.php[/b]
+
+[codigo] &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Recomiendanos!&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;form method=&quot;POST&quot; action=&quot;recomendar_pagina2.php&quot;&gt;
+  &lt;p class=&quot;stle2&quot;&gt;&lt;font size=&quot;2&quot; face=&quot;Verdana, Arial, Helvetica, sans-serif&quot;&gt;&lt;b&gt;&lt;font color=&quot;#000000&quot; face=&quot;Comic Sans MS&quot;&gt;Tu 
+    nombre:&lt;/font&gt;&lt;/b&gt;&lt;font color=&quot;#FF0000&quot; face=&quot;Comic Sans MS&quot;&gt;&lt;br&gt;
+    &lt;input type=&quot;text&quot; name=&quot;tunombre&quot; size=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Tu email:&lt;/b&gt;&lt;br&gt;
+    &lt;input type=&quot;text&quot; name=&quot;tuemail&quot; size=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Nombre de tu amigo:&lt;/b&gt;&lt;br&gt;
+    &lt;input type=&quot;text&quot; name=&quot;nombreamigo&quot; size=&quot;20&quot;&gt;
+    &lt;br&gt;
+    &lt;b&gt;Email de tu amigo:&lt;/b&gt;&lt;/font&gt;&lt;font color=&quot;#FF0000&quot;&gt;&lt;br&gt;
+    &lt;/font&gt;&lt;font size=&quot;2&quot; face=&quot;Verdana, Arial, Helvetica, sans-serif&quot;&gt;&lt;font color=&quot;#FF0000&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;emailamigo&quot; size=&quot;20&quot;&gt;
+    &lt;/font&gt;&lt;/font&gt;&lt;font color=&quot;#FF0000&quot;&gt; &lt;/font&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;br&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;Recomendar&quot;&gt;
+    &lt;/font&gt;&lt;font size=&quot;2&quot; face=&quot;Verdana, Arial, Helvetica, sans-serif&quot;&gt;&lt;font color=&quot;#000000&quot;&gt; 
+    &lt;input name=&quot;borrar&quot; type=&quot;reset&quot; id=&quot;borrar&quot; value=&quot;Borrar&quot;&gt;
+    &lt;/font&gt;&lt;/font&gt;&lt;font color=&quot;#000000&quot;&gt; &lt;/font&gt;&lt;/font&gt;&lt;/p&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;div style=&quot;height:0px; visibility:hidden;&quot;&gt;&lt;textarea&gt; [/codigo]
+
+Y a continuación llamaremos a este archivo [b]recomendar_pagina2.php[/b]
+
+[codigo] 
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Gracias por recomendarnos! &lt;/title&gt;
+&lt;?
+$asunto = &quot;Un amigo/a te recomienda http://www.cosimotortugas.com.ar&quot;;
+$mensaje = &quot;Hola &quot;.$nombreamigo.&quot;, tu amigo/a &quot;.$tunombre.&quot; recomienda
+que ingreses al sitio http://www.cosimotortgas, en el cual podrás encontrar
+información sobre el pueblo de Tortugas, con foros, libros de visitas, minichats, encuestas y sobre todo información.
+Visítala!, te va a encantar!&quot;;
+mail($emailamigo, $asunto, $mensaje, &quot;From: &quot;.$tuemail);
+?&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;/head&gt;
+&lt;body bgcolor=&quot;#FFFFFF&quot; text=&quot;#000000&quot;&gt;
+&lt;p&gt;&lt;font color=&quot;#FF0000&quot; size=&quot;2&quot; face=&quot;Verdana, Arial, Helvetica, sans-serif&quot;&gt;Gracias 
+  por recomendar la pagina www.tupagina.com.ar &lt;a href=&quot;recomendar_pagina.php&quot;&gt;Volver 
+  atr&amp;aacute;s &lt;/a&gt; &lt;/font&gt;&lt;/p&gt;
+&lt;p&gt;&lt;font color=&quot;#FF0000&quot; size=&quot;2&quot; face=&quot;Verdana, Arial, Helvetica, sans-serif&quot;&gt;&lt;a href=&quot;http://www.tupagina.com.ar&quot;&gt;Página 
+  principal&lt;/a&gt;&lt;/font&gt;&lt;font size=&quot;2&quot; face=&quot;Verdana, Arial, Helvetica, sans-serif&quot;&gt;&lt;br&gt;
+  &lt;br&gt;
+  &lt;font color=&quot;#0000FF&quot;&gt;&lt;br&gt;
+  &lt;br&gt;
+  &lt;br&gt;
+  &lt;br&gt;
+  &lt;/font&gt;&lt;/font&gt; &lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;div style=&quot;height:0px; visibility:hidden;&quot;&gt;&lt;textarea&gt; [/codigo]
+
+[b] Pueden ver el enlace funcionando en: [url=http://tortugas.webcindario.com/recomendar_pagina.php]Este enlace[/url]

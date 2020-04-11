@@ -1,0 +1,23 @@
+Este script sirve para proteger una pagina web, el codigo se incluye en la propia web, a continuacion explico los pasos para realizarlo:
+
+El codigo se pone encima de &lt;html&gt;
+
+[codigo]
+&lt;?php // 
+   if (($PHP_AUTH_USER!=&quot;usuario&quot;) || ($PHP_AUTH_PW!=&quot;contraseña&quot;)) { 
+      header('WWW-Authenticate: Basic realm=&quot;Acceso restringido&quot;'); 
+      header('HTTP/1.0 401 Unauthorized'); 
+      echo 'Authorization Required.'; 
+      exit; 
+   } 
+?&gt; 
+[/codigo]
+
+donde pone &quot;usuario&quot; ponemos nuesto nombre de usuario y donde pone &quot;contraseña&quot; se pone la contraseña evidentemente.
+
+Luego ponemos el siguiente codigo en la pagina dentro del body,
+para que aparezca nuesto nombre de usuario reflejado
+
+[codigo]
+&lt;?php echo $PHP_AUTH_USER?&gt; has entrado a la zona restringida
+[/codigo]

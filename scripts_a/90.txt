@@ -1,0 +1,41 @@
+[b]Edición por el administrador[/b]
+
+Debido a que esta web utiliza un código parecido, este código no se ve correctamente ya que utiliza las mismas etiquetas, por lo que pondré una opción cuando se quiera desactivar el uso del código especial al momento de enviar un script.
+
+aqui va un ejemplo del BBCode: 
+[codigo]&lt;?php 
+########################################## 
+# paBox v1.6 
+# Lead Programmer: Matt Humphrey (PHPAlien) &gt;&gt; matt@phparena.net &lt;&lt; 
+# Version 1.6 
+# 18 May 2002 
+# Copyright 2002 PHP Arena. All rights reserved. 
+# 
+# BoxCode Module 
+# Module Written by Matt Humphrey 
+# Module Date: 27-02-2002 
+# Module Version: 1.0 
+########################################## 
+function doBoxCode($text) { 
+$text = htmlspecialchars($text); 
+$html = array(); 
+$html[] = array(&quot;[b]&quot;, &quot;&lt;b&gt;&quot;); 
+$html[] = array(&quot;[/b]&quot;, &quot;&lt;/b&gt;&quot;); 
+$html[] = array(&quot;[i]&quot;, &quot;&lt;i&gt;&quot;); 
+$html[] = array(&quot;[/i]&quot;, &quot;&lt;/i&gt;&quot;); 
+$html[] = array(&quot;[u]&quot;, &quot;&lt;u&gt;&quot;); 
+$html[] = array(&quot;[/u]&quot;, &quot;&lt;/u&gt;&quot;); 
+$html[] = array(&quot;[move]&quot;, &quot;&lt;marquee&gt;&quot;); 
+$html[] = array(&quot;[/move]&quot;, &quot;&lt;/marquee&gt;&quot;); 
+$html[] = array(&quot;[nl]&quot;, &quot;&lt;br&gt;&quot;); 
+foreach ($html as $html) { 
+$text = str_replace($html[0],$html[1],$text); 
+} 
+$text = eregi_replace(&quot;\[email\]([^\[]*)\[/email\]&quot;, &quot;&lt;a href=&quot;mailto:\1&quot;&gt;\1&lt;/a&gt;&quot;, $text); 
+$text = eregi_replace(&quot;\[email=([^\[]*)\]([^\[]*)\[/email\]&quot;, &quot;&lt;a target='_blank' href=&quot;mailto:\1&quot;&gt;\2&lt;/a&gt;&quot;, $text); 
+$text = eregi_replace(&quot;\[url\]([^\[]*)\[/url\]&quot;, &quot;&lt;a target='_blank' href=&quot;\1&quot;&gt;\1&lt;/a&gt;&quot;, $text); 
+$text = eregi_replace(&quot;\[url=([^\[]*)\]([^\[]*)\[/url\]&quot;, &quot;&lt;a target='_blank' href=&quot;\1&quot;&gt;\2&lt;/a&gt;&quot;, $text); 
+return $text; 
+} 
+?&gt; [codigo]
+Fuente: www.hotmex.com

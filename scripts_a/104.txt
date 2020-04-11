@@ -1,0 +1,17 @@
+[b]YapGB - Yet Another PHP Guest Book[/b]
+
+[b]YapGB[/b] es un libro de visitas gratuito escrito en PHP, tiene las siguientes características:
+- No usa base de datos, sino un archivo de texto.
+- Permite eliminar mensajes.
+- La apariencia es completamente configurable mediante un sistema de themes.
+
+La versión actual es la 0.3.1, la cual incluye dos nuevos [i]themes[/i].
+
+El objetivo es ir corrigiendo errores y agregando funciones hasta llegar a la versión 1.0. En estos momentos estoy trabajando en la versión 0.4 y en una nueva página para el script.
+
+Ojalá puedan enviarme sus comentarios, sugerencias y/o correcciones :).
+
+Visiten el sitio de [url=http://geosoft.webcindario.com/yapgb]YapGB[/url], donde pueden checarlo y descargar la versión actual.
+
+Saludos,
+José Jorge (Geo).

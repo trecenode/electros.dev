@@ -1,0 +1,21 @@
+[codigo]&lt;? 
+$archivo = &quot;contador.txt&quot;; 
+$contador = 0; 
+
+$fp = fopen($archivo,&quot;r&quot;); 
+$contador = fgets($fp, 26); 
+fclose($fp); 
+
+++$contador; 
+
+$fp = fopen($archivo,&quot;w+&quot;); 
+fwrite($fp, $contador, 26); 
+fclose($fp); 
+
+echo &quot;Esta página ha sido visitada $contador veces&quot;; 
+?&gt; 
+//Script copiado de desarrolloweb www.desarrolloweb.com[/codigo]
+
+Como bien aclaro en el script, es de desarrolloweb, me quede sorprendido por lo simple.
+
+Tienes que crear un archivo llamado contador.txt.

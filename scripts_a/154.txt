@@ -1,0 +1,313 @@
+Aquí está el formulario de búsqueda de usuarios...
+[codigo]&lt;form action=&quot;index.php?id=ubuscados&quot; method=&quot;post&quot;&gt;
+&lt;b&gt;Sexo:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;sexo&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot;&gt;Masculino
+&lt;option value=&quot;1&quot;&gt;Feminino
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Preferência sexual:&lt;/b&gt;&lt;br&gt;
+&lt;select size=&quot;1&quot; name=&quot;preferencia&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;heterossexual
+&lt;option value=&quot;1&quot;&gt;bissexual
+&lt;option value=&quot;2&quot;&gt;homossexual
+&lt;/select&gt;
+&lt;b&gt;&lt;br&gt;
+Idade:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;edad&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;entre 18 e 23
+&lt;option value=&quot;1&quot;&gt;entre 24 e 29
+&lt;option value=&quot;2&quot;&gt;entre 30 e 35
+&lt;option value=&quot;3&quot;&gt;entre 36 e 40
+&lt;option value=&quot;4&quot;&gt;entre 41 e 45
+&lt;option value=&quot;5&quot;&gt;entre 46 e 50
+&lt;option value=&quot;6&quot;&gt;entre 51 e 55
+&lt;option value=&quot;7&quot;&gt;entre 56 e 60
+&lt;option value=&quot;8&quot;&gt;mais de 60
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Estado:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;estado&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;AC&quot;&gt;Acre
+&lt;option value=&quot;AL&quot;&gt;Alagoas
+&lt;option value=&quot;AM&quot;&gt;Amazonas
+&lt;option value=&quot;AP&quot;&gt;Amapá
+&lt;option value=&quot;BA&quot;&gt;Bahia
+&lt;option value=&quot;CE&quot;&gt;Ceará
+&lt;option value=&quot;DF&quot;&gt;Distrito Federal
+&lt;option value=&quot;ES&quot;&gt;Espírito Santo
+&lt;option value=&quot;GO&quot;&gt;Goiás
+&lt;option value=&quot;MA&quot;&gt;Maranhão
+&lt;option value=&quot;MG&quot;&gt;Minas Gerais
+&lt;option value=&quot;MS&quot;&gt;Mato Grosso do Sul
+&lt;option value=&quot;MT&quot;&gt;Mato Grosso
+&lt;option value=&quot;PA&quot;&gt;Pará
+&lt;option value=&quot;PB&quot;&gt;Paraíba
+&lt;option value=&quot;PE&quot;&gt;Pernambuco
+&lt;option value=&quot;PI&quot;&gt;Piauí
+&lt;option value=&quot;PR&quot;&gt;Paraná
+&lt;option value=&quot;RJ&quot;&gt;Rio de Janeiro
+&lt;option value=&quot;RN&quot;&gt;Rio Grande do Norte
+&lt;option value=&quot;RS&quot;&gt;Rio Grande do Sul
+&lt;option value=&quot;RR&quot;&gt;Roraima
+&lt;option value=&quot;RO&quot;&gt;Rondônia
+&lt;option value=&quot;SC&quot;&gt;Santa Catarina
+&lt;option value=&quot;SE&quot;&gt;Sergipe
+&lt;option value=&quot;SP&quot;&gt;São Paulo
+&lt;option value=&quot;TO&quot;&gt;Tocantins
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Pais:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;pais&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;Brasil
+&lt;option value=&quot;1&quot;&gt;Argentina
+&lt;option value=&quot;2&quot;&gt;Estados Unidos
+&lt;option value=&quot;3&quot;&gt;Uruguai
+&lt;option value=&quot;4&quot;&gt;Chile
+&lt;option value=&quot;5&quot;&gt;Peru
+&lt;option value=&quot;6&quot;&gt;Portugal
+&lt;option value=&quot;7&quot;&gt;Alemanha
+&lt;option value=&quot;8&quot;&gt;Paraguai
+&lt;option value=&quot;9&quot;&gt;Espanha
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Estatura:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;altura&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;1&quot;&gt;até 1,50
+&lt;option value=&quot;2&quot;&gt;entre 1,51 e 1,60
+&lt;option value=&quot;3&quot;&gt;entre 1,61 e 1,70
+&lt;option value=&quot;4&quot;&gt;entre 1,71 e 1,80
+&lt;option value=&quot;5&quot;&gt;entre 1,81 e 1,90
+&lt;option value=&quot;7&quot;&gt;entre 1,91 e 2 m
+&lt;option value=&quot;8&quot;&gt;acima de 2 m
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Peso:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;peso&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;até 50 kg
+&lt;option value=&quot;1&quot;&gt;entre 51 e 60 kg
+&lt;option value=&quot;2&quot;&gt;entre 61 e 70 kg
+&lt;option value=&quot;3&quot;&gt;entre 71 e 80 kg
+&lt;option value=&quot;4&quot;&gt;entre 81 e 90 kg
+&lt;option value=&quot;5&quot;&gt;entre 91 e 100 kg
+&lt;option value=&quot;6&quot;&gt;mais de 100 kg
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Pele:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;piel&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;Pêssego
+&lt;option value=&quot;1&quot;&gt;Pimentão
+&lt;option value=&quot;2&quot;&gt;Jabuticaba
+&lt;option value=&quot;3&quot;&gt;Café com leite
+&lt;option value=&quot;4&quot;&gt;Marrom-bombom
+&lt;option value=&quot;5&quot;&gt;Amarela
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Olhos:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;ojos&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;Azuis
+&lt;option value=&quot;1&quot;&gt;Verdes
+&lt;option value=&quot;2&quot;&gt;Castanhos
+&lt;option value=&quot;3&quot;&gt;Pretos
+&lt;option value=&quot;4&quot;&gt;Cor-de-mel
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Cabelos:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;cabellos&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;Pretos
+&lt;option value=&quot;1&quot;&gt;Castanhos
+&lt;option value=&quot;2&quot;&gt;Loiros
+&lt;option value=&quot;3&quot;&gt;Ruivos
+&lt;option value=&quot;4&quot;&gt;Grisalhos
+&lt;option value=&quot;5&quot;&gt;Careca
+&lt;option value=&quot;6&quot;&gt;Multicoloridos
+&lt;option value=&quot;7&quot;&gt;Brancos
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Estado Civil:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;estadocivil&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;solteiro(a)
+&lt;option value=&quot;1&quot;&gt;separado(a)
+&lt;option value=&quot;2&quot;&gt;viúvo(a)
+&lt;option value=&quot;3&quot;&gt;casado ou como se fosse
+&lt;option value=&quot;4&quot;&gt;casado mas disponível
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Bebida alcoólica:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;bebe&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;não bebe
+&lt;option value=&quot;1&quot;&gt;socialmente
+&lt;option value=&quot;2&quot;&gt;até cair
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Fumo:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;fuma&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;fumante
+&lt;option value=&quot;1&quot;&gt;não fumante
+&lt;option value=&quot;2&quot;&gt;eventual
+&lt;option value=&quot;3&quot;&gt;passivo
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Religião:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;religion&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;Católica
+&lt;option value=&quot;1&quot;&gt;Protestante
+&lt;option value=&quot;2&quot;&gt;Judaica
+&lt;option value=&quot;3&quot;&gt;Espírita
+&lt;option value=&quot;4&quot;&gt;Budista
+&lt;option value=&quot;5&quot;&gt;Muçulmana
+&lt;option value=&quot;6&quot;&gt;Agnóstico
+&lt;option value=&quot;7&quot;&gt;Cristiana
+&lt;option value=&quot;8&quot;&gt;Ateu
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Educação:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;educacion&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;Analfabeto
+&lt;option value=&quot;1&quot;&gt;Primeiro grau
+&lt;option value=&quot;2&quot;&gt;Segundo grau
+&lt;option value=&quot;3&quot;&gt;Terceiro grau incompleto
+&lt;option value=&quot;4&quot;&gt;Terceiro grau completo
+&lt;option value=&quot;5&quot;&gt;Pós-graduado
+&lt;option value=&quot;6&quot;&gt;Mestre
+&lt;option value=&quot;7&quot;&gt;Doutor
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Idioma:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;idioma1&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;Português
+&lt;option value=&quot;1&quot;&gt;Espanhol
+&lt;option value=&quot;2&quot;&gt;Alemão
+&lt;option value=&quot;3&quot;&gt;Japonês
+&lt;option value=&quot;4&quot;&gt;Italiano
+&lt;option value=&quot;5&quot;&gt;Francês
+&lt;option value=&quot;8&quot;&gt;Inglês
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Profissão:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;profesion&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;administração
+&lt;option value=&quot;1&quot;&gt;afazeres domésticos
+&lt;option value=&quot;2&quot;&gt;aposentado(a)
+&lt;option value=&quot;3&quot;&gt;comércio ou vendas
+&lt;option value=&quot;4&quot;&gt;empresário ou industrial
+&lt;option value=&quot;5&quot;&gt;estudante
+&lt;option value=&quot;6&quot;&gt;informática
+&lt;option value=&quot;7&quot;&gt;medicina,odontologia ou enfermagem
+&lt;option value=&quot;8&quot;&gt;educação
+&lt;option value=&quot;9&quot;&gt;recursos humanos
+&lt;option value=&quot;10&quot;&gt;advocacia
+&lt;option value=&quot;11&quot;&gt;agropecuária
+&lt;option value=&quot;12&quot;&gt;artes
+&lt;option value=&quot;13&quot;&gt;comunicação ou relações públicas
+&lt;option value=&quot;14&quot;&gt;engenharia ou arquitetura
+&lt;option value=&quot;15&quot;&gt;finanças
+&lt;option value=&quot;16&quot;&gt;marketing ou publicidade
+&lt;option value=&quot;17&quot;&gt;pesquisa
+&lt;option value=&quot;18&quot;&gt;profissional liberal
+&lt;option value=&quot;19&quot;&gt;desocupado(a)
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Signo:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;signo&quot; class=&quot;form&quot;&gt;
+&lt;option&gt;
+&lt;option value=&quot;0&quot;&gt;Aries
+&lt;option value=&quot;1&quot;&gt;Touro
+&lt;option value=&quot;2&quot;&gt;Gêmeos
+&lt;option value=&quot;3&quot;&gt;Câncer
+&lt;option value=&quot;4&quot;&gt;Leão
+&lt;option value=&quot;5&quot;&gt;Virgem
+&lt;option value=&quot;6&quot;&gt;Libra
+&lt;option value=&quot;7&quot;&gt;Escorpião
+&lt;option value=&quot;8&quot;&gt;Sagitário
+&lt;option value=&quot;9&quot;&gt;Capricórnio
+&lt;/select&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Buscar!&quot;&gt;
+&lt;/form&gt;[/codigo]
+
+Y aquí el/los resultado(s)... Maka está trabajando en la paginación de este script...
+[codigo]&lt;?php
+include(&quot;config.php&quot;);
+if($enviar) {
+$resp = mysql_query(&quot;select * from usuarios where
+&quot;.(($_POST[sexo] != &quot;&quot;) ? &quot;sexo='$_POST[sexo]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[preferencia] != &quot;&quot;) ? &quot;AND preferencia='$_POST[preferencia]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[edad] != &quot;&quot;) ? &quot;AND edad='$_POST[edad]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[barrio] != &quot;&quot;) ? &quot;AND barrio='$_POST[barrio]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[ciudad] != &quot;&quot;) ? &quot;AND ciudad='$_POST[ciudad]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[estado] != &quot;&quot;) ? &quot;AND estado='$_POST[estado]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[pais] != &quot;&quot;) ? &quot;AND pais='$_POST[pais]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[altura] != &quot;&quot;) ? &quot;AND altura='$_POST[altura]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[peso] != &quot;&quot;) ? &quot;AND peso='$_POST[peso]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[piel] != &quot;&quot;) ? &quot;AND piel='$_POST[piel]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[ojos] != &quot;&quot;) ? &quot;AND ojos='$_POST[ojos]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[cabellos] != &quot;&quot;) ? &quot;AND cabellos='$_POST[cabellos]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[estadocivil] != &quot;&quot;) ? &quot;AND estadocivil='$_POST[estadocivil]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[bebe] != &quot;&quot;) ? &quot;AND bebe='$_POST[bebe]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[fuma] != &quot;&quot;) ? &quot;AND fuma='$_POST[fuma]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[religion] != &quot;&quot;) ? &quot;AND religion='$_POST[religion]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[educacion] != &quot;&quot;) ? &quot;AND educacion='$_POST[educacion]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[idioma] != &quot;&quot;) ? &quot;AND idioma='$_POST[idioma]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[profesion] != &quot;&quot;) ? &quot;AND profesion='$_POST[profesion]'&quot; : &quot;&quot;).&quot;
+&quot;.(($_POST[signo] != &quot;&quot;) ? &quot;AND signo='$_POST[signo]'&quot; : &quot;&quot;).&quot;
+&quot;) ;
+$datos = mysql_num_rows($resp) == &quot;0&quot; ;
+if($datos) {
+echo &quot;Não há resultados&quot;;
+} else {
+echo &quot;Resultados da procura:&lt;br&gt;&lt;br&gt;&quot;;
+while($sql = mysql_fetch_array($resp)) {//imprimimos las respuestas
+echo &quot;&lt;center&gt;&lt;table border = '0' width='90%' cellspacing='5' class='form'&gt; n
+&lt;td width='50%' valign='top'&gt;
+&lt;b&gt;Apelido:&lt;/b&gt;&quot;.$sql[&quot;nick&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Sexo:&lt;/b&gt;&quot;.$sql[&quot;sexo&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Preferência sexual:&lt;/b&gt;&quot;.$sql[&quot;preferencia&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Idade:&lt;/b&gt;&quot;.$sql[&quot;edad&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Cidade:&lt;/b&gt;&quot;.$sql[&quot;ciudad&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Estado:&lt;/b&gt;&quot;.$sql[&quot;estado&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Pais:&lt;/b&gt;&quot;.$sql[&quot;pais&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Estatura:&lt;/b&gt;&quot;.$sql[&quot;altura&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Peso:&lt;/b&gt;&quot;.$sql[&quot;peso&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Signo:&lt;/b&gt;&quot;.$sql[&quot;signo&quot;].&quot;
+&lt;/td&gt;
+&lt;td width='50%' valign='top'&gt;
+&lt;b&gt;Pele:&lt;/b&gt;&quot;.$sql[&quot;piel&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Olhos:&lt;/b&gt;&quot;.$sql[&quot;ojos&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Cabelos:&lt;/b&gt;&quot;.$sql[&quot;cabellos&quot;].&quot;
+&lt;b&gt;&lt;br&gt;
+Estado Civil:&lt;/b&gt;&quot;.$sql[&quot;estadocivil&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Bebida alcoólica:&lt;/b&gt;&quot;.$sql[&quot;bebe&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Fumo:&lt;/b&gt;&quot;.$sql[&quot;fuma&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Religião:&lt;/b&gt;&quot;.$sql[&quot;religion&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Educação:&lt;/b&gt;&quot;.$sql[&quot;educacion&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Idioma:&lt;/b&gt;&quot;.$sql[&quot;idioma1&quot;].&quot;
+&lt;br&gt;
+&lt;b&gt;Profissão:&lt;/b&gt;&quot;.$sql[&quot;profesion&quot;].&quot;
+&lt;/td&gt;
+&lt;/tr&gt;
+ n
+ &lt;/table&gt;&lt;br&gt; n&quot;;}
+
+
+echo &quot;&lt;b&gt;Não há mais resultados&lt;/b&gt;&quot;;
+}
+}
+?&gt;[/codigo]
+Pero el problema está en que no sé como hacer para convertir los números de los datos en textos... :(
+Gracias por la ayuda de Carlos123, Maka, Ringoweb y especialmente Xergio (Xergio.net)... :)

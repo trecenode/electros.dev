@@ -1,0 +1,9 @@
+Esta es una modificacion del scripts de postales de xlwebmaster, he arreglao los errores que tenia y le he puesto un sistema para que puedas subir todas las postales que quieras y ademas le he cambiado el diseño.
+
+El funcionamiento es el siguiente :
+1) Sube la postal normal del tamaño que deses: nombredelapostal.gif
+2) sube la miniatura de la postal de 80x80 con la letra &quot;p_&quot; delante : p_nombredelapostal.gif
+
+Podeis ver un ejemplo en : 
+http://www.tuarroba.net/elcidop/archivos/postales/postales.zip
+http://www.tuarroba.net/elcidop/archivos/postales/

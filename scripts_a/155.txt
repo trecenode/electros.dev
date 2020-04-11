@@ -1,0 +1,87 @@
+Vamos a ver la forma de editar un archivo o varios via web, la forma
+de hacerlo es con el siguiente codigo, este codigo sirver para editar archivos [b]txt[/b] pero si cambiamos de la linea 12,49 lo de $archivo.txt por $archivo.htm podriamos editar archivos htm, la contraseña es 123456
+y se puede cambiar en la linea 35, no recomiendo utilizarlo para archivos php ya que se ve el contenido del archivo al abrirlo.
+
+El funcionamiento del script es bastante sencillo, deberemos guardar este archivo como [b]editar.php[/b] y para editar el archivo
+deberemos poner  [b]editar.php?archivo=prueba[/b]
+con ello abririamos prueba.txt.
+
+[codigo]&lt;title&gt;Editar un archivo&lt;/title&gt;
+&lt;?
+ function write_fil($arch, $titulo) {
+ if ($fp = fopen($arch, &quot;w&quot;)) {
+        fwrite ($fp, stripslashes($titulo));
+        fclose($fp);
+        return 1;
+        }
+ else { return 0; }
+        };
+if($action == &quot;&quot;){
+$archi = &quot;$archivo.txt&quot;;
+$abrir = @fopen($archi,&quot;r&quot;);
+$codigo = @fread($abrir, @filesize($archi));
+@fclose($abrir);
+?&gt;
+&lt;table border=&quot;1&quot; width=&quot;100%&quot; cellpadding=&quot;4&quot; cellspacing=&quot;1&quot; &gt;
+  &lt;tr&gt; 
+    &lt;td height=&quot;29&quot; align=&quot;center&quot; &gt;&lt;div align=&quot;left&quot;&gt; Editar un archivo&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td height=&quot;169&quot; align=&quot;center&quot; &gt;&lt;div align=&quot;left&quot;&gt;&lt;form method=post action='editar.php?action=ver&amp;archivo=&lt;? echo $archivo ?&gt;' id=form1 name=form1 enctype=&quot;multipart/form-data&quot;&gt;
+          Contrase&amp;ntilde;a :&lt;br&gt;
+          &lt;input type='text' name='contrasena' class='form'&gt;
+          &lt;br&gt;
+          Contenido del archivo :&lt;br&gt;
+          &lt;TEXTAREA rows=5 cols=50  name=descargar class='form'&gt;&lt;? echo $codigo ?&gt;
+&lt;/TEXTAREA&gt;
+          &lt;br&gt;
+          &lt;input type='submit' name='enviar' value='Enviar' class='form'&gt;
+        &lt;/form&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;?
+$contrasena =&quot;123456&quot;; //tu clave de admin 
+$url = $HTTP_POST_VARS['contrasena']; $nombre = $HTTP_POST_VARS['descargar'];
+}
+else if($action == &quot;ver&quot;)
+{
+if (isset($descargar)&amp;&amp;isset($contrasena)&amp;&amp;($descargar!=&quot;&quot;)&amp;&amp;($contrasena!=&quot;&quot;))
+{
+$rs = write_fil(&quot;$archivo.txt&quot;, &quot;$descargar&quot;);
+$archi = &quot;$archivo.txt&quot;;
+$abrir = fopen($archi,&quot;r&quot;);
+$codigo = fread($abrir, filesize($archi));
+fclose($abrir);
+?&gt;
+&lt;table border=&quot;1&quot; width=&quot;100%&quot; cellpadding=&quot;4&quot; cellspacing=&quot;1&quot; &gt;
+  &lt;tr&gt; 
+    &lt;td height=&quot;29&quot; align=&quot;center&quot; &gt;&lt;div align=&quot;left&quot;&gt;Editar un archivo&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td height=&quot;2&quot; align=&quot;center&quot; &gt;&lt;div align=&quot;left&quot;&gt;* Archivo modificado satisfactoriamente.&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;?
+}
+}
+?&gt;
+[/codigo]
+
+Como Añadir bbcode, para que no se pueda enviar html al editar el archivo.
+
+Añadimos esto, antes de [b]$rs = write_fil(&quot;$archivo.txt&quot;, &quot;$descargar&quot;);[/b]
+
+[codigo]
+// bbcode
+$contrasena = trim($contrasena) ;
+$contrasena = htmlspecialchars($contrasena) ;
+$descargar = trim($descargar) ;
+$descargar = htmlspecialchars($descargar) ;
+// fin bbcode[/codigo]
+
+Lo de [b]$descargar = chunk_split($descargar,100,&quot;n&quot;);[/b] es para acortar las cadenas, util para minichar y tagboard.
+
+
+Gracias por su atencion, no se olviden de visitar
+http://www.phpmysql.tk

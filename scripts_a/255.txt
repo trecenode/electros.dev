@@ -1,0 +1,288 @@
+Hola,llevo tiempo aprendiendo php, y hace poco necesitava un sistema de estadisticas para una de mis webs, asi que decidi hacer uno sencillo basado en .txt
+
+Vamos a empezar con el [b]estadisticas.php:[/b]
+
+[codigo]&lt;style type=&quot;text/css&quot;&gt;
+&lt;!--
+.Estilo1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 9px;
+}
+.Estilo2 {
+	font-size: 9px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.Estilo3 {font-size: 10px}
+.Estilo4 {
+	font-size: 16px;
+	color: #0033CC;
+}
+--&gt;
+&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;div align=&quot;center&quot;&gt;
+  &lt;div align=&quot;center&quot;&gt;
+    &lt;table width=&quot;34%&quot;  border=&quot;1&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; bordercolor=&quot;#000000&quot;&gt;
+      &lt;tr&gt;
+        &lt;td width=&quot;47%&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;a href=&quot;informacionweb.php&quot; class=&quot;Estilo2&quot;&gt;Estadisticas&lt;/a&gt;&lt;/div&gt;&lt;/td&gt;
+        &lt;td width=&quot;53%&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;a href=&quot;creaestadisticas.php&quot; class=&quot;Estilo2&quot;&gt;Crear archivos de EST. &lt;/a&gt;&lt;/div&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;div align=&quot;center&quot;&gt;&lt;a href=&quot;borrarestadisticas.php&quot; class=&quot;Estilo2&quot;&gt;Borrar estadisticas &lt;/a&gt;&lt;/div&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;div align=&quot;center&quot;&gt;&lt;a href=&quot;ipvisitante.php&quot; class=&quot;Estilo2&quot;&gt;Ip de visitantes &lt;/a&gt;&lt;/div&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;br&gt;
+    &lt;table width=&quot;27%&quot;  border=&quot;1&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; bordercolor=&quot;#000000&quot;&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;div align=&quot;center&quot; class=&quot;Estilo1&quot;&gt;Los archivos de estadisticas ocupan: &lt;/div&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;br&gt;
+    &lt;table width=&quot;25%&quot;  border=&quot;1&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; bordercolor=&quot;#000000&quot;&gt;
+      &lt;tr&gt;
+        &lt;td width=&quot;52%&quot; class=&quot;Estilo1&quot;&gt;&lt;div align=&quot;left&quot;&gt;&lt;span class=&quot;Estilo4&quot;&gt;&amp;middot;&lt;/span&gt;Referer.txt&lt;/div&gt;&lt;/td&gt;
+        &lt;td width=&quot;48%&quot;&gt;&lt;?
+	  $leer = 'referer.txt';
+	  $medir = filesize (&quot;$leer&quot;);
+	  echo $medir;
+	  ?&gt;
+	    KB&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;Estilo1&quot;&gt;&lt;div align=&quot;left&quot;&gt;&lt;span class=&quot;Estilo4&quot;&gt;&amp;middot;&lt;/span&gt;Ip.txt&lt;/div&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;?
+	  $leerinfo = 'ip.txt';
+	  $medirinfo = filesize (&quot;$leerinfo &quot;);
+	  echo $medirinfo;
+	  ?&gt;
+  KB&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;Estilo1&quot;&gt;&lt;div align=&quot;left&quot;&gt;&lt;span class=&quot;Estilo4&quot;&gt;&amp;middot;&lt;/span&gt;Info.txt&lt;/div&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;?
+	  $leerinfo = 'info.txt';
+	  $medirinfo = filesize (&quot;$leerinfo&quot;);
+	  echo $medirinfo;
+	  ?&gt;        KB&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;br&gt;
+    &lt;table width=&quot;25%&quot;  border=&quot;1&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; bordercolor=&quot;#000000&quot;&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;div align=&quot;center&quot; class=&quot;Estilo1&quot;&gt;Estadisticas de archivos &lt;/div&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;Estilo2&quot;&gt; &lt;span class=&quot;Estilo6&quot;&gt;&amp;middot;&lt;/span&gt;        &lt;?
+  $comprobarreferer = 'referer.txt';
+  if (file_exists (&quot;$comprobarreferer&quot;))
+  echo 'El archivo referer.txt SI que existe.';
+  else
+  echo 'El archivo referer.txt NO existe.';
+ ?&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;Estilo2&quot;&gt;&lt;span class=&quot;Estilo6&quot;&gt;&amp;middot;&lt;/span&gt;        &lt;?
+  $comprobarreferer = 'info.txt';
+  if (file_exists (&quot;$comprobarreferer&quot;))
+  echo 'El archivo referer.txt SI que existe.';
+  else
+  echo 'El archivo referer.txt NO existe.';
+ ?&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;br&gt;
+    &lt;table width=&quot;39%&quot;  border=&quot;1&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; bordercolor=&quot;#000000&quot;&gt;
+      &lt;tr&gt;
+        &lt;td width=&quot;65%&quot; class=&quot;Estilo1 Estilo3&quot;&gt;&lt;span class=&quot;Estilo4&quot;&gt;&amp;middot;&lt;/span&gt;El archivo que captura la ip es&lt;/td&gt;
+        &lt;td width=&quot;35%&quot;&gt;&lt;a href=&quot;capturarip.php&quot; target=&quot;_blank&quot; class=&quot;Estilo2&quot;&gt; capturarip.php &lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;Estilo1&quot;&gt;&lt;span class=&quot;Estilo4&quot;&gt;&amp;middot;&lt;/span&gt;El archivo que captura la informacion es&lt;/td&gt;
+        &lt;td&gt;&lt;a href=&quot;capturador.php&quot; target=&quot;_blank&quot; class=&quot;Estilo2&quot;&gt;capturador.php&lt;/a&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;br&gt;
+  &lt;/div&gt;
+[/codigo]
+
+Ahora creamos el [b]borrarestadisticas.php:[/b]
+
+[codigo]
+
+&lt;?
+$referer = 'referer.txt';
+$info = 'info.txt';
+$ip = 'ip.txt';
+unlink ($referer);
+unlink ($info);
+unlink ($ip);
+?&gt;
+
+&lt;div align=&quot;center&quot;&gt;
+  &lt;p align=&quot;center&quot;&gt;Borrado con exito,Click &lt;a href=&quot;creaestadisticas.php&quot;&gt;aqui&lt;/a&gt; para crearlos de nuevo.&lt;/p&gt;
+  &lt;p align=&quot;center&quot;&gt;    &lt;?
+  $comprobarreferer = 'referer.txt';
+  if (file_exists (&quot;$comprobarreferer&quot;))
+  echo 'El archivo referer.txt SI que existe.';
+  else
+  echo 'El archivo referer.txt NO existe.';
+ ?&gt;&lt;br&gt;
+    &lt;?
+  $comprobarreferer = 'info.txt';
+  if (file_exists (&quot;$comprobarreferer&quot;))
+  echo 'El archivo referer.txt SI que existe.';
+  else
+  echo 'El archivo referer.txt NO existe.';
+ ?&gt;&lt;br&gt;
+    &lt;?
+  $comprobarreferer = 'ip.txt';
+  if (file_exists (&quot;$comprobarreferer&quot;))
+  echo 'El archivo ip.txt SI que existe.';
+  else
+  echo 'El archivo ip.txt NO existe.';
+ ?&gt;
+[/codigo]
+
+Ahora creamos el archivo que captura la ip [b]capturaip.php:[/b]
+
+[codigo]&lt;? 
+$archivo = 'ip.txt'; 
+$abreme = fopen($archivo,'a'); 
+if(strlen($_SERVER['REMOTE_ADDR'] ) &gt; 0) { 
+$escribeme = fwrite($abreme,$_SERVER['REMOTE_ADDR'] .&quot;&lt;br&gt;\n&quot;); 
+
+} 
+?&gt; 
+
+[/codigo]
+
+Ahora el archivo que crea los .txt [b]creaestadisticas.php:[/b]
+
+[codigo]&lt;div align=&quot;center&quot;&gt;Pulsa aqui para volver a las &lt;a href=&quot;estadisticas.php&quot;&gt;estadisticas&lt;/a&gt; &lt;/div&gt;
+&lt;?
+$referer = 'referer.txt'; 
+$abreme = fopen($referer,'w+'); 
+$creo = fwrite($abreme,&quot;\n&quot;); 
+?&gt;
+&lt;?
+$info = 'info.txt'; 
+$abreme = fopen($info,'w+'); 
+$creo = fwrite($abreme,&quot;\n&quot;); 
+?&gt;
+&lt;?
+$info = 'ip.txt'; 
+$abreme = fopen($info,'w+'); 
+$creo = fwrite($abreme,&quot;\n&quot;); 
+?&gt;
+&lt;div align=&quot;center&quot;&gt;
+  &lt;?
+  $comprobarreferer = 'referer.txt';
+  if (file_exists (&quot;$comprobarreferer&quot;))
+  echo 'El archivo referer.txt SI que existe.';
+  else
+  echo 'El archivo referer.txt NO existe.';
+ ?&gt;&lt;br&gt;
+  &lt;?
+  $comprobarreferer = 'info.txt';
+  if (file_exists (&quot;$comprobarreferer&quot;))
+  echo 'El archivo info.txt SI que existe.';
+  else
+  echo 'El archivo info.txt NO existe.';
+ ?&gt;&lt;br&gt;
+  &lt;?
+  $comprobarreferer = 'ip.txt';
+  if (file_exists (&quot;$comprobarreferer&quot;))
+  echo 'El archivo ip.txt SI que existe.';
+  else
+  echo 'El archivo rip.txt NO existe.';
+ ?&gt;
+&lt;/div&gt;
+[/codigo]
+
+Ahora el que captura la informacion del usuario [b]capturador.php[/b]:
+
+[codigo]
+&lt;?php include('infouser.php'); ?&gt;
+&lt;?php include('inforeferer.php'); ?&gt;
+[/codigo]
+
+Ahora el que captura la informacion del referer [b]inforeferer.php[/b]:
+
+[codigo]
+
+&lt;title&gt;Informacion&lt;/title&gt;
+&lt;?
+$archivo = 'referer.txt'; 
+$abreme = fopen($archivo,'a'); 
+if(strlen($HTTP_REFERER) &gt; 0) { 
+$referer = fwrite($abreme,$HTTP_REFERER.&quot;&lt;br&gt;\n&quot;); 
+} 
+?&gt;
+[/codigo]
+Ahora el archivo para ver la informacion del usuario [b]informacionweb.php[/b]:
+[codigo]
+
+&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;estadisticas.php&quot;&gt;Volver&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;&amp;nbsp;&lt;/p&gt;
+&lt;table width=&quot;100%&quot;  border=&quot;1&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; bordercolor=&quot;#000000&quot;&gt;
+  &lt;tr&gt;
+    &lt;td width=&quot;50%&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;strong&gt;Estadisticas de referes &lt;/strong&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;td width=&quot;50%&quot;&gt;    &lt;div align=&quot;center&quot;&gt;&lt;strong&gt;Estadisticas de (sistema operativo/explorador)&lt;/strong&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;?php 
+$referer = 'referer.txt';
+readfile (&quot;$referer&quot;);
+?&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;?php 
+$info = 'info.txt';
+readfile (&quot;$info&quot;);
+?&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+[/codigo]
+Ahora [b]infouser.php:[/b]
+[codigo]&lt;title&gt;Informacion del user&lt;/title&gt;
+&lt;? 
+$archivo = 'info.txt'; 
+$abreme = fopen($archivo,'a'); 
+if(strlen($HTTP_USER_AGENT) &gt; 0) { 
+$escribeme = fwrite($abreme,$HTTP_USER_AGENT.&quot;&lt;br&gt;\n&quot;); 
+
+} 
+?&gt; 
+[/codigo]
+Con este archivo veremos la ip [b]ipvisitante.php:[/b]
+[codigo]&lt;div align=&quot;center&quot;&gt;
+  &lt;p&gt;&lt;a href=&quot;estadisticas.php&quot;&gt;Volver&lt;/a&gt;&lt;/p&gt;
+  &lt;table width=&quot;55%&quot;  border=&quot;1&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; bordercolor=&quot;#000000&quot;&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;?php 
+$info = 'ip.txt';
+readfile (&quot;$info&quot;);
+?&gt;        &amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;/div&gt;
+[/codigo]
+
+Bien como veis en total son 9 archivos que os dejo para poder descargar.
+
+[b]AVISO:[/b]
+La primera vez que ejecuteis el estadisticas.php hacer click en Crear archivos de EST.  Para poder crear los txt necesarios.
+Cuando querais poner a 0 las estadisticas pulsar en Borrar estadisticas y ya estas :D
+
+Para un correcto funcionamiento poner permisos CHMOD 666.
+
+Muy pronto lo adaptare para que salgan las estadisticas de cada dia.
+
+Cualquier duda karliky@gmail.com &gt; karliky_ovni@hotmail.com o dejar comentarios
+
+Salu2

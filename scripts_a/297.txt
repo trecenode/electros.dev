@@ -1,0 +1,25 @@
+Nueva versión 2.0!! 
+
+Para instalar, solamente sube los archivos a tu sitio web, y ejecuta la sentencia sql que hay en el archivo sql.sql.
+
+Si teneis alguna duda, podeis preguntar desde los comentarios de abajo o desde el foro en la siguiente url:
+[url]http://electros.net/foromensajes/foro/5/tema/5881/p/1#10169[/url]
+
+Esta nueva versión tiene además de lo de la primera version, las siguientes mejoras:
+
+-Sistema de Comentarios por encuesta.
+-Se muestra el número de votos en ver resultados.
+-Se ha implementado un script sacado de esta web (no me acuerdo del autor) para restringir el voto por IP, ahora ya funciona la 100%
+-Se pueden escojer diversas encuestas para ver los resultados, desde el partado: Ver resultados.
+- Archivo de lenguaje, adaptable a cualquier lenguaje.
+
+Próximamente:
+- Archivo sql de actualización de versiones anteriores a esta última.
+- Borrar comentarios.
+- ...
+------------------------------------------------------------------------------------
+V 1.0
+
+-Administrador desde el que se puede activar/desactivar encuestas.
+- &quot; &quot;          desde el que se pueden dar de alta y de baja encuestas.    
+-Sistema de encuestas con barras de porcentaje.

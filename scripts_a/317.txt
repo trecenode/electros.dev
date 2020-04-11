@@ -1,0 +1,69 @@
+Bueno de entrada quiero decirles que solo funciona con el sistema de usuarios de electros. 
+Ya despues estara disponible para todos aquellos que no tengan el sistema de usuarios de electros.
+
+¿Qué tiene de nuevo comparado con los otros script de boletin?
+
+Obtiene e-mail de la tabla usuarios y esto hace que en verdad sea un boletin y no un simple formulario de e-mail.
+
+Bueno si alguna vez han usado algún script mio como es el Sistema de Deportes, Felicidades ya tienen el primer paso xD.
+
+
+[b]Primero que nada creen una carpeta llamada datos, con permiso 777. La crearia el mismo script pero eh visto que al crearla a travez de PHP no se puede eliminar la carpeta, bueno en lo particular me a pasado al igual que uno que otro colega.[/b]
+
+[b]Despues de haber creado la carpeta vamos a la creacion del primer y único script el cual se va a llamar: boletin.php o como quieran (No lo afectara ni en lo más minimo):[/b]
+
+[codigo]
+&lt;?
+//************************************
+//***********Realizado Por:***********
+//*************eliascm36**************
+//**************Version:**************
+//****************1.0*****************
+//************************************
+?&gt;
+&lt;? include(&quot;config.php&quot;) ?&gt;
+&lt;?
+$consulta = mysql_query(&quot;select email from usuarios order by id desc&quot;) ;
+while($datos = mysql_fetch_array($consulta)) { 
+?&gt;
+&lt;? 
+$nuevo .= &quot;&lt;?&quot;;
+$nuevo .= &quot;=&quot;;
+$nuevo .= &quot;'&quot;;
+$nuevo .= &quot;$datos[email],&quot;;
+$nuevo .= &quot;' ;&quot;;
+$nuevo .= &quot;?&gt;&quot;;
+$crea = fopen(&quot;datos/boletin.php&quot;,&quot;w&quot;);
+fputs($crea,$nuevo);
+fclose($crea);
+?&gt;
+&lt;?
+}
+?&gt;
+&lt;?
+if($_POST[enviar]) {
+mail($_POST[boletin],$_POST[asunto],$_POST[mensaje],&quot;From: $_POST[nombre] &lt;$_POST[email]&gt;&quot;) ;
+echo &quot;El email ha sido enviado con éxito.&quot; ;
+}
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;&lt;?=$_SERVER[PHP_SELF]?&gt;&quot;&gt;
+ Usuarios:&lt;br&gt;
+&lt;input name=&quot;boletin&quot; type=&quot;text&quot; id=&quot;boletin&quot; value=&quot;&lt;? include(&quot;datos/boletin.php&quot;) ?&gt;&quot;&gt;
+&lt;br&gt;
+Nombre:&lt;br&gt;
+&lt;input name=&quot;nombre&quot; type=&quot;text&quot;&gt;
+&lt;br&gt;
+Email:&lt;br&gt;
+&lt;input name=&quot;email&quot; type=&quot;text&quot; id=&quot;email&quot;&gt;&lt;br&gt;
+Asunto:&lt;br&gt;
+&lt;input name=&quot;asunto&quot; type=&quot;text&quot; id=&quot;asunto&quot;&gt;
+&lt;br&gt;
+Mensaje:&lt;br&gt;
+&lt;textarea name=&quot;mensaje&quot; cols=&quot;30&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/form&gt;
+[/codigo]
+
+Y bueno este es todo el script xD.

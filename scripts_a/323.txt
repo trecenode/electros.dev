@@ -1,0 +1,3 @@
+[url]http://ocioperu.cjb.net/index.php?id=staff[/url] Es una buena opcion para tener una seccion de los administradores de tu web.
+. pueden ponerle la coockie si es q fuera necesario :D 
+. requiere el config.php

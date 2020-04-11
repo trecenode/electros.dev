@@ -1,0 +1,102 @@
+Este script permite saber cuantas veces un link es visitado, fue sacado de un post de electros en un foro de miarroba
+y yo lo pongo aqui para que la gente lo utilize.
+
+Primero crear una tabla que guarde los enlaces y el número de visitas:
+
+
+[codigo]
+create table enlaces (
+id smallint(5) unsigned not null auto_increment,
+enlace varchar(100) not null,
+nombre varchar(150) not null,
+visitas smallint(5) unsigned not null,
+primary key (id)
+)
+[/codigo]
+
+He modificado este codigo para que podamos disponer de un nombre del enlace que se inserte desde el formulario.
+
+Una vez creada la tabla inserta los enlaces que quieras mediante el siguiente código, llamalo
+como [b]enlacesenviar.php[/b]:
+[codigo]
+&lt;?
+include(&quot;config.php&quot;) ;
+if($enviar) {
+mysql_query(&quot;insert into enlaces (enlace, nombre) values ('$enlace','$nombre')&quot;) ;
+echo &quot;URL agregada: $nombre&quot; ;
+}
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;enlacesenviar.php&quot;&gt;
+URL del Enlace:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;enlace&quot; value=&quot;http://&quot;&gt;&lt;br&gt;
+Nombre del Enlace:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;nombre&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/form&gt;
+[/codigo]
+
+Ahora para ver los enlaces enviado, tenemos que crear el archivo [b]enlaces.php[/b]
+[codigo]
+&lt;?
+include (&quot;config.php&quot;); // Tambien sirve la funcion require()
+$query=mysql_query(&quot;select * from enlaces&quot;);
+$lineas = mysql_num_rows($query);
+echo &quot;&lt;table border=\&quot;1\&quot; cellpadding=\&quot;0\&quot; cellspacing=\&quot;0\&quot; style=\&quot;border-collapse: collapse; border-width: 0\&quot; bordercolor=\&quot;#111111\&quot; width=\&quot;100%\&quot; id=\&quot;enlaces\&quot;&gt;
+ &lt;tr&gt;
+    &lt;td width=\&quot;50%\&quot; style=\&quot;border-style: none; border-width: medium\&quot;&gt;&lt;b&gt;Nombre del Enlace&lt;\b&gt;&lt;/td&gt;
+    &lt;td width=\&quot;50%\&quot; style=\&quot;border-style: none; border-width: medium\&quot;&gt;&lt;b&gt;Visitas&lt;/b&gt;&lt;/td&gt;
+  &lt;/tr&gt;&quot;;
+// Comprobamos si hay o no, enlaces.
+if(!$lineas){
+echo &quot;No hay ningún enlace&quot;;
+} else {
+// Mediante un bucle sacamos los datos de cada uno de los enlaces
+while ($datos = mysql_fetch_array($query)) {
+  echo&quot;&lt;tr&gt;
+    &lt;td width=\&quot;50%\&quot; style=\&quot;border-style: none; border-width: medium\&quot;&gt;
+&gt;&amp;nbsp;&lt;a href=\&quot;index.php?id=enlaces&amp;enl=&lt;?=$datos[id]?&gt;\&quot;&gt;&lt;?=$datos[nombre]?&gt;&lt;/a&gt;&lt;/td&gt;
+    &lt;td width=\&quot;50%\&quot; style=\&quot;border-style: none; border-width: medium\&quot;&gt;
+Visitas: &lt;b&gt;&lt;?=$datos[visitas]?&gt;&lt;/b&gt;&lt;/td&gt;
+  &lt;/tr&gt;&quot;;
+}
+&lt;/table&gt;
+}
+?&gt;
+[/codigo]
+
+Ahora debes crear el archivo que va a contar las veces que alguien ha visitado un enlace:
+
+[codigo]
+&lt;?
+include(&quot;config.php&quot;) ;
+$resp = mysql_query(&quot;select enlace from enlaces where id=$enl&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+if(mysql_num_rows($resp) != 0) {
+mysql_query(&quot;update enlaces set visitas=visitas+1 where id=$enl&quot;) ;
+header(&quot;location: $datos[enlace]&quot;) ;
+}
+else {
+echo &quot;No existe el enlace&quot; ;
+}
+?&gt;
+[/codigo]
+
+Ya que insertaste los enlaces ahora en tu web los enlaces deben ser del tipo:
+
+enlaces.php?enl=1
+
+Ejemplo de uso: http://www.tuweb.com/index.php?id=enlaces&amp;enl=[b]ID del Enlace[/b]
+[i]Como no podiamos definir ID dos veces he cambiado el ID por enl y así funcionará a la perfección.[/i]
+
+De esta forma cada vez que alguien haga click en el enlace se sumará una visita y se dirigirá a la página correspondiente.
+
+Script Original Extraido de la sección [b]CONTADORES[/b] creado por electros y enviado por phpmysql
+
+[b]Mejoras Creadas por NaVeDa, las mejoras son:
+
+- Nuevo campo en la tabla enlaces
+- Nuevo Campo en el formulario de envio
+- Página para ver los enlaces
+- Cambio en los Links
+
+Espero que os sirvan de mucho ;)[/b]

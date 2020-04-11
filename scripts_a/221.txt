@@ -1,0 +1,7 @@
+Mod que supera a descargasplus (viene con un sistema de descargas de ficheros .zip) y enlacesplus simple, biene con un buscador incluido y es un perfecto sistema de enlaces sin mysql con secciones y subsecciones ilimitadas, una verdadera joya.
+
+Para verlo en funcionamiento entrar a 
+http://www.elcidop.com/enlaces/
+
+Estoy actualmente mejorando el script aqui teneis una version beta (solo de pruebas) por si quereis descargarla
+http://www.elcidop.com/enlaces/enlaces%20con%20numero.zip

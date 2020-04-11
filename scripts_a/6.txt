@@ -1,0 +1,39 @@
+Para mostrar la fecha, se requiere pedir el valor de la fecha en números, ya después nosotros le asignamos a cada número el valor en texto.
+
+[codigo]&lt;?
+$diassemana = array(&quot;Domingo&quot;,&quot;Lunes&quot;,&quot;Martes&quot;,&quot;Miércoles&quot;,&quot;Jueves&quot;,&quot;Viernes&quot;,
+&quot;Sábado&quot;) ;
+$mesesano = array(&quot;Enero&quot;,&quot;Febrero&quot;,&quot;Marzo&quot;,&quot;Abril&quot;,&quot;Mayo&quot;,&quot;Junio&quot;,&quot;Julio&quot;,
+&quot;Agosto&quot;,&quot;Septiembre&quot;,&quot;Octubre&quot;,&quot;Noviembre&quot;,&quot;Diciembre&quot;) ;
+$diasemana = date(w) ;
+$diames = date(j) ;
+$mesano = date(n) - 1 ;
+$ano = date(Y) ;
+$fechadehoy = &quot;Hoy es $diassemana[$diasemana] $diames de $mesesano[$mesano] del $ano&quot; ;
+echo $fechadehoy ;
+?&gt;[/codigo]
+
+Lo primero que hacemos es crear un array con los días de la semana, como sabrán el array siempre empieza desde cero, al pedir el dia de la semana con [b]date(w)[/b], nos devuelve valores del 0 al 6 que equivalen a los días de la semana.
+
+De igual forma esto se hace con el mes, pero al pedir el mes con [b]date(n)[/b] nos devuelve valores del 1 al 12, y como el array comienza desde cero, lo que hacemos es restar 1 al valor del mes.
+
+Si el servidor donde tienes hospedada tu web es de otro país diferente al tuyo, el script te dirá la fecha de ese país pero no la del tuyo, para solucionar este problema sólo deben agregar el valor [b]$fecha[/b] usando el código [b]time()[/b] al cuál hay que restarle la diferencia de horas en segundos.
+
+Este es un ejemplo para mostrar la fecha de México estando en un servidor en España (mi caso jeje):
+
+[codigo]&lt;?
+$fecha = time() - 25200 ;
+?&gt;[/codigo]
+
+En el código debes modificar todos los [b]date()[/b] agregando la variable [b]$fecha[/b] de esta forma:
+
+[codigo]&lt;?
+$diasemana = date(w,$fecha) ;
+$diames = date(j,$fecha) ;
+$mesano = date(n,$fecha) - 1 ;
+$ano = date(Y,$fecha) ;
+?&gt;[/codigo]
+
+Como sabrán la diferencia de horas entre México y España es de 7 horas aproximadamente, por lo que le resto esto a la fecha en segundos.
+
+Para cualquier duda pueden entrar en el foro.

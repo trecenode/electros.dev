@@ -1,0 +1,1 @@
+Lo que tienes que hacer, es buscar alguna web, en la que poder transformar codigos javascript, a php. yo, e subido un archibo, comprimido en zip, que para ver los scripts de java, se tiene que descomprimir. Si ya sabes como hacerlo o donde, ya puedes empezar ;)

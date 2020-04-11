@@ -1,0 +1,20 @@
+Para saber el tiempo que le toma al servidor procesar una página PHP se puede obtener con este código:
+
+[codigo]&lt;?
+function tiempo() {
+list($a,$b) = explode(&quot; &quot;,microtime()) ;
+$tiempo = $b + $a ;
+return $tiempo ;
+}
+$tiempo_a = tiempo() ;
+?&gt;[/codigo]
+
+Esto lo deben colocar al principio de todo el código, después justo en el final deben colocar lo siguiente, que sirve para mostrar el tiempo total:
+
+[codigo]&lt;?
+$tiempo_b = tiempo() ;
+$tiempo = round($tiempo_b - $tiempo_a,4) ;
+echo &quot;&lt;div align='center'&gt;Carga del servidor: &lt;b&gt;$tiempo&lt;/b&gt;&lt;/div&gt;&quot; ;
+?&gt;[/codigo]
+
+Si tienen comentarios y sugerencias pueden escribirlas aquí.

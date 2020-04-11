@@ -1,0 +1,190 @@
+Ahora se podrán enviar mensajes privados entre los usuarios de tu web.
+
+Primero debes crear la tabla en la base de datos, copia el siguiente código y pegalo en el phpMyAdmin en SQL:
+
+[codigo]create table mensajes (
+id smallint(5) unsigned not null auto_increment,
+nuevo tinyint(1) unsigned not null,
+fecha int(10) unsigned not null,
+remitente varchar(20) not null,
+destinatario varchar(20) not null,
+mensaje tinytext not null,
+primary key(id),
+index (destinatario)
+)[/codigo]
+
+Ahora debes crear el archivo mensajes.php con el siguiente código:
+
+[codigo]&lt;?
+include(&quot;ulogin.php&quot;) ;
+?&gt;
+&lt;p&gt;&lt;b&gt;Mensajes&lt;/b&gt;
+&lt;?
+include(&quot;config.php&quot;) ;
+if($mensaje == &quot;nuevo&quot;) {
+echo &quot;
+&lt;script&gt;
+function revisar() {
+if(formulario.destinatario.value.length == 0) { alert('Debes escribir un destinatario') ; return false ; }
+if(formulario.mensaje.value.length == 0) { alert('Debes escribir un mensaje') ; return false ; }
+if(formulario.mensaje.value.length &gt; 255) { alert('El mensaje supera los 255 caractéres') ; return false ; }
+}
+&lt;/script&gt;
+&lt;p&gt;&lt;b&gt;Nuevo&lt;/b&gt;
+&lt;p&gt;
+&lt;form name=formulario method=post action=mensajes.php onsubmit=&quot;return revisar()&quot;&gt;
+&lt;b&gt;Destinatario:&lt;/b&gt;&lt;br&gt;
+&lt;input type=text name=destinatario maxlength=20&gt;&lt;br&gt;
+&lt;b&gt;Mensaje:&lt;/b&gt;&lt;br&gt;
+&lt;textarea name=mensaje cols=30 rows=5&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=submit name=enviar value=Enviar&gt;
+&lt;/form&gt;
+&quot; ;
+}
+else {
+echo &quot;&lt;p&gt;&lt;a href=mensajes.php?mensaje=nuevo&gt;Nuevo mensaje&lt;/a&gt;&quot; ;
+}
+if($responder) {
+echo &quot;
+&lt;script&gt;
+function revisar() {
+if(formulario.destinatario.value.length == 0) { alert('Debes escribir un destinatario') ; return false ; }
+if(formulario.mensaje.value.length == 0) { alert('Debes escribir un mensaje') ; return false ; }
+if(formulario.mensaje.value.length &gt; 255) { alert('El mensaje supera los 255 caractéres') ; return false ; }
+}
+&lt;/script&gt;
+&lt;p&gt;&lt;b&gt;Responder&lt;/b&gt;
+&lt;p&gt;
+&lt;form name=formulario method=post action=mensajes.php onsubmit=&quot;return revisar()&quot;&gt;
+&lt;b&gt;Destinatario:&lt;/b&gt;&lt;br&gt;
+&lt;input type=text name=destinatario maxlength=20 value=&quot;$responder&quot;&gt;&lt;br&gt;
+&lt;b&gt;Mensaje:&lt;/b&gt;&lt;br&gt;
+&lt;textarea name=mensaje cols=30 rows=5&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=submit name=enviar value=Enviar&gt;
+&lt;/form&gt;
+&quot;;
+}
+if($borrar) {
+$usuario = $_COOKIE[&quot;unick&quot;] ;
+mysql_query(&quot;delete from mensajes where id='$borrar' and destinatario='$usuario'&quot;) ;
+echo &quot;&lt;p&gt;El mensaje ha sido borrado con éxito. Haz click &lt;a href=mensajes.php&gt;aquí&lt;/a&gt; para regresar.&quot; ;
+}
+else {
+if($enviar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$fecha = time() ;
+$destinatario = quitar($destinatario) ;
+$mensaje = quitar($mensaje) ;
+$resp = mysql_query(&quot;select id from usuarios where nick='$destinatario'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+if(mysql_num_rows($resp) == 0) {
+echo &quot;&lt;p&gt;Este usuario no existe en la base de datos. Haz click &lt;a href=javascript:history.back()&gt;aquí&lt;/a&gt; para regresar.&quot;;
+}
+else {
+$remitente = $_COOKIE[&quot;unick&quot;] ;
+mysql_query(&quot;insert into mensajes (fecha,destinatario,remitente,mensaje) values ('$fecha','$destinatario','$remitente','$mensaje')&quot;) ;
+echo &quot;&lt;p&gt;El mensaje ha sido enviado con éxito. Haz click &lt;a href=mensajes.php&gt;aquí&lt;/a&gt; para regresar.&quot; ;
+}
+mysql_free_result($resp) ;
+}
+else {
+$usuario = $_COOKIE[&quot;unick&quot;] ;
+$resp = mysql_query(&quot;select id from mensajes where destinatario='$usuario'&quot;) ;
+$mensajes = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+$mostrar = 5 ;
+if(!$desde) { $desde = 0 ; }
+$resp = mysql_query(&quot;select * from mensajes where destinatario='$usuario' order by id desc limit $desde,$mostrar&quot;) ;
+$desde = $desde + $mostrar ;
+if(mysql_num_rows($resp) == 0) { echo &quot;&lt;p&gt;No se encontraron mensajes.&quot; ; }
+else {
+echo &quot;
+&lt;p&gt;&lt;b&gt;Total de mensajes:&lt;/b&gt; $mensajes
+&lt;p&gt;
+&quot; ;
+while($datos = mysql_fetch_array($resp)) {
+$fecha = $datos[fecha] ;
+$mesesano = array(&quot;Enero&quot;,&quot;Febrero&quot;,&quot;Marzo&quot;,&quot;Abril&quot;,&quot;Mayo&quot;,&quot;Junio&quot;,&quot;Julio&quot;,&quot;Agosto&quot;,
+&quot;Septiembre&quot;,&quot;Octubre&quot;,&quot;Noviembre&quot;,&quot;Diciembre&quot;) ;
+$diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ; $hora = date(&quot;h:i A&quot;,$fecha) ;
+$fecha = &quot;$diames $mesesano[$mesano] $ano $hora&quot; ;
+echo &quot;
+&lt;table width=100% border=0 cellpadding=1 cellspacing=0&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;$datos[remitente]&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;&lt;div align=right&gt;&lt;b&gt;$fecha&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan=2&gt;$datos[mensaje]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan=2&gt;
+&lt;div align=right&gt;
+&lt;a href=&quot;mensajes.php?responder=$datos[remitente]&quot;&gt;Responder&lt;/a&gt; |
+&lt;a href=&quot;mensajes.php?borrar=$datos[id]&quot;&gt;Borrar&lt;/a&gt;
+&lt;/div&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;&lt;br&gt;
+&quot; ;
+if($datos[nuevo] == 0) {
+mysql_query(&quot;update mensajes set nuevo='1' where id='$datos[id]'&quot;) ;
+}
+}
+echo &quot;
+&lt;p align=right&gt;&lt;a href=mensajes.php?desde=$desde&gt;Siguientes $mostrar mensajes&lt;/a&gt;
+&quot; ;
+}
+mysql_free_result($resp) ;
+}
+}
+mysql_close($conectar) ;
+?&gt;[/codigo]
+
+Para mostrar si hay mensajes nuevos y cuántos son, debes poner el siguiente código por ejemplo en el menú para usuarios registrados:
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+$usuario = $HTTP_COOKIE_VARS[unick] ;
+$resp = mysql_query(&quot;select id from mensajes where nuevo='0' and destinatario='$usuario'&quot;) ;
+$mensajes = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+if($mensajes == 0) {
+?&gt;
+&lt;a href=&quot;mensajes.php&quot;&gt;Mensajes&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+&lt;?
+}
+else {
+?&gt;
+&lt;script&gt;
+function BlinkTxt() {
+texto = document.getElementsByTagName('blink');
+for (i=0; i&lt;texto.length; i++)
+if (texto[i].style.visibility=='hidden') {
+texto[i].style.visibility='visible';
+} else {
+texto[i].style.visibility='hidden';
+}
+setTimeout('BlinkTxt()',100);
+}
+onload=BlinkTxt;
+&lt;/script&gt;
+&lt;a href=&quot;mensajes.php&quot;&gt;&lt;blink&gt;Mensajes (&lt;? echo $mensajes ; ?&gt;)&lt;/blink&gt;&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+&lt;?
+}
+?&gt;[/codigo]
+
+Si no hay mensajes nuevos se muestra un enlace normal hacia el archivo mensajes.php, si llegará a haber un mensaje o más, se muestra un enlace con el número de mensajes recibidos y también se añade un efecto de brillo en javascript para que el usuario pueda ver con más facilidad cuando reciba mensajes nuevos.
+
+[b]Explicación de su uso[/b]
+
+Sólo debes crear un enlace hacia el archivo mensajes.php para que desde ahí puedan se puedan enviar, responder y borrar mensajes.
+
+Listo el sistema de Registro de usuarios está totalmente terminado, pronto habrá nuevos scripts como recuperación de contraseña y otros así, así que estén pendientes con los nuevos scripts que vaya agregando.
+
+Para cualquier duda pueden entrar en el [url=http://electros.webcindario.com/ver.php?id=foro]foro[/url].

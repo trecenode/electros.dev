@@ -1,0 +1,28 @@
+Este script sirve para conocer de donde provienen los visitates de nuestras paginas web.
+
+Pueden ver el script en funcionamiento aquí:
+http://raymondjavaxx.webcindario.com/main.php?modulo=linktracker
+
+Para instalar solo pones este codigo dentro de la pagina principal o portada.
+
+[codigo]&lt;?PHP
+//**********************
+//***Link Tracker 0.2***
+//***Raymondjavaxx******
+//**********************
+
+$url=$HTTP_REFERER;
+if ($url==&quot;&quot;)
+{
+	$url = &quot;Su computador&quot;;
+}
+$mes = explode(&quot;,&quot;,&quot;Ene,Feb,Mar,Abr,May,Jun,Jul,Ago,Sep,Oct,Nov,Dic&quot;);
+$fecha = date(&quot;d/&quot;).$mes[date(m)-1].date(&quot;/20y&quot;);
+$hora = date(&quot;H:i&quot;);
+$archivo = fopen(&quot;track.txt&quot;,a);
+fwrite($archivo,&quot;$fecha|$hora|$urln&quot;);
+fclose($archivo);
+
+?&gt;
+[/codigo]
+Descargas los demás archivos y lo subes a tu servidor.

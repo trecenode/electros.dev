@@ -1,0 +1,11 @@
+Bueno, aca tienen una encuesta en php sin mysql, el script lo saque de una pagina de internet y lo modifique un poquito xD.
+
+Para agregar opciones, tenes que ir a la pagina &quot;index.php&quot; y agregar esto: (donde dice &quot;Opcion A&quot; tanto en el value del radiobutton como en el texto se lo tenes que cambiar por lo que quieras) 
+[codigo]  &lt;p&gt; &lt;font color=&quot;#FFFFFF&quot; size=&quot;2&quot; face=&quot;Arial, Helvetica, sans-serif&quot;&gt; 
+    &lt;input type=&quot;radio&quot; name=&quot;voto&quot; value=&quot;Opción A&quot;&gt;
+    &lt;font color=&quot;#00FF00&quot;&gt;Opcion A&lt;/font&gt;&lt;/font&gt;&lt;/p&gt;[/codigo]
+
+
+El script lo pongo en un zip porque no lo voy a andar explicando, solo anda a index.php y agrega lo que te dije antes
+
+Salu2

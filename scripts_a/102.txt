@@ -1,0 +1,84 @@
+La forma de hacer la galeria es sencilla el codigo para hacerla es el siguiente, las esplicaciones estan en el codigo.
+
+Esta galeria Imagenes tipo galeria de minituras, de 5 en 5, imagen tamaño 80x80, se agrandan al abrirlas y en formato gif y jpg :
+
+[codigo]
+&lt;table width='100%' border='1' cellpadding='5' cellspacing='0' align='center' style='border: #757575 1 solid'&gt;
+&lt;tr&gt; 
+&lt;td width=&quot;57%&quot; height=&quot;7&quot; class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Imagen&lt;/b&gt;&lt;/td&gt;
+&lt;td class=&quot;tabla_subtitulo&quot;&gt;&lt;b&gt;Datos de la imagen&lt;/b&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;?php
+// Le damos valor a las variables de configuración
+$Config['Path'] = &quot;.&quot;; // Directorio donde stan los archivos a mostrar.
+$Config['Show'] = 5; // Numero de archivos a mostrar por páginas.
+
+$Show['5 Anteriores'] = 0; // Por defecto no se mostrara 5 Anteriores
+$Show['5 Siguientes'] = 0; // Por defecto no se mostrara 5 Siguientes
+
+if ($c == &quot;&quot;) $c = 0; // Si $c no tiene valor es porque es la primera vez que se visita la página.
+$dir = opendir($Config['Path']); // Abrimos el directorio donde estan los archivos
+$Plus = $c; // Le damos el valor de $c a $plus porque el valor de $c se perdera y lo necessitaremos mas tarde.
+
+while ($c &gt; 0 &amp;&amp; $elemento = readdir($dir)) // Mientras la variable $c sea mayor de 0 saltamos archivos.
+{
+$Show['5 Anteriores'] = 1;
+$c--;
+}
+
+$Counter = 0; // Ponemos a 0 el contador
+
+// Si es la primera vez que vez añadimos 2 filas, si no lo es se las quitamos.
+if ($Show['5 Anteriores'] == 0) $Counter=$Counter-2; else {
+$c = 2;
+while ($c &gt; 0 &amp;&amp; $elemento = readdir($dir)) // Mientras la variable $c sea mayor de 0 saltamos archivos.
+{
+$Show['5 Anteriores'] = 1;
+$c--;
+}
+}
+
+// Mostramos el numero de archivos que se tienen que mostrar por página.
+while (($Counter != $Config['Show']) &amp;&amp; ($elemento = readdir($dir)))
+{
+$Counter++;
+
+$elemento1 = strtolower($elemento); 
+if ((strpos($elemento1, &quot;.gif&quot;) &gt; 1) || (strpos($elemento1, &quot;.jpg&quot;) &gt; 1)) {
+
+// pasamos el tamaño del archivo a kb
+$tamano = filesize($elemento)/1024;
+$tamano = ceil($tamano) ; 
+?&gt;
+&lt;tr&gt; 
+&lt;td height='7' class=&quot;tabla_mensaje&quot;&gt;&lt;a href=&quot;&lt;?php echo $elemento ?&gt;&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;&lt;?php echo $elemento ?&gt;&quot; width=&quot;80&quot; height=&quot;80&quot; border=&quot;0&quot;&gt;&lt;/a&gt;
+&lt;/td&gt;
+&lt;td height='7' class='tabla_mensaje'&gt;Nombre : &lt;?php echo $elemento ?&gt;&lt;br&gt;
+Tamaño :&amp;nbsp;&lt;?php echo $tamano ; ?&gt; Kb &lt;/td&gt;
+&lt;/tr&gt;
+&lt;?php
+}
+}
+
+// Si sobran archivos pondremos el &quot;10 Siguientes&quot;
+if ($elemento = readdir($dir))
+{
+$Show['5 Siguientes'] = 1;
+}
+
+//Cerramos el directorio 
+closedir($dir); 
+?&gt;
+&lt;/table&gt;
+&lt;div align=&quot;right&quot;&gt; 
+&lt;?php
+// Mostraos si es necessario el &quot;10 Anteriores&quot; y &quot;10 Siguientes&quot;.
+if ($Show['5 Anteriores'] == 1) echo(&quot;&lt;a href=&quot;index.php?c=&quot;.($Plus-$Config['Show']).&quot;&quot;&gt;5 Anteriores | &lt;/a&gt;&quot;);
+if ($Show['5 Siguientes'] == 1) echo(&quot;&amp;nbsp;&lt;a href=&quot;index.php?c=&quot;.($Plus+$Config['Show']).&quot;&quot;&gt;5 Siguientes&lt;/a&gt;&lt;/p&gt;&quot;);
+?&gt;
+[/codigo]
+
+Podreis ver un ejemplo y el primer script en :
+http://recursosphp.iefactory.com/imagenes/
+si por el contrario lo que quereis es un directorio de archivos .zips en vez de imagenes pues esta otra url 
+http://recursosphp.iefactory.com/scripts/

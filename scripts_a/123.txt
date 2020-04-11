@@ -1,0 +1,17 @@
+[codigo]
+&lt;?php 
+function Edad($dob){ 
+// El formato es dd/mm/yy 
+list($d,$m,$y)=explode(&quot;/&quot;,$dob); 
+$hoy=mktime(0,0,0,date(&quot;d&quot;),date(&quot;m&quot;),date(&quot;Y&quot;)); 
+$cumple=mktime(0,0,0,&quot;$d&quot;,&quot;$m&quot;,&quot;$y&quot;); 
+$age=intval(($hoy-$cumple)/(60*60*24*365)); 
+return $age; 
+} 
+echo Edad(&quot;01/12/89&quot;); 
+?&gt; 
+[/codigo]
+
+
+
+Ven donde dice [b]&quot;echo Edad(&quot;01/12/89&quot;);[/b] ahi lo tienen que cambiar por su edad, si lo dejan ahi, te tiraria 14 años, que es mi edad.

@@ -1,0 +1,14 @@
+&lt;?php
+   if (!isset($PHP_AUTH_USER)) {
+      header('WWW-Authenticate: Basic realm=&quot;Acceso restringido&quot;');
+      header('HTTP/1.0 401 Unauthorized');
+      echo 'Authorization Required.';
+      exit;
+   }
+   else {
+      echo &quot;Ha introducido el nombre de usuario: $PHP_AUTH_USER&lt;br&gt;&quot;;
+      echo &quot;Ha introducido la contraseña: $PHP_AUTH_PW&lt;br&gt;&quot;;
+   }
+?&gt; 
+
+//SCRIPT COPIADO DE HTTP://WEBESTILO.COM

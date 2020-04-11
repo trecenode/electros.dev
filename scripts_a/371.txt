@@ -1,0 +1,19 @@
+Hola manes!
+
+Les presento el RenzNuke, una modificacion casi completa en la base de ElectrosNuke.
+
+Cuenta con:
+- Rbackup, respaldo de la base de datos.
+- Sistema de themes, con cambio de themes al estilo PHPnuke.
+- Cuenta con administracion via admin general y admins.
+- eNoticias con editor TinyMCE y envio de topicos.
+- Administrador de Menus, cambia al instante tus enlaces.
+
+Enlace de Descarga:
+- [url]http://www.etececlub.com/scripts/RenzNuke.rar[/url]
+
+Pagina Web Oficial donde encontrar themes, mods y demas (pronto):
+- [url]http://www.etececlub.com[/url]
+
+Imagen del Producto:
+[img]http://www.etececlub.com/images/media/renznuke.jpg[/img]

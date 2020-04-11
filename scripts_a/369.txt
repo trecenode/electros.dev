@@ -1,0 +1,6 @@
+Bueno pues navegando por el internet (foros del web) me encontre estos ejemplos sobre el uso de la tecnologia AJAX y ya que hay muy poco sobre este tema y varios somos los que deseamos emplear Ajax en nuestras webs me tome la libertad de publicarlos.
+
+El primer ejemplo muestra como almacenar datos en una base de datos sin recargar la pagina (3 archivos).
+En el segundo ejemplo se puede obserbar un PullDown, esto es el tipico selec que cuando selecionas una opcion en un segundo selec aparecen opciones varias de acuerdo a lo selecionado en el primer selec.
+
+Espero que les sirvan y que publiquen mas script de AJAX.

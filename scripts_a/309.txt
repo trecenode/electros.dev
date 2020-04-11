@@ -1,0 +1,17 @@
+&lt;html&gt;
+
+&lt;head&gt;
+&lt;meta name=&quot;GENERATOR&quot; content=&quot;Microsoft FrontPage 5.0&quot;&gt;
+&lt;meta name=&quot;ProgId&quot; content=&quot;FrontPage.Editor.Document&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=windows-1252&quot;&gt;
+&lt;title&gt;New Page 1&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;p align=&quot;center&quot;&gt;&lt;font style=&quot;FONT-WEIGHT: 700; FONT-SIZE: 8pt&quot; face=&quot;Verdana&quot;&gt;
+&lt;marquee onmouseover=&quot;this.stop()&quot; onmouseout=&quot;this.start()&quot; scrollAmount=&quot;3&quot; scrollDelay=&quot;50&quot; width=&quot;276&quot; height=&quot;17&quot;&gt;[pon aqui lo q quieras decir]&lt;/FONT&gt;&lt;/marquee&gt;&lt;/font&gt;&lt;/p&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;

@@ -1,0 +1,26 @@
+Lo que hace este script es mostrar en dos columnas el listado de un directorio
+
+[codigo] &lt;?
+// configuramos el directorio que queremos listar:
+$directorio = 'Poner el directorio a listar' ;
+$dir = opendir(&quot;$directorio&quot;) ;
+$parimpar = 0 ;
+echo &quot;&lt;table width=80%  border=1 cellspacing=0 cellpadding=0&gt;&quot; ;
+
+while ($file = readdir($dir)) { 
+ $parimpar++ ;
+
+ // evitamos q muestre los puntos de volver al directorio superior
+if ($file != &quot;.&quot; &amp;&amp; $file != &quot;..&quot;) { 
+
+//mostramos columnas
+   if($parimpar % 2 == 1) { echo &quot;&lt;tr&gt;&lt;td&gt; &lt;a href=&quot;$directorio/$file&quot;&gt;$file&lt;/a&gt; &lt;/td&gt;&quot; ; }
+   if($parimpar % 2 == 0) { echo &quot;&lt;td&gt; &lt;a href=&quot;$directorio/$file&quot;&gt;$file&lt;/a&gt; &lt;/td&gt;&lt;/tr&gt;&quot; ; }
+ } }
+
+// si el numero de archivos es impar añadimos esta columna para no descudrar la tabla
+ if($parimpar % 2 == 1) { echo &quot;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;/tr&gt;&quot; ; }
+
+echo &quot;&lt;/table&gt;&quot;; 
+closedir($dir); 
+?&gt;   [/codigo]

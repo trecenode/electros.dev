@@ -1,0 +1,46 @@
+Este Script me lo dió [b]ELECTROS[/b], y para que no se pierda en vano en el Foro, he decidido ponerlo en la seccion de Scripts.
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+// Número de usuarios a mostrar
+$mostrar = &quot;10&quot; ;
+$resp = mysql_query(&quot;select * from usuarios order by id desc limit $mostrar&quot;) ;
+echo &quot;
+Ultimos $mostrar usuarios registrados:&lt;br&gt;&lt;br&gt;
+&quot; ;
+while($datos = mysql_fetch_array($resp)) {
+echo &quot;
+$datos[nick]&lt;br&gt;
+&quot; ;
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;[/codigo]
+
+Yo, por ejemplo, lo he hecho separado.
+
+[b]Título del Menu[/b]
+
+[codigo]&lt;?
+$mostrar = &quot;10&quot; ; //Número de Usuarios a Mostrar
+echo &quot;
+Ultimos $mostrar usuarios registrados:&lt;br&gt;&lt;br&gt;
+&quot; ; ?&gt;[/codigo]
+
+[b]Mostrar Últimos Usuarios Registrados[/b]
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ; //Conexión a la base de datos
+$resp = mysql_query(&quot;select * from usuarios order by id desc limit $mostrar&quot;) ; //Busca en la BD en la tabla usuarios, por el orden del ID
+while($datos = mysql_fetch_array($resp)) {
+echo &quot;
+$datos[nick]&lt;br&gt;
+&quot; ;
+}
+mysql_free_result($resp) ; //Muestra  los resultados
+mysql_close($conectar) ; //Desconecta
+?&gt;[/codigo]
+
+[b]IMPORTANTE[/b]
+
+Recuerda que los 2 códigos de la forma en la que yo lo pongo, tiene que estar en la misma página ;)

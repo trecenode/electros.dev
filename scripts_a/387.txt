@@ -1,0 +1,6 @@
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;rsponde&lt;/title&gt;
+&lt;body&gt;como se puede aser ke al pasar el mouse por un hipervinculo se muestren las opciones&lt;/body&gt;
+&lt;/head&gt;
+&lt;/html&gt;

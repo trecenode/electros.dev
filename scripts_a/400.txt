@@ -1,0 +1,118 @@
+Buenas, este sistema de comentarios creado por mí, no tiene ningún misterio,
+solo son dos archivos: comentarios.php y comentarios.txt, e el que se basa
+el de php, para grabarlo en el txt y mostrarlo a la vez en la
+página php.
+Aquí dejo el código del comentarios.php:
+[codigo&lt;title&gt;Documento sin t&amp;iacute;tulo&lt;/title&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+&lt;!--
+#Layer1 {
+	position:absolute;
+	width:357px;
+	height:519px;
+	z-index:1;
+	left: 231px;
+	top: 7px;
+	background-color: #99FFFF;
+}
+.Estilo1 {
+	color: #FFFFFF;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.Estilo3 {color: #0099FF; font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
+.Estilo4 {color: #0099FF}
+body {
+	background-color: #3399CC;
+}
+#Layer2 {
+	position:absolute;
+	width:277px;
+	height:509px;
+	z-index:2;
+	left: 5px;
+	top: 0px;
+	background-color: #336699;
+}
+.Estilo6 {
+	font-size: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+--&gt;
+&lt;/style&gt;
+
+&lt;body&gt;
+&lt;div&gt;
+  &lt;div&gt;
+    &lt;div id=&quot;Layer1&quot;&gt;
+      &lt;div&gt;
+        &lt;table width=&quot;341&quot; border=&quot;1&quot;&gt;
+          &lt;tr&gt;
+            &lt;th height=&quot;45&quot; scope=&quot;col&quot;&gt;&lt;br /&gt;
+              &lt;form id=&quot;form1&quot; name=&quot;form1&quot; method=&quot;post&quot; action=&quot;&quot;&gt;
+                &lt;label&gt;&lt;span class=&quot;Estilo1&quot;&gt;&lt;br /&gt;
+                &lt;span class=&quot;Estilo4&quot;&gt;
+                &lt;?
+if(isset($tucomentario)) {
+$fp = fopen(&quot;comentarios.txt&quot;,&quot;a&quot;);
+
+fwrite($fp,&quot;&lt;b&gt;&quot;.nl2br($nombre).&quot;&lt;br&gt;&lt;/b&gt;&quot;); 
+fwrite($fp,&quot;&lt;b&gt;&quot;.nl2br($tucomentario).&quot;&lt;hr&gt;&quot;); 
+fclose($fp);
+?&gt;
+                &lt;?
+$nombre_archivo=(&quot;NOMBRE DEL ARCHIVO .PHP&quot;) //CAMBIAR!!
+?&gt;
+                &lt;/span&gt;&lt;span class=&quot;Estilo3&quot;&gt;Comentarios:&lt;/span&gt; &lt;br /&gt;
+                &lt;?
+		   readFile(&quot;NOMBRE DE ARCHIVO .TXT&quot;)#CAMBIAR!!
+				?&gt;
+&lt;br /&gt;
+                &lt;/label&gt;
+              &lt;/form&gt;            &lt;/th&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th height=&quot;219&quot; scope=&quot;row&quot;&gt;&lt;span class=&quot;Estilo1&quot;&gt;&lt;span class=&quot;Estilo4&quot;&gt;
+              nombre&lt;/span&gt;&lt;br /&gt;
+                &lt;input type=&quot;text&quot; name=&quot;textfield&quot; /&gt;
+            &lt;/span&gt;
+			
+			&lt;!--
+			function grabar (grabado)
+			
+			var inserta=.document.sistemadecomentarios.comeryes[&quot;tucomentario&quot;]
+			
+			inserta.value=inserta.value+grabado'';
+			
+			document.sistemadecomentarios.comeryes.focus();
+			
+			}
+			
+			--&gt;			&lt;/th&gt;
+          &lt;/tr&gt;
+          &lt;tr&gt;
+            &lt;th height=&quot;219&quot; scope=&quot;row&quot;&gt;&lt;span class=&quot;Estilo3&quot;&gt;tucomentario&lt;/span&gt;&lt;br /&gt;
+              &lt;form id=&quot;form2&quot; name=&quot;form2&quot; method=&quot;post&quot; action=&quot;&quot;&gt;
+                &lt;label&gt;
+                &lt;textarea name=&quot;textarea&quot;&gt;&lt;/textarea&gt;
+                &lt;/label&gt;
+              &lt;/form&gt;
+              &lt;br /&gt;
+              &lt;form id=&quot;form3&quot; name=&quot;form3&quot; method=&quot;post&quot; action=&quot;&quot;&gt;
+                &lt;label&gt;
+                &lt;input type=&quot;submit&quot; name=&quot;Submit&quot; value=&quot;Enviar&quot; /&gt;
+                &lt;/label&gt;
+              &lt;/form&gt;
+            &lt;br /&gt;
+            &lt;span class=&quot;Estilo6&quot;&gt;&lt;span class=&quot;Estilo5&quot;&gt;Powered by &lt;br /&gt;
+            &lt;a href=(&quot;http://alexkev.com/takgeatter/&quot;)Tak-Geatter&lt;a&gt;&lt;a href=&quot;http://alexkev.com/takgeatter/&quot;&gt;Tak-Geatter&lt;/a&gt;&lt;/span&gt;&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/table&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;[/codigo]
+
+Pero vamos, que os recomiendo que os lo descargueis mejor.
+Es mi primer script, solo he copiado la parte de los
+fwrite() que me llevo muy mal con eso...:S

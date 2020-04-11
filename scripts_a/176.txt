@@ -1,0 +1,66 @@
+funcion que detecta caracteres no deseado en una cadena de texto
+regresa verdadero al encontrar un caracter prohibido
+
+[codigo]
+&lt;?php
+function CharInvalido($strTextoEntrante){
+	$strCadena = trim($strTextoEntrante);
+	$iTam = strlen($strCadena);
+	$iLong = 1;
+	$iContador = 0;
+	//array con los numeros en asscii de los caracteres prohibidos
+	$arrayChr = array(
+		0 =&gt; 32, // espacio
+		1 =&gt; 33, // !
+		2 =&gt; 34, // &quot;
+		3 =&gt; 38, // &amp;
+		4 =&gt; 39, // '
+		5 =&gt; 40, // (
+		6 =&gt; 41, // )
+		7 =&gt; 42, // *
+		8 =&gt; 45, // -
+		9 =&gt; 46, // .
+		10 =&gt; 47, // /
+		11 =&gt; 58, // :
+		12 =&gt; 59, // ;
+		13 =&gt; 60, // &lt;
+		14 =&gt; 61, // =
+		15 =&gt; 62, // &gt;
+		16 =&gt; 63, // ?
+		17 =&gt; 91, // [
+		18 =&gt; 92, // 
+		19 =&gt; 93, // ]
+		20 =&gt; 94, // ^
+		21 =&gt; 123, // {
+		22 =&gt; 124, // |
+		23 =&gt; 125, // }
+		24 =&gt; 126  // ~
+					);
+	///aqui rompemos la cadena de texto para poder comparar letra x letra
+	while($iTam &gt;= $iLong){
+		$strChr = substr($strCadena, $iContador , $iLong);
+		//conviente en numero al caracter de la cadena
+		$strChr1 = ord($strChr);
+		//compara cada letra de la cadena con los carateres no autorizados
+		for($i=0;$i&lt;sizeof($arrayChr);$i++){
+			if($strChr1==$arrayChr[$i]){
+				$control=true;//si se encontro un caracter prohibido
+				break;//sale del for
+			}
+		}
+		if($control){
+			break;//sale del while
+		}
+		$iTam = strlen(substr($strCadena, $iContador));
+		$iContador = $iContador + $iLong;
+	}//end while
+	if($control){
+		return true;
+	}else{
+		return false;
+	}
+}
+?&gt;
+[/codigo]
+
+Puedes modificar la lista de caracteres, siempre y cuando respetes la secuencia numerica de los indices del array

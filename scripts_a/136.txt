@@ -1,0 +1,17 @@
+Este script de descargas, que he echo yo sin mysql..es un script parecido al de electros de eenlaces solo que funciona sin mysql y no tiene lo de las votaciones, pero de todas formas en un buen script.
+
+Para instalarlo solo poner chmod 777 a la carpeta donde se encuentra el script y luego subirlo, la contraseña para crear carpetas o secciones es 123456
+
+Un ejemplo del script es:
+http://usuarios.lycos.es/codigohtm/enlaces/
+
+tambien he cambiado el texto descargas por enlaces por lo que si quereis hacer un script de enlaces en vez de descargas solo teneis que hacer lo mismo que yo.
+
+Ahora las carpetas se ven en dos columnas por lo que queda mucho mejor y quitado el link ese que se veia en las categorias ej) antes se veia asin [b]php/[/b] ahora se ve asin [b]php[/b] . para los que ya los ayais descargado y querais actualizarlo es simplemente cambiar donde aparece lo de las carpetas y lo de las categorias nda mas.
+
+Si deseais tener este script pero con enlaces la url para descargarlo es
+http://www.tuarroba.net/elcidop/archivos/codigohtm/enlacesplus/
+http://www.tuarroba.net/elcidop/archivos/codigohtm/enlacesplus/enlacesplus.zip
+
+Y con subsecciones :
+http://www.tuarroba.net/elcidop/archivos/codigohtm/enlacesplus/enlacesplusconsubsecciones.zip

@@ -1,0 +1,111 @@
+Es un Script muy sencillo, como el que podeis encontrar en la Web de PHPMySql, pero éste incorpora las bases de datos.
+
+Explico sencillamente como lo hace.
+
+En la primera parte, envías el formulario, en el que coge tu nick de la cookie, etc..
+
+En la segunda parte borra todo el contenido de la tabla de mensajes publicos y despues envía los datos introducidos en el formulario.
+
+Es muy sencillo, pero puede resultar útil para poner mensajes en marquesinas, o de titulares, etc..etc..
+
+Bueno, no me enrollo más, aki está el código:
+
+
+[b] Introducir en una tabla de mysql [/b]
+
+[codigo]
+
+CREATE TABLE `mpublico_mensajes` (
+  `mensaje` varchar(255) NOT NULL default '',
+  `nick` varchar(40) NOT NULL default '',
+  `fecha` varchar(20) NOT NULL default '',
+  `ip` varchar(20) NOT NULL default '',
+  `msm` varchar(12) NOT NULL default ''
+) TYPE=MyISAM COMMENT='Tabla para el sistema de mensajes publicos';
+
+[/codigo]
+
+
+
+[b] Página número 1 [/b] - puedes llamarla como quieras, siempre y cuando cambies el nombre en la variable $pagina
+
+[codigo]
+&lt;?
+// SCRIPT BASADO EN EL DE PHPMYSQL
+//  HECHO EN MYSQL POR PC-Drivers
+
+// ---------------------
+// VARIABLES A MODIFICAR
+$pagina = &quot;env_msgpub.php&quot;; // Nombre de ésta página
+
+
+if ($env==&quot;&quot;) {
+
+// Sacamos la IP del usuario
+
+if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {  
+    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];  
+  }  
+  elseif (isset($_SERVER['HTTP_VIA'])) {  
+    $ip = $_SERVER['HTTP_VIA'];  
+  }  
+  elseif (isset($_SERVER['REMOTE_ADDR'])) {  
+    $ip = $_SERVER['REMOTE_ADDR'];  
+  }  
+  else {  
+    $ip = &quot;Desconocida&quot;;  
+  }  
+  $fecha= date(&quot;j-m-20y&quot;); // Sacamos la hora en formato dd-mm-y
+  ?&gt;
+&lt;div align=&quot;center&quot;&gt;
+  &lt;p&gt;&lt;strong&gt;Transmisi&amp;oacute;n de Mensaje P&amp;uacute;blico: &lt;/strong&gt;&lt;/p&gt;
+ &lt;form name=&quot;form1&quot; method=&quot;post&quot; action=&quot;&lt;? echo $pagina; ?&gt;?env=1&quot;&gt;
+    Nick: 
+    &lt;input name=&quot;nick&quot; type=&quot;text&quot; id=&quot;nick&quot;&gt;
+    &lt;br&gt;
+    Mensaje:
+    &lt;input name=&quot;mensaje&quot; type=&quot;text&quot; id=&quot;mensaje&quot; size=&quot;40&quot; maxlength=&quot;255&quot;&gt;
+  &lt;input name=&quot;ip&quot; type=&quot;hidden&quot; id=&quot;ip&quot; value=&quot;&lt;? echo $ip; ?&gt;&quot;&gt;
+    &lt;input name=&quot;msm&quot; type=&quot;hidden&quot; id=&quot;msm&quot; value=&quot;1&quot;&gt;
+  &lt;input name=&quot;fecha&quot; type=&quot;hidden&quot; id=&quot;fecha&quot; value=&quot;&lt;? echo $fecha; ?&gt;&quot;&gt;
+  &lt;br&gt;
+  &lt;br&gt;
+  &lt;input type=&quot;submit&quot; name=&quot;Submit&quot; value=&quot;Enviar&quot;&gt;
+  &lt;/form&gt;
+  &lt;p&gt;&lt;strong&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;? } else if ($env==&quot;1&quot;) {
+include (&quot;config.php&quot;);
+mysql_query(&quot;truncate table mpublico_mensajes&quot;) ; // Borramos todo el contenido de la tabla
+mysql_query(&quot;insert into mpublico_mensajes (mensaje,nick,ip,fecha,msm) values ('$mensaje','$nick','$ip','$fecha','$msm')&quot;) ; // Introducimos en la tabla el contenido del formulario
+} 
+?&gt;
+
+[/codigo]
+
+
+[b] Mostrar Resultados [/b]
+Ésto, puedes ponerlo donde quieras, siempre y cuando, pongas la conexión Mysql
+
+
+[codigo]
+
+&lt;?
+include (&quot;config.php&quot;);
+$u = &quot;1&quot;; // Hecho a lo rápido
+$resp = mysql_query(&quot;select * from mpublico_mensajes where msm='$u'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+$mensaje = $datos[mensaje];
+$mensaje = preg_replace(&quot;/(?&lt;!&lt;a href=&quot;)((http|ftp)+(s)?://[^&lt;&gt;s]+)/i&quot;,&quot;&lt;a class=texto_bansms href=&quot;\0&quot; target=&quot;_blank&quot;&gt;\0&lt;/a&gt;&quot;,$mensaje) ; // hace un link con enlaces que empiezen por http://
+?&gt;
+&lt;MARQUEE onMouseOver='stop()' onMouseOut='start()' scrollamount='5' width=&quot;100%&quot; height=10 align=&quot;middle&quot;&gt;
+&lt;b&gt;&lt;? echo $datos[nick]; ?&gt;&lt;/b&gt;: &lt;? echo $mensaje; ?&gt;
+&lt;/marquee&gt;
+
+[/codigo]
+
+
+Bueno, espero que haya sido de ayuda, pronto más Scripts por parte mía.
+
+Podeis ver mi proxima Web:
+http://www.aw.n0ne-gfx.net

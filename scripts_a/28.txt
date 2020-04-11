@@ -1,0 +1,215 @@
+Con este script podremos ver enlaces, agregar enlaces, la fecha del enlace, el informe de enlace roto y la pagina de inicio.
+
+consta de los siguientes archivos:
+
+[b]enlaces.php[/b] que es el archivo donde aparecen los enlaces
+
+[codigo]
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;enlaces&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div align=&quot;center&quot;&gt; 
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td height=&quot;68&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;br&gt;
+          &lt;a href=&quot;enlaces.php&quot;&gt;&lt;img src=&quot;web.gif&quot; alt=&quot;&quot; width=&quot;219&quot; height=&quot;42&quot; border=&quot;0&quot;&gt;&lt;/a&gt;&lt;br&gt;
+          &lt;br&gt;
+          &lt;font class=&quot;content&quot;&gt;[ &lt;a href=&quot;enlaces.php&quot;&gt;Indice&lt;/a&gt; | &lt;a href=&quot;envia.php&quot;&gt;Añadir 
+          Enlace&lt;/a&gt; ]&lt;br&gt;
+          &lt;br&gt;
+          &lt;/font&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt; 
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;div align=&quot;center&quot;&gt;
+          &lt;?php include(&quot;enlaces.txt&quot;); #aquí para cambiar la ruta del archivo que muestra las entradas 
+		 ?&gt;
+        &lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+  &lt;br&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+[/codigo]
+
+[b]envia.php[/b] que es el formulario para el envio de enlaces
+
+[codigo]
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Untitled Document&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;div align=&quot;center&quot;&gt; 
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td height=&quot;68&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;br&gt;
+          &lt;a href=&quot;enlaces.php&quot;&gt;&lt;img src=&quot;web.gif&quot; alt=&quot;&quot; width=&quot;219&quot; height=&quot;42&quot; border=&quot;0&quot;&gt;&lt;/a&gt;&lt;br&gt;
+          &lt;br&gt;
+          &lt;font class=&quot;content&quot;&gt;[ &lt;a href=&quot;enlaces.php&quot;&gt;Indice&lt;/a&gt; | &lt;a href=&quot;envia.php&quot;&gt;Añadir 
+          Enlace&lt;/a&gt; ]&lt;br&gt;
+          &lt;br&gt;
+          &lt;/font&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td&gt;&lt;div align=&quot;center&quot;&gt; 
+          &lt;?php
+print &quot;&lt;table width='75%' border='0' cellspacing='0'&gt;
+  &lt;form method='post' action='recibe.php' onsubmit='return error ()' name='myform' &gt;
+    &lt;tr&gt; 
+      &lt;td width='16%'&gt;Titulo&lt;/td&gt;
+      &lt;td width='84%'&gt;&lt;input name=titulo type=text id='titulo' maxlenght=30&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td height='23'&gt;url del archivo&lt;/td&gt;
+      &lt;td&gt;http:// 
+        &lt;input name=url type=text id=url2 maxlenght=30&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td height='23'&gt;Descripcion&lt;/td&gt;
+      &lt;td&gt;&lt;textarea name='descripcion' id='descripcion2'&gt;&lt;/textarea&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td height='23'&gt;Tu email&lt;/td&gt;
+      &lt;td&gt;&lt;input name=email type=text&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td height='23'&gt;Tu web&lt;/td&gt;
+      &lt;td&gt;Http:// 
+        &lt;input name=weburl type=text&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td height='23'&gt;&lt;input name='submit' type=submit value=Enviar&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;script&gt;
+                        function error (){
+                                if (document.myform.titulo.value == '') {
+                                        alert('Por favor, introduzca el titulo..');
+                                        document.myform.titulo.focus();
+                                        return false}
+                                if (document.myform.url.value == '') {
+                                        alert('Por favor, introduzca la url.');
+                                        document.myform.url.focus();
+                                        return false}
+								if (document.myform.descripcion.value == '') {
+                                        alert('Por favor, introduzca la descripcion.');
+                                        document.myform.descripcion.focus();
+                                        return false}
+                                
+
+                                else return getPermission();
+                        }
+
+&lt;/script&gt;
+  &lt;/form&gt;
+&lt;/table&gt;&lt;br&gt;&quot;;
+?&gt;
+        &lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+  &lt;br&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+[/codigo]
+
+[b]recibe.php[/b] es el archivo para procesar el envio de enlaces
+
+[codigo]
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Untitled Document&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;div align=&quot;center&quot;&gt; 
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td height=&quot;68&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;br&gt;
+          &lt;a href=&quot;enlaces.php&quot;&gt;&lt;img src=&quot;web.gif&quot; alt=&quot;&quot; width=&quot;219&quot; height=&quot;42&quot; border=&quot;0&quot;&gt;&lt;/a&gt;&lt;br&gt;
+          &lt;br&gt;
+          &lt;font class=&quot;content&quot;&gt;[ &lt;a href=&quot;enlaces.php&quot;&gt;Indice&lt;/a&gt; | &lt;a href=&quot;envia.php&quot;&gt;Añadir 
+          Enlace&lt;/a&gt; ]&lt;br&gt;
+          &lt;br&gt;
+          &lt;/font&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td&gt;&lt;div align=&quot;center&quot;&gt; 
+          &lt;?php
+$pvm = getdate();
+$archivo=&quot;enlaces.txt&quot;; #aquí para cambiar la ruta del archivo donde se guardan las entradas 
+$uusi=&quot;&lt;table width=75% border=0 cellspacing=0 &gt;
+  &lt;tr&gt; 
+    &lt;td height='10'&gt;&lt;a href='http://$url' target='_blank'&gt;$titulo&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=11&gt;&lt;b&gt;Descripción:&lt;/b&gt; $descripcion&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=23&gt;&lt;b&gt;Agregado el: &lt;/b&gt;$pvm[mday]-$pvm[mon]-$pvm[year]&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=23&gt;&lt;a href=http://$weburl target=new&gt;Página de Inicio&lt;/a&gt; | &lt;a href=mailto:$email?subject=hay_un_enlace_roto &gt;Informar 
+      de un enlace roto&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;br&gt;nn&quot;;
+$fp=fopen($archivo, &quot;r+&quot;);
+$vanha=fread($fp, filesize($archivo));
+fseek($fp, 0);
+fwrite($fp, &quot;${uusi}${vanha}&quot;);
+fclose($fp);
+
+
+print &quot;Enlace a&amp;ntilde;adido &lt;a href=enlaces.php&gt;regresar&lt;/a&gt;&quot;;
+?&gt;
+        &lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;div align=&quot;center&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+[/codigo]
+
+[b]enlaces.txt[/b] el archivo donde se guardan los enlaces, podemos moficarlo a nuestro gusto ya que es el primer enlace que se muestra
+
+[codigo]
+&lt;table width=75% border=0 cellspacing=0 &gt;
+  &lt;tr&gt; 
+    &lt;td height='10'&gt;&lt;a href='http://phpmysql.webcindario.com'target='_blank'&gt;Phpmysql&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=11&gt;&lt;b&gt;Descripción:&lt;/b&gt; scripts en php y mysql&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=23&gt;&lt;a href=http://phpmysql.webcindario.com target=new&gt;Página de 
+      Inicio&lt;/a&gt; | &lt;a href=mailto:elcidop@galeon.com?subject=hay_un_enlace_roto &gt;Informar 
+      de un enlace roto&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+[/codigo]
+
+Y por ultimo necesitaremos una imagen, que guardaremos junto a los demas fichero (boton derecho rato, guardar imagen como..)
+
+[b]web.gif[/b]
+[img]http://elcidop.webcindario.com/modules/Web_Links/images/web.gif[/img]
+
+Sistema de enlaces_sin_mysql by www.phpmysq.tk and www.elcidop.tk

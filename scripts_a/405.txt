@@ -1,0 +1,16 @@
+[b]Introducción[/b]
+
+Después de mucho tiempo puedo anunciarles que ya está disponible la nueva versión de eForo, eForo v3.1. Para evitar problemas he decidido lanzarlo como una versión RC (Release Candidate), si no produce problemas o estos son reportados oportunamente, podré lanzar la versión definitiva. 
+
+[b]Instalación/actualización[/b]
+
+Las instrucciones están contenidas y detalladas en el archivo leeme.html, descomprime la carpeta en tu disco duro y sigue las instrucciones.
+
+Cualquier problema, comentario o sugerencia pueden escribirla aquí, en el foro o enviarme un correo desde aquí:
+
+[url]http://scalianza.electros.net/contacto.html[/url]
+
+Saludos.
+
+Electros
+Webmaster

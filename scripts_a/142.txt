@@ -1,0 +1,560 @@
+Bueno,siempre andaba preguntando por un sistema de descargas como este y me dispuse a hacerlo.RECORDAD QUE SOLO SE PODRAN VER LAS DESCARGAS SI SESTÁN REGISTRADOS:
+[b]BD[/b]
+[codigo]CREATE  TABLE descargas( id int( 11  )  NOT  NULL  AUTO_INCREMENT ,
+nombre text NOT  NULL ,
+descripcion longtext NOT  NULL ,
+autor text NOT  NULL ,
+link text NOT  NULL ,
+tamaño varchar( 30  )  NOT  NULL default  '',
+fecha int( 10  ) unsigned NOT  NULL default  '0',
+categoria tinyint( 1  ) unsigned NOT  NULL default  '0',
+puntos smallint( 5  ) unsigned NOT  NULL default  '0',
+votos smallint( 5  ) unsigned NOT  NULL default  '0',
+calificacion decimal( 3, 2  ) unsigned NOT  NULL default  '0.00',
+visitas smallint( 5  ) unsigned NOT  NULL default  '0',
+ PRIMARY  KEY ( id )  ) TYPE  =  MYISAM [/codigo]
+
+Ahora viene el código principal del sistema [b]descargas.php[/b]
+[codigo]&lt;?
+include(&quot;ulogin.php&quot;) ;
+include(&quot;config.php&quot;) ;
+if($_COOKIE[&quot;unick&quot;]) {
+if($e) {
+$resp = mysql_query(&quot;select urlsitio from descargas where id='$id'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+if(mysql_num_rows($resp) != 0) {
+mysql_query(&quot;update descargas set visitas=visitas+1 where id='$id'&quot;) ;
+?&gt;
+&lt;script&gt;window.open(&quot;&lt;? echo $datos[urlsitio] ?&gt;&quot;,'HomeMM','width=780,height=590,location=no,menubar=no,statusbar=yes,toolbar=no,scrollbars=yes,resizable=yes')&lt;/script&gt;
+&lt;?
+}
+else {
+echo &quot;No existe este enlace en la base de datos.&quot; ;
+}
+}
+if($calificar == &quot;si&quot;) {
+echo &quot;&lt;p&gt;&lt;b&gt;Has votado por el enlace.&lt;/b&gt;&quot; ;
+}
+if($calificar == &quot;no&quot;) {
+echo &quot;&lt;p&gt;&lt;b&gt;Sólo puedes votar una vez por día.&lt;/b&gt;&quot; ;
+}
+?&gt;
+  &lt;table border=&quot;1&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; style=&quot;border-collapse: collapse&quot; bordercolor=&quot;#FF0000&quot; id=&quot;AutoNumber1&quot; bgcolor=&quot;#111111&quot; width=&quot;100%&quot;&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;font color=&quot;#FF0000&quot; face=&quot;Verdana&quot; size=&quot;1&quot;&gt;[Total:&lt;?
+include(&quot;config.php&quot;) ;
+$resp = mysql_query(&quot;select count(*) as descargas from descargas&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+echo &quot;($datos[descargas])&quot; ;
+}
+?&gt;] [Categoría:&lt;? echo $descargas ?&gt;]&lt;/font&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;?
+if(isset($c)) {
+$clasificacion = array(&quot;Manuales&quot;,&quot;Paginas afiliadas&quot;,&quot;Programas&quot;,&quot;Humor&quot;,&quot;Internet&quot;,&quot;Pagina en webcindario&quot;,&quot;Paginas recomendadas&quot;,&quot;Servidores&quot;,&quot;Webmasters&quot;,&quot;Otro&quot;) ;
+?&gt;
+&lt;?
+$mostrar = 25 ;
+$resp = mysql_query(&quot;select id from descargas where categoria='$id'&quot;) ;
+$descargas = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+?&gt;
+&lt;p&gt;
+&lt;p&gt;
+&lt;p&gt;
+&lt;p&gt;
+&lt;p&gt;
+&lt;?
+if(!$desde) { $desde = 0 ; }
+$resp = mysql_query(&quot;select * from descargas where categoria='$id' order by titulo asc limit $desde,$mostrar&quot;) ;
+$desde = $desde + mostrar ;
+while($datos = mysql_fetch_array($resp)) {
+?&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;div align=&quot;center&quot;&gt;
+  &lt;center&gt;
+    &lt;table width=&quot;100%&quot; border=&quot;1&quot; cellpadding=&quot;3&quot; cellspacing=&quot;0&quot; bgcolor=&quot;#000000&quot; style=&quot;border-style:solid; background-position: 0% 0%; border-collapse:collapse; background-repeat:repeat; background-attachment:scroll&quot; bordercolorlight=&quot;#FF0000&quot; bordercolordark=&quot;#FF0000&quot; bordercolor=&quot;#FFFFFF&quot;&gt;
+      &lt;tr&gt;
+&lt;td&gt;
+&lt;a href=&quot;index.php?id=mirror&amp;id=&lt;? echo $datos[id] ?&gt;&quot; &gt;&lt;img src=&quot;http://recursosphp.iefactory.com/imagenes/untitled.gif&quot; width=&quot;16&quot; height=&quot;16&quot; border=&quot;0&quot; alt=&quot;&quot;&gt; &lt;? echo $datos[nombre] ?&gt;&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+&lt;table border=&quot;0&quot; cellpadding=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;/form&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;&lt;/center&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;?
+}
+mysql_free_result($resp) ;
+}
+else {
+?&gt;
+&lt;?
+$resp = mysql_query(&quot;select id from descargas where categoria=0&quot;) ;
+$id0 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=1&quot;) ;
+$c1 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=2&quot;) ;
+$id2 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=3&quot;) ;
+$id3 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=4&quot;) ;
+$id4 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=5&quot;) ;
+$id5 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=6&quot;) ;
+$id6 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=7&quot;) ;
+$id7 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=8&quot;) ;
+$id8 = mysql_num_rows($resp) ;
+$resp = mysql_query(&quot;select id from descargas where categoria=9&quot;) ;
+$id9 = mysql_num_rows($resp) ;
+?&gt;
+&lt;div align=&quot;center&quot;&gt;
+  &lt;center&gt;
+&lt;table width=&quot;100%&quot; border=&quot;1&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; bgcolor=&quot;#000000&quot; style=&quot;border-collapse: collapse&quot; bordercolor=&quot;#111111&quot;&gt;
+  &lt;tr&gt; 
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt;
+    &lt;img src=&quot;http://cibersound.webcindario.com/arrow.gif&quot; width=&quot;10&quot; height=&quot;9&quot;&gt;&lt;font size=&quot;2&quot; face=&quot;Verdana&quot;&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=0&quot;&gt;Trance/Progressive&lt;/a&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt; 
+      &lt;div align=&quot;center&quot;&gt;&lt;b&gt;&lt;? echo $c0 ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt;
+    &lt;img src=&quot;http://cibersound.webcindario.com/arrow.gif&quot; width=&quot;10&quot; height=&quot;9&quot;&gt;&lt;font size=&quot;2&quot; face=&quot;Verdana&quot;&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=5&quot;&gt;Hardhouse/Bumpin&lt;/a&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt; 
+      &lt;div align=&quot;center&quot;&gt;&lt;b&gt;&lt;span class=&quot;n&quot;&gt;&lt;? echo $c5 ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt;
+    &lt;img src=&quot;http://cibersound.webcindario.com/arrow.gif&quot; width=&quot;10&quot; height=&quot;9&quot;&gt;&lt;font size=&quot;2&quot; face=&quot;Verdana&quot;&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=6&quot;&gt;Remember&lt;/a&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt; 
+      &lt;div align=&quot;center&quot;&gt;&lt;b&gt;&lt;span class=&quot;n&quot;&gt;&lt;? echo $c6 ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt;
+    &lt;img src=&quot;http://cibersound.webcindario.com/arrow.gif&quot; width=&quot;10&quot; height=&quot;9&quot;&gt;&lt;font size=&quot;2&quot; face=&quot;Verdana&quot;&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=1&quot;&gt;Techno&lt;/a&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt; 
+      &lt;div align=&quot;center&quot;&gt;&lt;b&gt;&lt;span class=&quot;n&quot;&gt;&lt;? echo $c1 ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt; 
+      &lt;img src=&quot;http://cibersound.webcindario.com/arrow.gif&quot; width=&quot;10&quot; height=&quot;9&quot;&gt;&lt;font size=&quot;2&quot; face=&quot;Verdana&quot;&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=7&quot;&gt;House&lt;/a&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt; 
+      &lt;div align=&quot;center&quot;&gt;&lt;b&gt;&lt;span class=&quot;n&quot;&gt;&lt;? echo $c7 ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt;
+    &lt;img src=&quot;http://cibersound.webcindario.com/arrow.gif&quot; width=&quot;10&quot; height=&quot;9&quot;&gt;&lt;font size=&quot;2&quot; face=&quot;Verdana&quot;&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=2&quot;&gt;M&amp;aacute;kina/Hardcore&lt;/a&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt; 
+      &lt;div align=&quot;center&quot;&gt;&lt;b&gt;&lt;span class=&quot;n&quot;&gt;&lt;? echo $c2 ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt;
+    &lt;img src=&quot;http://cibersound.webcindario.com/arrow.gif&quot; width=&quot;10&quot; height=&quot;9&quot;&gt;&lt;font size=&quot;2&quot; face=&quot;Verdana&quot;&gt;&lt;a href=&quot;index.php?id=descargas&amp;c=9&quot;&gt;Sesiones 
+      amateur&lt;/a&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;b&gt;&lt;span class=&quot;n&quot;&gt;&lt;? echo $c9 ?&gt;&lt;/span&gt;&lt;/a&gt;&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;/center&gt;
+&lt;/div&gt;
+&lt;div align=&quot;center&quot;&gt; &lt;/div&gt;
+&lt;div align=&quot;center&quot; class=&quot;titulo&quot;&gt;&lt;br&gt;
+  &lt;table width=&quot;100%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; bgcolor=&quot;#111111&quot; style=&quot;border-collapse: collapse&quot; bordercolor=&quot;#111111&quot;&gt;
+    &lt;tr&gt;
+      &lt;td background=&quot;http://cibersound.webcindario.com/images/cellpic3.gif&quot;&gt; 
+        &lt;div align=&quot;center&quot;&gt;&lt;font face=&quot;Verdana&quot; size=&quot;1&quot; color=&quot;#FF0000&quot;&gt;
+          Buscador&lt;/font&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td background=&quot;http://cibersound.webcindario.com/images/modulos_fondo.jpg&quot;&gt;
+&lt;form method=&quot;post&quot; action=&quot;descargas.php&quot; form name=&quot;formulario&quot; &gt;
+          &lt;div style=&quot;position: absolute ; visibility: hidden&quot;&gt;
+            &lt;input type=&quot;text&quot; name=&quot;aaa&quot; size=&quot;20&quot;&gt;
+          &lt;/div&gt;
+          &lt;div align=&quot;center&quot;&gt;
+            &lt;input type=&quot;text&quot; name=&quot;palabras&quot; size=&quot;30&quot; maxlength=&quot;65&quot; class=&quot;form&quot;&gt;
+          &lt;/div&gt;
+          &lt;p align=&quot;center&quot;&gt; 
+            &lt;input type=&quot;submit&quot; name=&quot;buscar&quot; value=&quot;Buscar&quot; class=&quot;form &quot;&gt;
+        &lt;/form&gt;
+        &lt;?
+if($buscar) {
+include(&quot;config.php&quot;) ;
+$resp = mysql_query(&quot;select * from descargas where descripcion like '%$palabras%'&quot;) ;
+if(mysql_num_rows($resp) == 0) {
+echo &quot;No se encontraron resultados en la búsqueda.&quot; ;
+}
+else {
+while($datos = mysql_fetch_array($resp)) {
+echo &quot;
+&lt;table width='100%' border='0' cellpadding='5' cellspacing='0' style='border: #000000 1 solid ; background: #E6E6FF'&gt;
+  &lt;tr&gt; 
+    &lt;td width='75%' height='15'&gt;&lt;div&gt;&lt;img src='imagenes/buscar.gif' width='15' height='15'&gt; 
+        &lt;a href=descargas.php?e=$datos[id] target='_blank'&gt;$datos[titulo]&lt;/a&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;td width='25%'&gt;&lt;div align='right' class='titulo' style='font-size: 8pt'&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td colspan='2'&gt;$datos[descripcion]&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td width='100%' colspan='2'&gt; &lt;table width='100%' border='0' cellpadding='5' cellspacing='0'&gt;
+        &lt;tr&gt; 
+          &lt;td width='20%'&gt;&amp;nbsp;&lt;/td&gt;
+          &lt;td width='30%'&gt;&amp;nbsp;&lt;/td&gt;
+          &lt;td width='50%'&gt;&lt;div aling='right'&gt;&lt;b&gt;Enviada por:&lt;/b&gt; $datos[usuario]&lt;/div&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;&lt;br&gt;
+&quot; ;
+}
+}
+}
+?&gt;
+        &lt;div align=&quot;center&quot;&gt;&amp;nbsp;&lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/div&gt;
+&lt;div align=&quot;center&quot;&gt; &lt;/div&gt;
+&lt;p class=&quot;t1&quot; align=&quot;center&quot;&gt;&lt;font face=&quot;Verdana&quot; color=&quot;#FF0000&quot; size=&quot;1&quot;&gt;Enlace seleccionado aleatoriamente
+&lt;/font&gt;
+&lt;p&gt;
+&lt;?
+$resp = mysql_query(&quot;select * from descargas order by rand() limit 1&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+?&gt;
+&lt;?
+mysql_free_result($resp) ;
+?&gt;
+    &lt;table width=&quot;100%&quot; border=&quot;1&quot; cellpadding=&quot;3&quot; cellspacing=&quot;0&quot; bgcolor=&quot;#000000&quot; style=&quot;border-style:solid; background-position: 0% 0%; border-collapse:collapse; background-repeat:repeat; background-attachment:scroll&quot; bordercolorlight=&quot;#FF0000&quot; bordercolordark=&quot;#FF0000&quot; bordercolor=&quot;#FFFFFF&quot;&gt;
+      &lt;tr&gt;
+&lt;td&gt;
+&lt;a href=&quot;index.php?id=mirror&amp;id=&lt;? echo $datos[id] ?&gt;&quot; &gt;&lt;img src=&quot;http://recursosphp.iefactory.com/imagenes/untitled.gif&quot; width=&quot;16&quot; height=&quot;16&quot; border=&quot;0&quot; alt=&quot;&quot;&gt; &lt;? echo $datos[nombre] ?&gt;&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+&lt;table border=&quot;0&quot; cellpadding=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;/form&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p class=&quot;t1&quot; align=&quot;center&quot;&gt;&lt;font face=&quot;Verdana&quot; size=&quot;1&quot; color=&quot;#FF0000&quot;&gt;Ultimas 10 descargas
+&lt;/font&gt;
+&lt;p&gt;
+&lt;?
+$mostrar = 10 ;
+$resp = mysql_query(&quot;select * from descargas order by id desc limit $mostrar&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+?&gt;
+    &lt;table width=&quot;100%&quot; border=&quot;1&quot; cellpadding=&quot;3&quot; cellspacing=&quot;0&quot; bgcolor=&quot;#000000&quot; style=&quot;border-style:solid; background-position: 0% 0%; border-collapse:collapse; background-repeat:repeat; background-attachment:scroll&quot; bordercolorlight=&quot;#FF0000&quot; bordercolordark=&quot;#FF0000&quot; bordercolor=&quot;#FFFFFF&quot;&gt;
+      &lt;tr&gt;
+&lt;td&gt;
+&lt;a href=&quot;index.php?id=mirror&amp;id=&lt;? echo $datos[id] ?&gt;&quot; &gt;&lt;img src=&quot;http://recursosphp.iefactory.com/imagenes/untitled.gif&quot; width=&quot;16&quot; height=&quot;16&quot; border=&quot;0&quot; alt=&quot;&quot;&gt; &lt;? echo $datos[nombre] ?&gt;&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+&lt;table border=&quot;0&quot; cellpadding=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;/form&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;?
+}
+mysql_free_result($resp) ;
+?&gt;
+&lt;?
+}
+?&gt;
+&lt;?
+}
+else {
+?&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Documento sin t&amp;iacute;tulo&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;table width=&quot;100%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; style=&quot;border-collapse: collapse&quot; bordercolor=&quot;#FF0000&quot; bgcolor=&quot;#000000&quot;&gt;
+  &lt;tr&gt;
+    &lt;td background=&quot;images/modulos_fondo.jpg&quot;&gt;&lt;p&gt;&lt;font size=&quot;1&quot; face=&quot;Verdana&quot;&gt;
+    &lt;font color=&quot;#FF0000&quot;&gt;Est&amp;aacute;s 
+        intentando entrar en un &amp;aacute;rea restringida de la web.Si deseas entrar 
+        solo debes registrarte como usuario haciendo &lt;/font&gt; &lt;a href=&quot;index.php?id=uregistrar&quot;&gt;
+    &lt;font color=&quot;#FF0000&quot;&gt;click 
+        aqu&amp;iacute;.&lt;/font&gt;&lt;/a&gt;&lt;/font&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;font size=&quot;1&quot; face=&quot;Verdana&quot; color=&quot;#FF0000&quot;&gt;Si est&amp;aacute;s registrado ingresa aqu&amp;iacute; 
+        tus datos de usuario:&lt;/font&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;form method=&quot;post&quot; action=&quot;uentrar.php&quot;&gt;
+  &lt;font color=&quot;#FF0000&quot; size=&quot;1&quot; face=&quot;Verdana&quot;&gt;Nick:&lt;/font&gt;&lt;font size=&quot;1&quot; face=&quot;Verdana&quot; color=&quot;#FF0000&quot;&gt;&lt;br&gt;
+  &lt;input name=&quot;nick&quot; type=&quot;text&quot; class=&quot;form&quot; size=&quot;18&quot;&gt;&lt;/font&gt;&lt;font color=&quot;#FF0000&quot;&gt;&lt;font face=&quot;Verdana&quot; size=&quot;1&quot;&gt;
+  &lt;br&gt;
+  Contraseña:&lt;/font&gt;&lt;font size=&quot;1&quot; face=&quot;Verdana&quot;&gt;&lt;br&gt;
+  &lt;input name=&quot;contrasena&quot; type=&quot;password&quot; class=&quot;form&quot; size=&quot;18&quot;&gt;
+  &lt;br&gt;
+  &lt;/font&gt;&lt;/font&gt;
+  &lt;br&gt;
+  &lt;input type=&quot;submit&quot; name=&quot;entrar&quot; value=&quot;Entrar&quot; class=&quot;form&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;pagina&quot; value=&quot;&lt;? echo $_SERVER['REQUEST_URI'] ?&gt;&quot;&gt;
+&lt;/form&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?
+}
+?&gt;[/codigo]
+Ahora viene la información [b]mirror.php[/b]
+[codigo]&lt;?
+include(&quot;ulogin.php&quot;) ;
+include('config.php'); //incluimos el config.php que contiene los datos de la conexión a la db y la sesión
+if($_COOKIE[&quot;unick&quot;]) {
+if(!isset($id))
+{
+echo 'no se ha seleccionado ninguna descarga'; //  aqui comprovamos que seleccionamos alguna id 
+}else{
+//  nos cercionamos de que la id existe 
+$query=mysql_query(&quot;SELECT * FROM descargas WHERE id='$id' &quot;);
+if($datos=mysql_fetch_array($query) )
+{
+// ya esta todo comprobado, mostramos los datos 
+echo '&lt;br&gt;  ';
+
+echo '&lt;br&gt;&amp;nbsp;&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot; bgcolor=&quot;#FF0000&quot; style=&quot;border-collapse: collapse&quot; bordercolor=&quot;#111111&quot; height=&quot;1&quot;&gt;
+          &lt;tr&gt; 
+            &lt;td height=&quot;1&quot; bgcolor=&quot;#FF0000&quot;&gt; 
+            &lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; height=&quot;98&quot;&gt;
+                &lt;tr&gt; 
+                  &lt;td height=&quot;12&quot; bgcolor=&quot;#000000&quot;&gt;
+                  &lt;font color=&quot;#FF0000&quot; face=&quot;Verdana&quot; size=&quot;1&quot;&gt;&lt;b&gt;»&lt;/b&gt;
+&lt;strong style=&quot;font-weight: 400&quot;&gt;Nombre - &lt;b&gt;'.$datos[&quot;nombre&quot;].'&lt;/b&gt;&lt;/em&gt;&lt;/strong&gt; &lt;/strong&gt;&lt;/font&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td height=&quot;12&quot; bgcolor=&quot;#000000&quot;&gt;
+                  &lt;font color=&quot;#FF0000&quot; face=&quot;Verdana&quot; size=&quot;1&quot;&gt;&lt;b&gt;»&lt;/b&gt;
+&lt;strong style=&quot;font-weight: 400&quot;&gt;Descripcion - &lt;b&gt;'.$datos[&quot;descripcion&quot;].'&lt;/b&gt;&lt;/em&gt;&lt;/strong&gt; &lt;/strong&gt;&lt;/font&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td height=&quot;12&quot; bgcolor=&quot;#000000&quot;&gt;
+                  &lt;font color=&quot;#FF0000&quot; face=&quot;Verdana&quot; size=&quot;1&quot;&gt;&lt;b&gt;»&lt;/b&gt;
+&lt;strong style=&quot;font-weight: 400&quot;&gt;Tamaño - &lt;b&gt;'.$datos[&quot;tamaño&quot;].'&lt;/b&gt;&lt;/em&gt;&lt;/strong&gt; &lt;/strong&gt;&lt;/font&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td height=&quot;12&quot; bgcolor=&quot;#000000&quot;&gt;
+                  &lt;font color=&quot;#FF0000&quot; face=&quot;Verdana&quot; size=&quot;1&quot;&gt;&lt;b&gt;»&lt;/b&gt;
+&lt;strong style=&quot;font-weight: 400&quot;&gt;Uploader :  - &lt;b&gt;'.$datos[&quot;autor&quot;].'&lt;/b&gt;&lt;/em&gt;&lt;/strong&gt; &lt;/strong&gt;&lt;/font&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td height=&quot;12&quot; bgcolor=&quot;#000000&quot;&gt;
+                  &lt;font color=&quot;#FF0000&quot; face=&quot;Verdana&quot; size=&quot;1&quot;&gt;&lt;b&gt;» &lt;/b&gt;Fecha 
+                  &lt;b&gt;'.$datos[&quot;fecha&quot;].'&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td height=&quot;12&quot; bgcolor=&quot;#000000&quot;&gt;
+                  &lt;font color=&quot;#FF0000&quot; face=&quot;Verdana&quot; size=&quot;1&quot;&gt;&lt;b&gt;» &lt;/b&gt;Votos:&lt;b&gt;'.$datos[&quot;votos&quot;].'&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td height=&quot;12&quot; bgcolor=&quot;#000000&quot;&gt;
+                  &lt;font color=&quot;#FF0000&quot; face=&quot;Verdana&quot; size=&quot;1&quot;&gt;&lt;b&gt;» &lt;/b&gt;
+                  Calificacion:&lt;b&gt;'.$datos[&quot;calificacion&quot;].'&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td height=&quot;7&quot; bgcolor=&quot;#000000&quot;&gt;
+                  &lt;font color=&quot;#FF0000&quot; face=&quot;Verdana&quot; size=&quot;1&quot;&gt;&lt;b&gt;» &lt;/b&gt;Votar:
+&lt;select name=&quot;puntos&quot; class=&quot;form&quot; style=&quot;font-family: Verdana; font-size: 8pt; color: #FF0000; border: 1px outset #FF0000&quot;&gt;
+&lt;option value=&quot;1&quot;&gt;1
+&lt;option value=&quot;2&quot;&gt;2
+&lt;option value=&quot;3&quot;&gt;3
+&lt;option value=&quot;4&quot;&gt;4
+&lt;option value=&quot;5&quot; selected&gt;5
+&lt;option value=&quot;6&quot;&gt;6
+&lt;option value=&quot;7&quot;&gt;7
+&lt;option value=&quot;8&quot;&gt;8
+&lt;option value=&quot;9&quot;&gt;9
+&lt;option value=&quot;10&quot;&gt;10
+&lt;/select&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Calificar&quot; class=&quot;form&quot; style=&quot;font-family: Verdana; font-size: 8pt; color: #FF0000; border: 1px outset #FF0000&quot;&gt; 
+&lt;/td&gt;
+&lt;td height=&quot;14&quot; rowspan=&quot;2&quot;&gt;
+&lt;/form&gt;
+&lt;/font&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt; 
+                  &lt;td height=&quot;7&quot; bgcolor=&quot;#000000&quot;&gt;
+                  &lt;font color=&quot;#FF0000&quot; face=&quot;Verdana&quot; size=&quot;1&quot;&gt;&lt;b&gt;»[&lt;a href=&quot;'.$datos[&quot;link&quot;].'&quot;&gt;Download&lt;/a&gt;]&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/table&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/table&gt;';
+}else{
+echo 'la descargas seleccionada no existe';
+}
+} 
+
+?&gt;
+&lt;?
+}
+else {
+?&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Documento sin t&amp;iacute;tulo&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;table width=&quot;100%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; style=&quot;border-collapse: collapse&quot; bordercolor=&quot;#FF0000&quot; bgcolor=&quot;#000000&quot;&gt;
+  &lt;tr&gt;
+    &lt;td background=&quot;images/modulos_fondo.jpg&quot;&gt;&lt;p&gt;&lt;font size=&quot;1&quot; face=&quot;Verdana&quot;&gt;
+    &lt;font color=&quot;#FF0000&quot;&gt;Est&amp;aacute;s 
+        intentando entrar en un &amp;aacute;rea restringida de la web.Si deseas entrar 
+        solo debes registrarte como usuario haciendo &lt;/font&gt; &lt;a href=&quot;index.php?id=uregistrar&quot;&gt;
+    &lt;font color=&quot;#FF0000&quot;&gt;click 
+        aqu&amp;iacute;.&lt;/font&gt;&lt;/a&gt;&lt;/font&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;font size=&quot;1&quot; face=&quot;Verdana&quot; color=&quot;#FF0000&quot;&gt;Si est&amp;aacute;s registrado ingresa aqu&amp;iacute; 
+        tus datos de usuario:&lt;/font&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;form method=&quot;post&quot; action=&quot;uentrar.php&quot;&gt;
+  &lt;font color=&quot;#FF0000&quot; size=&quot;1&quot; face=&quot;Verdana&quot;&gt;Nick:&lt;/font&gt;&lt;font size=&quot;1&quot; face=&quot;Verdana&quot; color=&quot;#FF0000&quot;&gt;&lt;br&gt;
+  &lt;input name=&quot;nick&quot; type=&quot;text&quot; class=&quot;form&quot; size=&quot;18&quot;&gt;&lt;/font&gt;&lt;font color=&quot;#FF0000&quot;&gt;&lt;font face=&quot;Verdana&quot; size=&quot;1&quot;&gt;
+  &lt;br&gt;
+  Contraseña:&lt;/font&gt;&lt;font size=&quot;1&quot; face=&quot;Verdana&quot;&gt;&lt;br&gt;
+  &lt;input name=&quot;contrasena&quot; type=&quot;password&quot; class=&quot;form&quot; size=&quot;18&quot;&gt;
+  &lt;br&gt;
+  &lt;/font&gt;&lt;/font&gt;
+  &lt;br&gt;
+  &lt;input type=&quot;submit&quot; name=&quot;entrar&quot; value=&quot;Entrar&quot; class=&quot;form&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;pagina&quot; value=&quot;&lt;? echo $_SERVER['REQUEST_URI'] ?&gt;&quot;&gt;
+&lt;/form&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?
+}
+?&gt;[/codigo]
+Ahora viene el archivo que introduce los datos a la BD [b]insertar.php[/b]
+[codigo]&lt;?
+
+/****************************************************************
+ *                      eDescargas [v2.0]                        *
+ *                    -------------------                       *
+ *   autor                : Edudj                             *
+ *   pagina web           : http://www.cibersound.tk           *
+ *   fecha                : xxx                         *
+ *   copyright            : Copyright © cibersound's                 *
+ *   email                : [No desvelado]          *
+ *                                                              *
+ ***************************************************************/
+
+// esta archivo insertara los datos del formulario a la base de datos
+
+include('config.php'); //incluimos el config.php que contiene los datos de la conexión a la db
+
+
+
+//introducimos la descarga en la base de datos
+mysql_query(&quot;INSERT INTO descargas (nombre,autor,link,descripcion,tamaño,fecha) values ('$nombre','$autor','$link','$descripcion','$tamaño','$fecha') &quot;); 
+echo 'Descargas Ingresada con exito'; 
+
+
+?&gt;[/codigo]
+Ahora el formulario para añadirlas [b]downloadadd.php[/b]:
+[codigo]&lt;?
+include (&quot;config.php&quot;) ;
+if($enviar) {
+$fecha = time()  ;
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+$texto = str_replace(&quot;rn&quot;,&quot;&lt;br&gt;&quot;,$texto) ; 
+return $texto ;
+}
+$usuario = quitar($usuario) ;
+$titulo = quitar($titulo) ;
+$descripcion = quitar($descripcion) ;
+$categoria = quitar($categoria) ;
+$urlsitio = quitar($urlsitio) ;
+$urlminibanner = quitar($urlminibanner) ;
+if($urlsitio == &quot;http://&quot;) { $urlsitio = &quot;&quot; ; }
+if($urlminibanner == &quot;http://&quot;) { $urlminibanner = &quot;&quot; ; }
+mysql_query(&quot;insert into descargas (fecha,usuario,titulo,descripcion,categoria,urlsitio,urlminibanner,puntos,votos,calificacion)
+values ('$fecha','$usuario','$titulo','$descripcion','$categoria','$urlsitio','$urlminibanner','5','1','5')&quot;) ;
+echo &quot;El enlace ha sido agregado con éxito. Haz click &lt;a href=descargas.php&gt;aquí&lt;/a&gt; para regresar a descargas.&quot; ;
+}
+?&gt;
+&lt;div class='t1'&gt;Enviar Enlace&lt;/div&gt;
+&lt;br&gt;
+&lt;form method='post' action='insertar.php' name='formulario'  onsubmit='return revisar()'  &gt;
+  &lt;p&gt;
+    &lt;script&gt;
+function caracteres() {
+if( formulario.caracteres.value != formulario.descripcion.value.length) {
+formulario.caracteres.value = formulario.descripcion.value.length ;
+}
+setTimeout('caracteres()',200) ;
+}
+onload=caracteres ;
+function revisar() {
+if(formulario.descripcion.value.length &gt; 255) { alert('La descripcion supera los 255 caractéres.') ; return false ; }
+}
+    &lt;/script&gt;
+    &lt;script&gt; 
+function revisar() { 
+if(formulario.usuario.value.length == 0) { alert('Debes escribir el usuario.') ; return false ; }
+if(formulario.titulo.value.length == 0) { alert('Debes escribir un titulo.') ; return false ; }
+if(formulario.descripcion.value.length == 0) { alert('Debes escribir una descripcion .') ; return false ; } 
+if(formulario.urlsitio.value.length == 0) { alert('Debes escribir el enlace .') ; return false ; }
+} 
+    &lt;/script&gt;
+    &lt;b&gt;Usuario:&lt;/b&gt;&lt;br&gt;
+    &lt;input type='text' name='autor' size='30' maxlength='25' class='form'&gt;
+    &lt;b&gt;&lt;br&gt;
+    Título:&lt;/b&gt;&lt;br&gt;
+    &lt;input type='text' name='nombre' size='30' maxlength='70' class='form'&gt;
+    &lt;br&gt;
+    &lt;b&gt;Descripción:&lt;/b&gt;&lt;br&gt;
+    &lt;textarea name='descripcion' cols='30' rows='5' class='form' onkeypress='caracteres' &gt;&lt;/textarea&gt;
+    &lt;br&gt;
+    &lt;input type='text' name='caracteres' size='3' value='0' class='form' &gt;
+    Máximo 255 caractéres&lt;br&gt;
+    &lt;b&gt;Categoría:&lt;/b&gt;&lt;br&gt;
+    &lt;select name='categoria' class='form'&gt;
+      &lt;option value=&quot;0&quot;&gt;Trance/Progressive&lt;/option&gt;
+      &lt;option value=&quot;1&quot;&gt;Tecno&lt;/option&gt;
+      &lt;option value=&quot;2&quot;&gt;M&amp;aacute;kina/Hardcore&lt;/option&gt;
+      &lt;option value=&quot;5&quot;&gt;Hardhouse/Bumpin&lt;/option&gt;
+      &lt;option value=&quot;6&quot;&gt;Remember&lt;/option&gt;
+      &lt;option value=&quot;7&quot;&gt;House&lt;/option&gt;
+      &lt;option value=&quot;9&quot;&gt;Hardstyle&lt;/option&gt;
+    &lt;/select&gt;
+    &lt;br&gt;
+    &lt;b&gt;URL del sitio:&lt;/b&gt;&lt;br&gt;
+    &lt;input type='text' name='link' size='30' maxlenght='100' value='http://' class='form'&gt;
+    &lt;br&gt;
+    &lt;b&gt;URL del minibanner (88 x 31): *&lt;/b&gt;&lt;/p&gt;
+  &lt;p&gt;
+    &lt;b&gt;TAMAÑO:&lt;/b&gt;&lt;/p&gt;
+  &lt;p&gt;
+    &amp;nbsp;&lt;input type='text' name='tamaño' size='30' maxlenght='100' value='' class='form'&gt;&lt;br&gt;
+    &lt;input type='submit' name='enviar' value='Enviar' class='form'&gt;
+  &lt;/p&gt;
+&lt;/form&gt;[/codigo]
+
+Hay un solo error en todo el sistema,y es que el archivo mirror.php no se puede meter en el electrosnuke,nose si me explico,el enlace seria [b]index.php?id=mirror&amp;id=1[/b] y sale el [b]error.php[/b].Por favor,si alguien lo sabe que lo diga abajo en comentarios :) SALUDOS!!

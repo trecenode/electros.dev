@@ -1,0 +1,313 @@
+Lo ise por el propocito qué cuando los usuarios veían la lista de usuarios registrados salía en todos &quot;Masculinos&quot; y siendo que también hay mujeres... Tambien para no tener que entrar al uperfil.php para modificar tú edad, descripción, pais, sexo, sino qué ahora en el momento del registro.
+
+He modificado él archivo [b]uregistrar.php[/b] más completo que tiene:
+*Nick
+*Contraseña
+*E-Mail
+*Pais
+Edad
+Sexo
+Avatar
+Descripción
+
+Crear la tablas del usuario
+
+[codigo]CREATE TABLE usuarios (
+  id smallint(5) unsigned NOT NULL auto_increment,
+  fecha int(10) unsigned NOT NULL default '0',
+  nick varchar(20) NOT NULL default '',
+  contrasena varchar(20) NOT NULL default '',
+  email varchar(40) NOT NULL default '',
+  pais varchar(20) NOT NULL default '',
+  edad tinyint(2) unsigned NOT NULL default '0',
+  sexo tinyint(1) unsigned NOT NULL default '0',
+  descripcion tinytext NOT NULL,
+  ip varchar(15) NOT NULL default '',
+  avatar varchar(50) NOT NULL default '',
+  mensajes smallint(5) unsigned NOT NULL default '0',
+  PRIMARY KEY  (id),
+  KEY nick (nick,email)
+) [/codigo]
+
+
+Solo tienes que cambiar el código del [b]uregistrar.php[/b]
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+if($registrar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$nick = quitar($nick) ;
+$email= quitar($email) ;
+$sexo= quitar($sexo) ;
+$edad= quitar($edad) ;
+$pais= quitar($pais) ;
+$descripcion= quitar($descripcion) ;
+// Comprobar que el usuario existe en la base de datos
+$resp = mysql_query(&quot;select id from usuarios where nick='$nick' or email='$email'&quot;) ;
+if(mysql_num_rows($resp) != 0) {
+echo &quot;&lt;font size=2 face=Verdana, Arial, Helvetica, sans-serif&gt;Ya existe un usuario con ese 
+nick o email en la base de datos. Haz click &lt;a href=javascript:history.back()&gt;aquí&lt;/a&gt; 
+para regresar.&lt;/font&gt;&quot; ;
+}
+else {
+$fecha = time() ;
+$contrasena = quitar($contrasena) ;
+$ip = $REMOTE_ADDR ;
+mysql_query(&quot;insert into usuarios (fecha,nick,contrasena,email,ip,avatar,sexo,edad,descripcion,pais)
+values ('$fecha','$nick','$contrasena','$email','$ip','$avatar','$sexo','$edad','$descripcion','$pais')&quot;) ;
+echo &quot;&lt;font size=2 face=Verdana, Arial, Helvetica, sans-serif&gt;Has sido registrado con éxito. Haz click &lt;a href=index.php&gt;aquí&lt;/a&gt; para ir a la página principal.&lt;/font&gt;&quot; ;
+}
+}
+else {
+?&gt;
+                        &lt;p&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;Los 
+                          datos marcados con un asterisco (*) son obligatorios.&lt;/font&gt; 
+                          &lt;script&gt;
+function revisar() {
+if(formulario.nick.value.length &lt; 3) { alert('El nick debe contener por lo mínimo 3 caractéres') ; return false ; }
+if(formulario.contrasena.value.length &lt; 5) { alert('La contraseña debe contener por lo mínimo 5 caractéres') ; return false ; }
+if(formulario.email.value.length == 0) { alert('Debes poner un email válido') ; return false ; }
+if(formulario.pais.value.length == 0) { alert('Debes poner un país') ; return false ; }
+if(formulario.avatar.value.length == 0) { alert('Debes poner un avatar') ; return false ; }
+if(formulario.descripcion.value.length &gt; 255) { alert('La descripción supera los 255 caractéres.') ; return false ; }
+}
+&lt;/script&gt;
+&lt;SCRIPT type=&quot;text/javascript&quot;&gt;
+&lt;!--
+function showimage() {
+if (!document.images)
+return
+document.images.avatar.src=
+'avatares/' + document.formulario.avatar.options[document.formulario.avatar.selectedIndex].value
+}
+//--&gt;
+&lt;/SCRIPT&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;modulos.php?id=uregistrar&quot; onsubmit=&quot;return revisar()&quot;&gt;
+                          &lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;* 
+                          Nick:&lt;/font&gt;&lt;/b&gt;&lt;br&gt;
+                          &lt;input type=&quot;text&quot; name=&quot;nick&quot; maxlength=&quot;20&quot; class=&quot;form&quot; &gt;
+                          &lt;br&gt;
+                          &lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;* 
+                          Contraseña:&lt;/font&gt;&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+                          &lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;* 
+                          Email:&lt;/font&gt;&lt;/b&gt;&lt;br&gt;
+                          &lt;input type=&quot;text&quot; name=&quot;email&quot; maxlength=&quot;40&quot; class=&quot;form&quot; &gt;
+                          &lt;br&gt;
+                          &lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;*Pais:&lt;/font&gt;&lt;/b&gt;&lt;br&gt;
+                          &lt;input type=text name=pais maxlength=20 class=form&gt;
+                          &lt;br&gt;
+                          &lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;&lt;b&gt;Edad:&lt;/b&gt;&lt;/font&gt;&lt;br&gt;
+                          &lt;input type=text name=edad maxlength=2 size=10 class=form&gt;
+                          &lt;br&gt;
+                          &lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;Sexo:&lt;/font&gt;&lt;/b&gt;&lt;br&gt;
+                          &lt;select name=sexo class=form&gt;
+                            &lt;option value=0&gt;Masculino 
+                            &lt;option value=1$sexo&gt;Femenino 
+                          &lt;/select&gt;
+                          &lt;br&gt;
+                          &lt;br&gt;
+                          &lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;* 
+                          Avatar:&lt;/font&gt;&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;avatar&quot; onChange=&quot;showimage()&quot; class=&quot;form&quot; &gt;
+&lt;option value=&quot;defecto.gif&quot; selected&gt;defecto.gif&lt;/option&gt;
+&lt;option value=&quot;1.gif&quot;&gt;1.gif&lt;/option&gt;
+&lt;option value=&quot;2.gif&quot;&gt;2.gif&lt;/option&gt;
+&lt;option value=&quot;3.gif&quot;&gt;3.gif&lt;/option&gt;
+&lt;option value=&quot;4.gif&quot;&gt;4.gif&lt;/option&gt;
+&lt;option value=&quot;5.gif&quot;&gt;5.gif&lt;/option&gt;
+&lt;option value=&quot;6.gif&quot;&gt;6.gif&lt;/option&gt;
+&lt;option value=&quot;7.gif&quot;&gt;7.gif&lt;/option&gt;
+&lt;option value=&quot;8.gif&quot;&gt;8.gif&lt;/option&gt;
+&lt;option value=&quot;9.gif&quot;&gt;9.gif&lt;/option&gt;
+&lt;option value=&quot;10.gif&quot;&gt;10.gif&lt;/option&gt;
+&lt;option value=&quot;11.gif&quot;&gt;11.gif&lt;/option&gt;
+&lt;option value=&quot;12.gif&quot;&gt;12.gif&lt;/option&gt;
+&lt;option value=&quot;13.gif&quot;&gt;13.gif&lt;/option&gt;
+&lt;option value=&quot;14.gif&quot;&gt;14.gif&lt;/option&gt;
+&lt;option value=&quot;15.gif&quot;&gt;15.gif&lt;/option&gt;
+&lt;option value=&quot;16.gif&quot;&gt;16.gif&lt;/option&gt;
+&lt;option value=&quot;17.gif&quot;&gt;17.gif&lt;/option&gt;
+&lt;option value=&quot;18.gif&quot;&gt;18.gif&lt;/option&gt;
+&lt;option value=&quot;19.gif&quot;&gt;19.gif&lt;/option&gt;
+&lt;option value=&quot;20.gif&quot;&gt;20.gif&lt;/option&gt;
+&lt;option value=&quot;21.gif&quot;&gt;21.gif&lt;/option&gt;
+&lt;option value=&quot;22.gif&quot;&gt;22.gif&lt;/option&gt;
+&lt;option value=&quot;23.gif&quot;&gt;23.gif&lt;/option&gt;
+&lt;option value=&quot;24.gif&quot;&gt;24.gif&lt;/option&gt;
+&lt;option value=&quot;25.gif&quot;&gt;25.gif&lt;/option&gt;
+&lt;option value=&quot;26.gif&quot;&gt;26.gif&lt;/option&gt;
+&lt;option value=&quot;27.gif&quot;&gt;27.gif&lt;/option&gt;
+&lt;option value=&quot;28.gif&quot;&gt;28.gif&lt;/option&gt;
+&lt;option value=&quot;29.gif&quot;&gt;29.gif&lt;/option&gt;
+&lt;option value=&quot;30.gif&quot;&gt;30.gif&lt;/option&gt;
+&lt;option value=&quot;31.gif&quot;&gt;31.gif&lt;/option&gt;
+&lt;option value=&quot;32.gif&quot;&gt;32.gif&lt;/option&gt;
+&lt;option value=&quot;33.gif&quot;&gt;33.gif&lt;/option&gt;
+&lt;option value=&quot;34.gif&quot;&gt;34.gif&lt;/option&gt;
+&lt;/select&gt;
+&lt;br&gt;
+&lt;br&gt;
+                          &lt;img src=&quot;avatares/defecto.gif&quot; alt=&quot;&quot; name=&quot;avatar&quot;&gt; 
+                          &lt;br&gt;
+                          &lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;Descripción&lt;/font&gt;&lt;/b&gt; 
+                          &lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;:&lt;/font&gt;&lt;br&gt;
+                          &lt;textarea name=descripcion cols=30 rows=5 class=form style=&quot;font-family: verdana&quot;&gt;&lt;/textarea&gt;
+                          &lt;br&gt;
+&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;registrar&quot; value=&quot;Registrar&quot; class=&quot;form&quot;&gt;
+&lt;/form&gt;
+&lt;?
+}
+mysql_close($conectar) ;
+?&gt;[/codigo]
+
+
+[b]Uperfil.php[/b]
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+$usuario = $_COOKIE[&quot;unick&quot;] ;
+$resp = mysql_query(&quot;select * from usuarios where nick='$usuario'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+if($editarconfirmacion) {
+echo &quot;Tus datos han sido editados con éxito. Haz click &lt;a href=index.php&gt;aquí&lt;/a&gt; para regresar a la página principal.&lt;br&gt;&lt;br&gt;&quot; ;
+}
+// Si el campo de la edad es cero evitaremos que se muestre la edad
+if($datos[edad] == 0) { $edad = &quot;&quot; ; }
+else { $edad = $datos[edad] ; }
+// Se guarda el sexo con los valores 0 y 1 que es masculino y femenino respectivamente
+// Si el usuario seleccionó femenino (1), al momento de editar debe aparecer seleccionado
+if($datos[sexo] == 1) { $sexo = &quot; selected&quot; ; }
+// Mostrar la fecha en texto
+$fecha = $datos[fecha] ;
+$diassemana = array(&quot;Domingo&quot;,&quot;Lunes&quot;,&quot;Martes&quot;,&quot;Miércoles&quot;,&quot;Jueves&quot;,&quot;Viernes&quot;,&quot;Sábado&quot;) ;
+$mesesano = array(&quot;Enero&quot;,&quot;Febrero&quot;,&quot;Marzo&quot;,&quot;Abril&quot;,&quot;Mayo&quot;,&quot;Junio&quot;,&quot;Julio&quot;,&quot;Agosto&quot;,&quot;Septiembre&quot;,&quot;Octubre&quot;,&quot;Noviembre&quot;,&quot;Diciembre&quot;) ;
+$diasemana = date(w,$fecha) ; $diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diassemana[$diasemana] $diames de $mesesano[$mesano] del $ano&quot; ;
+//avatar Si el campo es cero evitaremos que se muestre la edad
+if($datos[avatar] == 0 ) { $avatar = &quot;defecto.gif&quot; ; }
+else { $avatar = $datos[avatar] ; }
+//avatar mostralo en el texto
+if($datos[avatar] == 1 ) { $avatar = &quot;1.gif&quot; ; }
+echo &quot;
+&lt;p class=titulo&gt;Perfil
+&lt;p&gt;&lt;b&gt;Usuario desde el:&lt;/b&gt; $fecha
+&lt;p&gt;En esta sección puedes editar tus datos de registro. Los campos con un asterisco (*) son obligatorios.
+&lt;script&gt;
+function revisar() {
+if(formulario.nick.value.length &lt; 3) { alert('El nick debe contener por lo mínimo 3 caractéres.') ; return false ; }
+if(formulario.pass.value.length &lt; 5) { alert('La contraseña debe contener por lo mínimo 5 caractéres.') ; return false ; }
+if(formulario.email.value.length == 0) { alert('Debes poner un email válido.') ; return false ; }
+if(formulario.descripcion.value.length &gt; 255) { alert('La descripción supera los 255 caractéres.') ; return false ; }
+}
+&lt;/script&gt;
+&lt;SCRIPT&gt;
+&lt;!--
+function showimage() {
+if (!document.images)
+return
+document.images.avatar.src=
+'avatares/' + document.formulario.avatar.options[document.formulario.avatar.selectedIndex].value
+}
+//--&gt;
+&lt;/SCRIPT&gt;
+&lt;form method=post name=formulario action=ueditar.php&gt;
+&lt;b&gt;* Nick:&lt;/b&gt;&lt;br&gt;
+&lt;input type=text name=nick maxlength=20 value=&quot;$datos[nick]&quot; class=form&gt;&lt;br&gt;
+&lt;b&gt;* contraseña:&lt;/b&gt;&lt;br&gt;
+&lt;input type=password name=contrasena maxlength=20 value=&quot;$datos[contrasena]&quot; class=form&gt;&lt;br&gt;
+&lt;b&gt;* Email:&lt;/b&gt;&lt;br&gt;
+&lt;input type=text name=email maxlength=20 value=&quot;$datos[email]&quot; class=form&gt;&lt;br&gt;
+&lt;b&gt;Pais:&lt;/b&gt;&lt;br&gt;
+&lt;input type=text name=pais maxlength=20 value=&quot;$datos[pais]&quot; class=form&gt;&lt;br&gt;
+&lt;b&gt;Edad:&lt;/b&gt;&lt;br&gt;
+&lt;input type=text name=edad maxlength=2 size=3 value=&quot;$edad&quot; class=form&gt;&lt;br&gt;
+&lt;b&gt;Sexo:&lt;/b&gt;&lt;br&gt;
+&lt;select name=sexo class=form&gt;
+&lt;option value=0&gt;Masculino
+&lt;option value=1$sexo&gt;Femenino
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Descripción:&lt;/b&gt;&lt;br&gt;
+&lt;textarea name=descripcion cols=30 rows=5 class=form style=&quot;font-family: verdana&quot;&gt;$datos[descripcion]&lt;/textarea&gt;
+&lt;br&gt;
+&lt;b&gt;Avatar&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;avatar&quot; onChange=&quot;showimage()&quot; class=&quot;form&quot; &gt;
+&lt;option value=&quot;$avatar&quot; selected&gt;$avatar&lt;/option&gt;
+&lt;option value=&quot;1.gif&quot;&gt;1.gif&lt;/option&gt;
+&lt;option value=&quot;2.gif&quot;&gt;2.gif&lt;/option&gt;
+&lt;option value=&quot;3.gif&quot;&gt;3.gif&lt;/option&gt;
+&lt;option value=&quot;4.gif&quot;&gt;4.gif&lt;/option&gt;
+&lt;option value=&quot;5.gif&quot;&gt;5.gif&lt;/option&gt;
+&lt;option value=&quot;6.gif&quot;&gt;6.gif&lt;/option&gt;
+&lt;option value=&quot;7.gif&quot;&gt;7.gif&lt;/option&gt;
+&lt;option value=&quot;8.gif&quot;&gt;8.gif&lt;/option&gt;
+&lt;option value=&quot;9.gif&quot;&gt;9.gif&lt;/option&gt;
+&lt;option value=&quot;10.gif&quot;&gt;10.gif&lt;/option&gt;
+&lt;option value=&quot;11.gif&quot;&gt;11.gif&lt;/option&gt;
+&lt;option value=&quot;12.gif&quot;&gt;12.gif&lt;/option&gt;
+&lt;option value=&quot;13.gif&quot;&gt;13.gif&lt;/option&gt;
+&lt;option value=&quot;14.gif&quot;&gt;14.gif&lt;/option&gt;
+&lt;option value=&quot;15.gif&quot;&gt;15.gif&lt;/option&gt;
+&lt;option value=&quot;16.gif&quot;&gt;16.gif&lt;/option&gt;
+&lt;option value=&quot;17.gif&quot;&gt;17.gif&lt;/option&gt;
+&lt;option value=&quot;18.gif&quot;&gt;18.gif&lt;/option&gt;
+&lt;option value=&quot;19.gif&quot;&gt;19.gif&lt;/option&gt;
+&lt;option value=&quot;20.gif&quot;&gt;20.gif&lt;/option&gt;
+&lt;option value=&quot;21.gif&quot;&gt;21.gif&lt;/option&gt;
+&lt;option value=&quot;22.gif&quot;&gt;22.gif&lt;/option&gt;
+&lt;option value=&quot;23.gif&quot;&gt;23.gif&lt;/option&gt;
+&lt;option value=&quot;24.gif&quot;&gt;24.gif&lt;/option&gt;
+&lt;option value=&quot;25.gif&quot;&gt;25.gif&lt;/option&gt;
+&lt;option value=&quot;26.gif&quot;&gt;26.gif&lt;/option&gt;
+&lt;option value=&quot;27.gif&quot;&gt;27.gif&lt;/option&gt;
+&lt;option value=&quot;28.gif&quot;&gt;28.gif&lt;/option&gt;
+&lt;option value=&quot;29.gif&quot;&gt;29.gif&lt;/option&gt;
+&lt;option value=&quot;30.gif&quot;&gt;30.gif&lt;/option&gt;
+&lt;option value=&quot;31.gif&quot;&gt;31.gif&lt;/option&gt;
+&lt;option value=&quot;32.gif&quot;&gt;32.gif&lt;/option&gt;
+&lt;option value=&quot;33.gif&quot;&gt;33.gif&lt;/option&gt;
+&lt;option value=&quot;34.gif&quot;&gt;34.gif&lt;/option&gt;
+&lt;/select&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;img src=&quot;avatares/$avatar&quot; name=&quot;avatar&quot; alt=&quot;&quot;&gt; &lt;br&gt;
+&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;editar&quot; value=&quot;Editar&quot; class=&quot;form&quot;&gt;
+&lt;/form&gt;
+&quot; ;
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;[/codigo]
+
+[b]ueditar.php[/b]
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+$usuario = $_COOKIE[&quot;unick&quot;] ;
+if($editar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$nick = quitar($nick) ;
+$contrasena = quitar($contrasena) ;
+$email = quitar($email) ;
+$pais = quitar($pais) ;
+$edad = quitar($edad) ;
+$avatar = quitar($avatar) ;
+$descripcion = quitar($descripcion) ;
+mysql_query(&quot;update usuarios set nick='$nick',contrasena='$contrasena',email='$email',pais='$pais',edad='$edad',
+sexo='$sexo',descripcion='$descripcion',avatar='$avatar' where nick='$usuario'&quot;) ;
+setcookie(&quot;unick&quot;,$nick,time()+7776000) ;
+header(&quot;location: modulos.php?id=uperfil&amp;editarconfirmacion=si&quot;) ;
+}
+mysql_close($conectar) ;
+?&gt;[/codigo]
+
+En el .zip están los avatares, uregistrar.php, uperfil.php y ueditar.php
+
+Espero que sea útil.

@@ -1,0 +1,44 @@
+Este Script es para que eligas el archivo que deseas ver coloreando el código del Mismo.
+
+Script By Aridane ;)
+
+
+[codigo]&lt;HTML&gt;
+&lt;BODY&gt;
+&lt;?
+function source($source)
+{
+    if (!file_exists($source)) {
+        return 1;
+    }
+    echo &quot;&lt;B&gt;$source&lt;HR&gt;&lt;FONT size=3&gt;&quot;;
+    show_source($source);
+    echo &quot;&lt;/font&gt;&lt;/B&gt;&lt;P&gt;&quot;;
+    echo &quot;&lt;A href=&quot;$source&quot;&gt;Ejecutar&lt;/a&gt;&lt;HR&gt;&quot;;
+    return 0;
+}
+
+if(isset($source)) {
+    source(basename($source));
+}
+?&gt;
+&lt;H2&gt;Introduzca el nombre del fichero a visualizar&lt;/H2&gt;
+&lt;FORM METHOD=&quot;GET&quot; ACTION=&quot;highlight.phtml&quot;&gt;
+Fichero: &lt;INPUT TYPE=&quot;TEXT&quot; NAME=&quot;source&quot; SIZE=&quot;30&quot; VALUE=&quot;&lt;? echo $source; ?&gt;&quot; &gt;
+&lt;INPUT TYPE=&quot;SUBMIT&quot; VALUE=&quot;Mostrar&quot;&gt;
+&lt;/FORM&gt;
+&lt;h2&gt;Seleccione un fichero&lt;/h2&gt;
+&lt;?
+$d = dir(&quot;.&quot;);
+// Crea una lista de los ficheros
+// del directorio
+while($entry=$d-&gt;read()) {
+    if(eregi(&quot;^[a-zA-Z].*..{1,4}&quot;, $entry) &amp;&amp;
+        !ereg(&quot;~$&quot;, $entry)) {
+        echo &quot;&lt;A HREF=&quot;$PHP_SELF?source=$entry&quot;&gt;$entry&lt;br&gt;&quot;;
+    }
+}
+$d-&gt;close();
+?&gt;
+&lt;/HTML&gt;
+&lt;/BODY&gt;[/codigo]

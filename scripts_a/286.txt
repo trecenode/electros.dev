@@ -1,0 +1,20 @@
+Con este script en todas tus paginas solo le saldra el pop-up 1 vez cada 2 visitas, esto ayuda a relajar un poco al visitante.
+Guardar el siguiente codigo en un archivo llamado popup.php:
+[codigo]&lt;?
+ob_start();
+if($_COOKIE['popup']==1){
+echo &quot;&lt;script language=\&quot;javascript\&quot; src=\&quot;http://www.impresionesweb.com/p/popup.php?.....\&quot;&gt;&lt;/script&gt;&quot;;
+setcookie(&quot;popup&quot;,&quot;2&quot;);
+} elseif($_COOKIE['popup']==2){
+setcookie(&quot;popup&quot;,&quot;1&quot;);
+} else {
+echo &quot;&lt;script language=\&quot;javascript\&quot; src=\&quot;http://www.impresionesweb.com/p/popup.php?......\&quot;&gt;&lt;/script&gt;&quot;;
+setcookie(&quot;popup&quot;,&quot;2&quot;);
+}
+ob_end_flush();
+?&gt;[/codigo]
+
+(Substituir: &quot;&lt;script language=\&quot;javascript\&quot; src=\&quot;http://www.impresionesweb.com/p/popup.php?......\&quot;&gt; &lt;/script&gt;&quot;; por tu codigo de pop-up)
+y hacer un include al principio de la pagina, es muy importante que se ponga este codigo antes de cualquier echo o cualquier salida de codigo, ya que sinó te dara error de cabezeras!
+
+Saludos y espero k os sirva

@@ -1,0 +1,109 @@
+Fuente: http://foro.elhacker.net/index.php/topic,26271.msg148650.html (actualmente no se si estara disponible)
+Autor: Cuantico (aparece en el foro nombrado antes)
+Tal y como esta aqui este Sistema de Afiliados crea links a otras webs estilo a este:
+[url=http://www.electros.net]Link de Ejemplo[/url]
+
+En primer lugar se crea esta tabla en el mysql:
+[codigo]CREATE TABLE afiliados (
+id int(10) auto_increment,
+nom varchar (255) NOT NULL,
+web text NOT NULL,
+lec int(10) NOT NULL,
+descripcion varchar(255) NOT NULL,
+entrantes int(10) NOT NULL,
+PRIMARY KEY (id)
+)[/codigo]
+
+El siguiente paso es crear el archivo  donde se veran los afiliados, [b]afiliados.php[/b]
+[codigo]&lt;?php
+include (&quot;conexion.php&quot;);
+$sql = &quot;SELECT * FROM afiliados&quot;;
+$resp = mysql_query ($sql);
+while ($row = mysql_fetch_array ($resp)) {
+echo &quot;&lt;a onMouseOver=\&quot;window.status='Descripción: &quot;.$row [&quot;descripcion&quot;].&quot; | Visitas Entrates: &quot;.$row [&quot;entrantes&quot;].&quot; | Visitas Salientes: &quot;.$row [&quot;lec&quot;].&quot;';return true\&quot; href=afiliado.php?id=&quot;.$row [&quot;id&quot;].&quot; target=_blank&gt;&quot;.$row [&quot;nom&quot;].&quot;&lt;/a&gt;&lt;br&gt;&quot;;
+}
+echo &quot;&lt;br&gt;&lt;br&gt; &lt;a href=\&quot;afiliate.php\&quot;&gt;Afiliate Aqui&lt;/a&gt;&quot;;
+?&gt;[/codigo]
+Ahora crearemos un archivo al cual nos llevara al pulsar sobre un afiliado, [b]afiliado.php[/b]
+[codigo]&lt;?php
+include(&quot;conexion.php&quot;);
+$sql = &quot;SELECT * FROM afiliados WHERE id LIKE '$id'&quot;;
+$resp = mysql_query($sql);
+$suma = mysql_query(&quot;select * from afiliados where id like $id&quot;,$conexion);
+$upd=mysql_fetch_array($suma);
+$lec=$upd[&quot;lec&quot;]+1;
+$update=mysql_query(&quot;Update afiliados Set lec=$lec Where id=$id&quot;,$conexion);
+
+while ($row = mysql_fetch_array($resp)) {
+$url = $row[&quot;web&quot;];
+$nombre = $row[&quot;nom&quot;];
+$salidas = $row[&quot;lec&quot;];
+$descripcion = $row [&quot;descripcion&quot;];
+$entradas = $row [&quot;entrantes&quot;];
+}
+?&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;refresh&quot; content=&quot;1;URL=&lt;?php echo &quot;$url&quot; ;?&gt;&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+Nombre: &lt;?php echo $nombre ?&gt;&amp;nbsp;&amp;nbsp;(&lt;?php echo $url ?&gt;)&lt;/font&gt;&lt;br&gt;
+Descripcion: &lt;?php echo $descripcion ?&gt;&lt;br&gt;
+Visitas salientes: &lt;?php echo $salidas ?&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Visitas entrantes: &lt;?php echo $entradas ?&gt;.&lt;/font&gt;&lt;br&gt;
+&lt;/body&gt;
+&lt;/html&gt;[/codigo]
+
+Ahora creamos el archivo donde los visitantes podran afiliar sus web, [b]afiliate.php[/b]
+[codigo]&lt;?php
+include (&quot;conexion.php&quot;);
+if ($nuevo) {
+$id = $_POST ['web'];
+$id2 = mysql_query (&quot;SELECT id FROM afiliados WHERE web LIKE '$id'&quot;,$conexion);
+mysql_query (&quot;SELECT * FROM afiliados&quot;);
+mysql_query (&quot;INSERT INTO afiliados (nom,web,descripcion) VALUES ('$nom','$web','$descripcion')&quot;,$conexion);
+echo &quot;Has sido agregado a la base de datos con exito &lt;img src=\&quot;http://www.elextremo.cl/smiley.gif\&quot;&gt;. Debes linkearnos a http://www.aquituweb.com/in.php?id=TUID. Puedes ver tu id en la sección de afiliados.&quot;;
+}
+else {
+?&gt;
+&lt;form action=afiliate.php action=&quot;post&quot;&gt;
+Ingresa el nombre de tu web: &lt;input type=text name=nom&gt;&lt;br&gt;
+Ingresa la url de tu web: &lt;input type=text name=web&gt;&lt;br&gt;
+Ingresa la descripcion de tu web: &lt;input type=text name=descripcion&gt;&lt;br&gt;
+&lt;input type=submit name=nuevo value=Registrar&gt;
+&lt;/form&gt;
+&lt;?
+}
+?&gt;[/codigo]
+
+Y por ultimo creamos el archivo encargado de contar las salidas y visitas de los afiliados, [b]in.php[/b]
+[codigo]&lt;?php
+include (&quot;conexion.php&quot;);
+$sql = &quot;SELECT * FROM afiliados WHERE id LIKE '$id'&quot;;
+$resp = mysql_query ($sql);
+$en = mysql_query (&quot;SELECT * FROM afiliados WHERE id LIKE '$id'&quot;,$conexion);
+$upd = mysql_fetch_array ($en);
+$entrantes = $upd [&quot;entrantes&quot;]+1;
+$update = mysql_query (&quot;UPDATE afiliados SET entrantes = $entrantes WHERE id LIKE '$id'&quot;,$conexion);
+while ($row = mysql_fetch_array ($resp)) {
+$entrantes = $row [&quot;entrantes&quot;];
+}
+echo &quot;Hola, la web &quot;.$row [&quot;nom&quot;].&quot; nos ha mandado $entrantes visitas :)&quot;;
+?&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;refresh&quot; content=&quot;1;URL=index.htm&quot;&gt;
+&lt;/head&gt;
+&lt;/html&gt;[/codigo]
+
+Siento no tenerlo para descargar.
+Recordar que para cambiar los nombres a los archios debeis cambiar los link que se encuentran en cada uno de estos.
+Espero que os sirva.
+
+-------------------------------------------------------------------------------------
+[b]&lt;&lt;MOD_1 by Blackswaats&gt;&gt; [/b]
+Una vez afiliada una web, aparecera un mensaje que te dira 
+&quot;Has sido agregado a la base de datos con exito &lt;img src=\&quot;http://www.elextremo.cl/smiley.gif\&quot;&gt;. Debes linkearnos a http://www.aquituweb.com/in.php?id=[b]TUID[/b]. Puedes ver tu id en la sección de afiliados&quot;
+Sustituyendo la parte en negrita por esto:
+[codigo]&lt;? echo $datos[id] ?&gt;[/codigo]
+Conseguiremos que en el mensaje en vez de aparecer la/s palabras &quot;tuid&quot; aparecera la direccion completa, con la id que tiene que poner en su web.
+-------------------------------------------------------------------------------------

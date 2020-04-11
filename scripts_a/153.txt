@@ -1,0 +1,70 @@
+Este es un tag board con mysql,pero solo ke funciona komo un java script por eso de los frames,ta chido,pero aun ta en version de prueba,aki le spongo el codigo y el archivo pa k le muevan si les gusta
+[codigo]&lt;?php
+/*
+###########################
+##  Octagon JS v1.0 Beta.##
+##      by               ##
+##        Mefisto        ##
+###########################
+*/
+require(&quot;config.php&quot;);
+$url =&quot;http://tuweb.com&quot;;#define la url esacta de tu web sin &quot;/&quot; al final
+$result=mysql_query(&quot;SELECT * FROM tag_beta ORDER BY id DESC limit 15&quot;);
+echo&quot;document.write(&quot;&lt;div style='text-align: left; height: 100px; width: 120px; overflow: auto;'&gt;&quot;);&quot;;
+echo&quot;document.write(&quot;&lt;table width=100% border=0 cellpadding=0 cellspacing=0&gt;&quot;);&quot;;
+while($row=mysql_fetch_array($result)){
+$row[msg]=str_replace(&quot;:D&quot;,&quot;&lt;img src=$url/ikon/risa.gif width=12 height=12&gt;&quot;,$row[msg]);
+$row[msg]=str_replace(&quot;:)&quot;,&quot;&lt;img src=$url/ikon/sonrisa.gif width=12 height=12&gt;&quot;,$row[msg]);
+$row[msg]=str_replace(&quot;(y)&quot;,&quot;&lt;img src=$url/ikon/bien.gif  width=12 height=12&gt;&quot;,$row[msg]);
+$row[msg]=str_replace(&quot;(b)&quot;,&quot;&lt;img src=$url/ikon/mal.gif  width=12 height=12&gt;&quot;,$row[msg]);
+$row[msg]=str_replace(&quot;:cool:&quot;,&quot;&lt;img src=$url/ikon/cool.gif  width=12 height=12&gt;&quot;,$row[msg]);
+$row[msg]=str_replace(&quot;8)&quot;,&quot;&lt;img src=$url/ikon/ojotes.gif width=12 height=12&gt;&quot;,$row[msg]);
+$row[msg]=str_replace(&quot;?)&quot;,&quot;&lt;img src=$url/ikon/duda.gif width=12 height=12&gt;&quot;,$row[msg]);
+$row[msg]=str_replace(&quot;:(&quot;,&quot;&lt;img src=$url/ikon/triste.gif width=12 height=12&gt;&quot;,$row[msg]);
+$row[msg]=str_replace(&quot;;)&quot;,&quot;&lt;img src=$url/ikon/ginando.gif width=12 height=12&gt;&quot;,$row[msg]);
+$row[msg]=str_replace(&quot;:p&quot;,&quot;&lt;img src=$url/ikon/lengua.gif width=12 height=12&gt;&quot;,$row[msg]);
+$row[msg]=str_replace(&quot;:llora:&quot;,&quot;$url/ikon/llorando.gif width=12 height=12&gt;&quot;,$row[msg]);
+$row[msg]=str_replace(&quot;:[&quot;,&quot;&lt;img src=$url/ikon/enojad.gif width=12 height=12&gt;&quot;,$row[msg]);
+if($row[url] == &quot;http://&quot;){
+$user=$row[name];}else{
+$user =&quot;&lt;a href='$row[url]' target='_blank'&gt;$row[name]&lt;/a&gt;&quot;;
+}//puedes modificar el color de los nombres o lo k kieras
+echo&quot;
+document.write(&quot;&lt;tr&gt;&lt;td class=casillas nowrap width=100%&gt;&lt;b&gt;&lt;font color=#ff0000 title='&quot;.date(&quot;d/m/Y&quot;,$row[hora]).&quot;'&gt;$user&lt;/font&gt;&lt;/b&gt;&lt;br/&gt;&quot;);
+document.write(&quot;$row[msg]&lt;/td&gt;&lt;/tr&gt;&quot;);
+&quot;;
+ }
+ echo&quot;document.write(&quot;&lt;/table&gt;&quot;);&quot;;
+ echo&quot;document.write(&quot;&lt;/div&gt;&quot;);&quot;;
+ if($_POST[&quot;name&quot;] &amp;&amp; $_POST[&quot;msg&quot;]){
+ $hora =time();
+ $ip=$REMOTE_ADDR;
+$inserta= mysql_query(&quot;INSERT INTO tag_beta(hora,name,msg,ip,url)VALUES
+ ('$hora','$_POST[name]','$_POST[msg]','$ip','$_POST[url]')&quot;);
+ header(&quot;location: $HTTP_REFERER&quot;);
+ }else{
+ }
+ ?&gt;
+function grabar(graba) { 
+
+var inserta=document.tag.elements[&quot;msg&quot;]; 
+
+inserta.value=inserta.value+graba+' '; 
+
+document.tag.msg.focus(); 
+
+}
+document.write(&quot;&lt;a href=javascript:grabar(':D')&gt;&lt;img src=&lt;? echo $url;?&gt;/ikon/risa.gif border=0 width=12 height=12&gt;&lt;/a&gt;&quot;);
+document.write(&quot;&lt;a href=javascript:grabar(':)')&gt;&lt;img src=&lt;? echo $url;?&gt;/ikon/sonrisa.gif border=0 width=12 height=12&gt;&lt;/a&gt;&quot;);
+document.write(&quot;&lt;a href=javascript:grabar('(y)')&gt;&lt;img src=&lt;? echo $url;?&gt;/ikon/bien.gif border=0 width=12 height=12&gt;&lt;/a&gt;&quot;);
+document.write(&quot;&lt;a href=javascript:grabar('(b)')&gt;&lt;img src=&lt;? echo $url;?&gt;/ikon/mal.gif border=0 width=12 height=12&gt;&lt;/a&gt;&quot;);
+document.write(&quot;&lt;a href=javascript:grabar(':cool:')&gt;&lt;img src=&lt;? echo $url;?&gt;/ikon/cool.gif border=0 width=12 height=12&gt;&lt;/a&gt;&quot;);
+document.write(&quot;&lt;a href=javascript:grabar('8)')&gt;&lt;img src=&lt;? echo $url;?&gt;/ikon/ojotes.gif border=0 width=12 height=12&gt;&lt;/a&gt;&quot;);
+document.write(&quot;&lt;a href=javascript:grabar('?)')&gt;&lt;img src=&lt;? echo $url;?&gt;/ikon/duda.gif border=0 width=12 height=12&gt;&lt;/a&gt;&quot;);
+document.write(&quot;&lt;a href=javascript:grabar(':(')&gt;&lt;img src=&lt;? echo $url;?&gt;/ikon/triste.gif border=0 width=12 height=12&gt;&lt;/a&gt;&quot;);
+document.write(&quot;&lt;a href=javascript:grabar(';)')&gt;&lt;img src=&lt;? echo $url;?&gt;/ikon/ginando.gif border=0 width=12 height=12&gt;&lt;/a&gt;&quot;);
+document.write(&quot;&lt;a href=javascript:grabar(':p')&gt;&lt;img src=&lt;? echo $url;?&gt;/ikon/lengua.gif border=0 width=12 height=12&gt;&lt;/a&gt;&lt;br/&gt;&quot;);
+document.write(&quot;&lt;a href=javascript:grabar(':llora:')&gt;&lt;img src=&lt;? echo $url;?&gt;/ikon/llorando.gif border=0 width=12 height=12&gt;&lt;/a&gt;&quot;);
+document.write(&quot;&lt;a href=javascript:grabar(':[')&gt;&lt;img src=&lt;? echo $url;?&gt;/ikon/enojado.gif border=0 width=12 height=12&gt;&lt;/a&gt;&quot;);
+document.write(&quot;&lt;form action='&lt;? echo $url;?&gt;/octagon.php.php' method='post' name=tag&gt;&lt;b&gt;Nick:&lt;/b&gt;&lt;/br&gt;&lt;input type=text value='Tu nick' name='name'&gt;&lt;br/&gt;&lt;b&gt;Mensaje:&lt;/b&gt;&lt;br/&gt;&lt;textarea name='msg'&gt;&lt;/textarea&gt;&lt;br/&gt;&lt;b&gt;Url:&lt;/b&gt;&lt;br/&gt;&lt;input name=url type=text value=http://&gt;&lt;br/&gt;&lt;input name=post type=submit id=post value=Enviar&gt;&lt;/form&gt;&quot;);
+[/codigo]

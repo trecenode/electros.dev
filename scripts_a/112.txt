@@ -1,0 +1,4 @@
+Lo primero es que este script no es mio , pero me parecio interesante ya que yo lo puse en mi web , aqui os lo dejo ;)
+
+Este  script es para que creeis un propio webRank (rankings de web ) en vuestra propia web podeis ver un ejemplo
+[url=http://deabidnet.webcindario.com/TOP/index.php]PINCHA AQUI PARA VER UN EJEMPLO DEL SCRIPT[/url]

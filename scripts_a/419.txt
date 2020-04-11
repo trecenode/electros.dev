@@ -1,0 +1,50 @@
+Para empezar, un agradecimiento a todas las personas que integran ELECTROS.NET , a 
+pesar de que no he hablado mucho que digamos (es mi primer MOD) xD siento mucha alegría ya que he logrado mucho en estos pocos dias =P . 
+
+[b]El Sistema es una modificaciòn del sistema de noticias de Electros o Electrosnuke =P[/b]
+
+Estoy haciendo un Nuke con todos los scripts que he encontrado, los he modificado y/o mejorado, y en otros casos &quot;reconstruirlos&quot; ya que muchos scripts parecen defectuosos. 
+
+Pero esto se verá próximamente en el &quot;Nuke8a v1.0&quot; ,lo tengo al 70% y calculo lanzarlo en el plazo máximo de una semana.Este MOD es una modificaciòn de El sistema de Noticias de Electros, y algunos scripts que encontrè por allì. 
+
+Me he preocupado de testearlo varias veces, instalando nuevamente el portal y puedo decir que funciona al 95% (no digo 100, por que serìa vanidad y nunca se sabe todo) . 
+
+El sistema es COMPLETAMENTE compatible con los portales de ElectrosNuke En cualquiera de sus versiones. 
+
+Le He agregado las imàgenes de los tòpicos de Renznuke para un ejemplo, uds pueden personalizarlo modificando los archivos respectivos.
+
+Si han realizado una modificaciòn a su sistema de noticias, hacerme avisar, y yo les publico una instalaciòn paso a paso, para no dañar su sistema actual.
+
+Un punto si les aviso, a la hora de probar la inserciòn de còdigo con las etiquetas &quot;codigo&quot; &quot;/codigo&quot; (entre corchetes) , me sale un error de llamada a la funciòn, sin embargo el script està bien. Imagino que es por que en el servidor local de mi casa, tengo la versiòn 3.2 de php , y dicha funciòn no està incluida(Supongo). Cualquier ayuda, se agradece.
+
+Bueno, instrucciones para este MOD: Noticias con imagen, caretos y avatar by SK_Arturo8a.
+
+1) Subir los ficheros noticias.php , noticiasenviar.php, creartablaimagen.php y creartablaimagen2.php a tu servidor.
+2) SUbir la carpeta &quot;topicos&quot; a &quot;eforo_imagenes/&quot; en tu servidon2) Reemplazar los antiguos archivos noticias.php y noticiasenviar.php por los nuevos (por favor, hacer un back up (copia) de los archivos antiguos por precaución, aunque no creo que sea necesario).
+3) Escribir en la barra de direcciones lo siguiente: &quot;http://www.tudominio.com/creartablaimagen.php&quot; y seguir la instrucción.
+4) Luego de creadas las tablas, eliminar los archivos creartablaimagen.php y creartablaimagen2.php.
+5) Ingresar a &quot;http://www.tudominio.com/index.php?id=noticiasenviar&quot; , para ver la prueba de inserción de noticia ^^
+6) Ingresar a &quot;http://www.tudominio.com/index.php?id=noticias&quot; para ver la noticia =P
+
+[b][u]CARACTERÍSTICAS[/u][/b]
+-Imagen a elegir al enviar noticia (se muestra en la parte derecha de la noticia)
+-Numero de Comentarios.
+-Autor de Noticia
+-Inclusión de Caretos en : Noticia,Noticia Extendida y Comentarios mediante tabla de inserción.
+-Inclusión de BBCode en: Noticia,Noticia Extendida y Comentarios mediante tabla de inserción.
+-Añadido BBCode:
+-Web 
+-Cursiva 
+-Centrado 
+-Subrayado
+-Se muestra avatar y nick en comentarios.
+
+^_^ Eso es todo por ahora, estoy trabajando en un editor HTML pero eso será más adelante.. =P.
+
+ Dudas y Sugerencias, Aquì mismo.
+
+Salu2!
+
+Arturo8a.
+
+http://htmasters.pandela.org

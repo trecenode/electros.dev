@@ -1,0 +1,16 @@
+Este es muy fácil de usar , solo coipar y pegar en la parte que mas quiera  .
+
+Para configurarlo : 
+$creacion = mktime(0,0,0,MES,DÍA,AÑO); 
+
+
+[codigo]&lt;?php 
+$creacion = mktime(0,0,0,10,15,2002); 
+$hoy = time(); 
+$resta = $hoy - $creacion; 
+$total = round($resta/86400); 
+echo &quot;$total días on-line&quot;; 
+?&gt; [/codigo]
+
+
+Espero que esto le sirva a aqui :p

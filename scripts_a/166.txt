@@ -1,0 +1,420 @@
+Esto intentado hacer el registro de usuarios de electros para que funcione sin las bases de datos mysql, por el momento en este script tengo los archivos del registro de usuarios 1 2 3 4, y me falta el foro solo pero hay esta echo el resto.. si alguien se anima a colaborar que participe dejando su codigo en el foro http://electros.iefactory.com/foro.php?foroid=5&amp;temaid=2218 
+ o aki mismo asimismo su opinion para mejorar el el script.
+
+index.php
+
+[codigo]
+&lt;?
+include (&quot;menu.php&quot;);
+?&gt; 
+[/codigo]
+
+
+menu.php
+
+[codigo]
+&lt;?
+if($_COOKIE[&quot;ucnnick&quot;]) {
+// Incluimos la informacion sobre el usuario
+if(file_exists(&quot;usuarios/$_COOKIE[ucnnick].php&quot;)) {
+require (&quot;usuarios/$_COOKIE[ucnnick].php&quot;);
+}
+else
+{
+echo &quot;&lt;script&gt;location='salir.php'&lt;/script&gt;&quot; ;
+}
+?&gt; 
+Bienvenido &lt;b&gt;&lt;? echo $_COOKIE[&quot;ucnnick&quot;] ?&gt;&lt;/b&gt;&lt;br&gt;
+&lt;b&gt; &lt;/b&gt;&lt;br&gt;
+&lt;a href=&quot;perfil.php&quot;&gt;Perfil&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;usuarios.php&quot;&gt;Usuarios&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;pagina3.php&quot;&gt;Enlace 1&lt;/a&gt;&lt;br&gt;
+&lt;br&gt;
+&lt;a href=&quot;salir.php&quot;&gt;Salir&lt;/a&gt;&lt;br&gt;
+&lt;?
+}
+else {
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;entrar.php&quot;&gt;
+Nick:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;cnnick&quot;&gt;&lt;br&gt;
+Contraseña:&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;cnpass&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;entrar&quot; value=&quot;Entrar&quot;&gt;
+&lt;/form&gt;
+&lt;?
+}
+?&gt; 
+[/codigo]
+
+entrar.php
+
+[codigo]
+&lt;?
+if($entrar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$cnnick = quitar($cnnick) ;
+$cnpass = quitar($cnpass) ;
+
+if(file_exists(&quot;usuarios/$cnnick.php&quot;)) {
+require (&quot;usuarios/$cnnick.php&quot;);
+if($contrasena == md5($cnpass)) {
+setcookie(&quot;ucnnick&quot;,$cnnick,time()+7776000) ;
+setcookie(&quot;ucnpass&quot;,$cnpass,time()+7776000) ;
+header(&quot;location: index.php&quot;) ;
+}
+else {
+echo &quot;La contraseña es incorrecta. Haz click &lt;a href=javascript:history.back()&gt;aquí&lt;/a&gt; para regresar.&quot; ;
+}
+}
+else {
+echo &quot;Este usuario no existe en la base de datos.&quot; ;
+}
+}
+else {
+echo &quot;
+&lt;form method=post action=entrar.php&gt;
+&lt;b&gt;Nick:&lt;/b&gt;&lt;br&gt;
+&lt;input type=text name=cnnick maxlength=20&gt;&lt;br&gt;
+&lt;b&gt;Contraseña:&lt;/b&gt;&lt;br&gt;
+&lt;input type=cnpassword name=cnpass maxlength=20&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=submit name=entrar value=Entrar&gt;
+&lt;/form&gt;
+&quot; ;
+}
+?&gt; 
+[/codigo]
+
+login.php
+
+[codigo]
+&lt;?
+if(file_exists(&quot;usuarios/$_COOKIE[ucnnick].php&quot;)) {
+require (&quot;usuarios/$_COOKIE[ucnnick].php&quot;);
+}
+if($contrasena == $_COOKIE[ucnpass]) {
+setcookie(&quot;ucnnick&quot;) ;
+setcookie(&quot;ucnpass&quot;) ;
+echo &quot;&lt;script&gt;location='index.php'&lt;/script&gt;&quot; ;
+}
+?&gt;
+[/codigo]
+
+registrar.php
+
+[codigo]
+&lt;?
+if($registrar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$cnnick = quitar($cnnick) ;
+$cnemail= quitar($cnemail) ;
+// Comprobar que el usuario existe en la base de datos
+if(!file_exists(&quot;usuarios/&quot;)) { $dircrea = fopen(&quot;usuarios/&quot;,&quot;w&quot;); fwrite($dircrea, &quot;&quot;); fclose($dircrea); }
+if(file_exists(&quot;usuarios/$cnnick.php&quot;)) {
+echo &quot;Ya existe un usuario con ese nick o email en la base de datos. Haz click &lt;a href=javascript:history.back()&gt;aquí&lt;/a&gt; para regresar.&quot; ;
+}
+else {
+$cnfecha = time() ;
+$cncontrasena = md5($cncontrasena) ;
+$cnip = $REMOTE_ADDR ;
+
+$nuevo .= &quot;&lt;&quot;.&quot;?n&quot;;
+$nuevo .=&quot;$nick = &quot;$cnnick&quot;;n&quot;;
+$nuevo .=&quot;$contrasena = &quot;$cncontrasena&quot;;n&quot;;
+$nuevo .=&quot;$email = &quot;$cnemail&quot;;n&quot;;
+$nuevo .=&quot;$fecha = &quot;$cnfecha&quot;;n&quot;;
+$nuevo .=&quot;$ip = &quot;$cnip&quot;;n&quot;;
+$nuevo .=&quot;$sexo = &quot;&quot;;n&quot;;
+$nuevo .=&quot;$pais = &quot;$pais&quot;;n&quot;;
+$nuevo .=&quot;$edad = &quot;&quot;;n&quot;;
+$nuevo .=&quot;$descripcion = &quot;&quot;;n&quot;;
+$nuevo .= &quot;?&quot;.&quot;&gt;&quot;;
+
+$crea = fopen(&quot;usuarios/$cnnick.php&quot;,&quot;w&quot;);
+fputs($crea,$nuevo);
+fclose($crea);
+echo &quot;Has sido registrado con éxito. Haz click &lt;a href=index.php&gt;aquí&lt;/a&gt; para ir a la página principal.&quot; ;
+}
+}
+else {
+?&gt;
+&lt;p&gt;Los datos marcados con un asterisco (*) son obligatorios.
+&lt;script&gt;
+function revisar() {
+if(formulario.cnnick.value.length &lt; 3) { alert('El nick debe contener por lo mínimo 3 caractéres') ; return false ; }
+if(formulario.cncontrasena.value.length &lt; 5) { alert('La contraseña debe contener por lo mínimo 5 caractéres') ; return false ; }
+if(formulario.cnemail.value.length == 0) { alert('Debes poner un email válido') ; return false ; }
+}
+&lt;/script&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;registrar.php&quot; onsubmit=&quot;return revisar()&quot;&gt;
+&lt;b&gt;* Nick:&lt;/b&gt;&lt;br&gt;
+&lt;input name=&quot;cnnick&quot; type=&quot;text&quot; id=&quot;cnnick&quot; maxlength=&quot;20&quot;&gt;&lt;br&gt;
+&lt;b&gt;* Contraseña:&lt;/b&gt;&lt;br&gt;
+&lt;input name=&quot;cncontrasena&quot; type=&quot;password&quot; id=&quot;cncontrasena&quot; maxlength=&quot;20&quot;&gt;&lt;br&gt;
+&lt;b&gt;* Email:&lt;/b&gt;&lt;br&gt;
+&lt;input name=&quot;cnemail&quot; type=&quot;text&quot; id=&quot;cnemail&quot; maxlength=&quot;40&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;registrar&quot; value=&quot;Registrar&quot;&gt;
+&lt;/form&gt;
+&lt;?
+}
+?&gt; 
+[/codigo]
+
+usuarios.php
+
+[codigo]
+&lt;title&gt;Usuarios&lt;/title&gt;&lt;body&gt;
+&lt;?php
+if (!$u) {
+                                 // Le damos valor a las variables de configuración
+$Config['Path'] = &quot;usuarios/&quot;;         // Directorio donde stan los archivos a mostrar.
+$Config['Show'] = 20;             // Numero de archivos a mostrar por páginas.
+
+$Show['20 Anteriores'] = 0;        // Por defecto no se mostrara 10 Anteriores
+$Show['20 Siguientes'] = 0;        // Por defecto no se mostrara 10 Siguientes
+
+if ($c == &quot;&quot;) $c = 0;            // Si $c no tiene valor es porque es la primera vez que se visita la página.
+$dir = @opendir($Config['Path']);         // Abrimos el directorio donde estan los archivos
+$Plus = $c;                    // Le damos el valor de $c a $plus porque el valor de $c se perdera y lo necessitaremos mas tarde.
+
+while ($c &gt; 0 &amp;&amp; $elemento = @readdir($dir))        // Mientras la variable $c sea mayor de 0 saltamos archivos.
+{
+  $Show['20 Anteriores'] = 1;
+  $c--;
+}
+
+$Counter = 0;            // Ponemos a 0 el contador
+
+// Si es la primera vez que vez añadimos 2 filas, si no lo es se las quitamos.
+if ($Show['20 Anteriores'] == 0) $Counter=$Counter-2; else {
+  $c = 2;
+  while ($c &gt; 0 &amp;&amp; $elemento = @readdir($dir))        // Mientras la variable $c sea mayor de 0 saltamos archivos.
+  {
+   $Show['20 Anteriores'] = 1;
+   $c--;
+  }
+}
+
+// Mostramos el numero de archivos que se tienen que mostrar por página.
+while (($Counter != $Config['Show']) &amp;&amp; ($elemento = @readdir($dir)))
+{
+  $Counter++;
+  
+  $elemento1 = strtolower($elemento);
+  
+  if (strpos($elemento1, &quot;.php&quot;) &gt; 0 &amp;&amp; $elemento != &quot;index.php&quot;) {
+   // Asignamos el archivo sin extension
+   $elemento2 = str_replace(&quot;.php&quot;,&quot;&quot;,$elemento);
+   // Dia
+$diassemana = array(&quot;Domingo&quot;,&quot;Lunes&quot;,&quot;Martes&quot;,&quot;Miércoles&quot;,&quot;Jueves&quot;,&quot;Viernes&quot;,&quot;Sábado&quot;) ;
+$mesesano = array(&quot;Ene&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Abr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Ago&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dic&quot;) ;
+$diasemana = date(w,$fecha) ; $diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diassemana[$diasemana] $diames de $mesesano[$mesano] del $ano&quot; ;
+// Sexo
+if($sexo == 0) { $sexonumero = &quot;Masculino&quot; ; }
+else { $sexonumero = &quot;Femenino&quot; ; }
+// Edad
+if($edad == 0) { $edad = &quot;&quot; ; }
+else { $edad = $edad ; }
+?&gt; 
+&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;5&quot; style='border: #757575 1 solid'&gt;
+&lt;?
+if(file_exists(&quot;usuarios/$elemento2.php&quot;)) {
+require (&quot;usuarios/$elemento2.php&quot;);
+}
+?&gt;
+  &lt;tr bgcolor=&quot;#dddddd&quot;&gt; 
+    &lt;td&gt;&lt;strong&gt;Nick&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;strong&gt;Sexo&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;strong&gt;Pais&lt;/strong&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td&gt;&lt;a href=&quot;usuarios.php?u=&lt;?php echo $elemento2 ?&gt;&quot;&gt;&lt;? echo $elemento2 ?&gt;&lt;/a&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;? echo $sexonumero ?&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;? echo $pais ?&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;div align=&quot;right&quot;&gt;
+&lt;?php
+  }
+}
+  
+// Si sobran archivos pondremos el &quot;10 Siguientes&quot;
+if ($elemento = @readdir($dir))
+{
+  $Show['20 Siguientes'] = 1;
+}
+
+//Cerramos el directorio
+@closedir($dir);
+?&gt;
+&lt;?php
+// Mostraos si es necessario el &quot;10 Anteriores&quot; y &quot;10 Siguientes&quot;.
+if ($Show['20 Anteriores'] == 1) echo(&quot;&lt;a href=&quot;index.php?c=&quot;.($Plus-$Config['Show']).&quot;&amp;secciones=$secciones&quot;&gt;20 Anteriores | &lt;/a&gt;&quot;);
+if ($Show['20 Siguientes'] == 1) echo(&quot;&amp;nbsp;&lt;a href=&quot;index.php?c=&quot;.($Plus+$Config['Show']).&quot;&amp;secciones=$secciones&quot;&gt;20 Siguientes&lt;/a&gt;&lt;/p&gt;&quot;);
+}
+?&gt;
+&lt;/div&gt;
+&lt;? if ($u) {
+if(file_exists(&quot;usuarios/$u.php&quot;)) {
+require (&quot;usuarios/$u.php&quot;);
+}
+// Dia
+$diassemana = array(&quot;Domingo&quot;,&quot;Lunes&quot;,&quot;Martes&quot;,&quot;Miércoles&quot;,&quot;Jueves&quot;,&quot;Viernes&quot;,&quot;Sábado&quot;) ;
+$mesesano = array(&quot;Ene&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Abr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Ago&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dic&quot;) ;
+$diasemana = date(w,$fecha) ; $diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diassemana[$diasemana] $diames de $mesesano[$mesano] del $ano&quot; ;
+// Sexo
+if($sexo == 0) { $sexonumero = &quot;Masculino&quot; ; }
+else { $sexonumero = &quot;Femenino&quot; ; }
+// Edad
+if($edad == 0) { $edad = &quot;&quot; ; }
+else { $edad = $edad ; }
+?&gt;
+&lt;p&gt;&lt;b&gt;Usuario desde el:&lt;/b&gt; &lt;? echo $fecha ?&gt;
+&lt;p&gt;
+&lt;table width=100% border=0 cellpadding=5 cellspacing=0 style='border: #757575 1 solid'&gt;
+&lt;tr&gt;
+&lt;td width=&quot;34%&quot;&gt;&lt;b&gt;Nick:&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=&quot;66%&quot;&gt;&lt;? echo $nick ?&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;País:&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;? echo $pais ?&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Edad:&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;? echo $edad ?&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Sexo:&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;? echo $sexonumero ?&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Descripción:&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;? echo $descripcion ?&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;a href=usuarios.php&gt;Regresar a Usuarios&lt;/a&gt;
+&lt;?
+}
+?&gt;
+&lt;/body&gt;
+
+[/codigo]
+
+perfil.php
+
+[codigo]
+&lt;?
+include(&quot;login.php&quot;) ;
+?&gt;
+&lt;?
+if($editar) {
+
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$cnnick = quitar($cnnick) ;
+$url = quitar($url) ;
+$minibanner = quitar($minibanner) ;
+$cnpais = quitar($cnpais) ;
+$cnedad = quitar($cnedad) ;
+$cndescripcion = quitar($cndescripcion) ;
+
+$cnnick = $nick ;
+$cnfecha = time() ;
+$cnip = $REMOTE_ADDR ;
+if($cncontrasena == &quot;&quot;) { $cncontrasena = $contrasena ; }
+if($cncontrasena != &quot;&quot;) { $cncontrasena = md5($cncontrasena); }
+$cnemail = $email ;
+
+$edita .= &quot;&lt;&quot;.&quot;?n&quot;;
+$edita .=&quot;$nick = &quot;$cnnick&quot;;n&quot;;
+$edita .=&quot;$contrasena = &quot;$cncontrasena&quot;;n&quot;;
+$edita .=&quot;$email = &quot;$cnemail&quot;;n&quot;;
+$edita .=&quot;$fecha = &quot;$cnfecha&quot;;n&quot;;
+$edita .=&quot;$ip = &quot;$cnip&quot;;n&quot;;
+$edita .=&quot;$sexo = &quot;$cnsexo&quot;;n&quot;;
+$edita .=&quot;$pais = &quot;$cnpais&quot;;n&quot;;
+$edita .=&quot;$edad = &quot;$cnedad&quot;;n&quot;;
+$edita .=&quot;$descripcion = &quot;$cndescripcion&quot;;n&quot;;
+$edita .= &quot;?&quot;.&quot;&gt;&quot;;
+
+$edit = fopen(&quot;usuarios/$cnnick.php&quot;,&quot;w&quot;);
+fputs($edit,$edita);
+fclose($edit);
+echo &quot;Tus datos han sido editados con éxito. Haz click &lt;a href=index.php&gt;aquí&lt;/a&gt; para regresar a la página principal.&lt;br&gt;&lt;br&gt;&quot; ;
+}
+// Si no se pone la edad esta se guarda como cero, para evitar mostrar el cero se hace lo siguiente
+if($edad == 0) { $edad = &quot;&quot; ; }
+// El sexo se guarda como 0 y 1 que es masculino y femenino respectivamente, si se elige femenino la opción debe aparecer seleccionada
+// aparecer seleccionada
+if($sexo == 1) { $sexo = &quot; selected&quot; ; }
+// Mostrar la fecha en texto
+$diassemana = array(&quot;Domingo&quot;,&quot;Lunes&quot;,&quot;Martes&quot;,&quot;Miércoles&quot;,&quot;Jueves&quot;,&quot;Viernes&quot;,&quot;Sábado&quot;) ;
+$mesesano = array(&quot;Ene&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Abr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Ago&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dic&quot;) ;
+$diasemana = date(w,$fecha) ; $diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diassemana[$diasemana] $diames de $mesesano[$mesano] del $ano&quot; ;
+?&gt;
+&lt;p class=&quot;titulo&quot;&gt;Perfil
+&lt;p&gt;&lt;b&gt;Usuario desde el:&lt;/b&gt; &lt;? echo $fecha ?&gt;
+&lt;p&gt;En esta sección puedes editar tus datos de registro. Los campos con un asterisco (*) son obligatorios.
+&lt;script&gt;
+function revisar() {
+if(formulario.cncontrasena.value.length &lt; 5) { alert('La contraseña debe contener por lo mínimo 5 caractéres.') ; return false ; }
+if(formulario.cnemail.value.length == 0) { alert('Debes poner un email válido.') ; return false ; }
+if(formulario.cndescripcion.value.length &gt; 255) { alert('La descripción supera los 255 caractéres.') ; return false ; }
+}
+&lt;/script&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;perfil.php&quot; onsubmit=&quot;return revisar()&quot;&gt;
+&lt;b&gt;* Nick:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;cnnick&quot; value=&quot;&lt;? echo $nick ?&gt;&quot; class=&quot;form&quot; style=&quot;color: #757575&quot; readonly&gt;&lt;br&gt;
+&lt;b&gt;* Contraseña:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;cncontrasena&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;* Email:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;cnemail&quot; maxlength=&quot;40&quot; value=&quot;&lt;? echo $email ?&gt;&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;País:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;cnpais&quot; maxlength=&quot;20&quot; value=&quot;&lt;? echo $pais ?&gt;&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;Edad:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;cnedad&quot; maxlength=&quot;2&quot; size=&quot;3&quot; value=&quot;&lt;? echo $edad ?&gt;&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;Sexo:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;cnsexo&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot;&gt;Masculino
+&lt;option value=&quot;1&quot;&lt;? echo $sexo ?&gt;&gt;Femenino
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Descripción:&lt;/b&gt;&lt;br&gt;
+&lt;textarea name=&quot;cndescripcion&quot; cols=&quot;30&quot; rows=&quot;5&quot; class=&quot;form&quot;&gt;&lt;? echo $descripcion ?&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;editar&quot; value=&quot;Editar&quot; class=&quot;form&quot;&gt;
+&lt;/form&gt; 
+[/codigo]
+
+Instalacion :
+
+El registro de usuarios creara las carpetas y datos de forma automatica.
+si no es asin se debera proceder a dar chmod 777 a la carpeta donde se encuentra
+el script y se deberan crear las siguientes carpetas dentro del susodicho directorio :
+
+usuarios/
+mensajes/
+noticias/
+enlaces/
+descargas/ 
+
+Registro de usuarios realizado por phpmysql basandose en registros de usuarios
+con mysql.
+
+detro de los dos zip recomiento registrousuarios.zip ya que es el mas sencillo de configurar e instalar el otro usuarios.zip es para personalizarlo y solo para usuarios avanzados
+
+Pueden ver un ejemplo en la url, asi como ver posibles novedades:
+[url]http://usuarios.lycos.es/registrousuarios/[/url]

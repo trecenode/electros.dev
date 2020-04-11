@@ -1,0 +1,83 @@
+Como hacer un panel de administracion para editar una tabla en el mysql mediante una id principal .
+este es el codigo que utilizo yo para que podais editar vuestros scripts.
+
+Funciona de la siguiente forma en este archivo [b]noticiaseditar.php[/b] y edita las noticias por la id ej) [b]noticiaseditar.php?id=28[/b]
+
+[codigo]
+&lt;?
+include("config.php") ;
+if($HTTP_GET_VARS[administrador]) { echo "Acceso denegado. Intento de hackeo." ; exit ; }
+// Administrador del foro (sólo el administrador del foro puede editar mensajes)
+$administrador = "phpmysql" ;
+// Se comprueba que el mensaje pertenezca al usuario que desea editar el mensaje
+// Si el que desea editarlo es el administrador ya no se hace la comprobación
+if($HTTP_COOKIE_VARS[unick] != $administrador) {
+$resp = mysql_query("select id from noticias where id='$id' and usuario='$HTTP_COOKIE_VARS[unick]'") ;
+if(mysql_num_rows($resp) == 0) {
+echo "No puedes editar este mensaje. Haz click &lt;a href=javascript:history.back()&gt;aquí&lt;/a&gt; para regresar." ;
+exit ;
+}
+mysql_free_result($resp) ;
+}
+if($enviar) {
+function quitar($texto) { 
+$texto = trim($texto) ; 
+$texto = htmlspecialchars($texto) ; 
+return $texto ; 
+}
+$titulo = quitar($titulo) ;
+$noticia = quitar($noticia) ;
+$noticiaext = quitar($noticiaext) ;
+mysql_query("update noticias set titulo='$titulo',noticia='$noticia',noticiaext='$noticiaext' where id='$id'") ;
+echo "Tu noticia ha sido editado con éxito. Haz click &lt;a href='noticias.php?n=$id' &gt;aquí&lt;/a&gt; para regresar al noticia." ;
+}
+$resp = mysql_query("select titulo,noticia,noticiaext from noticias where id=$id") ;
+while($datos = mysql_fetch_array($resp)) {
+echo "
+ &lt;form name='formulario' method='post' action='noticiaseditar.php?id=$id '&gt;
+  &lt;b&gt;Titulo:&lt;/b&gt;&lt;br&gt;
+&lt;input type='text' name='titulo' size='40' maxlength='100' value='$datos[titulo]'class='form'&gt;&lt;br&gt;
+  &lt;b&gt;Noticia :&lt;/b&gt;&lt;br&gt;
+  &lt;textarea name='noticia' cols='50' rows='10' class='form'&gt;$datos[noticia]&lt;/textarea&gt;
+  &lt;br&gt;
+  &lt;b&gt;Noticia extendida :&lt;/b&gt;&lt;br&gt;
+  &lt;textarea name='noticiaext' cols='50' rows='10' class='form'&gt;$datos[noticiaext]&lt;/textarea&gt;
+  &lt;br&gt;
+  &lt;br&gt;
+&lt;input type='submit' name='enviar' value='Editar noticia' class='form'&gt;
+&lt;/form&gt;
+" ;
+} 
+echo "&lt;/table&gt;";
+mysql_free_result($resp) ;
+@mysql_close($conectar) ;
+?&gt;
+[/codigo] 
+
+Podriamos editar la noticia entrando si somos el usuario que ha enviado la noticia, entrando de otra forma nos daria acceso denegado.
+
+a) El codigo que deberiamos poner en en [b]noticias.php[/b] para que al entrar nos mostrara la opcion editar si somos el usuario que lo ha enviado, es el siguiente
+se pone antes del [b]echo = "" ;[/b] o despues de la ejecucion de el comando [b]while[/b] :
+
+
+[codigo]
+if($datos[usuario] == "$usuario" ) { $editar = "&lt;a href='noticiaseditar?id=$datos[id]'&gt;Editar&lt;/a&gt;" ; }
+else { $editar = "" ; }
+[/codigo]
+
+con lo que podremos poner la opcion editar en donde pongamos lo de [b]$editar[/b]
+de esta forma :
+
+[codigo]
+echo" $datos[titulo] - $editar"
+[/codigo]
+
+b) Dependiendo del sistema que utilizemos tambien podemos poner un codigo si hemos decidido
+mostrar la informacion sustituyendo la sentencia [b]echo = "";[/b] por [b]?&gt;codigo&lt;?[/b]
+a la hora de hacerlo :
+
+[codigo]
+&lt;? if ($datos[usuario] == "$usuario" ) {echo "&lt;a href='noticiaseditas?id=$datos[id]'&gt;Editar&lt;/a&gt;";} else {echo "";} ?&gt;
+[/codigo]
+
+URL - [url=http://recursosphp.iefactory.com]mi web[/url]

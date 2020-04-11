@@ -1,0 +1,9 @@
+&lt;?
+$dbhost = &quot;localhost&quot; ; en caso de que este en miarroba la web pon al dirreccion completa
+$dbuser = &quot;tu usuario&quot; ;
+$dbpass = &quot;tu pass&quot; ;
+$db = &quot;la base de datos&quot; ;
+$conectar = mysql_connect($localhost,$dbuser,$dbpass) ; mysql_select_db($db,$conectar) ;
+?&gt;
+
+este config con todo respeto es mejro que el de electros

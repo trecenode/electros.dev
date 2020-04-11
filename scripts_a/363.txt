@@ -1,0 +1,4 @@
+este libro de visitas está echo con PHP/MySQL + JavaScript (Ajax) + CSS. bueno.. haber si les gusta. Instalacion:
+sube todo a tu servidot y ejecuta instalar.php y listo, ya está....
+
+PD: see.. todo lo pude haber programado SIN clases... pero la idea era es ok ?, la &quot;vercion&quot; 1.5 está echo ya a 100% con ajax, osea ya el paginado esta echo con ajax

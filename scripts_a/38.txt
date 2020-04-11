@@ -1,0 +1,51 @@
+[codigo]&lt;?
+
+srand((double)microtime()*1000000); 
+$numero = rand(0,2);
+// Esto es para tres imagenes (0, 1, 2)
+// Si son cuatro, en lugar de 2, ponemos un 3, y asi sucesivamente
+// El 0 siempre es fijo.
+
+$imagen0 = &quot;&lt;img src=&quot;RUTA/imagen0.gif&quot;&gt;&quot;;
+$imagen1 = &quot;&lt;img src=&quot;RUTA/imagen1.gif&quot;&gt;&quot;;
+$imagen2 = &quot;&lt;img src=&quot;RUTA/imagen2.gif&quot;&gt;&quot;;
+// Si son cuatro, añadimos esto:
+// $imagen3 = &quot;&lt;img src=&quot;RUTA/imagen3.gif&quot;&gt;&quot;;
+// y asi sucesivamente
+
+if ($numero== &quot;0&quot;){ echo (&quot;$imagen0&quot;); }
+if ($numero== &quot;1&quot;){ echo (&quot;$imagen1&quot;); }
+if ($numero== &quot;2&quot;){ echo (&quot;$imagen2&quot;); }
+// Si fuesen cuatro:
+// if ($numero== &quot;3&quot;) { echo (&quot;$imagen3&quot;); }
+// y asi sucesivamente
+
+?&gt;
+[/codigo]
+En el script se usa la funcion rand() con la [b]semilla[/b] &quot;(double)microtime()*1000000&quot; que mejora la aleatoriedad.
+Fijaros que donde pone [b]&quot;RUTA/&quot;[/b] y el nombre de la imagen, tendreis que poner la ruta de la carpeta donde teneis vuestras imagenes, es decir, si yo las tengo en la carpeta &quot;imagenes/&quot; pondre;
+
+[codigo]$imagen0 = &quot;&lt;img src=&quot;imagenes/imagen0.gif&quot;&gt;&quot;;
+...
+[/codigo]
+Ya esta, ahora podeis hacer dos cosas:
+
+1-. Copiais el codigo en un archivo, p.ej. [b]aleatorias.php[/b] y luego, donde querais que aparezcan las imagenes poneis:
+
+[codigo]&lt;?
+include(&quot;aleatorias.php&quot;);
+?&gt;
+[/codigo]
+2-. Pegais el codigo directamente en el sitio donde quereis que aparezcan las imagenes.
+
+Si quereis ver un ejemplo, en esta direccion:
+
+[b]http://wave-alternativo.webcindario.com/aleatorias.php[/b]
+
+Si os fijais, podemos utilizar el script para tener en nuestra web un [b]rotador de banners[/b]. Lo unico que hay que cambiar es el valor de la variable, que quedaria asi:
+
+[codigo]$imagen0 = &quot;&lt;a target=&quot;_blank&quot; title=&quot;LA PAGINA&quot; href=&quot;http://URL&quot;&gt;&lt;img src=&quot;RUTA/imagen0.gif&quot;&gt;&lt;/a&gt;&quot;;
+[/codigo]
+Lo mismo con las demas (con sus respectivas URLs). Y listo, si quereis verlo funcionando:
+
+[b]http://wave-untitled.webcindario.com/rotador.php[/b]

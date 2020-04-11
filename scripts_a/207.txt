@@ -1,0 +1,36 @@
+Bueno esto hace que aparte de buscar la noticia y dar el titulo te de un enlace a la noticia. creamos este fichero con el nombre de BUSCADOR.PHP:
+[codigo]
+&lt;?php
+include(&quot;config.php&quot;);
+if($enviar) {
+$resp = mysql_query(&quot;select * from noticias where noticia LIKE '%&quot;.$_POST[palabra].&quot;%'&quot;) or die (mysql_error());
+if(mysql_num_rows($resp) == &quot;0&quot;) {
+echo &quot;No hay resultados&quot;;
+} else {
+echo &quot;&lt;strong&gt;Estos son los resultados de la busqueda:&lt;/strong&gt;&lt;br&gt;&lt;br&gt;&quot;;
+while($sql = mysql_fetch_array($resp)) {
+  echo &quot;· Numero de la noticia: &quot;.$sql[id].&quot;&lt;br&gt;&quot;;
+  echo &quot;· Autor: &quot;.$sql[usuario].&quot;&lt;br&gt;&quot;;
+  echo &quot;· Titulo de la noticia: &quot;.$sql[titulo].&quot;&lt;br&gt;&quot;;
+  echo &quot;· Enlace de la noticia: &quot;;
+?&gt;
+&lt;a href=&quot;index.php?id=noticias&amp;n=&lt;? echo &quot;$sql[id]&quot; ?&gt;&quot;&gt;Aquí&lt;/a&gt; &lt;br&gt;&lt;br&gt;
+&lt;?
+  }
+echo &quot;&lt;br&gt;&lt;br&gt;&lt;b&gt;Ya no hay mas resultados&lt;/b&gt;&quot;;
+}
+}
+?&gt;
+[/codigo]
+
+Y luego tambien tenemos el formulario:
+
+[codigo]
+&lt;form action=&quot;index.php?id=buscador&quot; method=&quot;post&quot;&gt; &lt;!-- EL enlace es si tienes electrosnuke sino pon aqui buscador.php que es archivo anterior --&gt;
+&lt;input type=&quot;text&quot; size=&quot;12&quot; maxlength=&quot;65&quot; name=&quot;palabra&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Buscar&quot; class=&quot;form&quot;&gt;
+&lt;/form&gt;
+[/codigo]
+
+El original es de ringoweb
+Dudas aquí ;)

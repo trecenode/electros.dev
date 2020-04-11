@@ -1,0 +1,47 @@
+Pues eso no son script tan complicados ni nada y bueno en verdad son scrips en js y no php y mysql :S, pero como e pensado que estos son unos muy usados, y que casi todo el mundo le interesa e gusta.... Pues no creo que aiga molestia porque ponga unos de js no? 
+
+Son scripts sencillos y ala vez utiles y classicos... Bueno aqui os dejo los codigos y abajo el zip con todos ellos..
+
+[b]Poner en Favoritos:[/b]
+
+Pon el siguiente codigo donde quieras que aparesca ''poner en favoritos''.
+
+[codigo]&lt;input type=&quot;button&quot; onclick=&quot;javascript:window.external.AddFavorite(document.location,document.title)&quot; value=&quot;Agregar a favoritos&quot;&gt;[/codigo]
+
+[b]Para imprimir la pagina actual:[/b]
+
+[codigo]&lt;a href=&quot;javascript:window.print();&quot;&gt;Imprimir esta página&lt;/a&gt;[/codigo]
+
+
+[b]Poner Pagina de Inicio tu web:[/b]
+
+[codigo]Esta parte del script hay que pegarlo entre las etiquetas BODY y /BODY, donde quieras que aparezca el link:
+
+&lt;a class=&quot;chlnk&quot; href
+
+onclick=&quot;this.style.behavior='url(#default#homepage)';this.setHomePage('http://electros.iefactory.com');&quot;
+
+style=&quot;CURSOR: hand&quot;&gt;Página de inicio?&lt;/a&gt;[/codigo]
+
+[b]Para Actualizar tu pagina web desde un click:[/b]
+
+[codigo]&lt;input type=&quot;button&quot; value=&quot;Actualizar&quot; onclick=&quot;location.reload()&quot;&gt;[/codigo]
+
+[b]Para ir hacia atras desde donde as venido:[/b]
+
+[codigo]&lt;a href=&quot;javascript:history.back(1)&quot;&gt;Atrás&lt;/a&gt;[/codigo]
+
+[b]Para ir hacia adelante:[/b]
+
+[codigo]&lt;input type=&quot;button&quot; value=&quot;Adelante&quot; onclick=&quot;history.forward()&quot; style=&quot;font-family: Verdana; font-size: 8 pt&quot;&gt;[/codigo]
+
+[b]Para cerrar la pagina:[/b]
+
+[codigo]&lt;a href=&quot;javascript:window.close()&quot;&gt;Cerrar&lt;/a&gt;[/codigo]
+
+=========================================
+Eso es todo espero que les gusten ^_^.
+Mi email dreamhunert_@hotmail.com
+Mi pagina web [url]www.xtremerpg.com[/url]
+
+Adios!

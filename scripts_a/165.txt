@@ -1,0 +1,38 @@
+Con este sencillo script que funciona sin BD podemos crear una pequeña base de datos de correos, nombres o telefonos, por ejemplo para una lista de correos que queramos mandar sin repetir nunca más.
+
+[codigo]
+&lt;?php
+
+$file =&quot;mail.txt&quot;  ;
+$fichero = fopen($file, &quot;a+&quot;);
+while ($linea= fgets($fichero,1024)){
+
+      if ($linea ==&quot;$correon&quot;) {
+      echo &quot;&lt;br&gt; El correo YA existe &quot;;
+      $esta=&quot;si&quot; ;
+
+      break;}
+      else {
+      $esta = &quot;no&quot;;
+      }  }
+
+
+
+if($esta==&quot;no&quot;)   {
+echo &quot;&lt;br&gt; el correo $correo ha diso añadido&quot;;
+echo&quot;&quot; ;
+
+fwrite($fichero, &quot;$correon&quot;);
+fclose($fichero);
+}
+echo &quot;&lt;br&gt;&lt;br&gt;&quot;;
+?&gt;
+
+&lt;FORM METHOD=&quot;Post&quot; ACTION=&quot;&lt;? echo $_SERVER[REQUEST_URI] ?&gt;&quot;&gt;
+&lt;INPUT TYPE=&quot;TEXT&quot;  name=&quot;correo&quot; value=&quot;&quot;&gt;
+&lt;INPUT TYPE=&quot;Submit&quot; VALUE=&quot;Enviar Correo&quot; class=&quot;form&quot;&gt;
+
+&lt;/FORM&gt;
+[/codigo]
+
+Tendreis que dar permisos a un archivo creado por vosotros mails.txt 777

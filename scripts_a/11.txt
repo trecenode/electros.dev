@@ -1,0 +1,23 @@
+Pues esta es una forma de hacer un formulario para que nuestros visitantes nos envíen sus comentarios y sugerencias. Sólo necesitaremos una sóla página que es la que contendrá el formulario y el código para enviar el email.
+
+Mete el siguiente código en un archivo llamado email.php:
+
+[codigo]&lt;?
+if($_POST[enviar]) {
+mail(&quot;tucorreo&quot;,&quot;Mensaje enviado de la web&quot;,$_POST[mensaje],&quot;From: $_POST[nombre] &lt;$_POST[email]&gt;&quot;) ;
+echo &quot;El email ha sido enviado con éxito.&quot; ;
+}
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;&lt;?=$_SERVER[PHP_SELF]?&gt;&quot;&gt;
+Nombre:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;nombre&quot;&gt;&lt;br&gt;
+Email:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;email&quot;&gt;&lt;br&gt;
+Mensaje:&lt;br&gt;
+&lt;textarea name=&quot;mensaje&quot; cols=&quot;30&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/form&gt;[/codigo]
+
+En [b]tucorreo[/b] debes poner tu email. Si deseas que el usuario escriba el asunto, sólo debes agregar el [b]&lt;input&gt;[/b] correspondiente con el nombre [b]asunto[/b] y en donde dice [b]Mensaje enviado de la web[/b] debes colocar la variable [b]$_POST[asunto][/b].
+
+Para cualquier duda pueden entrar en el foro.

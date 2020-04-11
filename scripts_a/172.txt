@@ -1,0 +1,1 @@
+Este script lee los ficheros .zip, .rar y .ace de la carpeta en la que se encuentre y te da la opcion de navegar a traves de las carpetas dentro de la misma para mostrar los ficheros de la carpeta seleccionada.

@@ -1,0 +1,76 @@
+[img]http://www.diver-habbo.net/images/naveda_saludando.gif[/img]Este script ya estaba publicado en electros pero tenia tantos bugs que me era muy complicado ir diciendolos en los comentarios así que aqui pongo el script corregido.
+
+Los errores eran el 99% porque estaba mal escrito (Sintaxis).
+[codigo]&lt;?
+if ($_POST[sendmail]){
+$mailheaders  = &quot;Return-Path: $from&quot;;
+$mailheaders .= &quot;From: $from&quot;;
+$mailheaders .= &quot;name: $name&quot;;
+//$mailheaders = &quot;From: $fromn&quot;;
+$mailheaders .= &quot;X-Mailer: Expresateweb Email Interface\n&quot;;
+$msg_body = stripslashes($body);
+if ($attach != &quot;none&quot;){
+$file = fopen($attach, &quot;r&quot;);
+$contents = fread($file, $attach_size);
+$encoded_attach = chunk_split(base64_encode($contents));
+        fclose($file);
+        $mailheaders .= &quot;MIME-version: 1.0\n&quot;;
+        $mailheaders .= &quot;Content-type: multipart/mixed; &quot;;
+        $mailheaders .= &quot;boundary=\&quot;Message-Boundary\&quot;\n&quot;;
+        $mailheaders .= &quot;Content-transfer-encoding: 7BIT\n&quot;;
+        $mailheaders .= &quot;X-attachments: $attach_name&quot;;
+        $body_top = &quot;--Message-Boundary\n&quot;;
+        $body_top .= &quot;Content-type: text/plain; charset=US-ASCII\n&quot;;
+        $body_top .= &quot;Content-transfer-encoding: 7BIT\n&quot;;
+        $body_top .= &quot;Content-description: Mail message body\n\n&quot;;
+        $msg_body = $body_top . $msg_body;
+        $msg_body .= &quot;\n\n--Message-Boundary\n&quot;;
+        $msg_body .= &quot;Content-type: $attach_type; name=&quot;.$attach_name.&quot;\n&quot;;
+        $msg_body .= &quot;Content-Transfer-Encoding: BASE64\n&quot;;
+        $msg_body .= &quot;Content-disposition: attachment; filename=&quot;.$attach_name.&quot;\n\n&quot;;
+        $msg_body .= &quot;$encoded_attach\n&quot;;
+        $msg_body .= &quot;--Message-Boundary--\n&quot;;
+}
+$extra=&quot;-f&quot;.$from;
+mail(&quot;AQUÍ EL CORREO&quot;, stripslashes($subject), $msg_body, $mailheaders, $extra);
+echo &quot;&lt;h3&gt;Correo enviado con éxito.&lt;/h3&gt;&quot;;
+} else {
+?&gt;
+&lt;title&gt;Envio de Correo con Archivo Adjunto&lt;/title&gt;
+
+&lt;form enctype=&quot;multipart/form-data&quot; name=doit action=&quot;&quot; method=POST&gt;
+&lt;table cellpadding=0 cellspacing=0 width=&quot;295&quot;&gt;&lt;tr&gt;
+      &lt;td width=&quot;295&quot; height=&quot;26&quot;&gt; &lt;font face=&quot;Arial, Helvetica, sans-serif&quot; size=&quot;2&quot;&gt;&lt;b&gt;Tu
+        nombre:&lt;br&gt;
+      &lt;/b&gt;&lt;/font&gt;
+&lt;input type=&quot;text&quot; name=&quot;name&quot; size=30&gt;&lt;br&gt;
+&amp;nbsp;&lt;/td&gt;
+      &lt;/tr&gt;
+&lt;tr&gt;
+      &lt;td width=&quot;295&quot;&gt; &lt;font face=&quot;Arial, Helvetica, sans-serif&quot; size=&quot;2&quot;&gt;&lt;b&gt;Tu
+        e-mail:&lt;br&gt;
+      &lt;/b&gt;&lt;/font&gt;
+&lt;input type=&quot;text&quot; name=&quot;from&quot; size=30&gt;&lt;br&gt;
+&amp;nbsp;&lt;/td&gt;
+      &lt;/tr&gt;
+&lt;tr&gt;
+      &lt;td width=&quot;295&quot;&gt; &lt;font face=&quot;Arial, Helvetica, sans-serif&quot; size=&quot;2&quot;&gt;&lt;b&gt;Archivo:&lt;br&gt;
+      &lt;/b&gt;&lt;/font&gt;
+&lt;input type=file name=&quot;attach&quot; size=30&gt;&lt;br&gt;
+&amp;nbsp;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;td width=&quot;295&quot;&gt;
+    &lt;tr&gt;
+      &lt;td width=&quot;295&quot; height=&quot;23&quot;&gt;&lt;font face=&quot;Arial, Helvetica, sans-serif&quot; size=&quot;2&quot;&gt;&lt;b&gt;Asunto:&lt;br&gt;
+      &lt;/b&gt;&lt;/font&gt;
+        &lt;input type=&quot;text&quot; name=&quot;subject&quot; size=30&gt; &lt;br&gt;
+&amp;nbsp;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+&lt;p align=&quot;left&quot;&gt;
+&lt;font face=&quot;Arial, Helvetica, sans-serif&quot; size=&quot;2&quot;&gt;&lt;b&gt;Mensaje:&lt;/b&gt;&lt;/font&gt;&lt;br&gt;
+&lt;textarea name=&quot;body&quot; rows=10 cols=35 wrap=&quot;message&quot;&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;sendmail&quot; value=&quot;enviar&quot;&gt; &lt;/p&gt;
+&lt;/form&gt;
+&lt;? } ?&gt;[/codigo]
+
+Bueno pues ahora a enviar archivos xD

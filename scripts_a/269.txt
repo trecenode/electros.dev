@@ -1,0 +1,25 @@
+Hola, me aburria y tenia una idea en mente desde hace tiempo,es como hacer un logeo de admin pero sin formulario,a traves de la ip.
+
+Me explico, si tu ip es 00.00.00.00 y la ip que quieres que se logee es 00.00.00.00 se logeara perfectamente
+
+Aqui os dejo el code:
+[codigo]&lt;? 
+$ip = getenv(&quot;REMOTE_ADDR&quot;); 
+$ipp= &quot;127.0.0.1&quot;; //Aqui mete tu ip
+if($ip == $ipp){
+?&gt;
+
+Aqui puedes meter tu menu de administracion
+
+&lt;?
+}else{
+echo&quot;Lammer fuera de aqui&quot;;
+}
+?&gt;
+[/codigo]
+
+OLE! :D 
+
+Dejar comentarios y dudas.
+
+Saludos y visitar [url=http://www.php-programacion.cjb.net]PHP - PROGRAMACION[/url]

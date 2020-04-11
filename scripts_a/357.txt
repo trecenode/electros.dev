@@ -1,0 +1,69 @@
+este es un script para crear thumbnails apartir de una imagen... usa phpgd... yo mismo lo hice...
+
+thumbnail.php
+[codigo]&lt;?php
+// La funcion para crear el thumbnail
+function thumbnail ($imagenes, $imagen, $ancho, $alto) {
+$ext = explode(&quot;.&quot;, strtolower($imagen));
+
+switch($ext[1]) {
+case 'jpg':
+if (!$src_img = imagecreatefromjpeg($imagenes . $imagen)) {
+echo &quot;Error abriendo $imagenes$imagen!&quot;; exit;
+}
+break;
+case 'jpeg':
+if (!$src_img = imagecreatefromjpeg($imagenes . $imagen)) {
+echo &quot;Error abriendo $imagenes$imagen!&quot;; exit;
+}
+break;
+case 'gif':
+if (!$src_img = imagecreatefromgif($imagenes . $imagen)) {
+echo &quot;Error abriendo $imagenes$imagen!&quot;; exit;
+}
+break;
+case 'png':
+if (!$src_img = imagecreatefrompng($imagenes . $imagen)) {
+echo &quot;Error abriendo $imagenes$imagen!&quot;; exit;
+}
+break;
+}
+
+$dst_img = @imagecreatetruecolor($ancho, $alto);
+if(!$dst_img) {
+$dst_img = imagecreate($ancho, $alto);
+}
+imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $ancho, $alto, imagesx($src_img), imagesy($src_img));
+
+switch($ext[1]) {
+case 'jpg':
+imagejpeg($dst_img);
+break;
+case 'jpeg':
+imagejpeg($dst_img);
+break;
+case 'gif':
+imagegif($dst_img);
+break;
+case 'png':
+imagepng($dst_img);
+break;
+}
+
+imagedestroy($dst_img);
+imagedestroy($src_img);
+}
+//Indicamos el tipo de archivo
+header(&quot;Content-type: image/jpeg&quot;);
+
+//Definimos las variables
+$imgs = &quot;&quot;; //Directorio de las imagenes
+$img = trim(htmlstecialchars($_GET['img'])); //Imagen
+$alto = trim(htmlstecialchars($_GET['h'])); //Alto nuevo para la imagen
+$ancho = trim(htmlstecialchars($_GET['w'])); //Ancho nuevo para la imagen
+
+//Finalmente creamos el thumbnail
+thumbnail ($imgs, $img, $ancho, $alto);
+?&gt;[/codigo]
+
+y luego para llamar a una imagen es a thumbnail.php?img=imagen&amp;w=ancho&amp;h=alto

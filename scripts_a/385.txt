@@ -1,0 +1,2 @@
+Sistema de encuestas. Facil de instalar y agregar a la web. Tiene la opcion de mostrar las encuestas en forma aleatoria. Incluya un panel de administracion.
+El scritp lo puedes encontrar en http://www.cj-design.com/

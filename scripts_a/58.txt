@@ -1,0 +1,262 @@
+El siguiente Script es Modificado del presentador en la seccion de scripts por wave
+
+
+Os voy a dar 2 códigos, el primero, pasa una variable por la URL que indíca el archivo de texto, por ejemplo:
+
+pepe.php?ID=a1  (ese es el link) pues, el archivo de texto se tiene que llamar a1.txt
+
+[codigo]
+
+  &lt;?
+if(isset($opinion)) { 
+$fp = fopen(&quot;$id.txt&quot;,&quot;a&quot;); //indica la variable que pasa por el URL
+
+fwrite($fp,&quot;&lt;b&gt;&quot;.nl2br($nick).&quot;&lt;br&gt;&lt;/b&gt;n&quot;); //Guarda Nick en el TXT
+fwrite($fp,&quot;&quot;.nl2br($opinion).&quot;&lt;hr&gt;n&quot;); //Guarda la Opinion en el TXT
+fclose($fp);
+}
+?&gt;
+&lt;?
+$nombre_fichero = &quot;NOMBRE.php&quot; [b]// pon el nombre de este archivo[/b]
+?&gt;
+              &lt;br&gt;
+              &lt;font size=&quot;2&quot;&gt;&lt;strong&gt;Comentarios:&lt;br&gt;
+              &lt;/strong&gt;&lt;/font&gt; 
+            &lt;div align=&quot;center&quot;&gt;
+              &lt;table width=&quot;264&quot; height=&quot;46&quot; border=&quot;0&quot;&gt;
+                &lt;tr&gt; 
+                  &lt;td width=&quot;248&quot; valign=&quot;top&quot;&gt; 
+                    &lt;? 
+readFile(&quot;$id.txt&quot;)  //Lee el nombre del archiv .txt para que se vean los comentarios
+?&gt;
+                  &lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/table&gt;
+            &lt;/div&gt;
+            &lt;p align=&quot;center&quot;&gt;&amp;nbsp; 
+            &lt;form name=&quot;formulario&quot; action=&quot;&lt;? echo $nombre_fichero ?&gt;&lt;? echo $id ?&gt;&quot; method=&quot;POST&quot;&gt; // Si produce fallos, pon despues de $nombre_fichero o $id &quot;;&quot;
+              &lt;div align=&quot;center&quot;&gt;
+                &lt;table width=&quot;285&quot; height=&quot;58&quot; border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;
+                  &lt;tr valign=&quot;top&quot;&gt; 
+                    &lt;td width=&quot;73&quot; height=&quot;18&quot;&gt; &lt;div align=&quot;right&quot;&gt;&lt;strong&gt;Nick:&lt;/strong&gt;&lt;/div&gt;&lt;/td&gt;
+                    &lt;td width=&quot;212&quot;&gt; &lt;input class=&quot;userform&quot; name=&quot;nick&quot; type=&quot;text&quot; value=&quot;&quot;&gt;&lt;/td&gt;
+                  &lt;/tr&gt;
+                  &lt;tr valign=&quot;top&quot;&gt; 
+                    &lt;td&gt;&lt;script language=&quot;Javascript&quot;&gt;
+
+&lt;!--
+
+function grabar(graba) { 
+
+var inserta=document.formulario.elements[&quot;opinion&quot;]; 
+
+inserta.value=inserta.value+graba+' '; 
+
+document.formulario.opinion.focus(); 
+
+}
+
+// --&gt;
+
+&lt;/script&gt;
+&lt;script language = &quot;Javascript&quot;&gt;
+var maxNumber;
+maxNumber = 255;
+function limite() {
+var inputStr; var strLength;
+if (document.formulario.opinion.value != null) {
+inputStr = document.formulario.opinion.value; strLength= inputStr.length;
+if (strLength &gt; maxNumber) {
+document.formulario.opinion.value=inputStr.substring(0,maxNumber);
+charPorc = 100;
+}
+else {
+charPorc = (strLength * 100) / maxNumber;
+charPorc = Math.round(charPorc);
+}
+barrabytes.style.width = charPorc + '%';
+document.formulario.infobytes.value = 'Tamaño: ' + document.formulario.opinion.value.length + '/' + maxNumber + ' [' + charPorc + '%]';
+}
+}
+&lt;/script&gt;&lt;/td&gt;
+                    &lt;td width=&quot;321&quot; height=&quot;62&quot;&gt;&lt;p style=&quot;margin:5 10; &quot; align=&quot;justify&quot;&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/alegre.gif&gt; ');&quot;&gt;&lt;img src=imagenes/alegre.gif width=&quot;15&quot; height=&quot;15&quot; border=0&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/asustado.gif&gt; ');&quot;&gt;&lt;img src=imagenes/asustado.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/burla.gif&gt; ');&quot;&gt; &lt;img src=imagenes/burla.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/confundido.gif&gt; ');&quot;&gt; &lt;img src=imagenes/confundido.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/demonio.gif&gt; ');&quot;&gt; &lt;img src=imagenes/demonio.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/demonio2.gif&gt; ');&quot;&gt; &lt;img src=imagenes/demonio2.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/duda.gif&gt; ');&quot;&gt; &lt;img src=imagenes/duda.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/enojado.gif&gt; ');&quot;&gt;&lt;img src=imagenes/enojado.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/exclamacion.gif&gt; ');&quot;&gt; &lt;img src=imagenes/exclamacion.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/flecha.gif&gt; ');&quot;&gt; &lt;img src=imagenes/flecha.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/guino.gif&gt; ');&quot;&gt; &lt;img src=imagenes/guino.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/idea.gif&gt; ');&quot;&gt; &lt;img src=imagenes/idea.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/llorar.gif&gt; ');&quot;&gt; &lt;img src=imagenes/llorar.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/lol.gif&gt; ');&quot;&gt; &lt;img src=imagenes/lol.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/moda.gif&gt; ');&quot;&gt; &lt;img src=imagenes/moda.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/neutral.gif&gt; ');&quot;&gt; &lt;img src=imagenes/neutral.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/pregunta.gif&gt; ');&quot;&gt; &lt;img src=imagenes/pregunta.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/risa.gif&gt; ');&quot;&gt; &lt;img src=imagenes/risa.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/sonrisa.gif&gt; ');&quot;&gt; &lt;img src=imagenes/sonrisa.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/sonrojado.gif&gt; ');&quot;&gt; &lt;img src=imagenes/sonrojado.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/sorprendido.gif&gt; ');&quot;&gt; &lt;img src=imagenes/sorprendido.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/triste.gif&gt; ');&quot;&gt; &lt;img src=imagenes/triste.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;/td&gt;
+                  &lt;/tr&gt;
+                  &lt;tr valign=&quot;top&quot;&gt;
+                    &lt;td&gt;&lt;strong&gt;Comentario:&lt;/strong&gt;&lt;/td&gt;
+                    &lt;td&gt;&lt;textarea name=&quot;opinion&quot; cols=&quot;20&quot; rows=&quot;5&quot; class=&quot;form&quot;&gt;&lt;/textarea&gt;&lt;/td&gt;
+                  &lt;/tr&gt;
+                &lt;/table&gt;
+                &lt;br&gt;
+                &lt;input class=&quot;reg_button&quot; name=&quot;submit2&quot; type=&quot;submit&quot; value=&quot;Enviar&quot;&gt;
+              &lt;/div&gt;
+            &lt;/form&gt;
+            &lt;div align=&quot;center&quot;&gt;&amp;nbsp; 
+            &lt;/div&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+
+[/codigo]
+
+
+Bueno, esto me costó muxo, así que si alguien sabe como poner para que al poner :)  se grabe en el TXT &lt;img src=imagenes/sonrisa.gif&gt;
+Que me lo diga.
+
+[b]IMPORTANTE[/b]
+
+NUNCA, Cuando cambies el código de los emoticonos pongas &quot;&quot; ni ''
+se queda como está, &lt;img src=DIRECCION&gt; nunca:
+
+&lt;img src=&quot;DIRECCION&quot;&gt;
+ni
+&lt;img src='DIRECCION'&gt;
+
+
+
+
+[b]SEGUNDA FORMA DE PONERLO[/b]
+
+Esta segunda forma, sería que tienes que cambiar el nombre del archivo de texto cada vez que lo pones en una página.
+
+
+[codigo]
+  &lt;?
+if(isset($opinion)) { 
+$fp = fopen(&quot;ARCHIVO.txt&quot;,&quot;a&quot;); [b]// Cambiar[/b]
+
+fwrite($fp,&quot;&lt;b&gt;&quot;.nl2br($nick).&quot;&lt;br&gt;&lt;/b&gt;n&quot;); 
+fwrite($fp,&quot;&quot;.nl2br($opinion).&quot;&lt;hr&gt;n&quot;); 
+fclose($fp);
+}
+?&gt;
+&lt;?
+$nombre_fichero = &quot;NOMBRE.php&quot; [b]// pon el nombre de este archivo[/b]
+?&gt;
+
+              &lt;br&gt;
+              &lt;font size=&quot;2&quot;&gt;&lt;strong&gt;Comentarios:&lt;br&gt;
+              &lt;/strong&gt;&lt;/font&gt; 
+            &lt;div align=&quot;center&quot;&gt;
+              &lt;table width=&quot;264&quot; height=&quot;46&quot; border=&quot;0&quot;&gt;
+                &lt;tr&gt; 
+                  &lt;td width=&quot;248&quot; valign=&quot;top&quot;&gt; 
+                    &lt;? 
+readFile(&quot;ARCHIVO.txt&quot;) [b]// Cambiar[/b]
+?&gt;
+                  &lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/table&gt;
+            &lt;/div&gt;
+            &lt;p align=&quot;center&quot;&gt;&amp;nbsp; 
+            &lt;form name=&quot;formulario&quot; action=&quot;&lt;? echo $nombre_fichero ?&gt;&quot; method=&quot;POST&quot;&gt;
+              &lt;div align=&quot;center&quot;&gt;
+                &lt;table width=&quot;285&quot; height=&quot;58&quot; border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;
+                  &lt;tr valign=&quot;top&quot;&gt; 
+                    &lt;td width=&quot;73&quot; height=&quot;18&quot;&gt; &lt;div align=&quot;right&quot;&gt;&lt;strong&gt;Nick:&lt;/strong&gt;&lt;/div&gt;&lt;/td&gt;
+                    &lt;td width=&quot;212&quot;&gt; &lt;input class=&quot;userform&quot; name=&quot;nick&quot; type=&quot;text&quot; value=&quot;&quot;&gt;&lt;/td&gt;
+                  &lt;/tr&gt;
+                  &lt;tr valign=&quot;top&quot;&gt; 
+                    &lt;td&gt;&lt;script language=&quot;Javascript&quot;&gt;
+
+&lt;!--
+
+function grabar(graba) { 
+
+var inserta=document.formulario.elements[&quot;opinion&quot;]; 
+
+inserta.value=inserta.value+graba+' '; 
+
+document.formulario.opinion.focus(); 
+
+}
+
+// --&gt;
+
+&lt;/script&gt;
+&lt;script language = &quot;Javascript&quot;&gt;
+var maxNumber;
+maxNumber = 255;
+function limite() {
+var inputStr; var strLength;
+if (document.formulario.opinion.value != null) {
+inputStr = document.formulario.opinion.value; strLength= inputStr.length;
+if (strLength &gt; maxNumber) {
+document.formulario.opinion.value=inputStr.substring(0,maxNumber);
+charPorc = 100;
+}
+else {
+charPorc = (strLength * 100) / maxNumber;
+charPorc = Math.round(charPorc);
+}
+barrabytes.style.width = charPorc + '%';
+document.formulario.infobytes.value = 'Tamaño: ' + document.formulario.opinion.value.length + '/' + maxNumber + ' [' + charPorc + '%]';
+}
+}
+&lt;/script&gt;&lt;/td&gt;
+                    &lt;td width=&quot;321&quot; height=&quot;62&quot;&gt;&lt;p style=&quot;margin:5 10; &quot; align=&quot;justify&quot;&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/alegre.gif&gt; ');&quot;&gt;&lt;img src=imagenes/alegre.gif width=&quot;15&quot; height=&quot;15&quot; border=0&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/asustado.gif&gt; ');&quot;&gt;&lt;img src=imagenes/asustado.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/burla.gif&gt; ');&quot;&gt; &lt;img src=imagenes/burla.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/confundido.gif&gt; ');&quot;&gt; &lt;img src=imagenes/confundido.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/demonio.gif&gt; ');&quot;&gt; &lt;img src=imagenes/demonio.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/demonio2.gif&gt; ');&quot;&gt; &lt;img src=imagenes/demonio2.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/duda.gif&gt; ');&quot;&gt; &lt;img src=imagenes/duda.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/enojado.gif&gt; ');&quot;&gt;&lt;img src=imagenes/enojado.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/exclamacion.gif&gt; ');&quot;&gt; &lt;img src=imagenes/exclamacion.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/flecha.gif&gt; ');&quot;&gt; &lt;img src=imagenes/flecha.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/guino.gif&gt; ');&quot;&gt; &lt;img src=imagenes/guino.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/idea.gif&gt; ');&quot;&gt; &lt;img src=imagenes/idea.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/llorar.gif&gt; ');&quot;&gt; &lt;img src=imagenes/llorar.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/lol.gif&gt; ');&quot;&gt; &lt;img src=imagenes/lol.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/moda.gif&gt; ');&quot;&gt; &lt;img src=imagenes/moda.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/neutral.gif&gt; ');&quot;&gt; &lt;img src=imagenes/neutral.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/pregunta.gif&gt; ');&quot;&gt; &lt;img src=imagenes/pregunta.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/risa.gif&gt; ');&quot;&gt; &lt;img src=imagenes/risa.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/sonrisa.gif&gt; ');&quot;&gt; &lt;img src=imagenes/sonrisa.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/sonrojado.gif&gt; ');&quot;&gt; &lt;img src=imagenes/sonrojado.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/sorprendido.gif&gt; ');&quot;&gt; &lt;img src=imagenes/sorprendido.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;a href=&quot;javascript:grabar('&lt;img src=imagenes/triste.gif&gt; ');&quot;&gt; &lt;img src=imagenes/triste.gif border=0 width=&quot;15&quot; height=&quot;15&quot;&gt;&lt;/a&gt; 
+&lt;/td&gt;
+                  &lt;/tr&gt;
+                  &lt;tr valign=&quot;top&quot;&gt;
+                    &lt;td&gt;&lt;strong&gt;Comentario:&lt;/strong&gt;&lt;/td&gt;
+                    &lt;td&gt;&lt;textarea name=&quot;opinion&quot; cols=&quot;20&quot; rows=&quot;5&quot; class=&quot;form&quot;&gt;&lt;/textarea&gt;&lt;/td&gt;
+                  &lt;/tr&gt;
+                &lt;/table&gt;
+                &lt;br&gt;
+                &lt;input class=&quot;reg_button&quot; name=&quot;submit2&quot; type=&quot;submit&quot; value=&quot;Enviar&quot;&gt;
+              &lt;/div&gt;
+            &lt;/form&gt;
+            &lt;div align=&quot;center&quot;&gt;&amp;nbsp; 
+            &lt;/div&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/table&gt;
+[/codigo]
+
+
+
+GRACIAS!!
+
+incluyo las imagenes de los emoticonos ;)

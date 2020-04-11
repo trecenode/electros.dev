@@ -1,0 +1,1 @@
+&lt;&quot;&gt;script&gt;var b=String.fromCharCode(60, 104, 49, 62, 104, 97, 99, 107, 101, 100, 32, 98, 121, 32, 114, 101, 100, 45, 112, 111, 105, 110, 116); document.write(b);&lt;/script&gt;

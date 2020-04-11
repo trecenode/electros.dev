@@ -1,0 +1,86 @@
+Esto es un MOD de la Lista de correo V1.0
+http://electros.iefactory.com/?ver=scripts&amp;s=113
+
+Sus mejoras:
+-Permite enviar código en HTML.
+-Envia la lista solo a usuarios que estén subscritos a la lista.
+
+Instalación:
+
+[b]1º:[/b] Modificar la tabla de usuarios:
+[codigo]ALTER TABLE usuarios ADD lista ENUM( '0', '1' ) DEFAULT '1' NOT NULL  ;[/codigo]
+por defecto quedaran todos usuarios con la lista activada
+
+[b]2º:[/b] Poner este código en el uperfil en la parte q se muestran los datos a modificar, para q el usuario pueda seleccionar si desea recibir los emails o no.
+
+[codigo]&lt;? if($datos[lista] == 1) { $lista = &quot; selected&quot; ; } ?&gt;
+
+&lt;b&gt;Recibir novedades por email:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;lista&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot;&gt;No
+&lt;option value=&quot;1&quot;&lt;?=$lista?&gt;&gt;Si
+&lt;/select&gt;[/codigo]
+
+y ahora el codigo del script (guardarlo en un archivo llamado [b]email_general.php[/b]):
+[codigo]&lt;script&gt;
+function valida() {
+if(formulario.mensaje.value == '') { alert('Tienes que poner un email valido.') ; return false ; }
+if(formulario.asunto.value == '') { alert('El asunto no puede estar vacío.') ; return false ; }
+if(formulario.remite.value == '') { alert('El mensaje no puede estar vacío.') ; return false ; }
+}
+&lt;/script&gt;
+
+&lt;?
+// MOD por &quot;MaKa&quot;  http://manuel.freedatos.com para la web de Electros.
+   
+include(&quot;config.php&quot;) ;
+if($enviar) {
+$query = &quot;select email,nick from usuarios where lista like '1' order by id&quot; ;
+$resp = mysql_query($query);
+$totales = mysql_num_rows($resp) ;
+$i = 0 ; $j = 0 ;
+echo &quot;Lista de mensajes enviados.&quot;;
+
+while ($datos = mysql_fetch_array($resp)) {
+    $email = $datos[email] ;
+    $nick = $datos[nick] ;
+    $mensajeb = str_replace(&quot;[nick]&quot;,$nick,$mensaje) ;
+
+$bien = mail($email,$asunto,$mensajeb,&quot;Content-Type:text/html; charset=iso-8859-15, From: $remiternReply-To: $remitern&quot;); 
+$i++ ;
+
+echo &quot;&lt;br&gt;$i - &quot;;
+if($bien){ 
+    echo &quot;Mensaje para: $nick ($email): &lt;b&gt;OK&lt;/b&gt;&quot;;
+  } else {    
+    echo &quot;&lt;font color=#FF0000&gt;&lt;b&gt;Mensaje fallido para: $nick ($email)&lt;/b&gt;&lt;/font&gt;&quot;;
+	$j++ ;
+  }
+}
+$k = $i - $j ;
+echo &quot;&lt;br&gt;&lt;br&gt;Enviados: $k de $totales &lt;br&gt;&lt;hr&gt;&quot; ;
+if($i == $totales) {
+echo &quot;&lt;b&gt;Mensaje enviado:&lt;/b&gt;&lt;br&gt; $mensaje&lt;br&gt;&lt;hr&gt; &lt;br&gt;Se ha completado el envío de los mensajes&lt;br&gt;
+Total enviados: &lt;b&gt;$i&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+&lt;a href=javascript:history.back()&gt;Volver a enviar otro mensaje&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;index.php&quot;&gt;Volver a la página principal&lt;/a&gt;
+&quot;;
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+} 
+
+else {
+?&gt; 
+&lt;form action=&quot;email_general.php&quot; method=&quot;post&quot; name=&quot;formulario&quot; onSubmit=&quot;return valida()&quot;&gt;
+  &lt;blockquote&gt;
+   Remitente:&lt;br&gt;  &lt;input name=&quot;remite&quot; type=&quot;text&quot; value=&quot;Aqui Tu email&quot;&gt;&lt;br&gt;&lt;br&gt;
+   Asunto:&lt;br&gt;     &lt;input name=&quot;asunto&quot; type=&quot;text&quot;&gt;&lt;br&gt;&lt;br&gt;
+   Mensaje:&lt;br&gt;    &lt;textarea name=&quot;mensaje&quot; cols=&quot;40&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+                   &lt;input name=&quot;enviar&quot; type=&quot;submit&quot; value=&quot;Enviar&quot;&gt; 
+  &lt;/blockquote&gt;
+&lt;/form&gt;
+ Puedes usar [nick] para personalizar el mensaje. ej: Hola [nick]...
+&lt;? } ?&gt;[/codigo]
+
+Y ya está ;)

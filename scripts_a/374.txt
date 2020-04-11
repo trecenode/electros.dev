@@ -1,0 +1,14 @@
+Estan ahi los 2 archivos.. 
+solo los suben al la carpeta del foro
+OJO A LA DEL FORO..
+
+luego hacen el siguiente include donde kieren q salgan los posts..
+
+[codigo]
+&lt;?
+include($­phpbb_root­_path.ultimos.php); 
+?&gt;
+[/codigo]
+Se entiende verdad? ustedes acomoden el include segun su root ps.. ya vean como lo hacen :D mas facil no puede estar..
+
+*Gracias a yoseman x la idea.. grax bro..

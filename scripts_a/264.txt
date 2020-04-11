@@ -1,0 +1,32 @@
+Para q los usuarios de la web puedan poner emoticonos en el sistema de comentarios de electros solo tienes q hacer estas modificaciones en noticias.php:
+localiza esta linea:
+// Mostrar fecha en texto
+$fecha = $datos[fecha] ;
+$mesesano = array(&quot;Enero&quot;,&quot;Febrero&quot;,&quot;Marzo&quot;,&quot;Abril&quot;,&quot;Mayo&quot;,&quot;Junio&quot;,&quot;Julio&quot;,&quot;Agosto&quot;,
+&quot;Septiembre&quot;,&quot;Octubre&quot;,&quot;Noviembre&quot;,&quot;Diciembre&quot;) ;
+$diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diames $mesesano[$mesano] $ano&quot; ;
+y debajo de esta linea pon
+$comen = $datos[comentario];
+//repite esta linea por cada emoticon q quieras
+$comen = str_replace(&quot;:)&quot;,&quot;&lt;img src='url imagen'&gt;&quot;,$comen) ;
+y ahora busca esta otra:
+$datos[comentario]
+
+y sustituyelo por $comen.
+
+Si quieres evitar q los usuarios metan manualmente los codigos de los avatares haz lo siguiente:
+Arriba del todo antes de &lt;? pon esto:
+&lt;script language='Javascript'&gt; 
+&lt;!-- 
+function incluir(texto) { 
+var inserta=document.enviar_comentario.comentario; 
+inserta.value=inserta.value + texto; 
+} 
+// --&gt; 
+&lt;/script&gt; 
+ahora donde quieras pon esto
+&lt;a href='incluir(\&quot;:)\&quot;;'&gt;&lt;img src='url_smilie' border='0'&gt;&lt;/a&gt;
+y asi por emoticon.
+
+Espero q os guste y en breve pondre otra utilidad para el envio de noticias pa usar un bbcode propio (poner italica, incluir imagenes, usar negrita, etc)

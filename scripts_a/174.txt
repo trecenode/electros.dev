@@ -1,0 +1,51 @@
+[codigo]Script para subscribirte por e-mail.Solo tienes que Modificar el Asunto i el Mensaje :)[/codigo]
+
+&lt;script&gt;
+
+function Comprobar() 
+
+        {
+
+         if (formulario.email.value == &quot;&quot;) {
+	 alert(&quot;Tienes que Insertar Tu e-Mail&quot;);
+	 return false;
+	} 
+              else return true;
+
+&lt;/script&gt;
+
+&lt;?
+
+//By DarKx
+
+echo &quot;
+&lt;form name=&quot;formulario&quot; onsubmit=&quot;return Comprobar();&quot; method=&quot;post&quot; action=&quot;index.php?Valido=OK&quot;&gt;
+
+Tu e-Mail: &lt;input type=&quot;text&quot; name=&quot;email&quot; size=&quot;30&quot; maxlength=&quot;25&quot;&gt; 
+
+&lt;br&gt;
+
+&lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;Subscribirte&quot;&gt;
+
+&lt;/form&gt;&quot;;
+     
+if ($Valido == &quot;OK&quot;) {
+
+if (!eregi(&quot;[0-9a-z_-]+@[0-9a-z-.]+.[a-z]{2,3}&quot;,$email)) {
+
+echo &quot;&lt;center&gt;El email no es válido,no puedes subsribirte.&lt;/center&gt;&quot;;
+
+}else{
+
+$asunto = &quot; Asunto &quot; ;
+
+$mensaje = &quot; Mensaje &quot; ;
+
+mail(&quot;&quot;.$email.&quot;&quot;,&quot;&quot;.$asunto.&quot;&quot;,&quot;&quot;.$mensaje.&quot;&quot;,&quot;From: &quot;.$email.&quot; &quot;);
+
+echo &quot;&lt;center&gt;La Subscripcion se a enviado con exito.&lt;br&gt;&lt;a href=&quot;index.php&quot;&gt;Volver&lt;/a&gt;&quot;;
+
+} 
+
+}
+?&gt;

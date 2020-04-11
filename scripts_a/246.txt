@@ -1,0 +1,12 @@
+Easy Forum! es un foro escrito en PHP con un bonito diseño. Easy Forum! posee las siguientes características.
+* Extremadamente facil de usar e instalar
+* Pequeño y 100% HTML estandard
+* Funciona bien en cualquier navegador modenro
+* No necesita MySQL
+* Formateo de texto, filtros html
+* Diferentes iconos, smileys, links.
+* Registro de usuarios
+* Traducido a 24 lenguajes
+* 20 esquemas de color a escoger
+* Esquemas personalizables
+* y mucho más.

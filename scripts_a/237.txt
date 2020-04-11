@@ -1,0 +1,63 @@
+El secreto esta en que en la mayoria de los servidores solo soportar hacer thumbnails para imagenes jpg, y aprovechando este defecto podemos utilizar una funcion para trasforma una imagen gif,png a jpg y luego interpretar el resultado en pantalla. 
+La funcion de este script es basicamente reducir la calidad de las imagenes representadas, se puede utilizar en galeria de imagenes o donde se desee, su uso viene explicado en el propio script que llamaremos con el nombre [b]thumbnails.php[/b]
+
+
+
+[codigo]
+&lt;?php
+// Ejemplo de uso:http://recursosphp.iefactory.com/thumbnails.php?img=imagenes/logo2.gif
+// http://recursosphp.iefactory.com/thumbnails.php?img=jeremias/15.jpg
+// http://recursosphp.iefactory.com/thumbnails.php?img=zchat13/phpmysql/sad.png
+if($img){
+// Imagenes gif
+if(eregi(&quot;gif&quot;, $img)){
+    Header(&quot;Content-type: image/jpeg&quot;);
+    $im = imagecreatefromGIF(&quot;$img&quot;);
+    Imagejpeg($im,'',15);
+    ImageDestroy($im);
+// Imagenes jpg
+} elseif(eregi(&quot;jpg&quot;, $img)){
+   Header(&quot;Content-type: image/jpeg&quot;);
+   $im = imagecreatefromjpeg(&quot;$img&quot;);
+   Imagejpeg($im,'',15);
+   ImageDestroy($im);
+// Imagenes png
+} elseif(eregi(&quot;png&quot;, $img)){
+    Header(&quot;Content-type: image/jpeg&quot;);
+    $im = imagecreatefromPNG(&quot;$img&quot;);
+    Imagejpeg($im,'',15);
+    ImageDestroy($im);
+}
+}
+?&gt;
+[/codigo]
+
+Para hacer la galeria simple podriamos utilizar pefectamente este codigo que llamariamos [b]imagenes.php[/b] y deberia estar en el mismo directorio donde se encuentran todas las imagenes que queremos mostar.
+
+[codigo]
+&lt;?
+$path = &quot;.&quot;;
+$dir = opendir($path);
+while ($elemento = readdir($dir))
+{
+$extensiones = explode(&quot;.&quot;,$elemento) ;
+$nombre = $extensiones[0] ;
+$nombre2  = $extensiones[1] ;
+$tipo = array (&quot;gif&quot;, &quot;jpg&quot;, &quot;png&quot;, &quot;bmp&quot;);
+if(in_array($nombre2, $tipo)){
+echo &quot;&lt;a href='$elemento'&gt;&lt;img src='thumbnails.php?img=$elemento' width='100' height='100' border='0'&gt;&lt;/a&gt;&lt;br&gt;&quot; ;
+}
+}
+closedir($dir);
+?&gt;
+[/codigo]
+
+
+http://recursosphp.iefactory.com/tutoriales/thumbnails.zip
+
+
+
+Si deseas informacion de como se hace un galeria de imagenes para implementarle este sistema consulta estos articulos :
+http://recursosphp.iefactory.com/index.php?id=tutoriales&amp;n=67
+
+http://recursosphp.iefactory.com/index.php?id=tutoriales&amp;n=68

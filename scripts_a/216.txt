@@ -1,0 +1,213 @@
+mas que un mod de php es solo agregar una area de texto, una casilla de verificacion y un javascript que trabaje con ellos parecera no tener mucha utilidad pero aqui se los posteo  para quien le pueda servir
+
+[b]uregistrar.php[/b]
+
+[codigo]
+&lt;?
+include(&quot;config.php&quot;) ;
+if($registrar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$nick = quitar($nick) ;
+$email= quitar($email) ;
+$sexo= quitar($sexo) ;
+$edad= quitar($edad) ;
+$pais= quitar($pais) ;
+$descripcion= quitar($descripcion) ;
+// Comprobar que el usuario existe en la base de datos
+$resp = mysql_query(&quot;select id from usuarios where nick='$nick' or email='$email'&quot;) ;
+if(mysql_num_rows($resp) != 0) {
+echo &quot;&lt;font size=2 face=Verdana, Arial, Helvetica, sans-serif&gt;Ya existe un usuario con ese 
+nick o email en la base de datos. Haz click &lt;a href=javascript:history.back()&gt;aquí&lt;/a&gt; 
+para regresar.&lt;/font&gt;&quot; ;
+}
+else {
+$fecha = time() ;
+$contrasena = quitar($contrasena) ;
+$ip = $REMOTE_ADDR ;
+mysql_query(&quot;insert into usuarios (fecha,nick,contrasena,email,ip,avatar,sexo,edad,descripcion,pais)
+values ('$fecha','$nick','$contrasena','$email','$ip','$avatar','$sexo','$edad','$descripcion','$pais')&quot;) ;
+echo &quot;&lt;font size=2 face=Verdana, Arial, Helvetica, sans-serif&gt;Has sido registrado con éxito. Haz click &lt;a href=index.php&gt;aquí&lt;/a&gt; para ir a la página principal.&lt;/font&gt;&quot; ;
+}
+}
+else {
+?&gt;
+&lt;p&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;Los 
+datos marcados con un asterisco (*) son obligatorios.&lt;/font&gt;
+&lt;!-- inicia codigo para aceptar condiciones --&gt;
+&lt;script&gt;
+//change two names below to your form's names
+document.forms.formulario.activar.checked=false
+&lt;/script&gt;
+&lt;script&gt;
+//&quot;Accept terms&quot; form submission- By Dynamic Drive
+//For full source code and more DHTML scripts, visit www.dynamicdrive.com
+//This credit MUST stay intact for use
+
+var checkobj
+
+function agreesubmit(el){
+checkobj=el
+if (document.all||document.getElementById){
+for (i=0;i&lt;checkobj.form.length;i++){  //hunt down submit button
+var tempobj=checkobj.form.elements[i]
+if(tempobj.type.toLowerCase()==&quot;submit&quot;)
+tempobj.disabled=!checkobj.checked
+}
+}
+}
+
+function defaultagree(el){
+if (!document.all&amp;&amp;!document.getElementById){
+if (window.checkobj&amp;&amp;checkobj.checked)
+return true
+else{
+alert(&quot;Por favor lee los termnos bla bla bla....&quot;)
+return false
+}
+}
+}
+
+&lt;/script&gt;
+&lt;!-- fin codigo para aceptar condiciones --&gt;
+&lt;script&gt;
+function revisar() {
+if(formulario.nick.value.length &lt; 3) { alert('El nick debe contener por lo mínimo 3 caractéres') ; return false ; }
+if(formulario.contrasena.value.length &lt; 5) { alert('La contraseña debe contener por lo mínimo 5 caractéres') ; return false ; }
+if(formulario.email.value.length == 0) { alert('Debes poner un email válido') ; return false ; }
+if(formulario.pais.value.length == 0) { alert('Debes poner un país') ; return false ; }
+if(formulario.avatar.value.length == 0) { alert('Debes poner un avatar') ; return false ; }
+if(formulario.descripcion.value.length &gt; 255) { alert('La descripción supera los 255 caractéres.') ; return false ; }
+}
+&lt;/script&gt;
+&lt;SCRIPT type=&quot;text/javascript&quot;&gt;
+&lt;!--
+function showimage() {
+if (!document.images)
+return
+document.images.avatar.src=
+'avatares/' + document.formulario.avatar.options[document.formulario.avatar.selectedIndex].value
+}
+//--&gt;
+&lt;/SCRIPT&gt;
+
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;modulos.php?id=uregistrar&quot; onsubmit=&quot;return revisar()&quot; &quot;return defaultagree(this)&quot;&gt;
+&lt;table width=&quot;40%&quot; border=&quot;1&quot; cellpadding=&quot;4&quot; cellspacing=&quot;0&quot; bordercolor=&quot;#000000&quot; &gt;
+  &lt;tr&gt;
+    &lt;td width=&quot;13%&quot;&gt;&lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;* Nick:&lt;/font&gt;&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=&quot;87%&quot;&gt;&lt;input type=&quot;text&quot; name=&quot;nick&quot; maxlength=&quot;20&quot; class=&quot;form&quot; &gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;* Contraseña:&lt;/font&gt;&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;* Email:&lt;/font&gt;&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;email&quot; maxlength=&quot;40&quot; class=&quot;form&quot; &gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;*Pais:&lt;/font&gt;&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;input type=text name=pais maxlength=20 class=form&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;&lt;b&gt;Edad:&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;input type=text name=edad maxlength=2 size=10 class=form&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;Sexo:&lt;/font&gt;&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;select name=sexo class=form&gt;
+      &lt;option value=0&gt;Masculino 
+          &lt;option value=1$sexo&gt;Femenino 
+      &lt;/select&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;* Avatar:&lt;/font&gt;&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;select name=&quot;avatar&quot; onChange=&quot;showimage()&quot; class=&quot;form&quot; &gt;
+      &lt;option value=&quot;defecto.gif&quot; selected&gt;defecto.gif&lt;/option&gt;
+      &lt;option value=&quot;1.gif&quot;&gt;1.gif&lt;/option&gt;
+      &lt;option value=&quot;2.gif&quot;&gt;2.gif&lt;/option&gt;
+      &lt;option value=&quot;3.gif&quot;&gt;3.gif&lt;/option&gt;
+      &lt;option value=&quot;4.gif&quot;&gt;4.gif&lt;/option&gt;
+      &lt;option value=&quot;5.gif&quot;&gt;5.gif&lt;/option&gt;
+      &lt;option value=&quot;6.gif&quot;&gt;6.gif&lt;/option&gt;
+      &lt;option value=&quot;7.gif&quot;&gt;7.gif&lt;/option&gt;
+      &lt;option value=&quot;8.gif&quot;&gt;8.gif&lt;/option&gt;
+      &lt;option value=&quot;9.gif&quot;&gt;9.gif&lt;/option&gt;
+      &lt;option value=&quot;10.gif&quot;&gt;10.gif&lt;/option&gt;
+      &lt;option value=&quot;11.gif&quot;&gt;11.gif&lt;/option&gt;
+      &lt;option value=&quot;12.gif&quot;&gt;12.gif&lt;/option&gt;
+      &lt;option value=&quot;13.gif&quot;&gt;13.gif&lt;/option&gt;
+      &lt;option value=&quot;14.gif&quot;&gt;14.gif&lt;/option&gt;
+      &lt;option value=&quot;15.gif&quot;&gt;15.gif&lt;/option&gt;
+      &lt;option value=&quot;16.gif&quot;&gt;16.gif&lt;/option&gt;
+      &lt;option value=&quot;17.gif&quot;&gt;17.gif&lt;/option&gt;
+      &lt;option value=&quot;18.gif&quot;&gt;18.gif&lt;/option&gt;
+      &lt;option value=&quot;19.gif&quot;&gt;19.gif&lt;/option&gt;
+      &lt;option value=&quot;20.gif&quot;&gt;20.gif&lt;/option&gt;
+      &lt;option value=&quot;21.gif&quot;&gt;21.gif&lt;/option&gt;
+      &lt;option value=&quot;22.gif&quot;&gt;22.gif&lt;/option&gt;
+      &lt;option value=&quot;23.gif&quot;&gt;23.gif&lt;/option&gt;
+      &lt;option value=&quot;24.gif&quot;&gt;24.gif&lt;/option&gt;
+      &lt;option value=&quot;25.gif&quot;&gt;25.gif&lt;/option&gt;
+      &lt;option value=&quot;26.gif&quot;&gt;26.gif&lt;/option&gt;
+      &lt;option value=&quot;27.gif&quot;&gt;27.gif&lt;/option&gt;
+      &lt;option value=&quot;28.gif&quot;&gt;28.gif&lt;/option&gt;
+      &lt;option value=&quot;29.gif&quot;&gt;29.gif&lt;/option&gt;
+      &lt;option value=&quot;30.gif&quot;&gt;30.gif&lt;/option&gt;
+      &lt;option value=&quot;31.gif&quot;&gt;31.gif&lt;/option&gt;
+      &lt;option value=&quot;32.gif&quot;&gt;32.gif&lt;/option&gt;
+      &lt;option value=&quot;33.gif&quot;&gt;33.gif&lt;/option&gt;
+      &lt;option value=&quot;34.gif&quot;&gt;34.gif&lt;/option&gt;
+    &lt;/select&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;b&gt;Muestra&lt;/b&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;img src=&quot;avatares/defecto.gif&quot; alt=&quot;&quot; name=&quot;avatar&quot;&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;b&gt;&lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;Descripción&lt;/font&gt;&lt;/b&gt; &lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot; size=&quot;1&quot;&gt;:&lt;/font&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;textarea name=descripcion cols=30 rows=5 class=form style=&quot;font-family: verdana&quot;&gt;&lt;/textarea&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;TERMINOS Y CONDICIONES &lt;/td&gt;
+    &lt;td&gt;&lt;textarea name=&quot;textarea&quot; cols=&quot;30&quot; rows=&quot;5&quot; wrap=&quot;VIRTUAL&quot;&gt;Aqui van los terminos y condiciones terminos y condiciones terminos y condiciones terminos y condiciones terminos y condiciones terminos y condiciones terminos y condiciones terminos y condiciones terminos y condiciones terminos y condiciones terminos y condiciones terminos y condiciones terminos y condiciones &lt;/textarea&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;td&gt;&lt;input type=&quot;submit&quot; name=&quot;registrar&quot; value=&quot;Registrar&quot; class=&quot;form&quot; disabled&gt;
+      &lt;input name=&quot;activar&quot; type=&quot;checkbox&quot; id=&quot;activar&quot; value=&quot;checkbox&quot; onClick=&quot;agreesubmit(this)&quot;&gt;
+      Acepto terminos y condiciones &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;?
+}
+mysql_close($conectar) ;
+?&gt; 
+[/codigo]
+en este script va el nombre del formulario y el nombre de la casilla de verificacion
+[codigo]
+&lt;script&gt;
+//change two names below to your form's names
+document.forms.nomformulario.nomcasilla.checked=false
+&lt;/script&gt;
+[/codigo]
+en la casilla de verificacion agregas esto para llamar la funcion onClick=&quot;agreesubmit(this) quedaria asi
+[codigo]
+&lt;input name=&quot;activar&quot; type=&quot;checkbox&quot; id=&quot;activar&quot; value=&quot;checkbox&quot; onClick=&quot;agreesubmit(this)&quot;&gt;
+[/codigo]
+
+en el boton pones disable para desactivar el boton y quedaria asi
+[codigo]
+&lt;input type=&quot;submit&quot; name=&quot;registrar&quot; value=&quot;Registrar&quot; class=&quot;form&quot; disabled&gt;
+[/codigo]
+
+y en el form pones esto onsubmit=&quot;return defaultagree(this)&quot; en este caso  ya existe onsubmit si pones esto te lo marcaria invalido por repetirse para  esto pondrias esto 
+[codigo]
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;modulos.php?id=uregistrar&quot; onsubmit=&quot;return revisar()&quot; &quot;return defaultagree(this)&quot;&gt;
+[/codigo]
+
+[b]es todo[/b]

@@ -1,0 +1,22 @@
+&lt;?
+//SCRIPT PROGRAMADO POR LarD http://www.web-ayuda.com.ar
+
+
+//Defino la imagen que voy a utilizar
+$imagen= &quot;foto.jpg&quot;;
+
+//Calculo el tamaño de la imagen
+$tamaño = getimagesize($imagen);
+
+//Muestro los valores obtenidos
+echo &quot;Datos de la Imagen $imagen&lt;br&gt;&quot;;
+echo &quot;Ancho: $tamaño[0]&lt;br&gt;&quot;;
+echo &quot;Alto: $tamaño[1]&lt;br&gt;&quot;;
+echo &quot;Tipo: $tamaño[2]&lt;br&gt;&quot;;
+echo &quot;Código para utilizar en HTML: $tamaño[3]&lt;br&gt;&quot;;
+
+//Muestro la imagen
+echo&quot;&lt;img src='$imagen' $tamaño[3]&gt;&quot;;
+
+//Script by Web-ayuda.com.ar 
+?&gt;

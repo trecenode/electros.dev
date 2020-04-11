@@ -1,0 +1,246 @@
+Clase para la paginacion PHP.
+
+Esta es una simple clase para paginar hace todo el trabajo sucio por ti ... es la vercion 0.0.2 Asi que esperen mas actualizaciones :)
+
+Noticias:
+
+ * Corregido el error de dedo (fecth en lugar de fetch :p)
+
+[codigo]
+&lt;?php
+// Clase de paginacion
+class Paging
+{
+  // Varibles to be uses as Menu Config
+  // If not set with the proper Function
+  // they get a default Value
+	
+	/* How Many result Per Page 
+	@INT
+	*/
+	var $perPage;
+	/* String with the next Link-Text
+	@STR : Can be html to use images &lt;img src=&quot;img/next.gif&quot; alt=&quot;next&quot;&gt;
+	*/
+	var $strNext;
+	/* String with the next Link-Text
+	@STR : Can be html to use images &lt;img src=&quot;img/next.gif&quot; alt=&quot;next&quot;&gt;
+	*/
+	var $strPrev;
+	/* String with the Var name that will be used for Paging
+	@STR : Use Only [a-z][A-Z] Chars Please (DO NOT INCLUDE [0-9])
+	*/ 
+	var $varName;
+	
+	// Variables For Calculation Of Result
+	
+	/* Variable that Holds The Number Of Results In the Query
+	@INT
+	*/
+	var $total;
+	/* Total Number Of Pages
+	$INT
+	*/
+	var $totalPages;
+	/* Variable that Holds the number of the begibib in the query
+	@INT
+	*/
+	var $start;
+	/* THe current Value of $_GET[ $varName ]
+	@INT
+	*/
+	var $page;
+	
+	
+	// Variables for Storing Mysql Querys And Results
+	
+	/* This Variable Holds the Original Query Of the User
+	@STR
+	*/
+	var $sql;
+	
+
+	// Class Constructor PASS the query 
+	// Only Selects
+	function Paging($sql)
+	{	
+		// Store the Original SQL
+		$this-&gt;sql = $sql;  
+		// Get The SQL Count Query String
+		$sqlCount = eregi_replace(&quot;select (.*) from&quot;, &quot;SELECT COUNT(*) FROM&quot;, $this-&gt;sql);
+		// Fetch the Result
+		$sqlCount = mysql_query($sqlCount);
+		// Set the Total
+		$this-&gt;total = mysql_result($sqlCount,0,0);
+	}
+	
+	// Method Used Internaly to Propage the URL GET Variables
+	function propagate(&amp;$a,$pref='',$f='',$idx='')
+	{
+  	$ret = '';
+  	foreach ($a as $i =&gt; $j)
+  	{
+    	if ($i != $this-&gt;varName)
+    	{
+				if ($idx != '')
+    		{
+      		$i = $idx.&quot;[$i]&quot;;
+    		}
+    		if (is_array($j))
+    		{
+      		$ret .= $this-&gt;propagate($j,'',$f,$i);
+    		}
+    		else
+    		{
+      		$j=urlencode($j);
+      		if (is_int($i))
+      		{
+        		$ret .= &quot;$f$pref$i=$j&quot;;
+      		}
+      		else
+      		{
+        		$ret .= &quot;$f$i=$j&quot;;
+      		}
+   			}
+   		}
+    $f='&amp;';
+  	}
+		return $ret;
+	}
+
+
+	// Methods For Configuration
+	function set_perPage($value)
+	{
+			$this-&gt;perPage = $value;
+	}	
+	
+	function set_strNext($value)
+	{
+		$this-&gt;strNext = $value;
+	}
+	
+	function set_strPrev($value)
+	{
+		$this-&gt;strPrev = $value;
+	}
+	
+	function set_varName($value)
+	{
+		$this-&gt;varName = $value;
+	}
+
+	function sysConfig()
+	{
+		// This Method Calls All all the Config Methods
+		// To configure the Class
+		if (empty($this-&gt;varName))
+		{
+			$this-&gt;set_varName('page');
+		}
+		if (empty($this-&gt;strPrev))
+		{
+			$this-&gt;set_strPrev('&lt;&lt; ');
+		}
+		if (empty($this-&gt;strNext))
+		{
+			$this-&gt;set_strNext(' &gt;&gt;');
+		}
+		if (empty($this-&gt;perPage))
+		{
+			$this-&gt;set_perPage(10);
+		}
+		$this-&gt;page = isset($_GET[$this-&gt;varName]) ? $_GET[$this-&gt;varName] : 1;
+		$this-&gt;totalPages = ceil($this-&gt;total / $this-&gt;perPage);
+		$this-&gt;start = ($this-&gt;page - 1) * $this-&gt;perPage;
+	}
+
+	function getMenu()
+	{	
+		// Config CALL
+			$this-&gt;sysConfig();
+			$string = $this-&gt;propagate($_GET);
+			$more = $this-&gt;page + 1;
+			$less = $this-&gt;page - 1;
+			if ($this-&gt;page != 1)
+			{
+		 		$navResult[] = &quot;&lt;a href=\&quot;$_SERVER[PHP_SELF]?$string&amp;$this-&gt;varName=$less\&quot;&gt;$this-&gt;strPrev&lt;/a&gt;&quot;;
+			}
+			for ($i=1;$i&lt;=$this-&gt;totalPages;$i++)
+			{
+				$navResult[] = ($this-&gt;page == $i) ? &quot; &lt;strong&gt;$i&lt;/strong&gt; &quot; : &quot;&lt;a href=\&quot;$_SERVER[PHP_SELF]?$string&amp;$this-&gt;varName=$i\&quot;&gt;$i&lt;/a&gt;&quot;;                 
+			}
+			if ($this-&gt;page != $this-&gt;totalPages)
+			{
+				$navResult[] = &quot;&lt;a href=\&quot;$_SERVER[PHP_SELF]?$string&amp;$this-&gt;varName=$more\&quot;&gt;$this-&gt;strNext&lt;/a&gt;&quot;;
+			}
+			$navResult = implode($navResult,' | ');
+			$navResult = &quot;Mostrando Pagina $this-&gt;page de $this-&gt;totalPages - $this-&gt;total Registros&lt;br/&gt;&quot; .$navResult;
+			return $navResult;	
+	}
+	
+	function getResult()
+	{
+		$this-&gt;sysConfig();
+		$this-&gt;sql .= &quot; LIMIT $this-&gt;start, $this-&gt;perPage&quot;;
+		$result = mysql_query($this-&gt;sql);
+		return $result;
+	}
+	
+	function debug()
+	{
+		echo '&lt;textarea cols=&quot;60&quot; rows=&quot;10&quot;&gt;';
+		print_r($this);
+		echo '&lt;/textarea&gt;';
+	}
+
+}
+
+?&gt;
+[/codigo]
+
+
+Ok  como usarla
+
+[codigo]
+&lt;?
+include('paginador.php');
+
+$paging =&amp; new Paging('SELECT * FROM usuarios');
+
+$paging-&gt;set_perPage(10); 
+// te muestra X registros por pagina
+// si no lo llamas el default es 10
+$paging-&gt;set_strNext('&gt;&gt;'); 
+$paging-&gt;set_strPrev('&lt;&lt;'); 
+// Cual sera el str del boton siguiente y anterior?
+// los defaults son &gt;&gt; &lt;&lt;
+// puede ser incluso una imagen (html : &lt;img src=&quot;...&quot;&gt;) ;)
+$paging-&gt;set_varName('page');
+// pudes cambiarle el nombre a la variable GET
+// sease http://web.com/usuarios.php?page=1
+// sease http://web.com/usuarios.php?pagina=1
+// sease http://web.com/usuarios.phpfuck=1
+// sease http://web.com/usuarios.php?loquesea=1
+// el default es page
+
+$res = $paging-&gt;getResult();
+$nav = $paging-&gt;getMenu();
+
+while($row = mysql_fetch_array($res))
+{
+	echo &quot;&lt;b&gt;$row[id_user]&lt;/b&gt;:$row[userName] &lt;br/&gt;\n&quot;;
+}
+echo $nav;
+?&gt;
+[/codigo]
+
+
+Notas:
+
+* El Script pasara todas las variables en GET asi sean arrays por ejemplo
+si al entar a la paginacion esta
+
+http://www.web.com/paginacion.php?pagina=usuarios&amp;html=no&amp;p[1]=true&amp;p[2]=false&amp;page=5
+
+* Si usas el script me encantaria que me contactars :) a mi correo julianduenas@gmail.com

@@ -1,0 +1,43 @@
+[b]Aviso[/b]
+
+Este foro está liberado como versión de prueba, te recomiendo que no modifiques diseños o cambies el código ya que en próximas versiones esto puede cambiar y hacer que el tiempo invertido modificándolo sea en vano. 
+
+[b]Introducción[/b]
+
+Después de mucho tiempo puedo anunciarles que ya está disponible la nueva versión de eForo, eForo v3.1. Para evitar problemas he decidido lanzarlo como una versión RC (Release Candidate), si no produce problemas o estos son reportados oportunamente, podré lanzar la versión definitiva.
+
+[b]Novedades[/b]
+
+[u]v3.1[/u]
+- Posibilidad de poder mover temas de un subforo a otro.
+- Mejoras de seguridad en gran parte del foro.
+- Sistema de plantillas ePiel v1.0 permitiendo separar el diseño gráfico del código.
+- Mejoras en Panel de administración.
+- Eliminada la opción Transformación de URLs a enlaces, ahora será necesario indicar el enlace mediante código especial.
+
+[b]Instalación/actualización[/b]
+
+Las instrucciones están contenidas y detalladas en el archivo leeme.html, descomprime la carpeta en tu disco duro y sigue las instrucciones.
+
+Cualquier problema, comentario o sugerencia pueden escribirla aquí, en el foro o enviarme un correo desde aquí:
+
+[url]http://scalianza.electros.net/contacto.html[/url]
+
+Saludos.
+
+[b]Actualizaciones[/b]
+
+[b]11 Jun 2006[/b]
+[u]RC2.3[/u]
+- Corregido error al momento de registrarse.
+- El total de usuarios registrados no se contabilizaba correctamente.
+
+[b]6 Jun 2006[/b]
+[u]RC2.2[/u]
+- Se uso la función str_replace() en vez de str_ireplace() en el archivo codigo.php ya que esta última sólo es compatible a partir de PHP 5.
+
+[b]5 Jun 2006[/b]
+[u]RC2.1[/u]
+- El id de administrador no se creaba correctamente en la tabla eforo_config.
+[u]RC2[/u]
+- No se creaba el usuario administrador después de la instalación (instalación típica).

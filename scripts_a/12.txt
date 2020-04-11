@@ -1,0 +1,191 @@
+Modificado.
+
+Libro de visitas basico que consta de tres archivos en el que ponemos nuesto nombre,nuesto email y el mensaje.
+
+[b]La tabla que tenemos que crear[/b]
+
+[codigo]
+CREATE TABLE libro (
+  ID_libro int(11) NOT NULL auto_increment,
+  nombre varchar(200) default NULL,
+  email varchar(200) default NULL,
+  url varchar(200) default NULL,
+  mensaje longtext,
+  fecha varchar(200) default NULL,
+  PRIMARY KEY  (ID_libro),
+  FULLTEXT KEY email (email)
+) TYPE=MyISAM;
+[/codigo]
+
+El archivo [b]libro1.php[/b] donde dejaremos los mensajes
+
+[codigo]
+&lt;html&gt;
+&lt;head&gt;
+&lt;/head&gt; 
+&lt;?php 
+   include(&quot;conex.php&quot;); 
+   $link=Conectarse(); 
+   $result=mysql_query(&quot;select * from libro order by ID_libro desc&quot;,$link); 
+?&gt; 
+&lt;?php       
+
+   while($row = mysql_fetch_array($result)) { 
+echo &quot;&lt;table border=0 width=100%&gt;n&quot;;
+echo &quot;&lt;tr&gt;&lt;td valign=top align=right class=&quot;libro1&quot; width=100&gt;Nombre:n&quot;;
+printf(&quot;&lt;td class=&quot;libro2&quot;&gt;%s&quot;, $row[&quot;nombre&quot;]); 
+echo &quot;&lt;tr&gt;&lt;td valign=top align=right class=&quot;libro1&quot; width=100&gt;E-mail:n&quot;;
+printf(&quot;&lt;td class=&quot;libro2&quot;&gt;&lt;a href=&quot;mailto:%s&quot;&gt;%s&lt;/a&gt;&quot;, $row[&quot;email&quot;],$row[&quot;email&quot;]); 
+echo &quot;&lt;tr&gt;&lt;td valign=top align=right class=&quot;libro1&quot; width=100&gt;Fecha:n&quot;;
+printf(&quot;&lt;td class=&quot;libro2&quot;&gt;%s&quot;, $row[&quot;fecha&quot;]); 
+echo &quot;&lt;tr&gt;&lt;td valign=top align=right class=&quot;libro1&quot; width=100&gt;Mensaje:n&quot;;
+printf(&quot;&lt;td class=&quot;libro2&quot;&gt;%s&quot;, $row[&quot;mensaje&quot;]); 
+echo &quot;&lt;/table&gt;n&quot;;
+echo &quot;&lt;hr color=blue&gt;n&quot;;
+   }
+   mysql_free_result($result); 
+   mysql_close($link); 
+?&gt; 
+&lt;font size=4&gt;
+&lt;a name=mensaje&gt;
+&lt;form action=libro2.php method=post&gt;
+&lt;table border=0 align=center&gt;
+&lt;? 
+if ($nombre == &quot;error&quot;)
+{echo &quot;&lt;tr&gt;&lt;td&gt;&lt;td&gt;n&quot;;
+echo &quot;&lt;table border=0 align=center&gt;n&quot;;
+echo &quot;&lt;tr&gt;&lt;td&gt;n&quot;;
+echo &quot;&lt;font color=red face=&quot;Arial&quot; size=2&gt;&lt;b&gt;* DEBES INGRESAR UN NOMBRE *&lt;/b&gt;&lt;/font&gt;n&quot;;
+echo &quot;&lt;/table&gt;n&quot;;}
+?&gt;
+&lt;tr&gt;&lt;td align=right&gt;Nombre:&lt;/td&gt;
+&lt;td&gt;&lt;input type=text size=40 name=&quot;nombre&quot; &lt;? 
+if (($ttnombre &gt; &quot;0&quot;) &amp;&amp; ($nombre != &quot;error&quot;))
+{echo &quot;value=&quot;$ttnombre&quot;&quot;;}
+?&gt; maxlength=50 class=textos&gt;
+
+&lt;? 
+if ($email == &quot;error&quot;)
+{echo &quot;&lt;tr&gt;&lt;td&gt;&lt;td&gt;n&quot;;
+echo &quot;&lt;table border=0 align=center&gt;n&quot;;
+echo &quot;&lt;tr&gt;&lt;td&gt;n&quot;;
+echo &quot;&lt;p&gt;&lt;font color=red face=&quot;Arial&quot; size=2&gt;&lt;b&gt;* EL E-MAIL ES INVÁLIDO *&lt;/b&gt;&lt;/font&gt;n&quot;;
+echo &quot;&lt;/table&gt;n&quot;;}
+?&gt;
+&lt;tr&gt;&lt;td align=right&gt;E-mail:&lt;/td&gt;
+&lt;td&gt;&lt;input type=text size=40 name=&quot;email&quot; &lt;? 
+if (($ttemail &gt; &quot;0&quot;) &amp;&amp; ($email != &quot;error&quot;))
+{echo &quot;value=&quot;$ttemail&quot;&quot;;}
+?&gt; maxlength=100 class=textos&gt;
+
+&lt;? 
+if ($mensaje == &quot;error&quot;)
+{echo &quot;&lt;tr&gt;&lt;td&gt;&lt;td&gt;n&quot;;
+echo &quot;&lt;table border=0 align=center&gt;n&quot;;
+echo &quot;&lt;tr&gt;&lt;td&gt;n&quot;;
+echo &quot;&lt;p&gt;&lt;font color=red face=&quot;Arial&quot; size=2&gt;&lt;b&gt;* DEBES ESCRIBIR ALGO *&lt;/b&gt;&lt;/font&gt;n&quot;;
+echo &quot;&lt;/table&gt;n&quot;;}
+?&gt;
+&lt;tr&gt;&lt;td valign=top align=right&gt;Mensaje:&lt;/td&gt;
+&lt;td&gt;&lt;textarea name=&quot;mensaje&quot; class=textos rows=4 cols=40 wrap=virtual maxlength=255&gt;
+&lt;? 
+if (($ttmensaje &gt; &quot;0&quot;) &amp;&amp; ($mensaje != &quot;error&quot;))
+{echo &quot;$ttmensaje&quot;;}
+?&gt;
+&lt;/textarea&gt;
+&lt;/td&gt;&lt;/tr&gt;
+
+&lt;tr&gt;&lt;td&gt;&amp;nbsp;&lt;/td&gt;&lt;td&gt;
+&lt;input type=submit value='Enviar' class=botones&gt;
+&lt;input type=reset value='Borrar' class=botones&gt;
+&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;&lt;/form&gt;
+&lt;/font&gt;
+&lt;? 
+setcookie(&quot;ttmensaje&quot;,&quot;&quot;,time()+10744,&quot;/&quot;,&quot;webcindario.com&quot;);
+?&gt;
+[/codigo]
+El archivo [b]conex.php[/b] que es el que conecta a la base de datos, hay que modificarlo con nuestros datos.
+[codigo]
+&lt;?php 
+function Conectarse() 
+{ 
+   if (!($link=mysql_connect(&quot;localhost&quot;,&quot;usuario&quot;,&quot;contraseña&quot;))) 
+   {echo &quot;Error en el nombre de usuario y contraseña,revisa el archivo conex.php&quot;; 
+      exit(); 
+   } 
+   if (!mysql_select_db(&quot;nombredelabasededatos&quot;,$link)) 
+   {echo &quot;Error en el nombre de la base de datos,revisa el archivo conex.php&quot;; 
+      exit(); 
+   } 
+   return $link; 
+} 
+?&gt; 
+[/codigo]
+
+El archivo [b]libro2.php[/b] 
+
+[codigo]
+&lt;?php 
+    include(&quot;conex.php&quot;); 
+   $link=Conectarse(); 
+   $tiempo = time();
+$dia = date(w, $tiempo);
+$dias = array(&quot;Domingo&quot;,&quot;Lunes&quot;,&quot;Martes&quot;,&quot;Miércoles&quot;,&quot;Jueves&quot;,&quot;Viernes&quot;,&quot;Sábado&quot;,&quot;Domingo&quot;);
+$fecha = date(j, $tiempo);
+$mes = date(n, $tiempo);
+$meses = array(&quot;&quot;,&quot;Enero&quot;,&quot;Febrero&quot;,&quot;Marzo&quot;,&quot;Abril&quot;,&quot;Mayo&quot;,&quot;Junio&quot;,&quot;Julio&quot;,&quot;Agosto&quot;,&quot;Septiembre&quot;,&quot;Octubre&quot;,&quot;Noviembre&quot;,&quot;Diciembre&quot;);
+$anno = date(Y, $tiempo);
+$hora = date(H, $tiempo);
+$minuto = date(i, $tiempo);
+$segundo = date(s, $tiempo);
+$completa = &quot;$dias[$dia] $fecha de $meses[$mes] del $anno, $hora:$minuto:$segundo&quot;;
+
+$era = &quot;&quot;;
+$erb = &quot;&quot;;
+$erc = &quot;&quot;;
+
+function emailsyntax_is_valid($objeto) {
+list($local, $domain) = explode(&quot;@&quot;, $objeto);
+$pattern_local = '^([0-9a-z]*([-|_]?[0-9a-z]+)*)(([-|_]?).([-|_]?)[0-9a-z]*([-|_]?[0-9a-z]+)+)*([-|_]?)$';
+$pattern_domain = '^([0-9a-z]+([-]?[0-9a-z]+)*)(([-]?).([-]?)[0-9a-z]*([-]?[0-9a-z]+)+)*.[a-z]{2,4}$';
+$match_local = eregi($pattern_local, $local);
+$match_domain = eregi($pattern_domain, $domain);
+if ($match_local &amp;&amp; $match_domain) {
+return 1;
+} else {
+return 0;
+}
+}
+if (($nombre &gt; &quot;0&quot;) &amp;&amp; (($email &lt; &quot;0&quot;) || ($mensaje &lt; &quot;0&quot;)))
+{setcookie(&quot;ttnombre&quot;,$nombre,time()+10834,&quot;/&quot;,&quot;webcindario.com&quot;);}
+
+if (($email &gt; &quot;0&quot;) &amp;&amp; (($nombre &lt; &quot;0&quot;) || ($mensaje &lt; &quot;0&quot;)))
+{setcookie(&quot;ttemail&quot;,$email,time()+10834,&quot;/&quot;,&quot;webcindario.com&quot;);}
+
+if (($mensaje &gt; &quot;0&quot;) &amp;&amp; (($email &lt; &quot;0&quot;) || ($nombre &lt; &quot;0&quot;)))
+{setcookie(&quot;ttmensaje&quot;,$mensaje,time()+10834,&quot;/&quot;,&quot;webcindario.com&quot;);}
+
+if ($nombre &lt; &quot;0&quot;)
+{header(&quot;Location: libro1.php?nombre=error#mensaje&quot;);}else
+
+if ((!emailsyntax_is_valid($email)) || ($email &lt; &quot;0&quot;))
+{header(&quot;Location: libro1.php?email=error#mensaje&quot;);}else
+
+if ($mensaje &lt; &quot;0&quot;)
+{header(&quot;Location: libro1.php?mensaje=error#mensaje&quot;);}else
+
+{mysql_query(&quot;insert into libro (nombre,email,fecha,mensaje) values ('$nombre','$email','$completa','$mensaje')&quot;,$link);
+   mysql_free_result($result); 
+   mysql_close($link);
+   setcookie(&quot;ttnombre&quot;,&quot;&quot;,time(),&quot;/&quot;,&quot;webcindario.com&quot;);
+   setcookie(&quot;ttemail&quot;,&quot;&quot;,time(),&quot;/&quot;,&quot;webcindario.com&quot;);
+   setcookie(&quot;ttmensaje&quot;,&quot;&quot;,time(),&quot;/&quot;,&quot;webcindario.com&quot;);
+   header(&quot;Location: libro1.php&quot;);}
+?&gt;
+[/codigo]
+
+Donde pone webcindario.com debeis poner vuesta url absuluta ej)
+phpmysql.webcindario.com para que os funcione.
+
+Con esto podeis crear un libro simple y que comenzara a mostrar los mensajes en cuanto hayais escrito el primero de bienvenida.

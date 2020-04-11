@@ -1,0 +1,23 @@
+[b]Importante:[/b] Para los que ya habían bajado el foro con el error del avatar, peguen el siguiente código en el SQL de su phpMyAdmin:
+
+[codigo]alter table eforo_usuarios add avatar char(3) not null[/codigo]
+
+También otro problema fue que cuando quieres que el foro utilice la misma tabla del script &quot;Registro de usuarios 1&quot;, falta un campo que provoca que no puedes modificar el perfil, para esto agrega el siguiente código:
+
+[codigo]alter table usuarios add web varchar(100) not null[/codigo]
+
+Para los que van a bajar por primera vez el eForo, no se preocupen, estos problemas ya están solucionados.
+
+[b]Instalación de eForo[/b]
+
+[b]Nota:[/b] Debes haber creado el archivo config.php, para crearlo haz click en el enlace que está más arriba.
+
+- Modifica el archivo foroconfig.php.
+- Sube todos los archivos al servidor.
+- Ejecuta el archivo instalar.php.
+- Elimina el archivo después de la instalación.
+- Por último regístrate con el mismo nombre de administrador que pusiste en foroconfig.php para poder empezar a administrar el foro.
+
+Para agregar caretos, palabras censuradas o código especial entra a foro.php, las líneas marcadas con comentarios dicen donde modificar.
+
+Este nuevo eForo trae su propio sistema de registro de usuarios, si antes has instalado la otra versión o quieres integrarlo al script [b]Registro de usuarios 1[/b], sólo debes modificar el archivo foroconfig.php en la línea $registro, cambiar OFF por ON y listo.

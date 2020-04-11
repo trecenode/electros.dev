@@ -1,0 +1,6 @@
+Panel de adminstracion de los enlaces,descargas,tutoriales,usuarios,noticias,comentarios noticias.
+
+Todas estas categorias estas disponibles en el archivo, pero para borrar la que no te interese solo tienes que seleccionar el codigo correspondiente y suprimir el resto .
+http://recursosphp.iefactory.com
+
+Ahora como novedad incorpora la paginacion de resultados de 10 en 10 por lo que la pagina nos ira mucho mas fluida. muestra los enlaces, las descargas, los tutoriales, los usuarios, las noticias, los comentarios de las noticias, los mensajes privados y los mensajes del tag..si alguno de los anteriores no lo utilizas solo tiene que borrar el codigo php correspondiente.

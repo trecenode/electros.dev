@@ -1,0 +1,46 @@
+ElectrosNuke es un script creado por phpmysql, es la recopilación de los scripts de Electros y phpmysql para crear un portal con todo lo necesario para un webmaster que busca una solución fácil y rápida.
+
+Novedades en la version v1.2 :
+
+1) sistema de enlaces
+1) top 10 enlaces
+2) sistema de afiliados con banner
+3) sistemas de afiliados con minibanner
+4) ultimo usuario registrado
+5) zona de administracion - solo ver y borrar
+
+Instalacion:
+
+1) Configura el archivo config.php y abre el archivo instalar.php para 
+instalar electrosnuke v1.0
+
+2) El administrador del eforo v.2.1 es Administrador create
+una cuenta con ese nick para administrarlo y con ese usuario podras administrar
+tambien la pagina administrar.php
+
+3) Borra el archivo instalar.php
+
+4) Modifica el archivo principal.php que es donde se muestra este mensaje
+de bienvenida y personalizalo con un texto de bienvenida.
+
+5) Este sistema de paginas tipo index.php?id= es bastaste sencillo :
+a) Si tu tienes una pagina llamada util.php tendrias que hacer los links a la pagina
+de la siguiente forma index.php?id=util
+b) Si por algun casual pones una pagina index.php?id=noexiste te mostraria
+noexiste.php, pero como esa pagina no existe fisicamente pues te abre
+automaticamente error.php, por eso debes personalizar la pagina de error.
+c) Si se da el caso de que quieres cambiar una pagina a este sistema y tienes los links
+asi de esta manera noticias.php?n= tendrias que cambiarlos por esta otra forma
+index.php?id=noticias&amp;n= , en los casos en los que por ejemplo sea un formulario
+a otra pagina distinta, no deberias cambiarlo ( solo deberias cambiarlo en la otra pagina,
+para que no de error de cannon add headers ).
+6) personaliza el index.php a tu gusto, puedes mover los codigos php donde quieras pero recuerda
+no borralos o si no te funcionara.
+7) comienza añadiendo enlaces y se veras como se añaden automaticamente en el menu top 10 enlaces
+ademas de en enlaces.php
+
+Pagina del autor: 
+http://recursosphp.iefactory.com
+Subforo del tema :
+http://electros.iefactory.com/?ver=foro&amp;foroid=5&amp;temaid=501
+En el subforo podeis expones vuestras dudas,quejas y si vais a sacar tambien vuestro propio electrosnuke aqui podeis comentarlo.

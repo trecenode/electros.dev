@@ -1,0 +1,52 @@
+Este script permite enviar un mensaje a todos usuarios registrados de una web (del sistema de electros)
+Crear un archivo llamado [b]mensaje_general.php[/b] y pegar el siguiente código. Y ya está
+
+[codigo]&lt;script&gt;
+function valida() {
+if(formulario.mensaje.value == '') { alert('El mensaje no puede estar vacío.') ; return false ; }
+if(formulario.mensaje.value.length &gt;= 1024) { alert('El mensaje no puede superar los 1024 carácteres.') ; return false ; }
+}
+&lt;/script&gt;
+
+&lt;? include(&quot;config.php&quot;) ;
+if($enviar) {
+$remite = $_COOKIE[&quot;unick&quot;] ;
+$mensaje = trim($mensaje) ;
+$mensaje = htmlspecialchars($mensaje) ;
+$fecha = time() ;
+$query = &quot;select nick from usuarios order by id asc&quot;; 
+$resp = mysql_query($query);
+$totales = mysql_num_rows($resp) ;
+$i = 0 ;
+
+while ($datos = mysql_fetch_array($resp)) {
+$nick = $datos[nick] ;
+$mensaje2 = str_replace(&quot;[nick]&quot;,$nick,$mensaje) ;
+mysql_query(&quot;insert into mensajes (fecha,destinatario,remitente,mensaje) values ('$fecha','$nick','$remite','$mensaje2')&quot;) ;
+$i = $i + 1;
+}
+if($i == $totales) {
+echo &quot;Completado el envío de mensajes. Total enviados: &lt;b&gt;$i&lt;/b&gt;&lt;br&gt;
+Mensaje enviado: $mensaje&lt;br&gt;&lt;br&gt;
+&lt;a href=javascript:history.back()&gt;Enviar otro mensaje&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;index.php&quot;&gt;Página principal&lt;/a&gt;
+&quot;;
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+} 
+
+else {
+?&gt;
+
+&lt;b&gt;Mensaje de difusión general:&lt;/b&gt;
+    &lt;form action=&quot;mensaje_general.php&quot; method=&quot;post&quot; name=&quot;formulario&quot; onsubmit=&quot;return valida()&quot;&gt;
+    &lt;textarea name=&quot;mensaje&quot; cols=&quot;20&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt; 
+    &lt;input name=&quot;enviar&quot; type=&quot;submit&quot; value=&quot;Enviar&quot;&gt;
+    &lt;/form&gt;
+  &lt;p&gt;Para poner un mensaje personalizado a los usuarios usa: &lt;b&gt;[nick]&lt;/b&gt; Ejemplo: Hola [nick] &lt;/p&gt;
+
+&lt;? } ?&gt;
+[/codigo]
+
+Podeis usar una variable global: [b][nick][/b] para personalizar el mensaje.

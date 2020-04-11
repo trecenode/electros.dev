@@ -1,0 +1,32 @@
+Ver las carpetas de un directorio en dos columnas (se guarda como index.php) :
+
+[codigo]&lt;table width='100%' border='1' cellpadding='5' cellspacing='0' align='center' style='border: #757575 1 solid'&gt;
+&lt;tr&gt;
+&lt;td width=&quot;11%&quot; height=&quot;7&quot; &gt;&lt;/td&gt;
+&lt;td width=&quot;17%&quot; height=&quot;7&quot; &gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;?
+//definimos el path de acceso
+$path = &quot;.&quot;;
+//abrimos el directorio
+$dir = opendir($path);
+//Mostramos las informaciones
+while ($elemento = readdir($dir))
+{
+
+if (($i % 2) == 0) {
+echo &quot;&lt;/tr&gt;&lt;tr&gt;n&quot;;
+}
+if(is_dir($elemento)&amp;&amp;$elemento!==&quot;..&quot;&amp;&amp;$elemento!==&quot;..&quot;){
+?&gt;
+    &lt;td height='7' &gt;&lt;a href=&quot;&lt;? echo $elemento ?&gt;&quot; &gt;. &lt;? echo $elemento ?&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;?
+$i++;
+}
+}
+//Cerramos el directorio
+closedir($dir);
+?&gt;
+&lt;/tr&gt;
+&lt;/table&gt;[/codigo]

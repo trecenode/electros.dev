@@ -1,0 +1,51 @@
+Les envio un script que estuve modificando para ingresar desde una sola ventana y de ahi redireccionar al usuario a determinadas partes de una web:
+
+[codigo]&lt;?php
+if($_SERVER['PHP_AUTH_USER']=='') {
+  header(&quot;WWW-Authenticate: Basic realm=\&quot;Acceso Restringido\&quot;&quot;);
+  header(&quot;HTTP/1.0 401 Unauthorized&quot;);
+  echo '';
+  exit;
+} else {
+  
+if($_SERVER['PHP_AUTH_USER']=='admin'&amp;&amp;$_SERVER['PHP_AUTH_PW']=='123456') {
+Header(&quot;Location: http://www.algo.com/paneldecontrol.php&quot;);
+} else {
+echo '';
+}
+
+if($_SERVER['PHP_AUTH_USER']=='cliente'&amp;&amp;$_SERVER['PHP_AUTH_PW']=='123456') {
+Header(&quot;Location: http://www.algo.com/cuentadeusuario.php&quot;);
+} else {
+echo '';
+
+//La paginas que se llaman deben estar protegidas por la cabezera similar para  evitar entrar directamente
+
+exit;
+}
+}
+?&gt;[/codigo]
+
+Es importante que las paginas a las que se redirecciona esten protegidas para evitar el ingreso directo, segun este ejemplo, la del administrador seria en la cabeza con:
+
+[codigo]&lt;?php
+   if (($PHP_AUTH_USER!=&quot;admin&quot;) || ($PHP_AUTH_PW!=&quot;123456&quot;)) { 
+      header('WWW-Authenticate: Basic realm=&quot;Acceso Restringido&quot;'); 
+      header('HTTP/1.0 401 Unauthorized'); 
+      echo ''; 
+      exit; 
+   } 
+?&gt;[/codigo]
+
+Y la de un cliente, quedaria:
+
+[codigo]&lt;?php
+   if (($PHP_AUTH_USER!=&quot;cliente&quot;) || ($PHP_AUTH_PW!=&quot;123456&quot;)) { 
+      header('WWW-Authenticate: Basic realm=&quot;Acceso Restringido&quot;'); 
+      header('HTTP/1.0 401 Unauthorized'); 
+      echo ''; 
+      exit; 
+   } 
+?&gt;[/codigo]
+
+Espero les sirva.

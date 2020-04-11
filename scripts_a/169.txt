@@ -1,0 +1,37 @@
+Este es un sencillo ejemplo echo por electros para crear una página desde la cuál nuestros visitantes nos puedan enviar sus comentarios y sugerencias directamente a nuestro email.
+
+Mete este código en un archivo llamado email.php:
+
+[codigo]
+&lt;?
+if($enviar) {
+mail(&quot;tucorreo&quot;,&quot;Comentarios y sugerencias&quot;,$mensaje,&quot;From: $nombre &lt;$email&gt;&quot;) ;
+echo &quot;El email se ha enviado con éxito.&quot; ;
+}
+else {
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;email.php&quot;&gt;
+Nombre:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;nombre&quot;&gt;&lt;br&gt;
+Email:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;email&quot;&gt;&lt;br&gt;
+Mensaje:
+&lt;textarea name=&quot;mensaje&quot; cols=&quot;30&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/form&gt;
+&lt;?
+}
+?&gt;
+[/codigo]
+
+En tucorreo debes poner tu email que es donde se enviarán todos los mensajes que envíen tus visitantes.
+
+Ahora veremos el uso de la función mail().
+
+La función mail() tiene una estructura básica que es: email, asunto y mensaje, que sería de la siguiente forma:
+
+[b]
+mail(&quot;Email&quot;,&quot;Asunto&quot;,&quot;Mensaje&quot;)
+[/b]
+
+También existen otras opciones que se le pueden añadir a la función, como indicar quien es el que está enviando el correo, para esto usamos &quot;From: usuario &lt;correodelusuario&gt;&quot;, en el caso del ejemplo, estos datos son introducidos por el usuario que desea enviarnos un email.

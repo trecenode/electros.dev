@@ -1,0 +1,76 @@
+[b]
+Bueno, este script lo hise gracias a mi colega Ironbye que resolvio una duda sobre tan usado sistema, en cuestiones de venta de Hospedaje y Dominio Web.
+
+NOTA: Hablando con un amigo (neon) me dijo que solo comprueba si la web esta online, por eso le cambie el nombre.
+
+Bueno no hay mucho que explícar:
+[/b]
+
+[codigo]
+&lt;?
+#*******************************************
+#************Realizado Por:*****************
+#**************eliascm36********************
+#****************Fecha:*********************
+#******Martes 06 de Diciembre del 2005******
+#**********Creador de la Idea:**************
+#****************Ironbye********************
+#**************Graficos Por:****************
+#***************Neubox.net******************
+#****************Gracias.*******************
+#****************Saludos.*******************
+?&gt;
+&lt;?
+if($buscar){
+//Checamos si el dominio existe (ponemos la arroba para que en caso de que no exista no muestre el error):
+$check = @fsockopen(&quot;$dominio&quot;,&quot;80&quot;);
+if ($check) {?&gt;
+
+&lt;table border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+  &lt;tr&gt;
+    &lt;td width=&quot;54&quot;&gt;Dominio:&lt;/td&gt;
+    &lt;td width=&quot;67&quot;&gt;Disponible:&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td valign=&quot;top&quot;&gt;&lt;strong&gt;
+      &lt;?=$dominio?&gt;&lt;/strong&gt;&lt;/td&gt;
+    &lt;td valign=&quot;top&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;img src=&quot;no.gif&quot; width=&quot;20&quot; height=&quot;20&quot;&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;?
+}
+else
+{
+?&gt;
+&lt;table border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+  &lt;tr&gt;
+    &lt;td width=&quot;54&quot;&gt;Dominio:&lt;/td&gt;
+    &lt;td width=&quot;67&quot;&gt;Disponible:&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td valign=&quot;top&quot;&gt;&lt;strong&gt;
+      &lt;?=$dominio?&gt;
+    &lt;/strong&gt;&lt;/td&gt;
+    &lt;td valign=&quot;top&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;img src=&quot;si.gif&quot; width=&quot;20&quot; height=&quot;20&quot;&gt;&lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;?
+}
+}
+?&gt;
+&lt;?
+?&gt; 
+&lt;p&gt;Verifica si tu dominio esta disponible:&lt;/p&gt;
+&lt;form name=&quot;form1&quot; method=&quot;post&quot; action=&quot;&quot;&gt;
+  &lt;p&gt;www.
+    &lt;input name=&quot;dominio&quot; type=&quot;text&quot; id=&quot;dominiof&quot;&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;input name=&quot;buscar&quot; type=&quot;submit&quot; id=&quot;buscar&quot; value=&quot;Buscar&quot;&gt;
+&lt;/p&gt;
+&lt;/form&gt;
+[/codigo]
+
+[b]Y esto es todo... Gracias.
+
+Saludos.[/b]

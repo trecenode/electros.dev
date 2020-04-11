@@ -1,0 +1,8 @@
+No se si me explique bien encuanto a avatares, sino que avatares en los comentarios, si tu usted tiene las e noticias del electros nuke o las normales solo tiene que remplazarla por  la que esta acontinuacion 
+
+Me di el Lujo de ponerles como se ponen los codigos y con unos botones para mejorar la precentasion lo unico que tienen que hacer es descomprimir el archivo y remplazar tus noticias.php por las de zip y subir la carpeta de botones al mismo lugar.
+
+
+Bajenlo mejor por que intente poner el codigo aqui y ne dio error :D
+
+y tambien me ayudo un poco el Web master de emulatron.uni.cc por que el puso los emoticons a los comentarios y yo a todas las noticias (noticia y noticia exp)

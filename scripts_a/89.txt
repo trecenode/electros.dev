@@ -1,0 +1,165 @@
+bueno este escript es una pequeña modificación de las noticias de electros , que nos permite mostrar las noticias de la cantidad en cantidad q nos guste.
+
+Sustituye el codigo siguiente por el del archivo noticias.php y listo.
+
+Nota: Si tienes el sistema de noticias integrado con el de usuarios, sigue las modificaciones indicadas q pone en el &quot;Sistema de noticias&quot; original de elecctros.
+
+Ahí va:
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+if($n) {
+$resp = mysql_query(&quot;select * FROM noticias where id='$n'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+// Mostrar la fecha en texto
+$fecha = $datos[fecha] ;
+$mesesano = array(&quot;Enero&quot;,&quot;Febrero&quot;,&quot;Marzo&quot;,&quot;Abril&quot;,&quot;Mayo&quot;,&quot;Junio&quot;,&quot;Julio&quot;,&quot;Agosto&quot;,
+&quot;Septiembre&quot;,&quot;Octubre&quot;,&quot;Noviembre&quot;,&quot;Diciembre&quot;) ;
+$diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diames $mesesano[$mesano] $ano&quot; ;
+// Se agregarán los &lt;br&gt; correspondientes a la noticia extendida
+$noticiaext = $datos[noticiaext] ;
+$noticiaext = str_replace(&quot;rn&quot;,&quot;&lt;br&gt;&quot;,$noticiaext) ;
+echo &quot;
+&lt;table width=100% border=0 cellpadding=5 cellspacing=0 style=&quot;border: #757575 ; background: #252525&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;$datos[titulo]&lt;/td&gt;
+&lt;td&gt;&lt;div align=right&gt;$fecha&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan=2&gt;
+$datos[noticia]&lt;br&gt;&lt;br&gt;
+$noticiaext&lt;br&gt;&lt;br&gt;
+&lt;b&gt;Enviada por:&lt;/b&gt; $datos[usuario]&lt;br&gt;
+&lt;a href=noticias.php&gt;Regresar a la página principal&lt;/a&gt;
+&lt;p&gt;
+&quot; ;
+mysql_free_result($resp) ;
+echo &quot;&lt;p&gt;&lt;b&gt;Comentarios&lt;/b&gt;&quot; ;
+$mostrar = 5 ;
+if(!$desde) { $desde = 0 ; }
+$resp = mysql_query(&quot;select * FROM noticiascom where noticia='$n' ORDER BY id desc LIMIT $desde,$mostrar&quot;) ;
+$desde = $desde + $mostrar ;
+if(mysql_num_rows($resp) == 0) { echo &quot;&lt;p&gt;No se encontraron comentarios.&quot; ; }
+else {
+$comentarios = mysql_num_rows($resp) ;
+echo &quot;
+&lt;p&gt;&lt;b&gt;Total de comentarios:&lt;/b&gt; $comentarios
+&lt;p&gt;
+&quot; ;
+while($datos = mysql_fetch_array($resp)) {
+// Mostrar fecha en texto
+$fecha = $datos[fecha] ;
+$mesesano = array(&quot;Enero&quot;,&quot;Febrero&quot;,&quot;Marzo&quot;,&quot;Abril&quot;,&quot;Mayo&quot;,&quot;Junio&quot;,&quot;Julio&quot;,&quot;Agosto&quot;,
+&quot;Septiembre&quot;,&quot;Octubre&quot;,&quot;Noviembre&quot;,&quot;Diciembre&quot;) ;
+$diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diames $mesesano[$mesano] $ano&quot; ;
+echo &quot;
+&lt;table width=100% border=0 cellpadding=1 cellspacing=0 style=&quot;border: #757575 ; background: #252525&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;&lt;$datos[usuario]&gt;&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;&lt;div align=right&gt;&lt;b&gt;$fecha&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan=2&gt;
+$datos[comentario]
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;&lt;br&gt;
+&quot; ;
+}
+?&gt;
+&lt;p align=&quot;right&quot;&gt;&lt;a href=&quot;noticias.php?n=&lt;? echo $n ?&gt;&amp;desde=&lt;? echo $desde ?&gt;&quot;&gt;Siguientes &lt;? echo $desde ?&gt; comentarios&lt;/a&gt;
+&lt;?
+}
+mysql_free_result($resp) ;
+echo &quot;
+&lt;p&gt;
+&lt;p&gt;&lt;b&gt;Escribir comentario&lt;/b&gt;
+&lt;p&gt;
+&lt;form method=post action=noticiascom.php&gt;
+&lt;input type=hidden name=noticia value=$n&gt;
+Usuario:&lt;br&gt;
+&lt;input type=text name=usuario maxlength=20&gt;&lt;br&gt;
+Comentario:&lt;br&gt;
+&lt;textarea name=comentario cols=30 rows=5&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=submit name=enviar value=Enviar&gt;
+&lt;/form&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&quot; ;
+}
+else {
+$mostrar = 10 ;
+$inicial = $pg * $mostrar;
+$contar = &quot;SELECT * FROM noticias ORDER BY id&quot;; 
+$contarok= mysql_db_query($db,$contar);
+$total_records = mysql_num_rows($contarok);
+$pages = intval($total_records / $mostrar);
+$resp = mysql_query(&quot;select * FROM noticias ORDER BY id desc LIMIT $inicial,$mostrar&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+// Mostrar la fecha en texto
+$fecha = $datos[fecha] ;
+$mesesano = array(&quot;Enero&quot;,&quot;Febrero&quot;,&quot;Marzo&quot;,&quot;Abril&quot;,&quot;Mayo&quot;,&quot;Junio&quot;,&quot;Julio&quot;,&quot;Agosto&quot;,
+&quot;Septiembre&quot;,&quot;Octubre&quot;,&quot;Noviembre&quot;,&quot;Diciembre&quot;) ;
+$diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diames $mesesano[$mesano] $ano&quot; ;
+$resp2 = mysql_query(&quot;select id FROM noticiascom where noticia='$datos[id]'&quot;) ;
+$comentarios = mysql_num_rows($resp2) ;
+echo &quot;
+&lt;table width=100% border=0 cellpadding=5 cellspacing=0 style=&quot;border: #757575 ; background: #252525&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;$datos[titulo]&lt;/td&gt;
+&lt;td&gt;&lt;div align=right&gt;$fecha&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan=2&gt;
+$datos[noticia]
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan=2&gt;
+&lt;table width=100% border=0 cellpadding=5 cellspacing=0&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=noticias.php?n=$datos[id]&gt;Ver más&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;b&gt;Comentarios:&lt;/b&gt; $comentarios&lt;/td&gt;
+&lt;td&gt;&lt;div align=right&gt;&lt;b&gt;Enviada por:&lt;/b&gt; $datos[usuario]&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&quot; ;
+}
+mysql_free_result($resp) ;
+}
+mysql_close($conectar) ;
+// Creando los enlaces de paginación
+echo &quot;&lt;div align='right'&gt;&quot;;
+if ($pg &lt;&gt; 0)
+{
+$url = $pg - 1;
+echo &quot;&lt;a class='pq' href='noticias?&amp;pg=&quot;.$url.&quot;'&gt;« Anterior&lt;/a&gt; &quot;;
+}
+else {
+echo &quot; &quot;;
+}
+
+for ($i = 0; $i&lt;($pages + 1); $i++) {
+if ($i == $pg) {
+echo &quot;&lt;font face=Arial size=2 color=ff0000&gt;&lt;b&gt; $i &lt;/b&gt;&lt;/font&gt;&quot;;
+}
+else {
+echo &quot;&lt;a class='pq' href='noticias?pg=&quot;.$i.&quot;'&gt;&quot;.$i.&quot;&lt;/a&gt; &quot;;
+}
+}
+if ($pg &lt; $pages) {
+$url = $pg + 1;
+echo &quot;&lt;a class='pq' href='noticias?pg=&quot;.$url.&quot;'&gt;Siguiente »&lt;/a&gt;&quot;;
+}
+else {
+echo &quot; &lt;/div&gt;&quot;;
+}
+?&gt;
+[/codigo]

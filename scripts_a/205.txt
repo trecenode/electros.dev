@@ -1,0 +1,5 @@
+este script modifica un poco el sistema de noticias de electros y que fue modificado por maka, esto lo que hace es corregir cuando se ponen las noticias con un include, por lo que solo modifica unos pocos parametros, si no es asi(no lo pones con un include)visita el script originar de paginacion en los scripts echo por maka.
+
+Sustituye el codigo siguiente por el del archivo noticias.php y listo.
+
+Nota: Si tienes el sistema de noticias integrado con el de usuarios, sigue las modificaciones indicadas q pone en el &quot;Sistema de noticias&quot; original de electros.

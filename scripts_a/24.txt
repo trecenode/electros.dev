@@ -1,0 +1,48 @@
+[b]Novedades:[/b] Por motivos de compatibilidad y seguridad he decidido modificar el script y usar variables superglobales (ej. $_FILE['archivo']['name'] en vez de $archivo_name), con esto será compatible desde la versión PHP 4 en adelante además de aumentar la seguridad. Si tienes dudas sobre que son las variables superglobales visita el siguiente tutorial [url=/tutoriales/t/18]1.8 Variables superglobales[/url].
+
+Este es un script que te permite subir archivos a una web, el funcionamiento es muy sencillo, sólo necesitas de un archivo llamado subir.php.
+
+Mete el siguiente código en un archivo llamado por ejemplo subir.php:
+
+[codigo]&lt;?
+if(isset($_POST['enviar'])) {
+	if($_FILES['archivo']['size'] &lt;= 102400) {
+		move_uploaded_file($_FILES['archivo']['tmp_name'],'carpeta/'.$_FILES['archivo']['name']) ;
+		echo 'El archivo ha sido subido con éxito.' ;
+	}
+	else {
+		echo 'El archivo supera los 100 KB.' ;
+	}
+}
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;&lt;?=$_SERVER['PHP_SELF']?&gt;&quot; enctype=&quot;multipart/form-data&quot;&gt;
+&lt;input type=&quot;file&quot; name=&quot;archivo&quot;&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/form&gt;[/codigo]
+
+Si has notado, la función [b]move_uploaded_file()[/b] significa &quot;mover archivo subido&quot;, lo que pasa es que cuando envías un archivo a través de PHP, este se sube primero a una carpeta temporal en donde se mantiene durante la ejecución del script, aquí es donde podemos hacer distintas comprobaciones como el tamaño, el tipo de extensión, etc., después de esta parte lo puedes mover a cualquier carpeta de tu sitio para guardarlo definitivamente.
+
+Dentro del condicional if(isset($_POST['enviar']) puedes agregar más funciones, por ejemplo, si quieres evitar que al subir los archivos se sobreescriban con los que están en el servidor puedes agregar la función [b]file_exists()[/b] de esta forma:
+
+[codigo]
+if($_FILES['archivo']['size'] &lt;= 102400 &amp;&amp; !file_exists('carpeta/'.$_FILES['archivo']['name'])) {
+	move_uploaded_file($_FILES['archivo']['tmp_name'],'carpeta/'.$_FILES['archivo']['name']) ;
+}
+[/codigo]
+
+En la condición se indica que si el archivo no existe se puede subir el archivo.
+
+El script está muy sencillo para poder ser entendido, sin embargo el usarlo así puede permitir que cualquiera pueda subir código malicioso y ejecutarlo en tu página, para evitarlo puedes usar una condición como esta:
+
+[codigo]
+$partes = explode('.',$_FILES['archivo']['name']) ;
+$num = count($partes) - 1 ;
+$extension = $partes[$num] ;
+if($_FILES['archivo']['size'] &lt;= 102400 &amp;&amp; !file_exists('carpeta/'.$_FILES['archivo']['name']) &amp;&amp; $extension == 'zip') {
+	move_uploaded_file($_FILES['archivo']['tmp_name'],'carpeta/'.$_FILES['archivo']['name']) ;
+}
+[/codigo]
+
+Con esto sólo se aceptarán archivos con extensión .zip, puedes agregar tantas extensiones como desees.
+
+En algunos servidores puede ser necesario darle el permiso CHMOD 777 a la carpeta en donde se subirán los archivos, para hacerlo usa cualquier programa FTP y en los archivos del lado servidor haz click derecho sobre la carpeta y busca una opción que diga CHMOD, Permisos o Propiedades.

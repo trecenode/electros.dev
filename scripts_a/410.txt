@@ -1,0 +1,7 @@
+Aquí dejo codigo de envio de email con cabezeras adicionales:
+[codigo]&lt;?php
+mail(&quot;aquituemail@tuemail.com&quot;, &quot;el asunto&quot;, $mensaje,
+     &quot;From: webmaster@{$_SERVER['SERVER_NAME']}\r\n&quot; .
+     &quot;Reply-To: webmaster@{$_SERVER['SERVER_NAME']}\r\n&quot; .
+     &quot;X-Mailer: PHP/&quot; . phpversion());
+?&gt; [/codigo]

@@ -1,0 +1,35 @@
+Script 'Codigohtmplus' para el envio de tutoriales, realizado por elcidop en colaboracion con 
+- Darkmaster que aporto el codigo
+para mostrar los siguientes 10 ficheros de un directorio
+Web del autor del script codigohtmplus: 
+wwww.phpmysql.tk 
+www.elcidop.com 
+
+En este script podemos ver un listado de tutoriales que se guardan el archivos .txt , tiene las siguientes caracteristicas:
+- No necesita mysql para funcionar
+- Mostrar de 20 en 20 los archivos
+- Mostrar el tamaño del archivo, la lecturas del archivo
+- Editar, borrar y renombrar los archivos del directorio
+- Añadir un nuevo tutorial
+- Añadir archivos adjuntos al crear un nuevo tutorial
+- Ver el archivo adjunto dentro de su correspondiente tutorial y ver los clicks registrados en el mismo archivo
+- Crear secciones y subsecciones solo para el admin contraseña [b]123456[/b], si quereis otra cambiarla
+
+Funcionamiento :
+- Todos los tutoriales se guardan en txt y es posible cambiarle la extension pero solo dentro del mismo codigo por lo que es muy seguro
+- Los archivos adjuntos tienen el mismo nombre que el tutorial y se guardan en el directorio raiz
+- Las lecturas realizadas se guardan en un [b]archivo.dat[/b]
+- Los clicks en los archivos se guardan en un [b]archivo.zip.dat[/b]
+- Cada tutorial tiene atribuida su propia contraseña,autor,descripcion,fecha de subida que se pone al principio y que guarda en una archivo [b]archivo.php[/b]
+- El [b]bbcode[/b] es una opcion de codigo para remplazar unos determinados caracteres esta activado pero se puede desactivar si publicamos un tutorial que interfiera con el bbcode de la pagina, auque no es algo que suceda a menudo.
+el bbcode disponible es el mismo que el de electros.
+Tambien esta la opcion para mostrar caretos en las imagenes pero esta desactivada, hay un bbcode anti-insultos y tambien uno que cambiar las url por enl
+- Es posible crear secciones, donde guadar los tutoriales. las secciones en realidad
+son carpetas donde se guardan los archivos, tambien es posible crear subsecciones pero solo para el admin.
+- Permite agregar archivos adjuntos .zip a cada tutorial , asi como desactivar el bbcode en caso de necesidad o activar los caretos en un momento determiado(ver el codigo)
+- Quizas tengais que ponerle chomod a la carpeta donde esta el index.php chmod 777. este script esta pensado para funcionar en cualquier version de php y mas en paginas web con una version de php inferior como es lycos
+
+
+
+Ya se que quereis ver un ejemplo lo mas seguro, por eso aqui teneis
+en enlace http://usuarios.lycos.es/codigohtm

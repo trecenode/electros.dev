@@ -1,0 +1,25 @@
+- Menu (Aparecen nuevas categorias conforme se agreguen)
+- Afiliados (Se agregan desde el panel de administracion)
+- Bloque Usuarios (Usuarios online, tus datos y total de registrados)
+- Ultimos Elinks
+- Top elinks
+- Elinks Aleatorio
+- Buscador de Elinks
+- Registro de usuarios (con Boletin)
+- Panel de Usuarios donde se pueden editar los datos y enviar elinks.
+- Aplicado Mod Rewrite para una mejor indexacion en los buscadores.
+ -Los usuarios pueden ver los elinks, pero solo los pueden descargar al registrarse.
+
+Desde el panel de Administracion se puede:
+
+- Agregar/Borrar Afiliados
+- Editar/Agregar/Borrar Elinks
+- Borrar/Agregar Administradores
+– Agregar/Borrar Categorias
+- Editar Usuarios
+- Enviar Boletines
+
+Tambien Se puede editar a un usuario para que cada que envie un elink se agregue automaticamente a la lista o tenga que ser revisado por el administrador, cada que el usuario envia un elink se le cuenta.
+Todas las contraseñas son encriptadas en md5 para mayor seguridad.
+
+Script por: http://www.ocio-total.org/

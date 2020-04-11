@@ -1,0 +1,247 @@
+El sistema sirve para tener una serie de enlaces y tiene la posibilidad de agregar enlaces desde internet.
+
+consta de los siguentes archivos:
+
+[b]descargas.php[/b] para ver las descargas
+
+[codigo]
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Descargas&lt;/title&gt;
+&lt;/head&gt;
+&lt;div align=&quot;center&quot;&gt;
+&lt;body&gt; 
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td height=&quot;68&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;br&gt;
+          &lt;a href=&quot;descargas.php&quot;&gt;&lt;img src=&quot;down-logo.gif&quot; alt=&quot;&quot; width=&quot;221&quot; height=&quot;42&quot; border=&quot;0&quot;&gt;&lt;/a&gt;&lt;br&gt;
+          &lt;br&gt;
+          &lt;font class=&quot;content&quot;&gt;[ &lt;a href=&quot;descargas.php&quot;&gt;Indice&lt;/a&gt; | &lt;a href=&quot;subir.php&quot;&gt;Añadir 
+          Descarga&lt;/a&gt; ]&lt;br&gt;
+          &lt;br&gt;
+          &lt;/font&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt; 
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;div align=&quot;center&quot;&gt;
+          &lt;?php include(&quot;descargas.txt&quot;); #aquí para cambiar la ruta del archivo que muestra las entradas 
+		 ?&gt;
+        &lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+  &lt;br&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+[/codigo]
+
+[b]subir.php[/b] el formulario para enviar descargas.
+
+[codigo]
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Untitled Document&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;div align=&quot;center&quot;&gt; 
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td height=&quot;68&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;br&gt;
+          &lt;a href=&quot;descargas.php&quot;&gt;&lt;img src=&quot;down-logo.gif&quot; alt=&quot;&quot; width=&quot;221&quot; height=&quot;42&quot; border=&quot;0&quot;&gt;&lt;/a&gt;&lt;br&gt;
+          &lt;br&gt;
+          &lt;font class=&quot;content&quot;&gt;[ &lt;a href=&quot;descargas.php&quot;&gt;Indice&lt;/a&gt; | &lt;a href=&quot;subir.php&quot;&gt;Añadir 
+          Descarga&lt;/a&gt; ]&lt;br&gt;
+          &lt;br&gt;
+          &lt;/font&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td&gt;&lt;div align=&quot;center&quot;&gt; 
+          &lt;?php
+print &quot;&lt;table width='75%' border='0' cellspacing='0'&gt;
+  &lt;form method='post' action='enviar.php' onsubmit='return error ()' name='myform' &gt;
+    &lt;tr&gt; 
+      &lt;td width='16%'&gt;Titulo&lt;/td&gt;
+      &lt;td width='84%'&gt;&lt;input name=titulo type=text id='titulo' maxlenght=30&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td height='23'&gt;url del archivo&lt;/td&gt;
+      &lt;td&gt;http:// 
+        &lt;input name=url type=text id=url2 maxlenght=30&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td height='23'&gt;Descripcion&lt;/td&gt;
+      &lt;td&gt;&lt;textarea name='descripcion' id='descripcion2'&gt;&lt;/textarea&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td height='23'&gt;Version&lt;/td&gt;
+      &lt;td&gt;&lt;input name=version type=text id='version2'&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td height='23'&gt;Tama&amp;ntilde;o&lt;/td&gt;
+      &lt;td&gt;&lt;input name=tamaño type=text id='tamaño'&gt;
+        kb &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td height='23'&gt;Tu email&lt;/td&gt;
+      &lt;td&gt;&lt;input name=email type=text&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td height='23'&gt;Tu web&lt;/td&gt;
+      &lt;td&gt;Http:// 
+        &lt;input name=weburl type=text&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td height='23'&gt;&lt;input name='submit' type=submit value=Enviar&gt;&lt;/td&gt;
+      &lt;td&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;script&gt;
+                        function error (){
+                                if (document.myform.titulo.value == '') {
+                                        alert('Por favor, introduzca el titulo..');
+                                        document.myform.titulo.focus();
+                                        return false}
+                                if (document.myform.url.value == '') {
+                                        alert('Por favor, introduzca la url.');
+                                        document.myform.url.focus();
+                                        return false}
+								if (document.myform.descripcion.value == '') {
+                                        alert('Por favor, introduzca la descripcion.');
+                                        document.myform.descripcion.focus();
+                                        return false}
+                                
+
+                                else return getPermission();
+                        }
+
+&lt;/script&gt;
+ &lt;/form&gt;
+&lt;/table&gt;&lt;br&gt;&quot;;
+?&gt;
+        &lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+  &lt;br&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+[/codigo]
+
+
+[b]enviar.php[/b] para procesar el envio de las descargas.
+
+[codigo]
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Untitled Document&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;div align=&quot;center&quot;&gt;
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td height=&quot;68&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;br&gt;
+          &lt;a href=&quot;descargas.php&quot;&gt;&lt;img src=&quot;down-logo.gif&quot; alt=&quot;&quot; width=&quot;221&quot; height=&quot;42&quot; border=&quot;0&quot;&gt;&lt;/a&gt;&lt;br&gt;
+          &lt;br&gt;
+          &lt;font class=&quot;content&quot;&gt;[ &lt;a href=&quot;descargas.php&quot;&gt;Indice&lt;/a&gt; | &lt;a href=&quot;subir.php&quot;&gt;Añadir 
+          Descarga&lt;/a&gt; ]&lt;br&gt;
+          &lt;br&gt;
+          &lt;/font&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td&gt;&lt;div align=&quot;center&quot;&gt; 
+          &lt;?php
+$pvm = getdate();
+$archivo=&quot;descargas.txt&quot;; #aquí para cambiar la ruta del archivo donde se guardan las entradas 
+$uusi=&quot;&lt;table width=75% border=0 cellspacing=0 &gt;
+  &lt;tr&gt; 
+    &lt;td width=2% height='10'&gt;&lt;font class=content &gt;&lt;img src=lwin.gif alt=Editar width=9 height=9 border=0&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td width=98% &gt;&lt;a href='http://$url'&gt;$titulo&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=11 colspan=2&gt;&lt;b&gt;Descripción:&lt;/b&gt; $descripcion&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=23 colspan=2&gt;&lt;b&gt;Versión: &lt;/b&gt;$version &lt;b&gt;Tamaño del archivo: 
+      &lt;/b&gt;$tamaño&lt;b&gt; &lt;/b&gt;Kb&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=23 colspan=2&gt;&lt;b&gt;Agregado el: &lt;/b&gt;$pvm[mday]-$pvm[mon]-$pvm[year]&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=23 colspan=2&gt;&lt;a href=http://$weburl target=new&gt;Página de 
+      Inicio&lt;/a&gt; | &lt;a href=mailto:$email?subject=hay_un_enlace_roto &gt;Informar de un enlace roto&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;&lt;br&gt;nn&quot;;
+$fp=fopen($archivo, &quot;r+&quot;);
+$vanha=fread($fp, filesize($archivo));
+fseek($fp, 0);
+fwrite($fp, &quot;${uusi}${vanha}&quot;);
+fclose($fp);
+
+
+print &quot;Descarga a&amp;ntilde;adida &lt;a href=descargas.php&gt;regresar&lt;/a&gt;&quot;;
+?&gt;
+        &lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;div align=&quot;center&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+[/codigo]
+
+
+[b]descargas.txt[/b] donde se almacenan las descargas, este archivo podemos modificarlo a nuestro gusto ya que sera el que aparecera por defecto en descargas.php .
+
+[codigo]
+&lt;table width=75% border=0 cellspacing=0 &gt;
+  &lt;tr&gt; 
+    &lt;td width=2% height='10'&gt;&lt;font class=content &gt;&lt;img src=lwin.gif alt=Editar width=9 height=9 border=0&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td width=98% &gt;&lt;a href='http://download.winzip.com/winzip81.exe'&gt;winzip&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=11 colspan=2&gt;&lt;b&gt;Descripción:&lt;/b&gt; Excelente programa para comprimir y descomprimir archivos.&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=23 colspan=2&gt;&lt;b&gt;Versión: &lt;/b&gt;8.1 &lt;b&gt;Tamaño del archivo: 
+      &lt;/b&gt;10.8&lt;b&gt; &lt;/b&gt;Kb&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=23 colspan=2&gt;&lt;b&gt;Agregado el: &lt;/b&gt;31-5-2003&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td height=23 colspan=2&gt;&lt;a href=http://phpmysql.webcindario.com target=new&gt;Página de 
+      Inicio&lt;/a&gt; | &lt;a href=mailto:elcidop@galeon.com &gt;Informar de un enlace roto&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+[/codigo]
+
+Por ultimo necesitamos esta dos imagenes, guardarlas junto al archivo (guardar destino como) .
+
+[b]down-logo.gif[/b]
+
+[img]http://elcidop.webcindario.com/modules/Downloads/images/down-logo.gif[/img]
+
+[b]lwin.gif[/b]
+
+[img]http://elcidop.webcindario.com/modules/Downloads/images/lwin.gif[/img]
+
+y con todo esto ya tendremos en nuesto site
+algo parecido a las descargas del phpnuke, con aviso de enlace roto con posibilidad de agregar descargas y ver en que fecha se han relizado, sitema descargas_sin_mysql by [url]
+http://www.phpmysql.tk[/url]

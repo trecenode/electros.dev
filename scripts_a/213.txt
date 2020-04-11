@@ -1,0 +1,282 @@
+Bueno esto es una pequeña chapucilla que he hecho pero funciona bien asi que la pondre aquí ;) En el archivo ZIP os adjunto las imagenes del bloque que tienen que estar en una carpeta que se llame bloque :)
+
+[codigo]
+					  &lt;?
+if($_COOKIE[&quot;unick&quot;] ) {
+?&gt;
+            &lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;9&quot; cellpadding=&quot;0&quot;&gt;
+              &lt;tr&gt;
+                &lt;td&gt;&lt;font size=&quot;1&quot; face=&quot;verdana&quot; color=&quot;#FFFFFF&quot;&gt;
+                  &lt;form action=&quot;modules.php?name=Your_Account&quot; method=&quot;post&quot;&gt;
+                    &lt;img src=&quot;bloque/group-4.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt;&lt;b&gt;&lt;u&gt;Bienvenido,&lt;br&gt;&lt;/u&gt;&lt;/b&gt;
+					&lt;b&gt;&lt;center&gt;&lt;? echo $_COOKIE[&quot;unick&quot;] ?&gt;&lt;/center&gt;&lt;/b&gt;
+                    &lt;b&gt;&lt;/b&gt;
+                  &lt;/form&gt;
+                  &lt;/font&gt;
+            &lt;/table&gt;
+            &lt;? include(&quot;config.php&quot;) ;
+$resp = mysql_query(&quot;select id,avatar from usuarios where nick='$_COOKIE[unick]'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+if(mysql_num_rows($resp) != 0) {
+echo &quot;&lt;div align=&quot;center&quot;&gt;&lt;img src=&quot;eforo_imagenes/avatares/$datos[id].$datos[avatar]&quot; width=&quot;50&quot; height=&quot;50&quot; border=&quot;0&quot;&gt;&lt;/div&gt;&lt;br&gt;&quot; ;
+}
+?&gt;
+            &lt;hr&gt;
+            &lt;br&gt;
+            &lt;a href=&quot;index.php?id=uperfil&quot;&gt;&amp;middot; Mi perfil&lt;/a&gt;&lt;a href=&quot;index.php?id=usuarios&quot;&gt;&lt;br&gt;
+            &lt;/a&gt;&lt;a href=&quot;index.php?id=mensajes&quot; &gt;&amp;middot; Mensajes&lt;/a&gt;
+            &lt;?
+include(&quot;config.php&quot;) ;
+$usuario = $HTTP_COOKIE_VARS[unick] ;
+$resp = mysql_query(&quot;select id from mensajes where nuevo='0' and destinatario='$usuario'&quot;) ;
+$mensajes = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+if($mensajes == 0) {
+?&gt;
+            &lt;?
+}
+else {
+?&gt;
+            &lt;script&gt;
+function BlinkTxt() {
+texto = document.getElementsByTagName('blink');
+for (i=0; i&lt;texto.length; i++)
+if (texto[i].style.visibility=='hidden') {
+texto[i].style.visibility='visible';
+} else {
+texto[i].style.visibility='hidden';
+}
+setTimeout('BlinkTxt()',100);
+}
+onload=BlinkTxt;
+                        &lt;/script&gt;
+            &lt;blink&gt;&lt;a href=&quot;index.php?id=usalir&quot;&gt;&amp;middot; Salir&lt;/a&gt;&lt;br&gt;
+            &lt;?
+}
+?&gt;
+            &lt;a href=&quot;index.php?id=usuarios&quot;&gt;&lt;br&gt;
+            &lt;/a&gt;&lt;a href=&quot;index.php?id=usalir&quot;&gt;&amp;middot; Salir&lt;/a&gt;&lt;a href=&quot;?usuarios&quot;&gt;&lt;/a&gt;&lt;a href=&quot;?usuarios&quot;&gt;&lt;br&gt;
+            &lt;/a&gt;
+            &lt;hr&gt;
+            &lt;img src=&quot;bloque/group-2.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; &lt;b&gt;&lt;u&gt;Registrados:&lt;/u&gt;&lt;/b&gt;&lt;br&gt;
+            &lt;img src=&quot;bloque/ur-moderator.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; Ultimo: &lt;b&gt;
+            &lt;?
+include(&quot;config.php&quot;) ;
+
+$resp = mysql_query(&quot;select * from usuarios order by id desc limit 1&quot;) ;
+
+while($datos = mysql_fetch_array($resp)) {
+echo &quot;
+$datos[nick]&lt;br&gt; 
+&quot; ;
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;
+           
+			
+
+            &lt;/b&gt;            
+			
+			&lt;?
+include(&quot;config.php&quot;) ;
+$fecha = time() ;
+// Tiempo en el cuál se considerará al usuario en línea en minutos
+$tiempo = 1 ;
+// Se le resta el tiempo en minutos a la fecha actual
+$tiempo = $fecha-$tiempo*60 ;
+$ip = $REMOTE_ADDR ;
+$usuario = $_COOKIE[&quot;unick&quot;]  ;
+// Se eliminan las fechas que sean menores al tiempo límite
+mysql_query(&quot;delete from uenlineavis where fecha&lt; $tiempo&quot;) ;
+mysql_query(&quot;delete from uenlineareg where fecha&lt; $tiempo&quot;) ;
+// Para los usuarios no registrados
+$resp = mysql_query(&quot;select ip from uenlineavis where ip='$ip'&quot;) ;
+if(mysql_num_rows($resp) == 0) {
+mysql_query(&quot;insert into uenlineavis values ('$ip','$fecha')&quot;) ;
+}
+else {
+mysql_query(&quot;update uenlineavis set fecha='$fecha' where ip='$ip'&quot;) ;
+}
+mysql_free_result($resp) ;
+// Para los usuarios registrados
+if($_COOKIE[&quot;unick&quot;] ) {
+$resp = mysql_query(&quot;select usuario from uenlineareg where usuario='$usuario'&quot;) ;
+if(mysql_num_rows($resp) == 0) {
+mysql_query(&quot;insert into uenlineareg values ('$usuario','$fecha')&quot;) ;
+}
+else {
+mysql_query(&quot;update uenlineareg set fecha='$fecha' where usuario='$usuario'&quot;) ;
+}
+mysql_free_result($resp) ;
+}
+// Se obtiene el número de usuarios en línea
+$resp = mysql_query(&quot;select ip from uenlineavis&quot;) ;
+// Número de usuarios
+$usuarios = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+$resp = mysql_query(&quot;select usuario from uenlineareg&quot;) ;
+// Número de registrados
+$registrados = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+// Número de anonimos
+$anonimos = $usuarios - $registrados ;
+// Se obtiene el nick de los usuarios que se encuentran en línea
+$resp = mysql_query(&quot;select usuario from uenlineareg&quot;) ;
+if(mysql_num_rows($resp) != 0) {
+$renlinea = &quot;&quot; ;
+while($datos = mysql_fetch_array($resp)) {
+$resp3 = mysql_query(&quot;select * from usuarios where nick='$datos[usuario]'&quot;) ;
+$datos3 = mysql_fetch_array($resp3) ;
+$renlinea .= &quot; &lt;&lt;a href=index.php?id=usuarios&amp;u=$datos3[id] &gt;&lt;/a&gt;&lt;a href=index.php?id=mensajes&amp;responder=$datos[usuario]&gt;$datos[usuario]&lt;/a&gt;&gt; &quot; ;
+}
+}
+?&gt;
+
+&lt;?
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;
+
+&lt;img src=&quot;bloque/ur-guest.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; Totales:&lt;b&gt;
+&lt;?
+include(&quot;config.php&quot;) ;
+$resp = mysql_query(&quot;select * from usuarios order by id desc limit 1&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+echo &quot;
+$datos[id]&lt;br&gt; 
+&quot; ;
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;
+&lt;/b&gt;&lt;hr&gt;
+            &lt;img src=&quot;bloque/group-3.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; &lt;b&gt;&lt;u&gt;Usuarios en l&amp;iacute;nea:&lt;/u&gt;&lt;/b&gt; &lt;br&gt;
+            &lt;img src=&quot;bloque/ur-anony.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; Anonimos: &lt;b&gt;&lt;? echo &quot;$anonimos&quot; ?&gt;&lt;/b&gt;&lt;br&gt;
+            &lt;img src=&quot;bloque/ur-member.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; Registrados: &lt;b&gt;&lt;? echo &quot;$registrados&quot; ?&gt;&lt;/b&gt;&lt;br&gt;
+            &lt;img src=&quot;bloque/ur-registered.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; Total: &lt;b&gt;&lt;? echo &quot;$usuarios&quot; ?&gt;&lt;/b&gt;&lt;br&gt;
+            &lt;hr&gt;
+            &lt;br&gt;
+&lt;?
+}
+else {
+?&gt;
+Bienvenido, Anonimo&lt;form method=&quot;post&quot; action=&quot;uentrar.php&quot;&gt;
+              Nick:&lt;br&gt;
+              &lt;input name=&quot;nick&quot; type=&quot;text&quot; class=&quot;form&quot; size=&quot;18&quot;&gt;
+              &lt;br&gt;
+              Contraseña:&lt;br&gt;
+              &lt;input name=&quot;contrasena&quot; type=&quot;password&quot; class=&quot;form&quot; size=&quot;18&quot;&gt;
+			
+              &lt;br&gt;
+              &lt;br&gt;
+              &lt;input type=&quot;submit&quot; name=&quot;entrar&quot; value=&quot;Entrar&quot; class=&quot;form&quot;&gt;
+			  &lt;input type=&quot;hidden&quot; name=&quot;pagina&quot; value=&quot;&lt;? echo $_SERVER['REQUEST_URI'] ?&gt;&quot;&gt;
+&lt;/form&gt;
+            
+&lt;a href=&quot;index.php?id=uregistrar&quot;&gt;· Registrate&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;index.php?id=ucontrasena&quot;&gt;· Olvid&amp;eacute; la contraseña&lt;/a&gt;&lt;br&gt;
+ &lt;br&gt; ¿No estas registrado? Puedes &lt;a href=&quot;index.php?id=uregistrar&quot;&gt;crearte 
+            una cuenta aquí&lt;/a&gt;. Como usuario registrado tendrás ventajas como cambiar tu 
+            perfil, responder comentarios con tu propio nick&lt;br&gt; 
+			&lt;hr&gt;
+            &lt;img src=&quot;bloque/group-2.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; &lt;b&gt;&lt;u&gt;Registrados:&lt;/u&gt;&lt;/b&gt;&lt;br&gt;
+            &lt;img src=&quot;bloque/ur-moderator.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; Ultimo: &lt;b&gt;
+            &lt;?
+include(&quot;config.php&quot;) ;
+
+$resp = mysql_query(&quot;select * from usuarios order by id desc limit 1&quot;) ;
+
+while($datos = mysql_fetch_array($resp)) {
+echo &quot;
+$datos[nick]&lt;br&gt;
+&quot; ;
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;
+          
+            &lt;/b&gt;            &lt;img src=&quot;bloque/ur-guest.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; Totales:&lt;b&gt;
+            &lt;?
+include(&quot;config.php&quot;) ;
+$resp = mysql_query(&quot;select * from usuarios order by id desc limit 1&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+echo &quot;
+$datos[id]&lt;br&gt; 
+&quot; ;
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;
+            &lt;/b&gt; &lt;?
+include(&quot;config.php&quot;) ;
+$fecha = time() ;
+// Tiempo en el cuál se considerará al usuario en línea en minutos
+$tiempo = 1 ;
+// Se le resta el tiempo en minutos a la fecha actual
+$tiempo = $fecha-$tiempo*60 ;
+$ip = $REMOTE_ADDR ;
+$usuario = $_COOKIE[&quot;unick&quot;]  ;
+// Se eliminan las fechas que sean menores al tiempo límite
+mysql_query(&quot;delete from uenlineavis where fecha&lt; $tiempo&quot;) ;
+mysql_query(&quot;delete from uenlineareg where fecha&lt; $tiempo&quot;) ;
+// Para los usuarios no registrados
+$resp = mysql_query(&quot;select ip from uenlineavis where ip='$ip'&quot;) ;
+if(mysql_num_rows($resp) == 0) {
+mysql_query(&quot;insert into uenlineavis values ('$ip','$fecha')&quot;) ;
+}
+else {
+mysql_query(&quot;update uenlineavis set fecha='$fecha' where ip='$ip'&quot;) ;
+}
+mysql_free_result($resp) ;
+// Para los usuarios registrados
+if($_COOKIE[&quot;unick&quot;] ) {
+$resp = mysql_query(&quot;select usuario from uenlineareg where usuario='$usuario'&quot;) ;
+if(mysql_num_rows($resp) == 0) {
+mysql_query(&quot;insert into uenlineareg values ('$usuario','$fecha')&quot;) ;
+}
+else {
+mysql_query(&quot;update uenlineareg set fecha='$fecha' where usuario='$usuario'&quot;) ;
+}
+mysql_free_result($resp) ;
+}
+// Se obtiene el número de usuarios en línea
+$resp = mysql_query(&quot;select ip from uenlineavis&quot;) ;
+// Número de usuarios
+$usuarios = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+$resp = mysql_query(&quot;select usuario from uenlineareg&quot;) ;
+// Número de registrados
+$registrados = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+// Número de anonimos
+$anonimos = $usuarios - $registrados ;
+// Se obtiene el nick de los usuarios que se encuentran en línea
+$resp = mysql_query(&quot;select usuario from uenlineareg&quot;) ;
+if(mysql_num_rows($resp) != 0) {
+$renlinea = &quot;&quot; ;
+while($datos = mysql_fetch_array($resp)) {
+$resp3 = mysql_query(&quot;select * from usuarios where nick='$datos[usuario]'&quot;) ;
+$datos3 = mysql_fetch_array($resp3) ;
+$renlinea .= &quot; &lt;&lt;a href=index.php?id=usuarios&amp;u=$datos3[id] &gt;&lt;/a&gt;&lt;a href=index.php?id=mensajes&amp;responder=$datos[usuario]&gt;$datos[usuario]&lt;/a&gt;&gt; &quot; ;
+}
+}
+?&gt;
+
+&lt;?
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;
+            &lt;hr&gt;
+            &lt;img src=&quot;bloque/group-3.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; &lt;b&gt;&lt;u&gt;Usuarios en l&amp;iacute;nea:&lt;/u&gt;&lt;/b&gt; &lt;br&gt;
+            &lt;img src=&quot;bloque/ur-anony.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; Anonimos: &lt;b&gt;&lt;? echo &quot;$anonimos&quot; ?&gt;&lt;/b&gt;&lt;br&gt;
+            &lt;img src=&quot;bloque/ur-member.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; Registrados: &lt;b&gt;&lt;? echo &quot;$registrados&quot; ?&gt;&lt;/b&gt;&lt;br&gt;
+            &lt;img src=&quot;bloque/ur-registered.gif&quot; height=&quot;14&quot; width=&quot;17&quot;&gt; Total: &lt;b&gt;&lt;? echo &quot;$usuarios&quot; ?&gt;&lt;/b&gt;&lt;br&gt;
+            &lt;hr&gt;
+&lt;?
+}
+?&gt;
+[/codigo]
+
+PD en el codigo como vereis sobran muchas cosas si alguien se anima a editarlo que lo postee en mods :P

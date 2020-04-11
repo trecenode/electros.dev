@@ -1,0 +1,48 @@
+Pues os dejo un código, programado por mi, lo que hara es que vosotros escribais una palabra y aparezca luego linkeada a una url que vosotros preferais.
+
+-------------------------------------------
+CREATE TABLE `links` (
+  `categoria1` varchar(100) default NULL,
+  `categoria2` varchar(100) default NULL,
+  `id` int(1) NOT NULL auto_increment,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM AUTO_INCREMENT=21 ;
+
+---------------------------------------------
+
+- Datos.php
+[codigo]
+&lt;? 
+// en este archivo es donde insertais los nombres de las categorias.
+include (&quot;config.php&quot;);
+mysql_query(&quot;INSERT INTO links (categoria1, categoria2, id) values ('$categoria1', '$categoria2', '+')&quot;,$con);
+echo'&lt;form name=&quot;form1&quot; method=&quot;post&quot; action=&quot;datos.php?envar=si&quot;&gt;';
+echo'
+  &lt;p align=&quot;center&quot;&gt;
+    Categoria 1 
+    &lt;br&gt;
+    &lt;input name=&quot;categoria1&quot; type=&quot;text&quot; id=&quot;categoria1&quot;&gt;
+    &lt;br&gt;
+    Categoria 2&lt;br&gt; 
+    &lt;input name=&quot;categoria2&quot; type=&quot;text&quot; id=&quot;categoria2&quot;&gt;
+&lt;/p&gt;
+  &lt;p align=&quot;center&quot;&gt;    &lt;input type=&quot;submit&quot; name=&quot;Submit&quot; value=&quot;Enviar&quot;&gt;
+  &lt;/p&gt;';
+?&gt;
+[/codigo]
+
+---------------------------------------------------------
+
+- ver_datos.php
+[codigo]
+&lt;?
+include(&quot;config.php&quot;);
+$b=mysql_query(&quot;select * from links order by id ASC&quot;,$con);
+while ($row=mysql_fetch_array($b)) {
+//Aqui poneis el link que se mostrara al pinchar en la categoria.
+echo'&lt;a href=&quot;http://www.mildescargas.com/?id=descargas4ever&quot;&gt;'.$row['categoria1'].' '.$row['categoria2'].'&lt;/a&gt;';
+}
+?&gt;
+[/codigo]
+
+// editado * RENOMBRADO include(&quot;conx.php&quot;); A include(&quot;config.php&quot;); para evitar problemas con usuarios novatos...

@@ -1,0 +1,19 @@
+Con este control de usuarios podras ver los usuarios que visitan tu pagina,
+Los usuarios se muestran paginados y ordenador por orden acendente (se ve siempre en primera fila el primero que entra )
+Algunas opciones estan restringidas debido a la seguridad pero puede ser modificado en las primeras lineas de esta pagina y tambien por el espacio que ocupan.
+Las opcciones entrada desde, navegador, pagina actual estan acortadas a un marquee debido al gran espacio que ocupan, pero tienen un link.
+El idioma, el dia y la hora son las estandares, en el idioma del navegador (es) es español y (en) es ingles.
+
+Control de estadisticas by phpmysql.tk
+1) Incluye este el archivo crearestadisticas.php donde quieres 
+que cuente los usuarios que entran y salen.
+2) Dale chmod 666 a estadisticas.txt
+3) Abre crearestadisticas.php y despues estadisticas.php
+
+
+
+Ver un ejemplo
+1)  Entra aqui
+http://www.recursosphp.iefactory.com/controlestadisticas/crearestadisticas.php
+2)  Despues aqui
+http://www.recursosphp.iefactory.com/controlestadisticas/estadisticas.php

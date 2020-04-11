@@ -1,0 +1,56 @@
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Comentario&lt;/title&gt;
+&lt;!-- Contador de caracteres -----&gt;
+&lt;script LANGUAGE=&quot;JavaScript&quot;&gt;
+function textCounter(field, countfield, maxlimit) {
+if (field.value.length &gt; maxlimit)
+field.value = field.value.substring(0, maxlimit);
+else 
+countfield.value = maxlimit - field.value.length;
+}
+&lt;/script&gt;
+&lt;!-- fin ------&gt;
+&lt;!-- EDITAR ESTILO ------&gt;
+&lt;style&gt;
+TEXTAREA {
+background:C0C0C0; font-weight:bold;
+}
+INPUT {
+background:C0C0C0; font-weight:bold;
+}
+&lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;?
+if(isset($submit)):
+  $para = &quot;tucorreo@dominio.com&quot;;//TU DIRECCION DE CUENTA 
+  $asunto = &quot;¡Han ontroducido informacion en la web&quot;;//MENSAJE K KIERES K APAREZCA EN EL ASUNTO
+  $cuerpo = &quot;¡Un usuario introdujo datos!n&quot;;//MENSAJE EN EL CUERPO
+  $cuerpo .= &quot;Sus datos son:nn&quot;;
+  $cuerpo .= &quot;$comentario&quot;;//VARIABLE DEL TEXTAREA
+  $uasunto = &quot;¡Gracias por su comentario!&quot;;//ASUNTO K SE ENVIA AL USUARIO
+  $ucuerpo = &quot;¡Gracias por su comentario!Si tiene alguna sugerencia
+              mas puede volver a enviarla se estudiara&quot;;//MENSAJE K SE ENVIA AL USUARIO
+  mail($para, $asunto, $cuerpo);//SE ENVIA EL E-MAIL
+  mail($email, $uasunto, $ucuerpo);
+  echo &quot;&lt;h2&gt;Gracias por la informacion&lt;/h2&gt;&quot;;//MENSAJE PARA DAR LAS GRACIAS
+  echo &quot;&lt;a href=javascript:history.back(-1);&gt;Volver&lt;/a&gt;&quot;;
+else:
+?&gt;
+&lt;form action=&quot;comentario.php&quot; method=&quot;post&quot;&gt;
+&lt;h2&gt;Por favor, envienos su comentario&lt;/h2&gt;
+&lt;font color=&quot;0000ff&quot;&gt;&lt;b&gt;.:Tu E-Mail:.&lt;/b&gt;&lt;/font&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;email&quot; style=&quot;border:1px solid&quot;&gt;&lt;br&gt;
+&lt;textarea cols=35 rows=15 name=&quot;comentario&quot; style=&quot;border:1px solid&quot; onKeyDown=&quot;textCounter(this.form.comentario,this.form.remLen,250);&quot;
+  onKeyUp=&quot;textCounter(this.form.comentario,this.form.remLen,250);&quot;&gt;
+&lt;/textarea&gt;&lt;br&gt;&lt;input readonly type=&quot;text&quot; name=&quot;remLen&quot; size=&quot;3&quot; maxlength=&quot;3&quot; value=&quot;250&quot; style=&quot;border:1px solid&quot;&gt; caracteres
+&lt;BR&gt;
+&lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;¡Enviar!&quot; style=&quot;border:1px solid&quot;&gt;
+&lt;/form&gt;
+&lt;?
+endif;
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;

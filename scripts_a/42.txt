@@ -1,0 +1,593 @@
+Este es un foro que no tiene nada que envidiar a los foros con mysql ya que dispone de zona de administracion, smyles y un archivo css con el que predefinir el diseño
+
+[b]id.dat[/b] 
+
+[codigo]
+4
+[/codigo]
+
+[b]mensajes.dat[/b] cambia aqui los temas principales
+
+[codigo]
+
+
+
+[nuevo_post]|||^^^|||1|||^^^|||0|||^^^|||Wemaster|||^^^|||Apertura del nuevo Foro|||^^^|||17-05-03|||^^^|||Queda inaugurado el nuevo foro. Saludos a todos :a|||^^^|||
+
+
+
+[nuevo_post]|||^^^|||4|||^^^|||1|||^^^|||webmaster|||^^^|||Apertura del nuevo Foro|||^^^|||17-05-03|||^^^|||[b]Estos son los emoticones disponibles: [/b] :) :e :D :a :8 :u :x :k :w :z :s :j :r|||^^^|||
+[/codigo]
+
+[b]estilo.css[/b] define aqui el estilo de tu pagina
+
+[codigo]
+.TituloMenu { 
+ font-family: Verdana, Arial, Helvetica, sans-serif; 
+ font-size: 10px; color: #24559F
+}
+
+TD { 
+ font-family: Verdana, Arial, Helvetica; 
+ font-size: 11px
+} 
+
+A { 
+ color: #004080; font-style: normal; text-decoration: underline
+}
+A:hover {
+ color: #3C9DFF; font-style: normal; text-decoration: underline
+}
+
+.input { 
+ font-family: Verdana, Arial, Helvetica, sans-serif; 
+ font-size: 11px; 
+ color: #333333; 
+ border: 1px #666666 solid; 
+ background-color: #ffffff; 
+}
+.boton { 
+ font-family: Verdana, Arial, Helvetica, sans-serif; 
+ font-size: 11px; 
+ color: #000000; 
+ border: 1px #666666 solid; 
+ background-color: #C0C0C0; 
+}
+
+[/codigo]
+
+[b]foro.php[/b] archivo principal con la configuracion, hay una opcion para mostrar o no el panel de temas al entrar al foro :
+
+[b]$verFormulario = &quot;si&quot;;[/b] , recomiendo cambiarlo a no una vez escritos los temas.
+
+y cambiar esto, que es para el panel de control
+
+[b]// Login: Nombre (admin) y Pass (pass)
+$loginNombre = &quot;palabra1&quot;;
+$loginPass = &quot;palabra2&quot;;[/b]
+
+[codigo]
+
+&lt;?
+// Ruta absoluta a los archivos de texto:
+$postsID = &quot;id.dat&quot;;
+$posts = &quot;mensajes.dat&quot;;
+
+// Nombre del foro
+$nForo = &quot;&quot; ;
+
+// Colores del foro
+$tabla_color=&quot;#D0DDEE&quot;;
+$borde_color=&quot;#24559F&quot;;
+$fila1_color=&quot;#BCCEE7&quot;;
+$fila2_color=&quot;#AEC4E1&quot;;
+
+// Mostrar formulario 'si' o 'no'
+$verFormulario = &quot;si&quot;;
+
+// Login: Nombre (admin) y Pass (pass)
+$loginNombre = &quot;palabra1&quot;;
+$loginPass = &quot;palabra2&quot;;
+
+function validarTags() 
+ {
+ global $nombre;
+ global $asunto;
+ global $mensaje;
+ $nombre = htmlspecialchars(trim($nombre));
+ $nombre = str_replace(&quot;&amp;&quot;,&quot;&amp;&quot;,$nombre);
+ $nombre = preg_replace(&quot;/(1512)|(15)|(12)/&quot;,&quot;&quot;,$nombre);
+ $nombre = stripslashes(str_replace(&quot;&lt;&quot;,&quot;&quot;,$nombre));
+ $nombre = strip_tags(str_replace(&quot;&gt;&quot;,&quot;&quot;,$nombre));
+ $nombre = substr(strip_tags($nombre),0,12);
+ $asunto = htmlspecialchars(trim($asunto));
+ $asunto = str_replace(&quot;&amp;&quot;,&quot;&amp;&quot;,$asunto);
+ $asunto = preg_replace(&quot;/(1512)|(15)|(12)/&quot;,&quot;&quot;,$asunto);
+ $asunto = stripslashes(str_replace(&quot;&lt;&quot;,&quot;&quot;,$asunto));
+ $asunto = strip_tags(str_replace(&quot;&gt;&quot;,&quot;&quot;,$asunto));
+ $asunto = substr(strip_tags($asunto),0,30);
+ $mensaje = htmlspecialchars(trim($mensaje));
+ $mensaje = str_replace(&quot;&amp;&quot;,&quot;&amp;&quot;,$mensaje);
+ $mensaje = preg_replace(&quot;/(1512)|(15)|(12)/&quot;,&quot;&lt;br&gt;&quot;,$mensaje);
+ $mensaje = str_replace(&quot;&lt;&quot;,&quot;&quot;,$mensaje);
+ $mensaje = str_replace(&quot;&gt;&quot;,&quot;&quot;,$mensaje);
+ return;
+ }
+
+function reemplazarTags() 
+ {
+ global $mensaje1;
+ $mensaje1 = str_replace('[b]', '&lt;b&gt;', $mensaje1);
+ $mensaje1 = str_replace('[/b]', '&lt;/b&gt;', $mensaje1);
+ $mensaje1 = str_replace('[i]', '&lt;i&gt;', $mensaje1);
+ $mensaje1 = str_replace('[/i]', '&lt;/i&gt;', $mensaje1);
+ $mensaje1 = str_replace('[u]', '&lt;u&gt;', $mensaje1);
+ $mensaje1 = str_replace('[/u]', '&lt;/u&gt;', $mensaje1);
+ $mensaje1 = str_replace('[c]', &quot;&lt;font color='#004080'&gt;&quot;, $mensaje1);
+ $mensaje1 = str_replace('[/c]', '&lt;/font&gt;', $mensaje1);
+ $mensaje1 = str_replace (&quot;[tk]&quot;, &quot;&lt;img src='imagenes/tk.gif' width='15' height='15'&gt;&quot;, $mensaje1);
+ $mensaje1 = str_replace(&quot;:)&quot;, &quot;&lt;img src='imagenes/sonrisa.gif' &gt;&quot;, $mensaje1);
+ $mensaje1 = str_replace(&quot;:e&quot;, &quot;&lt;img src='imagenes/ojo.gif' &gt;&quot;, $mensaje1);
+ $mensaje1 = str_replace(&quot;:D&quot;, &quot;&lt;img src='imagenes/divertido.gif' &gt;&quot;, $mensaje1);
+ $mensaje1 = str_replace(&quot;:a&quot;, &quot;&lt;img src='imagenes/hola.gif' &gt;&quot;, $mensaje1);
+ $mensaje1 = str_replace(&quot;:8&quot;, &quot;&lt;img src='imagenes/ojotes.gif' &gt;&quot;, $mensaje1);
+ $mensaje1 = eregi_replace (&quot;:u&quot;, &quot;&lt;img src='imagenes/confundido.gif' &gt;&quot;, $mensaje1);
+ $mensaje1 = eregi_replace (&quot;:x&quot;, &quot;&lt;img src='imagenes/enfado.gif' &gt;&quot;, $mensaje1);
+ $mensaje1 = eregi_replace (&quot;:k&quot;, &quot;&lt;img src='imagenes/cabreo.gif' &gt;&quot;, $mensaje1);
+ $mensaje1 = eregi_replace (&quot;:w&quot;, &quot;&lt;img src='imagenes/sock.gif' &gt;&quot;, $mensaje1);
+ $mensaje1 = eregi_replace (&quot;:z&quot;, &quot;&lt;img src='imagenes/zzz.gif' &gt;&quot;, $mensaje1);
+ $mensaje1 = eregi_replace (&quot;:s&quot;, &quot;&lt;img src='imagenes/golpes.gif' &gt;&quot;, $mensaje1);
+ $mensaje1 = eregi_replace (&quot;:j&quot;, &quot;&lt;img src='imagenes/barco.gif' &gt;&quot;, $mensaje1);
+ $mensaje1 = str_replace (&quot;:r&quot;, &quot;&lt;img src='imagenes/moto.gif' &gt;&quot;, $mensaje1);
+ return;
+ }
+
+function escribirMensaje($posts, $postsID)
+ {
+ global $nueva_id;
+ $fp = fopen ($postsID, &quot;rb&quot;);
+ $id = fgets($fp, 4096);
+ $nueva_id = $id + 1;
+ fclose($fp);
+ $fp = fopen ($postsID, &quot;r+b&quot;);
+ flock ($fp,2);
+ fwrite($fp, $nueva_id);
+ flock ($fp,3);
+ fclose($fp);
+ 
+ $fp = fopen ($posts, &quot;ab&quot;);
+ flock ($fp,2);
+ fwrite($fp, &quot;rn&quot;);
+ flock ($fp,3);
+ fclose($fp);
+ return;
+ }
+ 
+function eliminarMensaje($elArchivo, $elPost)
+ {
+ $i = 0;
+ $archivo1 = file($elArchivo);
+ $fp = fopen($elArchivo, &quot;w&quot;);
+ for ($i = 0; $i &lt;= sizeof($archivo1); $i++)
+ {
+ if (strstr($archivo1[$i], $elPost))
+ { 
+ $archivo1[$i] = &quot;&quot;;
+ }
+ fwrite($fp, $archivo1[$i]);
+ }
+ fclose($fp);
+ return;
+ }
+ 
+// Contar temas y mensajes
+
+$temas=0;
+$mens=0;
+ 
+$fp = fopen ($posts, &quot;rb&quot;);
+while (!feof ($fp))
+ {
+ $buff = fgets($fp, 4096);
+ if(substr($buff, 0, 12 )==&quot;[nuevo_post]&quot;) {
+ $p=explode('|||^^^|||', &quot;$buff&quot;);
+ if ($p[2]==0) {
+ $temas++;
+ $mens++;
+ }
+ else {
+ $mens++;
+ }
+ }
+ }
+fclose($fp);
+
+switch($a)
+{
+
+// Ingrear al sistema
+
+case &quot;login&quot;:
+
+ echo &quot;&lt;form action='index.php?ver_formulario=$verFormulario&amp;a=ver_mensaje&amp;tid=$tid' method='post'&gt;n&quot;;
+ echo &quot;&lt;table border='0' cellspacing='1' cellpadding='3' width='320' bgcolor='$borde_color'&gt;n&lt;tr bgcolor='$tabla_color' style='color: #24559F'&gt;n&lt;td&gt;&lt;b&gt;Acceso para el Administrador&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='320' colspan='2' bgcolor='#ffffff'&gt;n&quot;;
+ echo &quot;&lt;table cols='2' width='320' class='body'&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td colspan='2' bgcolor='#ffffff'&gt;&lt;img src='imagenes/tablasepara.gif' width='1' height='10'&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='70' valign='top'&gt;Usuario:&lt;/td&gt;&lt;td width='250'&gt;n&lt;input type='text' name='usuario' size='35' maxlength='12' class='input'&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='70' valign='top'&gt;Password:&lt;/td&gt;&lt;td width='250'&gt;n&lt;input type='text' name='password' size='35' maxlength='30' class='input'&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='320' colspan='2'&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='70' valign='top'&gt;&lt;/td&gt;&lt;td width='250'&gt;n&lt;input type='submit' name='login' value='Ingresar' class='boton'&gt; n&lt;input type='reset' value='Restablecer' class='boton'&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td bgcolor='#ffffff'&gt;&lt;img src='imagenes/tablasepara.gif' width='1' height='10'&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;/table&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/form&gt;n&quot;;
+ if (!$usuario or !$password) {
+ echo &quot;&lt;a href='index.php?ver_formulario=$verFormulario&amp;a=ver_mensaje&amp;tid=$tid'&gt;&lt;&lt; Volver al mensaje&lt;/a&gt;&quot;;
+ }
+ 
+break;
+
+
+// Postear un nuevo mensaje
+
+case &quot;postnuevo&quot;:
+
+ // Validar formulario
+ 
+ if (!$nombre or !$asunto or !$mensaje) {
+ echo &quot;Por favor, complete todos los campos del formuario.&lt;br&gt;&lt;a href='index.php?ver_formulario=$verFormulario'&gt;&lt;&lt; Volver al Foro&lt;/a&gt;&quot;;
+ }
+ else {
+ 
+ escribirMensaje($posts, $postsID);
+ 
+ // Reemplazar tags no deseados
+ 
+ validarTags();
+ 
+ // Escribir post en el archivo
+ 
+ if (!$nombre or !$asunto or !$mensaje) {
+ $nombre = &quot;(Ninguno)&quot;;
+ $asunto = &quot;(Ninguno)&quot;;
+ }
+ $fecha=date(&quot;d-m-y&quot;);
+ $fp = fopen ($posts, &quot;ab&quot;);
+ flock ($fp,2);
+ fwrite($fp, &quot;[nuevo_post]|||^^^|||$nueva_id|||^^^|||0|||^^^|||$nombre|||^^^|||$asunto|||^^^|||$fecha|||^^^|||$mensaje|||^^^|||&quot;);
+ flock ($fp,3);
+ fclose($fp);
+ 
+ echo &quot;Muchas gracias. Su mensaje ha sido agregado.&lt;br&gt;&lt;a href='index.php?ver_formulario=$verFormulario' target='_top'&gt;&lt;&lt; Volver atrás&lt;/a&gt;&quot;;
+ }
+break;
+
+
+// En caso de que sea una respuesta
+
+case &quot;responder&quot;:
+
+ if (!$nombre or !$asunto or !$mensaje) {
+ echo &quot;Por favor, complete todos los campos del formuario.&lt;br&gt;&lt;a href='index.php?ver_formulario=$verFormulario&amp;a=ver_mensaje&amp;tid=$tid' target='_top'&gt;&lt;&lt; Volver al mensaje&lt;/a&gt;&quot;;
+ }
+
+ else {
+
+ escribirMensaje($posts, $postsID);
+ 
+ // Reemplazar tags...
+ 
+ validarTags();
+ 
+ $fecha=date(&quot;d-m-y&quot;);
+ $fp = fopen ($posts, &quot;ab&quot;);
+ flock ($fp,2);
+ fwrite($fp, &quot;[nuevo_post]|||^^^|||$nueva_id|||^^^|||$tid|||^^^|||$nombre|||^^^|||$asunto|||^^^|||$fecha|||^^^|||$mensaje|||^^^|||&quot;);
+ flock($fp,3);
+ fclose($fp);
+ 
+ echo &quot;Muchas gracias. Su respuesta ha sido agregada.&lt;br&gt;&lt;a href='index.php?ver_formulario=$verFormulario&amp;a=ver_mensaje&amp;tid=$tid' target='_top'&gt;&lt;&lt; Ver mensaje&lt;/a&gt;&quot;;
+ }
+break;
+
+
+// En caso de ver un mensaje
+
+case &quot;ver_mensaje&quot;:
+
+ $ahora = date(&quot;d-m-y&quot;);
+ $zonahoraria = date(&quot;O&quot;);
+ 
+ echo &quot;&lt;table border='0' width='550'&gt;n&lt;tr&gt;&lt;td align='left'&gt;n&lt;tr&gt;&lt;td&gt;$nForo&lt;td align='right'&gt;n&quot;;
+ if ($usuario != $loginNombre || $password != $loginPass)
+ {
+ echo &quot;&lt;a href='index.php?ver_formulario=$verFormulario&amp;a=login&amp;tid=$tid'&gt;Admin&lt;/a&gt; | &quot;;
+ }
+ elseif ($usuario == $loginNombre &amp;&amp; $password == $loginPass) 
+ {
+ $verFormulario = &quot;no&quot;;
+ }
+ echo &quot;&lt;a href='index.php?ver_formulario=$verFormulario' target='_top'&gt;Volver al Foro&lt;/a&gt;n&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;n
+ &lt;table border='0' width='550' cellspacing='1' cellpadding='2' bgcolor='$borde_color'&gt;n&lt;tr bgcolor='$tabla_color' border='1' bordercolor='1' style='color:#24559F'&gt;
+ &lt;td width='100'&gt;n&lt;b&gt;Autor&lt;/b&gt;&lt;td width='450'&gt;&lt;b&gt;Mensaje&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ 
+ $fp = fopen ($posts, &quot;rb&quot;);
+
+ while(!feof ($fp))
+ {
+ 
+ $buffer = fgets($fp, 4096);
+ if (substr($buffer, 0, 12 )==&quot;[nuevo_post]&quot;)
+ {
+ $p=explode('|||^^^|||', &quot;$buffer&quot;);
+ if ($p[1]==$tid)
+ {
+ $asunto=$p[4];
+ $mensaje1 = nl2br($p[6]);
+ 
+ if ($usuario == $loginNombre &amp;&amp; $password == $loginPass)
+ {
+ $eliminar = &quot;[ &lt;a href='index.php?ver_formulario=$verFormulario&amp;a=eliminar&amp;usuario=$usuario&amp;password=$password&amp;tid=$tid&amp;p1=$p[1]&amp;p2=$p[2]&amp;p3=$p[3]&amp;p4=$p[4]'&gt;Eliminar&lt;/a&gt; ]&quot;;
+ }
+ 
+ reemplazarTags();
+ 
+ echo &quot;&lt;tr bgcolor='$fila1_color' border='1' bordercolor='1'&gt;&lt;td valign='top'&gt;n
+ &lt;B&gt;$p[3]&lt;/B&gt;&lt;td&gt;&lt;b&gt;$p[4]&lt;/b&gt;&lt;p&gt;$mensaje1&lt;/td&gt;&lt;/tr&gt;n
+ &lt;tr bgcolor='$fila1_color' border='1' bordercolor='#ffffff'&gt;&lt;td&gt;$eliminar&lt;/td&gt;n
+ &lt;td&gt;Fecha: $p[5]&lt;/td&gt;&lt;/tr&gt;&quot;; 
+ }
+ }
+ }
+ fclose($fp);
+
+ $fp = fopen ($posts, &quot;rb&quot;);
+ 
+ $color=0;
+ while (!feof ($fp))
+ {
+ $buffer = fgets($fp, 4096);
+ if(substr($buffer, 0, 12 )==&quot;[nuevo_post]&quot;)
+ {
+ $p=explode('|||^^^|||', &quot;$buffer&quot;);
+ if ($p[2]==$tid)
+ {
+ $asunto = substr(strip_tags($p[4]),0,30);
+ $nombre = substr(strip_tags($p[3]),0,10);
+ $mensaje1 = nl2br($p[6]);
+ 
+ if ($usuario == $loginNombre &amp;&amp; $password == $loginPass)
+ {
+ $eliminar = &quot;[ &lt;a href='index.php?ver_formulario=$verFormulario&amp;a=eliminar&amp;usuario=$usuario&amp;password=$password&amp;tid=$tid&amp;p1=$p[1]&amp;p2=$p[2]&amp;p3=$p[3]&amp;p4=$p[4]'&gt;Eliminar&lt;/a&gt; ]&quot;;
+ }
+
+ reemplazarTags();
+ 
+ if ($color==0) {
+ echo &quot;&lt;tr bgcolor='$fila2_color' border='1' bordercolor='1'&gt;n&lt;td valign='top'&gt;n&lt;B&gt;$nombre&lt;/B&gt;&lt;td&gt;&lt;B&gt;Re: $asunto&lt;/B&gt;&lt;p&gt;n$mensaje1&lt;/td&gt;n
+ &lt;tr bgcolor='$fila2_color' border='1' bordercolor='#ffffff'&gt;n&lt;td&gt;$eliminar&lt;/td&gt;&lt;td&gt;Fecha: $p[5]&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ $color=1;
+ }
+ else {
+ echo &quot;&lt;tr bgcolor='$fila1_color' border='1' bordercolor='1'&gt;n&lt;td valign='top'&gt;n&lt;B&gt;$nombre&lt;/B&gt;&lt;td&gt;&lt;B&gt;Re: $asunto&lt;/B&gt;&lt;p&gt;n$mensaje1&lt;/td&gt;n
+ &lt;tr bgcolor='$fila1_color' border='1' bordercolor='#ffffff'&gt;n&lt;td&gt;$eliminar&lt;/td&gt;&lt;td&gt;Fecha: $p[5]&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ $color=0;
+ }
+ }
+ }
+ }
+ fclose($fp);
+ echo &quot;&lt;/table&gt;&lt;table width='550'&gt;&lt;tr&gt;&lt;td&gt;&lt;/tr&gt;&lt;/td&gt;&quot;;
+ echo &quot;&lt;tr&gt;&lt;td align='right'&gt;&lt;A HREF='index.php?ver_formulario=$verFormulario'&gt;Volver al Foro&lt;/A&gt;&lt;/tr&gt;&lt;/td&gt;&lt;/table&gt;&quot;;
+ 
+ // Formulario de respuesta
+ 
+ if ($verFormulario == &quot;si&quot; &amp;&amp; $tid != &quot;&quot;)
+ {
+ echo &quot;&lt;form action='index.php?ver_formulario=$verFormulario&amp;a=responder' method='post'&gt;n&quot;;
+ echo &quot;&lt;table border='0' cellspacing='1' cellpadding='3' width='550' bgcolor='$borde_color'&gt;n&lt;tr bgcolor='$tabla_color' style='color:#24559F'&gt;n&lt;td&gt;&lt;b&gt;Responder al mensaje:&lt;/b&gt; $asunto&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='550' colspan='2' bgcolor='#ffffff'&gt;n&quot;;
+ echo &quot;&lt;table cols='2' width='550' class='body'&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td colspan='2' bgcolor='#ffffff'&gt;&lt;img src='imagenes/tablasepara.gif' width='1' height='10'&gt;&lt;/td&gt;&lt;/tr&gt;&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='100' valign='top'&gt;Nombre:&lt;/td&gt;&lt;td width='450'&gt;&lt;input type='text' name='nombre' size='55' maxlength='12' class='input'&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='100' valign='top'&gt;Mensaje:&lt;/td&gt;&lt;td width='450'&gt;&lt;textarea name='mensaje' rows='8' cols='54' class='input'&gt;&lt;/textarea&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;; 
+ echo &quot;&lt;tr&gt;&lt;td width='550' colspan='2'&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='100' valign='top'&gt;&lt;/td&gt;&lt;td width='450'&gt;n&lt;input type='submit' name='responder' value='Responder mensaje' class='boton'&gt; n&lt;input type='reset' value='Restablecer' class='boton'&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;input type='hidden' name='tid' value='$tid'&gt;&lt;input type='hidden' name='asunto' value='$asunto'&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td bgcolor='#ffffff'&gt;&lt;img src='imagenes/tablasepara.gif' width='1' height='10'&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;/table&gt;&lt;/form&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;n&quot;;
+ }
+break;
+
+
+// Eliminar mensaje
+
+case &quot;eliminar&quot;:
+
+ if ($usuario == $loginNombre &amp;&amp; $password == $loginPass){
+ if ($p1 != &quot;&quot; &amp;&amp; $p2 != &quot;&quot; &amp;&amp; $p3 != &quot;&quot; &amp;&amp; $p4 != &quot;&quot;){
+ $elPost = &quot;[nuevo_post]|||^^^|||$p1|||^^^|||$p2|||^^^|||$p3|||^^^|||$p4|||^^^|||&quot;;
+ eliminarMensaje($posts, $elPost);
+ echo &quot;Listo. El mensaje ha sido eliminado.&lt;br&gt;&lt;a href='index.php?ver_formulario=$verFormulario&amp;a=ver_mensaje&amp;tid=$tid&amp;usuario=$usuario&amp;password=$password' target='_top'&gt;&lt;&lt; Volver al mensaje&lt;/a&gt;&quot;;
+ }
+ }
+ else 
+ {
+ echo &quot;&lt;font color='#ff0000'&gt;&lt;b&gt;Error! El sistema no lo ha identificado.&lt;/b&gt;&lt;/font&gt;&lt;br&gt;n&quot;;
+ echo &quot;&lt;a href='index.php?ver_formulario=$verFormulario&amp;a=ver_mensaje&amp;tid=$tid' target='_top'&gt;&lt;&lt; Volver al mensaje&lt;/a&gt;n&quot;;
+ }
+break;
+
+
+// Mostrar todos los mensajes
+
+default:
+
+ $limite = 5;
+ $ahora=date(&quot;d-m-y&quot;);
+ $zonahoraria=date(&quot;O&quot;);
+ echo &quot;&lt;table border='0' width='550'&gt;&lt;tr&gt;&lt;td&gt;$nForo&lt;td align='right'&gt;$temas temas y $mens mensajes&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;n
+ &lt;table border='0' width='550' cellspacing='1' cellpadding='2' bgcolor='$borde_color'&gt;n
+ &lt;tr bgcolor='$tabla_color' border='1' bordercolor='1' style='color: #24559F'&gt;&lt;td width='20'&gt; &lt;/td&gt;&lt;td width='280'&gt;n
+ &lt;b&gt;Asunto&lt;/b&gt;&lt;/td&gt;&lt;td width='90'&gt;&lt;b&gt;Autor&lt;/b&gt;&lt;/td&gt;&lt;td width='80'&gt;&lt;b&gt;Respuestas&lt;/b&gt;&lt;/td&gt;&lt;td width='80'&gt;&lt;b&gt;Fecha&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ $fp = fopen ($posts, &quot;rb&quot;);
+ while (!feof ($fp))
+ {
+ $buffer = fgets($fp, 4096);
+ if(substr($buffer, 0, 12 )==&quot;[nuevo_post]&quot;)
+ {
+ $p=explode('|||^^^|||', &quot;$buffer&quot;);
+ if ($p[2]==0)
+ {
+ $fp1 = fopen ($posts, &quot;rb&quot;);
+ $respuestas=0;
+ while (!feof ($fp1))
+ {
+ $buffer1 = fgets($fp1, 4096);
+ 
+ if(substr($buffer1, 0, 12 )==&quot;[nuevo_post]&quot;)
+ {
+ 
+ $p1=explode('|||^^^|||', &quot;$buffer1&quot;);
+ if ($p1[2]==$p[1]) {
+ $respuestas++;
+ }
+ 
+ }
+ }
+ fclose($fp1);
+
+ echo &quot;&lt;tr bgcolor='#ffffff' border='1' bordercolor='1'&gt;&lt;td&gt;&quot;;
+ if ($respuestas==0)
+ {
+ echo &quot;&lt;img src='imagenes/0mens.gif' width='16' height='16'&gt;&quot;;
+ }
+ else 
+ {
+ echo &quot;&lt;img src='imagenes/1mens.gif' width='16' height='16'&gt;&quot;;
+ }
+ echo &quot;&lt;td&gt;&lt;A HREF='index.php?ver_formulario=$verFormulario&amp;a=ver_mensaje&amp;tid=$p[1]'&gt;$p[4]&lt;/A&gt;&lt;td&gt;$p[3]&lt;td align='center'&gt;$respuestas&lt;td&gt;$p[5]&lt;/td&gt;&lt;/tr&gt;&quot;;
+ }
+ }
+ }
+ fclose ($fp);
+ echo &quot;&lt;/table&gt;&lt;br&gt;&quot;;
+ 
+ // Formulario para publicar un tema nuevo
+ 
+ if ($verFormulario == &quot;si&quot;)
+ {
+ echo &quot;&lt;form action='index.php?ver_formulario=$verFormulario&amp;a=postnuevo' method='post'&gt;n&quot;;
+ echo &quot;&lt;table border='0' cellspacing='1' cellpadding='2' width='550' bgcolor='$borde_color'&gt;&lt;tr bgcolor='$tabla_color' style='color:#24559F'&gt;&lt;td&gt;&lt;b&gt;Publicar un tema nuevo&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='550' bgcolor='#ffffff'&gt;&quot;;
+ echo &quot;&lt;table cols='2' width='550' class='body'&gt;&quot;;
+ echo &quot;&lt;tr&gt;&lt;td colspan='2' bgcolor='#ffffff'&gt;&lt;img src='imagenes/tablasepara.gif' width='1' height='10'&gt;&lt;/td&gt;&lt;/tr&gt;&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='100' valign='top'&gt;Nombre:&lt;/td&gt;&lt;td width='450'&gt;&lt;input type='text' name='nombre' size='55' maxlength='12' class='input'&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='100' valign='top'&gt;Asunto:&lt;/td&gt;&lt;td width='450'&gt;&lt;input type='text' name='asunto' size='55' maxlength='30' class='input'&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='100' valign='top'&gt;Mensaje:&lt;/td&gt;&lt;td width='450'&gt;&lt;textarea name='mensaje' rows='8' cols='54' class='input'&gt;&lt;/textarea&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;; 
+ echo &quot;&lt;tr&gt;&lt;td width='550' colspan='2'&gt;&lt;/td&gt;&lt;/tr&gt;&quot;;
+ echo &quot;&lt;tr&gt;&lt;td width='100' valign='top'&gt;&lt;/td&gt;&lt;td width='400'&gt;&lt;input type='submit' name='postnuevo' value='Publicar tema' class='boton'&gt; &lt;input type='reset' value='Restablecer' class='boton'&gt;&lt;/td&gt;&lt;/tr&gt;n&quot;;
+ echo &quot;&lt;tr&gt;&lt;td bgcolor='#ffffff'&gt;&lt;img src='imagenes/tablasepara.gif' width='1' height='10'&gt;&lt;/td&gt;&lt;/tr&gt;&quot;;
+ echo &quot;&lt;/table&gt;&lt;/form&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;n&quot;;
+ }
+ break;
+}
+?&gt;
+[/codigo]
+
+[b]index.php[/b] archivo con link a los los smyles y vinculado al foro.php
+
+[codigo]
+&lt;html&gt;
+
+&lt;head&gt;
+
+&lt;title&gt;Foro&lt;/title&gt;
+&lt;link REL=&quot;STYLESHEET&quot; HREF=&quot;estilo.css&quot; TYPE=&quot;text/css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;table border=&quot;0&quot; width=&quot;720&quot;&gt;
+ &lt;tr&gt;
+ &lt;td width=&quot;100%&quot;&gt;
+ &lt;table border=&quot;0&quot; width=&quot;100%&quot; height=&quot;150&quot;&gt;
+ &lt;tr&gt;
+ &lt;td width=&quot;100%&quot; height=&quot;25&quot; align=&quot;center&quot;&gt;
+ &lt;p align=&quot;center&quot;&gt;&lt;font face=&quot;Verdana&quot; color=&quot;#003366&quot; size=&quot;3&quot;&gt;&lt;b&gt;&amp;nbsp;Bienvenido
+ al Foro &lt;/b&gt;&lt;/font&gt;&lt;font face=&quot;Verdana&quot; color=&quot;#003366&quot; size=&quot;4&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/font&gt;&lt;font face=&quot;Verdana&quot; color=&quot;#003366&quot; size=&quot;3&quot;&gt;
+ &amp;nbsp;&lt;/font&gt;&lt;/p&gt;
+ &lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td width=&quot;100%&quot; height=&quot;12&quot;&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td width=&quot;100%&quot; height=&quot;8&quot;&gt;
+ &lt;p align=&quot;center&quot;&gt;&lt;font face=&quot;Verdana&quot; size=&quot;2&quot;&gt;&amp;nbsp;&lt;/font&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td width=&quot;100%&quot; height=&quot;50&quot;&gt;
+ &lt;table border=&quot;0&quot; width=&quot;100%&quot; cellspacing=&quot;1&quot; cellpadding=&quot;0&quot;&gt;
+ &lt;tr&gt;
+ &lt;td width=&quot;13%&quot; align=&quot;center&quot;&gt;
+ &lt;p align=&quot;left&quot;&gt;caracteres &amp;gt;&lt;/td&gt;
+ &lt;td width=&quot;6%&quot; align=&quot;center&quot;&gt;:)&lt;/td&gt;
+ &lt;td width=&quot;6%&quot; align=&quot;center&quot;&gt;:e&amp;nbsp; &lt;/td&gt;
+ &lt;td width=&quot;6%&quot; align=&quot;center&quot;&gt;:D&amp;nbsp; &lt;/td&gt;
+ &lt;td width=&quot;7%&quot; align=&quot;center&quot;&gt;:a&amp;nbsp; &lt;/td&gt;
+ &lt;td width=&quot;6%&quot; align=&quot;center&quot;&gt;:8&amp;nbsp; &lt;/td&gt;
+ &lt;td width=&quot;8%&quot; align=&quot;center&quot;&gt;:u&amp;nbsp;&amp;nbsp; &lt;/td&gt;
+ &lt;td width=&quot;8%&quot; align=&quot;center&quot;&gt;:x &lt;/td&gt;
+ &lt;td width=&quot;6%&quot; align=&quot;center&quot;&gt;:k&amp;nbsp; &lt;/td&gt;
+ &lt;td width=&quot;5%&quot; align=&quot;center&quot;&gt;:w&lt;/td&gt;
+ &lt;td width=&quot;7%&quot; align=&quot;center&quot;&gt;:z&lt;/td&gt;
+ &lt;td width=&quot;7%&quot; align=&quot;center&quot;&gt;:s &lt;/td&gt;
+ &lt;td width=&quot;8%&quot; align=&quot;center&quot;&gt;:j&amp;nbsp; &lt;/td&gt;
+ &lt;td width=&quot;8%&quot; align=&quot;center&quot;&gt;:r&amp;nbsp;&amp;nbsp; &lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td width=&quot;13%&quot; align=&quot;center&quot;&gt;
+ &lt;p align=&quot;left&quot;&gt;Emoticones &amp;gt;&lt;/td&gt;
+ &lt;td width=&quot;6%&quot; align=&quot;center&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;imagenes/sonrisa.gif&quot;&gt;&lt;/td&gt;
+ &lt;td width=&quot;6%&quot; align=&quot;center&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;imagenes/ojo.gif&quot;&gt;&lt;/td&gt;
+ &lt;td width=&quot;6%&quot; align=&quot;center&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;imagenes/divertido.gif&quot;&gt;&lt;/td&gt;
+ &lt;td width=&quot;7%&quot; align=&quot;center&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;imagenes/hola.gif&quot;&gt;&lt;/td&gt;
+ &lt;td width=&quot;6%&quot; align=&quot;center&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;imagenes/ojotes.gif&quot;&gt;&lt;/td&gt;
+ &lt;td width=&quot;8%&quot; align=&quot;center&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;imagenes/confundido.gif&quot;&gt;&lt;/td&gt;
+ &lt;td width=&quot;8%&quot; align=&quot;center&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;imagenes/enfado.gif&quot;&gt;&lt;/td&gt;
+ &lt;td width=&quot;6%&quot; align=&quot;center&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;imagenes/cabreo.gif&quot;&gt;&lt;/td&gt;
+ &lt;td width=&quot;5%&quot; align=&quot;center&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;imagenes/sock.gif&quot;&gt;&lt;/td&gt;
+ &lt;td width=&quot;7%&quot; align=&quot;center&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;imagenes/zzz.gif&quot;&gt;&lt;/td&gt;
+ &lt;td width=&quot;7%&quot; align=&quot;center&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;imagenes/golpes.gif&quot;&gt;&lt;/td&gt;
+ &lt;td width=&quot;8%&quot; align=&quot;center&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;imagenes/barco.gif&quot;&gt;&lt;/td&gt;
+ &lt;td width=&quot;8%&quot; align=&quot;center&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;imagenes/moto.gif&quot;&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/table&gt;
+ &lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td width=&quot;100%&quot; height=&quot;15&quot;&gt; &lt;center&gt;&lt;? include(&quot;foro.php&quot;)?&gt;&lt;/center&gt;
+ &lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td width=&quot;100%&quot; height=&quot;16&quot; align=&quot;center&quot;&gt;
+ &lt;p align=&quot;right&quot;&gt;&lt;font color=&quot;#003366&quot;&gt;
+ &lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/table&gt;
+ &lt;/td&gt;
+ &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p align=&quot;right&quot;&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p align=&quot;right&quot;&gt;
+&lt;/p&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+[/codigo]
+
+las imagenes van dentro de la carpeta imagenes y las podreis econtrar todo en un zip que os dejo
+
+saludos www.elcidop.tk, www.phpmysql.tk, http://usuarios.lycos.es/codigohtm

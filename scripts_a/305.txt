@@ -1,0 +1,9 @@
+CREATE TABLE El nombre que quieras de la tabla (
+ID_El nombre que pusiste en create table el nombre... int(11) DEFAULT '0' NOT NULL auto_increment,
+Nombre varchar(100),
+Apellidos varchar(100),
+PRIMARY KEY (ID_el nombre...),
+UNIQUE ID_el nombre.... (ID_el nombre....)
+); 
+
+Liso y ahora subirlo ya tenemos la base de datos :) que os balla bien

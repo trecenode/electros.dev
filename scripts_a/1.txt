@@ -1,0 +1,120 @@
+[b]Indice:[/b]
+1. Registro de usuarios.
+2. Actualizar desde versiones anteriores.
+3. Solución a los problemas con subdominios (ej. www.pagina.tk)
+
+[b]1. Registro de usuarios.[/b]
+
+Un sistema de usuarios permite ofrecer privilegios a los usuarios de tu web, los cuáles sólo podrán disfrutar al registrarse. Con esto consigues un mayor control sobre tus usuarios y mayor seguridad cuando de subir contenidos a tu web se trata, por ejemplo formularios de envio de noticias, archivos, entre otros.
+
+Este sistema comprueba si el usuario está registrado y si ha iniciado sesión, si todo es correcto se le permite el acceso a la página, en caso contrario se le negará el acceso, para esto sólo debes agregar un código al principio de cada página que desees proteger.
+
+El sistema funciona con 4 archivos que son los siguientes:
+
+- uregistrar.php
+- uentrar.php
+- ulogin.php
+- usalir.php
+
+[b]- uregistrar.php[/b]
+En esta página se mostrará un formulario al usuario para que pueda registrarse, los datos básicos que se le piden son 3: nick, contraseña y email, a su vez, este archivo guardará la información en la base de datos, con lo que el usuario estará registrado.
+
+[b]- uentrar.php[/b]
+Aquí se procesará la información de inicio de sesión, se comprobará que el nick exista y que la contraseña sea correcta, si todo salió bien se crearán las cookies (más información de Cookies en Tutoriales) necesarias para mantener identificado al usuario en la web.
+
+[b]- ulogin.php[/b]
+Este es el archivo más importante y deberá ser incluído dentro de cada página protegida con el siguiente código:
+
+[codigo]&lt;? require 'ulogin.php' ?&gt;[/codigo]
+
+Este archivo comprobará los datos almacenados en las cookies y buscará si estos datos coinciden con los de la base de datos. Si los datos son incorrectos o si por alguna razón has eliminado al usuario de la base de datos, se le negará el acceso al usuario.
+
+[b]- usalir.php[/b]
+Este archivo elimina las cookies del usuario con lo que queda cerrada la sesión.
+
+Para usar el registro de usuarios es muy sencillo, primero debes crear la tabla &quot;usuarios&quot; en tu base de datos pegando este código en la casilla SQL de tu phpMyAdmin:
+
+[codigo]
+create table usuarios ( 
+id smallint(5) unsigned not null auto_increment, 
+fecha int(10) unsigned not null, 
+nick varchar(20) not null, 
+contrasena varchar(32) not null, 
+email varchar(40) not null, 
+pais varchar(20) not null, 
+edad tinyint(2) unsigned not null, 
+sexo enum('0','1') not null, 
+descripcion tinytext not null, 
+web varchar(100) not null, 
+ip varchar(15) not null, 
+primary key (id), 
+key (nick,contrasena) 
+)
+[/codigo]
+
+Después sube los archivos en el directorio raíz de tu web (el directorio raíz es la primer carpeta que se abre cuando accesas a tu web ya sea por FTP o por WebFTP).
+
+Por último, sólo pega el siguiente código en alguna parte de tu web donde deseas que tus usuarios inicien sesión, de preferencia en la página principal:
+
+[codigo]
+&lt;?
+if(!$_COOKIE[uid]) {
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;uentrar.php&quot;&gt;
+&lt;b&gt;Nick:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;nick&quot; maxlength=&quot;20&quot;&gt;&lt;br&gt;
+&lt;b&gt;Contraseña:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; maxlength=&quot;20&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Iniciar Sesión&quot;&gt;
+&lt;/form&gt;
+&lt;p&gt;&lt;a href=&quot;uregistrar.php&quot;&gt;Nuevo usuario&lt;/a&gt;
+&lt;?
+}
+else {
+?&gt;
+Bienvenid@ &lt;b&gt;&lt;?=$_COOKIE[unick]?&gt;&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+&lt;a href=&quot;pagina_protegida1.php&quot;&gt;Enlace 1&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;pagina_protegida2.php&quot;&gt;Enlace 2&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;pagina_protegida3.php&quot;&gt;Enlace 3&lt;/a&gt;&lt;br&gt;&lt;br&gt;
+&lt;a href=&quot;usalir.php&quot;&gt;Salir&lt;/a&gt;
+&lt;?
+}
+?&gt;
+[/codigo]
+
+Este código mostrará un formulario y un enlace para los usuarios que deseen iniciar sesión o registrarse respectivamente. Si el usuario inicia sesión, automáticamente aparecerá un mensaje de bienvenida con los enlaces a las páginas restringidas sólo para usuarios registrados, es primordial que cada página protegida incluya el archivo ulogin.php tal como se indica más arriba, o cualquier usuario no registrado podrá entrar a estas páginas.
+
+[b]2. Actualizar desde versiones anteriores.[/b]
+
+Actualizar no es ningún problema, sólo sube los nuevos archivos y listo, lo único que debes considerar antes de comenzar a usar el nuevo sistema de registro de usuarios, es que las contraseñas ahora están encriptadas en md5().
+
+Lo primero es comprobar si tu sistema de usuarios ya tiene encriptadas las contraseñas, para hacerlo observa si las contraseñas están compuestas de letras y números al azar, cada cadena encriptada tiene una longitud de 32 caractéres.
+
+Ejemplo de contraseña encriptada:
+
+d763hkls862rtfw54djhj87ujuhnbdla
+
+En caso de que las contraseñas no estén encriptadas, copia el siguiente código en un archivo llamado actualizar.php y ejecútalo desde tu web:
+
+[codigo]
+&lt;?
+require 'config.php' ;
+mysql_query('alter table usuarios change contrasena contrasena varchar(32) not null') ;
+mysql_query('update usuarios set contrasena=md5(md5(contrasena))') ;
+echo 'La tabla &lt;b&gt;usuarios&lt;/b&gt; ha sido actualizada' ;
+?&gt;
+[/codigo]
+
+Una vez hecho esto elimina el archivo y listo.
+
+[b]3. Solución a los problemas con subdominios (ej. www.pagina.tk)[/b]
+
+Existe un problema cuando intentas iniciar sesión en tu web si has ingresado a través de un subdominio, la solución es sencilla, mete el siguiente código en tu página principal, de preferencia justo antes de &lt;/head&gt;:
+
+[codigo]&lt;script type=&quot;text/javascript&quot;&gt;if(parent.frames.length &gt; 0) top.location = 'http://www.tupagina.com'&lt;/script&gt;[/codigo]
+
+Este código redireccionará al usuario a la verdadera página eliminando los &quot;frames&quot; que ponen los subdominios para ocultar la URL real y mostrar siempre el subdominio.
+
+Eso es todo, pronto estará disponible un script para complementar este sistema, en donde los usuarios dispondrán de un perfil, un buzón de mensajes privados, posibilidad de recuperar su contraseña, y muchas cosas más.
+
+Dudas, comentarios y sugerencias pueden escribirlas aquí mismo o en el foro.

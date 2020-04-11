@@ -1,0 +1,46 @@
+Aqui el codigo del form
+[codigo]
+&lt;form action=&quot;buscador.php&quot; method=&quot;post&quot;&gt;
+&lt;input type=&quot;text&quot; name=&quot;palabra&quot;&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Buscar!&quot;&gt;
+&lt;/form&gt;
+[/codigo]
+Ahora el de buscador.php
+[codigo]
+&lt;?php
+include(&quot;config.php&quot;);
+$mostrar = 10 ; //¿cuantos resultados quieres mostrar?
+if(!$desde) { $desde = 0 ; }
+$resp = mysql_query(&quot;select * from tabla where campo_en_el_k_buskar LIKE '%&quot;.$_POST[palabra].&quot;%' order by id desc LIMIT &quot;.$desde.&quot;,&quot;.$mostrar.&quot;&quot;) or die (mysql_error());
+$resp1 = mysql_query(&quot;select id from tabla where campo_en_el_k_buscar LIKE '%&quot;.$_POST[palabra].&quot;%'&quot;);
+$total = mysql_num_rows($resp1);
+$desde = $desde + $mostrar ;
+if($total == &quot;0&quot;) {
+ echo &quot;No hay resultados&quot;;
+} else {
+echo &quot;Estos son los resultados de la buskeda:&lt;br&gt;&quot;;
+while($sql = mysql_fetch_array($resp)) {
+  echo &quot;-&quot;.$sql[nick].&quot;&lt;br&gt;&quot;;
+  }
+if($desde &gt; $mostrar) {
+ 	$anteriores = $mostrar * 2;
+	if($desde == $anteriores) {
+		echo &quot;&lt;br&gt;&lt;a href=&quot;buscador.php&quot;&gt;&lt;&lt;&lt;/a&gt; &lt;b&gt;||&lt;b&gt; &quot;;
+		} else {
+			$anteriores = $desde - $mostrar * 2;
+			echo &quot;&lt;br&gt;&lt;a href=&quot;buscador.php?desde=$anteriores&quot;&gt;&lt;&lt;&lt;/a&gt; &lt;b&gt;||&lt;/b&gt; &quot;;
+			}
+			}
+	else {
+		echo &quot;&lt;p align=&quot;right&quot;&gt;&quot;;
+		}
+if($total &gt; $mostrar) {
+	if($desde &lt; $total) {
+		echo &quot;&lt;br&gt;&lt;a href=&quot;buscador.php?desde=$desde&quot;&gt;&gt;&gt;&lt;/a&gt;&quot;;
+		}
+		} else {
+			echo &quot;&lt;br&gt;Únicas coincidencias&quot;;
+			}
+}
+?&gt;
+[/codigo]

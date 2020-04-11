@@ -1,0 +1,5 @@
+Bueno esta es una mejora del script de noticias sin mysql creado por Elcidop, ahora con paginaciòn de resultados.. me explico:
+
+Antes las noticias las mostraba de la mas vieja a la mas nueva, ahora todo al revèz, gracias a la modificacion del mismo Elcidop...
+
+ Se Agradece.

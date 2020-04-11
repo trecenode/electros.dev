@@ -1,0 +1,259 @@
+Con este script podremos incluir un buen libro de visitas sin mysql en nuestra pagina web.
+
+constra de los siguientes archivos:
+
+[b]libro.php[/b] que es el archivo done aparece el libro
+[codigo]
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;libro&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div align=&quot;center&quot;&gt; 
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td height=&quot;68&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;br&gt;
+          &lt;a href=&quot;enlaces.php&quot;&gt;&lt;img src=&quot;libro.gif&quot; alt=&quot;&quot; width=&quot;48&quot; height=&quot;48&quot; border=&quot;0&quot;&gt;&lt;/a&gt; 
+          &lt;strong&gt;LIBRO DE VISITAS&lt;/strong&gt;&lt;br&gt;
+          &lt;br&gt;
+          &lt;font class=&quot;content&quot;&gt;[ &lt;a href=&quot;libro.php&quot;&gt;Principal&lt;/a&gt; | &lt;a href=&quot;escribir.php&quot;&gt;Escribir 
+          en el libro&lt;/a&gt; ]&lt;br&gt;
+          &lt;br&gt;
+          &lt;/font&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt; 
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;div align=&quot;center&quot;&gt;
+          &lt;?php include(&quot;libro.txt&quot;); #aquí para cambiar la ruta del archivo que muestra las entradas 
+		 ?&gt;
+        &lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+  &lt;br&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+[/codigo]
+
+[b]escribir.php[/b] que es el formulario para que lo rellene la gente
+[codigo]
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Untitled Document&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;div align=&quot;center&quot;&gt; 
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td height=&quot;68&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;br&gt;
+          &lt;a href=&quot;enlaces.php&quot;&gt;&lt;img src=&quot;libro.gif&quot; alt=&quot;&quot; width=&quot;48&quot; height=&quot;48&quot; border=&quot;0&quot;&gt;&lt;/a&gt; 
+          &lt;strong&gt;LIBRO DE VISITAS&lt;/strong&gt;&lt;br&gt;
+          &lt;br&gt;
+          &lt;font class=&quot;content&quot;&gt;[ &lt;a href=&quot;libro.php&quot;&gt;Principal&lt;/a&gt; | &lt;a href=&quot;escribir.php&quot;&gt;Escribir 
+          en el libro&lt;/a&gt; ]&lt;br&gt;
+          &lt;br&gt;
+          &lt;/font&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td&gt;&lt;div align=&quot;center&quot;&gt; 
+          &lt;?php
+print &quot;&lt;table border=0 width=95% cellspacing=1&gt;
+  &lt;form method='post' action='recibir.php' onsubmit='return error ()' name='myform'&gt;
+    &lt;tr&gt; 
+      &lt;td width=30%&gt;&lt;b&gt;Nombre :&lt;/b&gt;&lt;/b&gt;&lt;/td&gt;
+      &lt;td width=70%&gt; &lt;input name=nombre maxlenght=30 type=text&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td width=30%&gt;&lt;b&gt;Email :&lt;/b&gt;&lt;/td&gt;
+      &lt;td width=70%&gt; &lt;INPUT name=email type=text&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td width=30%&gt;&lt;b&gt;Nombre de tu web :&lt;/b&gt;&lt;/td&gt;
+      &lt;td width=70%&gt; &lt;INPUT name=nombreweb type=text&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td width=30%&gt;&lt;b&gt;Url :&lt;/b&gt;&lt;/td&gt;
+      &lt;td width=70%&gt; Http:// 
+        &lt;INPUT name=weburl type=text&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td width=30%&gt;&lt;b&gt;País :&lt;/b&gt;&lt;/td&gt;
+      &lt;td width=70%&gt; &lt;input maxlenght=50 name=pais type=text&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td width=30%&gt;&lt;b&gt;Ciudad :&lt;/b&gt;&lt;/td&gt;
+      &lt;td width=70%&gt; &lt;input maxlenght=50 name=ciudad type=text&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td width=30%&gt;&lt;b&gt;Nos encontraste en :&lt;/b&gt;&lt;/td&gt;
+      &lt;td width=70%&gt; &lt;select name=desde&gt;
+          &lt;option value=Buscador&gt;En un buscador&lt;/option&gt;
+          &lt;option value=Top&gt;En un top&lt;/option&gt;
+          &lt;option value=Directorio&gt;Un enlace de una web&lt;/option&gt;
+          &lt;option value=Afiliado&gt;Una web afiliada&lt;/option&gt;
+          &lt;option value=...&gt;Otro sitio&lt;/option&gt;
+        &lt;/select&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td width=30%&gt;&lt;b&gt;Cual es tu opinion de la web :&lt;/b&gt;&lt;/td&gt;
+      &lt;td width=70%&gt; &lt;input name=grupo type=text id=grupo maxlenght=50&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt; 
+      &lt;td width=30%&gt;&lt;b&gt;Comentarios :&lt;/b&gt;&lt;/td&gt;
+      &lt;td width=70%&gt; &lt;textarea name=comentario rows=5 cols=23&gt;&lt;/textarea&gt; &lt;input type=submit value=Enviar&gt; 
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;script&gt;
+                        function error (){
+                                if (document.myform.nombre.value == '') {
+                                        alert('Por favor, introduzca su nombre.');
+                                        document.myform.nombre.focus();
+                                        return false}
+                                if (document.myform.email.value == '') {
+                                        alert('Por favor, introduzca el email.');
+                                        document.myform.email.focus();
+                                        return false}
+                                 if (document.myform.nombreweb.value == '') {
+                                        alert('Por favor, introduzca el nombre de su web o web preferida.');
+                                        document.myform.nombreweb.focus();
+                                        return false}
+                                if (document.myform.weburl.value == '') {
+                                        alert('Por favor, introduzca su url, o web preferida.');
+                                        document.myform.weburl.focus();
+                                        return false}
+                                if (document.myform.pais.value == '') {
+                                        alert('Por favor, introduzca el pais.');
+                                        document.myform.pais.focus();
+                                        return false}
+                                 if (document.myform.ciudad.value == '') {
+                                        alert('Por favor, introduzca la ciudad.');
+                                        document.myform.ciudad.focus();
+                                        return false}
+                                if (document.myform.desde.value == '') {
+                                        alert('Por favor, introduzca desde donde nos conocio.');
+                                        document.myform.desde.focus();
+                                        return false}
+                                if (document.myform.grupo.value == '') {
+                                        alert('Por favor, introduce tu opinion de la web.');
+                                        document.myform.grupo.focus();
+                                        return false}
+                                 if (document.myform.comentario.value == '') {
+                                        alert('Por favor, introduzca el comentario.');
+                                        document.myform.comentario.focus();
+                                        return false}
+                                else return getPermission();
+                        }
+
+&lt;/script&gt;
+  &lt;/form&gt;
+&lt;/table&gt;
+&quot;;
+?&gt;
+        &lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+  &lt;br&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+[/codigo]
+
+[b]recibir.php[/b] es el archivo para procesar el envio de datos del formulario
+[codigo]
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Untitled Document&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;div align=&quot;center&quot;&gt; 
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td height=&quot;68&quot;&gt;&lt;div align=&quot;center&quot;&gt;&lt;br&gt;
+          &lt;a href=&quot;enlaces.php&quot;&gt;&lt;img src=&quot;libro.gif&quot; alt=&quot;&quot; width=&quot;48&quot; height=&quot;48&quot; border=&quot;0&quot;&gt;&lt;/a&gt; 
+          &lt;strong&gt;LIBRO DE VISITAS&lt;/strong&gt;&lt;br&gt;
+          &lt;br&gt;
+          &lt;font class=&quot;content&quot;&gt;[ &lt;a href=&quot;libro.php&quot;&gt;Principal&lt;/a&gt; | &lt;a href=&quot;escribir.php&quot;&gt;Escribir 
+          en el libro&lt;/a&gt; ]&lt;br&gt;
+          &lt;br&gt;
+          &lt;/font&gt;&lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+  &lt;table width=&quot;50%&quot; border=&quot;1&quot; cellspacing=&quot;0&quot;&gt;
+    &lt;tr&gt; 
+      &lt;td&gt;&lt;div align=&quot;center&quot;&gt; 
+          &lt;?php
+$pvm = getdate();
+$archivo=&quot;libro.txt&quot;; #aquí para cambiar la ruta del archivo donde se guardan las entradas 
+$uusi=&quot;&lt;table border=0 width=95% cellspacing=1&gt;
+  &lt;tr&gt; 
+    &lt;td width=30%&gt;&lt;b&gt;Nombre :&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=70%&gt; $nombre &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td width=30%&gt;&lt;b&gt;Fecha : &lt;/b&gt;&lt;/td&gt;
+    &lt;td width=70%&gt;$pvm[mday]-$pvm[mon]-$pvm[year]&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td width=30%&gt;&lt;b&gt;E-mail :&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=70%&gt;&lt;a href='mailto:$email'&gt;$email&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td width=30%&gt;&lt;b&gt;Web :&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=70%&gt;&lt;a href='http://$weburl' target='_blank'&gt;$nombreweb&lt;/a&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td width=30%&gt;&lt;b&gt;Localización :&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=70%&gt;$pais - $ciudad &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td width=30%&gt;&lt;b&gt;Nos encontró en un:&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=70%&gt; $desde &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td width=30%&gt;&lt;b&gt;Tu opinion de la web :&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=70%&gt; $grupo&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; 
+    &lt;td width=30%&gt;&lt;b&gt;Comentario :&lt;/b&gt;&lt;/td&gt;
+    &lt;td width=70%&gt; $comentario &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;hr width=70%&gt;nn&quot;;
+$fp=fopen($archivo, &quot;r+&quot;);
+$vanha=fread($fp, filesize($archivo));
+fseek($fp, 0);
+fwrite($fp, &quot;${uusi}${vanha}&quot;);
+fclose($fp);
+
+
+print &quot;Enlace a&amp;ntilde;adido &lt;a href=enlaces.php&gt;regresar&lt;/a&gt;&quot;;
+?&gt;
+        &lt;/div&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;div align=&quot;center&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+[/codigo]
+
+Y por ultimo necesitaremos una imagen, que guardaremos junto a los demas fichero (boton derecho raton, guardar imagen como..)
+
+[b]libro.gif[/b]
+[img]http://elcidop.webcindario.com/libro.gif[/img]
+
+Sistema de libro_sin_mysql by www.phpmysq.tk and www.elcidop.tk

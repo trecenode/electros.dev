@@ -1,0 +1,62 @@
+Weno aki os dejo un codigo pa ke se vean los últimos mensajes del foro phpBB2... Recordad que vuestra pagina debe tener una extension .php 
+
+Extraido de Xergio.Net
+
+[codigo]
+&lt;? 
+
+// Últimos mensajes publicados en foros phpBB2. 
+// Creado por XeRGio 
+// www.xergio.net 
+// 
+// Edita lo que viene a continuación. Cambia solo lo que hay entre comillas &quot;&quot;: 
+
+$directorio = &quot;phpBB2&quot;; //Carpeta donde esta situadoel foro. 
+$mostrar = &quot;10&quot;; //Número de mensajes a mostrar. 
+$caracteres = &quot;18&quot;; //Caracteres que se mostrarán de cada línea. 
+
+// Lo que viene ahora no lo toques para nada!!! a no ser que sepas de qué va el tema... 
+
+include(&quot;$directorio/config.php&quot;); 
+echo &quot; 
+&lt;script type=text/javascript&gt; 
+function sobre(texto) { subnav.innerHTML = texto; } 
+function fuera(texto) { subnav.innerHTML = \&quot;&lt;a href=$directorio/index.php&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Entrar en el índice de Foros&lt;/a&gt;\&quot; } 
+&lt;/script&gt; 
+
+&quot;; 
+
+$conexion = mysql_connect($dbhost,$dbuser,$dbpasswd); 
+mysql_select_db($dbname,$conexion); 
+$consulta = &quot;select * from &quot;.$table_prefix.&quot;posts order by post_time desc&quot;; 
+$resultado = mysql_query($consulta); 
+$i = 0; 
+while ($rows = mysql_fetch_array($resultado)) { 
+        if ($i &lt;= $mostrar) { 
+                $consulta1 = &quot;select * from &quot;.$table_prefix.&quot;forums where forum_id='$rows[forum_id]'&quot;; 
+                $resultado1 = mysql_query($consulta1); 
+                $datosf = mysql_fetch_array($resultado1); 
+                $consulta2 = &quot;select * from &quot;.$table_prefix.&quot;users where user_id='$rows[poster_id]'&quot;; 
+                $resultado2 = mysql_query($consulta2); 
+                $datosu = mysql_fetch_array($resultado2); 
+                $consulta3 = &quot;select * from &quot;.$table_prefix.&quot;topics where topic_id='$rows[topic_id]'&quot;; 
+                $resultado3 = mysql_query($consulta3); 
+                $datost = mysql_fetch_array($resultado3); 
+
+                if (strlen($datost[topic_title]) &gt; $caracteres) { 
+                        $datost[topic_title] = substr($datost[topic_title],0,20).&quot;...&quot;; 
+                } 
+
+                echo &quot;›&lt;b&gt;›&lt;/b&gt; &lt;a href=\&quot;$directorio/viewtopic.php?t=$rows[topic_id]\&quot; onmouseover='sobre(\&quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;› en &lt;b&gt;$datosf[forum_name]&lt;/b&gt; por &lt;i&gt;$datosu[username]&lt;/i&gt;&lt;/font&gt;\&quot;)' onmouseout='fuera()'&gt;$datost[topic_title]&lt;/a&gt;&lt;br&gt;&quot;; 
+                $i++; 
+        } 
+} 
+
+echo &quot;&lt;br&gt;&lt;table width=100% border=0 cellpadding=0 cellspacing=0&gt;&lt;tr&gt;&lt;td id=subnav name=subnav&gt;&lt;a href=$directorio/index.php&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;Entrar en el índice de Foros&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&quot;; 
+
+mysql_free_result($resultado); 
+mysql_close($conexion); 
+?&gt;
+[/codigo]
+
+// He editado el script, reconozco que lo copie y me parece muy rastrero lo que hice, pido discultas.

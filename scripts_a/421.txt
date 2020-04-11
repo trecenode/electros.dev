@@ -1,0 +1,15 @@
+Manipulador de archivos by Wign versión 0.2
+Este es un manipulador de archivos muy simple, basicamente te permite subir archivos via web, lo que es muy conveniente en servidores que bloquean extensiones, esto te permite pasarlas. Y tambien te permite eliminar y renombrar los archivos del directorio en que esta esta pagina. El diseño es muy malo, pero igual era para mi uso personal, aunque en el futuro talvez lo mejore y ponga otras cosas.
+Wign
+PD: Hay que poner dos veces la clave para entrar.
+
+Historia
+//V 0.2
+-Añadido Tipo de Archivo
+-Añadido Peso de Archivo
+-Añadido Ultima Modificacion de Archivo
+-Añadido Herramienta para renombrar
+
+//V 0.1
+-Opcion de subir Archivos
+-Opcion de Borrar Archivos

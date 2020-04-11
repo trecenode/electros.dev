@@ -1,0 +1,16 @@
+Simplemente entra ah tu base de datos y metes esta tabla:
+
+[codigo]
+create table agregarlinks (
+id smallint(5) unsigned not null auto_increment,
+fecha int(10) unsigned not null,
+titulo varchar(20) not null,
+usuario varchar(20) not null,
+url varchar(40) not null,
+descripcion tinytext not null,
+visitas smallint(5) unsigned not null, 
+primary key (id)
+)
+[/codigo]
+
+Despues entras ah (por ejemplo) http://web.com/agregar.php haces lo que pida y ya. Bajas el archivo ZIP descomprimes los archivos que hay y los subes a tu web.

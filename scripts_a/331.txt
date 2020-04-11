@@ -1,0 +1,65 @@
+Este script se encarga de paginar los resultados de una consulta MySQL para ordenar los resultados x pagina. En esta version e cambiado select por $sql1 para asi permitir el uso de count(*) u otras. Para dudas el foro.
+[codigo]
+&lt;?php
+class clspaginacion{
+var $tabla;  //nombre de la tabla. es la unica variable obligatoria
+var $sql1='select *'; // aqui indicaremos los campos que queremos. Por defecto todos
+var $cantidad=5; // Aqui indicamos cuantos registros mostraremos por pagina. Por defecto es 5
+var $sql2; // Si el usuario quiere introducir alguna sentencia sql mas se le pasara por aqui (ya sea where, order by...)
+var $paginar; // aqui meteremos el query final para mostrar los registros
+var $menu; // Y aqui estara el menu con los enlaces
+// Esta funcion se encarga de generar todo
+ function fpaginar(){
+  if (empty($this-&gt;tabla)){ //1º comprobamos q se indico el nombre de la tabla. en caso contrario mostramos un error y salimos
+  echo 'Por favor indique el nombre de la tabla MySQL a usar';
+  exit;
+  }else{
+  $consulta1= $this-&gt;sql1.' from '. $this-&gt;tabla; // esta sentencia sql sirve para saber cuantos campos tiene la tabla para asi saber cuantas paginas seran necesarias
+   if (isset($this-&gt;sql2)){ // si el usuario introdujo mas sentencias sql los incluimos
+   $sql1.= $this-&gt;sql2;
+   }
+  $query1= mysql_query($consulta1); // Ahora mandamos la sentencia
+  $total=mysql_num_rows($query1) or die (mysql_error()); // ahora contamos el total de registros que hay
+// Ahora comprobamos si hubo algun resultado. en el caso de que no sea asi mostarmos un mensaje en la pantalla y salimos del programa
+   if ($total==0){
+   echo 'No se encontro ningun registro en la tabla. X favor compruebe que la tabla tiene datos o revise la consulta SQL.&lt;br /&gt;';
+   exit;
+   }else{
+   if (empty ($_GET['pg'])){  // ahora comprobamos si se le paso la variable pg. En caso contrario pg sera 0
+   $pg=0;
+   }else{
+   $pg=$_GET['pg'];
+   }
+  $paginas=intval($total/$this-&gt;cantidad); // Calculamos el total de paginas
+  $inicial=$pg*$this-&gt;cantidad; // Y optenemos desde que registro hay que comenzar
+  $consulta2=$this-&gt;sql1.' from '. $this-&gt;tabla; // Creamos una nueva sentencia sql
+   if (isset($this-&gt;sql2)){  // Añadimos las sentencias sql que metio el usuario
+   $consulta2.=' '.$this-&gt;sql2;
+   }
+  $sql2.=' limit '.$inicial.', '.$this-&gt;cantidad; // E indicamos desde que registro cuenta y cuantos a de mostrar
+  $this-&gt;paginar = mysql_query($consulta2) or die(mysql_error());
+// A continuacion generamos el menu con los enlaces a las diferentes paginas
+   if ($paginas&gt;1){ // 1º comprobamos que hay mas de una pagina si no no se generara el menu
+    if($pg&gt;0){ // Si pg es mayo d 0 se añade el enlace para retroceder una pagina
+    $url1=$pg-1;
+    $this-&gt;menu.='&lt;a href=?pg='.$url1.'&gt;&lt;&lt;&lt;/a&gt; ';
+    }
+// Ahora generamos los enlaces numericos.
+    for ($i=0; $i&lt;=$paginas; $i++){
+     if ($i==$pg){
+     $this-&gt;menu .= $i.' '; // Si pg es igual a i solo mostramos el numero.
+     }else{ // en caso contrario se añade el enlace
+     $this-&gt;menu .= '&lt;a href=?pg='.$i.'&gt;'.$i.'&lt;/a&gt; ';
+     }
+    }
+    if ($pg&lt;$paginas){ // Si no estamos en la ultima pagina añadomos el enlace para avanzar una pagina
+    $url2 = $pg+1;
+    $this-&gt;menu.=&quot;&lt;a href='?pg=$url2'&gt;&gt;&gt; &lt;/a&gt; &quot;;
+    }
+   }
+   }
+  }
+ }
+}
+?&gt;
+[/codigo]

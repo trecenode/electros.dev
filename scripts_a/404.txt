@@ -1,0 +1,85 @@
+Hola:
+
+Les traigo un Script para Proteger una pagina con un user y pass como un login a un foro;son solo 2 archivos
+
+1.LOGIN.php
+2.password.php
+
+Codigos de los Archivos:
+
+El del LOGIN es solo una eytiqueta HTML:
+
+[codigo]&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Login Zona PRIVADA&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;form method=&quot;POST&quot; action=&quot;password.php&quot;&gt;
+Usuario: &lt;input type=&quot;text&quot; name=&quot;usuario&quot; size=&quot;10&quot;&gt;&lt;br&gt;
+Password: &lt;input type=&quot;password&quot; name=&quot;password&quot; size=&quot;10&quot;&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; value=&quot;Enviar&quot; name=&quot;privado&quot;&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+[/codigo]
+
+Password:
+
+[codigo]&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Login a la Zona Privada&lt;/title&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;?
+// Comparamos a ver si son correctos
+if ($usuario==&quot;tuuser&quot; &amp;&amp; $password==&quot;tupass&quot;)
+{
+$valido=&quot;si&quot;;
+}
+else
+{
+$valido=&quot;no&quot;;
+}
+?&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Pagina privada&lt;/title&gt;
+&lt;body&gt;
+&lt;? if ($valido==&quot;si&quot;)
+{
+?&gt;
+' A continuación todo el contenido de nuestra pagina privada
+&lt;p&gt;BIENVENIDO A LA PAGINA PRIVADA&lt;/p&gt;
+&lt;? }
+else
+{
+?&gt;
+&lt;p&gt;USUARIO O CONTRASEÑA INCORRECTA&lt;/p&gt;
+&lt;? } ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+[/codigo]
+
+en este para poner mas de 1 user hay que hacer asi:
+
+copiamos este codigo abajo dle original y ponemos los datos de acceso
+
+codigo:
+
+[codigo]if ($usuario==&quot;tuuser&quot; &amp;&amp; $password==&quot;tupass&quot;)
+{
+$valido=&quot;si&quot;;
+}
+else
+{
+$valido=&quot;no&quot;;
+}[/codigo]
+
+o y si no quieren armarlo usted bajense el Zip
+
+Gracias a:
+
+[codigo]www.webtaller.com[/codigo]

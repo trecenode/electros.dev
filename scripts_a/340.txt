@@ -1,0 +1,287 @@
+Hola... que, arto de que la gente este todo el rato cotilleando tu libro de visitas? AKI TRAIGO LA SOLUCIÓN en pokos archibos.Tenemos que:
+1) crear el archivo:      minichat.txt             (dejarlo vacio)
+2) crear el archivo:      minichat.php      insertar:
+[codigo]&lt;?
+//****************************
+//*** MiniChat v.1.4       ***
+//*** Creado por: Electros ***
+//*** Web: www.electros.tk ***
+//****************************
+
+//*********************
+//*** Configuración ***
+//*********************
+
+// Mensajes a mostrar (0 para mostrar todos)
+$mostrar = 30 ;
+// Maximo de caracteres por nick
+$max_nick = 20 ;
+// Maximo de caracteres por mensaje
+$max_mensaje = 200 ;
+// Maximo de caracteres por web
+$max_web = 100 ;
+// Maximo de caracteres por palabra (palabras muy grandes pueden descuadrar el diseño y
+// ocasionar que el minichat no se vea correctamente) si no deseas esta opción pon 0.
+$max_palabra = 25 ;
+// Caretos
+$caretos = &quot;SI&quot; ;
+// Mostrar fecha en los mensajes
+$fecha_mensajes = &quot;SI&quot; ;
+// Mostrar IP en los mensajes
+$ip_mensajes = &quot;NO&quot; ;
+// Estilo (archivo que contiene el estilo del minichat, tipo de letra, tamaño, color, fondo)
+$estilo = &quot;estilo.php&quot; ;
+// Filtro Anti-Spam (para evitar el envío excesivo de direcciones webs, busca cualquier
+// dirección web contenida en el mensaje y la transformará en la palabra indicada)
+$antispam = &quot;SI&quot; ;
+$antispam_palabra = &quot;&lt;i&gt;SPAM&lt;/i&gt;&quot; ;
+// Censura de palabras
+$censura = &quot;NO&quot; ;
+// Permitir código HTML (se recomienda que esté desactivado)
+$codigo = &quot;NO&quot; ;
+// Altura de la tabla de mensajes (cuando los mensajes mostrados rebasan la altura marcada
+// aparece una barra de desplazamiento) 
+$altura = 125 ;
+
+// *** Fin de configuración básica ***
+
+// ***************
+// *** Caretos ***
+// ***************
+if($caretos == &quot;SI&quot;) {
+function caretos($texto) {
+// --&gt; Inicio caretos
+$lista_caretos = array(
+&quot;:D&quot;   =&gt; &quot;alegre.gif&quot;,
+&quot;:P&quot;   =&gt; &quot;burla.gif&quot;,
+&quot;:(1&quot;  =&gt; &quot;demonio.gif&quot;,
+&quot;:?&quot;   =&gt; &quot;duda.gif&quot;,
+&quot;;)&quot;   =&gt; &quot;guino.gif&quot;,
+&quot;:lol&quot; =&gt; &quot;lol.gif&quot;,
+&quot;:|&quot;   =&gt; &quot;neutral.gif&quot;,
+&quot;:-)&quot;  =&gt; &quot;sonrisa.gif&quot;,
+&quot;:O&quot;   =&gt; &quot;sorprendido.gif&quot;,
+&quot;:8&quot;   =&gt; &quot;asustado.gif&quot;,
+&quot;:S&quot;   =&gt; &quot;confundido.gif&quot;,
+&quot;:(2&quot;  =&gt; &quot;demonio2.gif&quot;,
+&quot;:-(&quot;  =&gt; &quot;enojado.gif&quot;,
+&quot;:'(&quot;  =&gt; &quot;llorar.gif&quot;,
+&quot;:M&quot;   =&gt; &quot;moda.gif&quot;,
+&quot;:)&quot;   =&gt; &quot;risa.gif&quot;,
+&quot;:R&quot;   =&gt; &quot;sonrojado.gif&quot;,
+&quot;:(&quot;   =&gt; &quot;triste.gif&quot;,
+) ;
+// --&gt; Fin caretos
+foreach($lista_caretos as $a =&gt; $b) {
+$texto = str_replace($a,&quot;&lt;img src=\&quot;caretos/$b\&quot; width=\&quot;15\&quot; height=\&quot;15\&quot; align=\&quot;absmiddle\&quot;&gt;&quot;,$texto) ;
+}
+return $texto ;
+}
+}
+
+// ***************************
+// *** Palabras censuradas ***
+// ***************************
+if($censura == &quot;SI&quot;) {
+function censura($texto) {
+// --&gt; Inicio palabras
+$lista_censura = array(
+&quot;insulto1&quot; =&gt; &quot;*****&quot;,
+&quot;insulto2&quot; =&gt; &quot;*****&quot;,
+&quot;insulto3&quot; =&gt; &quot;*****&quot;
+) ;
+// --&gt; Fin palabras
+foreach($lista_censura as $a =&gt; $b) {
+$texto = str_replace($a,$b,$texto) ;
+}
+return $texto ;
+}
+}
+
+//*******************************
+//*** Fin de la configuración ***
+//*******************************
+
+// *** Comprueba si el archivo minichat.txt tiene el permiso CHMOD 666 ***
+if(substr(base_convert(fileperms(&quot;minichat.txt&quot;),10,8),3) &lt; 666) {
+echo &quot;
+&lt;style&gt;
+.error { font-size: 10pt }
+&lt;/style&gt;
+&lt;div class=\&quot;error\&quot;&gt;
+&lt;p&gt;&lt;b&gt;Error&lt;/b&gt;
+&lt;p&gt;El archivo &lt;b&gt;minichat.txt&lt;/b&gt; debe tener el permiso CHMOD 666.
+&lt;p&gt;Se intentará poner el permiso de forma automática ...
+&quot; ;
+if(!@chmod(&quot;minichat.txt&quot;,0666)) { echo &quot;&lt;p&gt;No se pudo modificar el archivo. Debes hacerlo a través de tu programa de FTP favorito.&quot; ; }
+else { echo &quot;&lt;p&gt;El archivo &lt;b&gt;minichat.txt&lt;/b&gt; ha sido modificado. Para finalizar haz click &lt;a href=\&quot;minichat.php\&quot;&gt;aquí&lt;/a&gt;.&quot; ; }
+echo &quot;&lt;/div&gt;&lt;br&gt;&quot; ;
+}
+
+// *** Guardar mensaje ***
+if($enviar) {
+function limpiar($a) {
+$a = trim($a) ;
+$a = str_replace(&quot;|&quot;,&quot;&quot;,$a) ;
+return $a ;
+}
+$nick = limpiar($nick) ;
+$mensaje = limpiar($mensaje) ;
+$web = limpiar($web) ;
+$minichat = fopen(&quot;minichat.txt&quot;,a) ;
+if($web == &quot;&quot; || $web == &quot;Tu email o web&quot;) {
+$nick = &quot;&lt;b&gt;&amp;lt;$nick&amp;gt;&lt;/b&gt;&quot; ;
+}
+else {
+if(eregi(&quot;^www.&quot;,$web)) { $web = &quot;http://$web&quot; ; }
+if(eregi(&quot;^[0-9a-z_\-]+@[0-9a-z_\-\.]+[a-z]{2,3}$&quot;,$web)) { $web = &quot;mailto:$web&quot; ; }
+$nick = &quot;&lt;a href=\&quot;$web\&quot;&gt;&amp;lt;$nick&amp;gt;&lt;/a&gt;&quot; ;
+}
+$meses = array(&quot;&quot;,&quot;Ene&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Abr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Ago&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dic&quot;) ; $dia = date(d) ; $mes = date(n) ; $ano = date(Y) ; $fecha = &quot;$dia $meses[$mes] $ano &quot;.date(&quot;h:i A&quot;) ;
+fwrite($minichat,&quot;\r\n$nick | $mensaje | $fecha | $REMOTE_ADDR&quot;) ;
+fclose($minichat) ;
+}
+?&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;MiniChat v.1.3&lt;/title&gt;
+&lt;?
+include(&quot;$estilo&quot;) ;
+?&gt;
+&lt;base target=&quot;_blank&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div style=&quot;height: &lt;?=$altura?&gt; ; overflow: auto&quot;&gt;
+&lt;?
+// *** Mostrar los mensajes ***
+$mensajes = file(&quot;minichat.txt&quot;) ;
+$total = count($mensajes) ;
+if($total &lt; $mostrar || $mostrar == 0) {
+$maximo = 0 ;
+}
+else {
+$maximo = $total - $mostrar ;
+}
+while($total &gt; $maximo) {
+$total-- ;
+list($nick,$mensaje,$fecha,$ip) = explode(&quot; | &quot;,$mensajes[$total]) ;
+if($codigo == &quot;NO&quot;) { $mensaje = htmlspecialchars($mensaje) ; }
+if($censura == &quot;SI&quot;) { $mensaje = censura($mensaje) ; }
+if($antispam == &quot;SI&quot;) { $mensaje = preg_replace(&quot;/(http:\/\/|www.)[^\s]+/i&quot;,$antispam_palabra,$mensaje) ; }
+if($max_palabra &gt; 0) {
+$palabras = explode(&quot; &quot;,$mensaje) ;
+$total_palabras = count($palabras) ;
+for($a = 0 ; $a &lt; $total_palabras ; $a++) {
+if(strlen($palabras[$a]) &gt; $max_palabra) { $palabras[$a] = chunk_split($palabras[$a],$max_palabra,&quot; &quot;) ; }
+}
+$mensaje = implode($palabras,&quot; &quot;) ;
+}
+if($caretos == &quot;SI&quot;) { $mensaje = caretos($mensaje) ; }
+if($total % 2) { $estilo_tabla = &quot;mensaje1&quot; ; } else { $estilo_tabla = &quot;mensaje2&quot; ; }
+?&gt;
+&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellpadding=&quot;1&quot; cellspacing=&quot;0&quot; class=&quot;&lt;?=$estilo_tabla?&gt;&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;?=&quot;$nick $mensaje&quot;?&gt;
+&lt;?
+if($fecha_mensajes == &quot;SI&quot;) { echo &quot;&lt;div class=\&quot;fecha\&quot;&gt;$fecha&lt;/div&gt;&quot; ; }
+if($ip_mensajes == &quot;SI&quot;) { echo &quot;&lt;div class=\&quot;ip\&quot;&gt;$ip&lt;/div&gt;&quot; ; }
+?&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;div style=&quot;margin-top: 1&quot;&gt;&lt;/div&gt;
+&lt;?
+}
+?&gt;
+&lt;/div&gt;
+&lt;script&gt;
+enviando = 0 ;
+function limpiar(campo) {
+if(campo.value=='Tu nick') { campo.value='' ; }
+if(campo.value=='Tu mensaje') { campo.value='' ; }
+if(campo.value=='Tu email o web') { campo.value='' ; }
+}
+function validar() {
+if(formulario.nick.value == '' || formulario.nick.value == 'Tu nick') { alert('Debes escribir un nick') ; return false ; }
+if(formulario.mensaje.value == '' || formulario.mensaje.value == 'Tu mensaje') { alert('Debes escribir un mensaje') ; return false ; }
+if(enviando == 0) { enviando++ ; } else { alert('El mensaje se está enviando') ; return false ; }
+}
+&lt;/script&gt;
+&lt;div align=&quot;center&quot;&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;minichat.php&quot; target=&quot;_self&quot; onsubmit=&quot;return validar()&quot;&gt;
+&lt;input type=&quot;text&quot; name=&quot;nick&quot; size=&quot;10&quot; maxlength=&quot;&lt;?=$max_nick?&gt;&quot; value=&quot;Tu nick&quot; onfocus=&quot;limpiar(this)&quot; class=&quot;formulario&quot;&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;mensaje&quot; size=&quot;20&quot; maxlength=&quot;&lt;?=$max_mensaje?&gt;&quot; value=&quot;Tu mensaje&quot; onfocus=&quot;limpiar(this)&quot; class=&quot;formulario&quot;&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;web&quot; size=&quot;20&quot; maxlength=&quot;&lt;?=$max_web?&gt;&quot; value=&quot;Tu email o web&quot; onfocus=&quot;limpiar(this)&quot; class=&quot;formulario&quot;&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot; class=&quot;formulario&quot;&gt;
+&lt;/form&gt;
+&lt;div style=&quot;font-family: verdana ; font-size: 7pt&quot;&gt;
+&lt;a href=&quot;http://www.electros.tk&quot; target=&quot;_blank&quot;&gt;MiniChat v.1.4&lt;/a&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;[/codigo]
+3) crear el archivo:       estilo.php            insertar el codigo:
+[codigo]&lt;style&gt;
+/*** Cuerpo del MiniChat ***/
+body,table {
+font-family: verdana ;
+font-size: 7pt ;
+color: #000000 ;
+background: #eeeeee ;
+margin: 0 ;
+scrollbar-face-color: #eeeeee ;
+scrollbar-darkshadow-color: #000000 ;
+scrollbar-shadow-color: #aaaaaa ;
+scrollbar-highlight-color: #ffffff ;
+scrollbar-3dlight-color: #000000 ;
+scrollbar-track-color: #ffffff ;
+scrollbar-arrow-color: #000000 ;
+}
+/*** Enlaces ***/
+a {
+color: #000000 ;
+font-weight: bold ;
+}
+/*** Negrita ***/
+b {
+color: #000000 ;
+}
+/*** Fecha ***/
+.fecha {
+font-weight: bold ;
+color: #757575 ;
+text-align: right ;
+}
+/*** IP ***/
+.ip {
+font-weight: bold ;
+color: #757575 ;
+text-align: right ;
+}
+/*** Tabla de los mensajes ***/
+.mensaje1 {
+border-color: #000000 ;
+border-width: 1 ;
+border-style: solid ;
+background: #cccccc ;
+}
+.mensaje2 {
+border-color: #000000 ;
+border-width: 1 ;
+border-style: solid ;
+background: #dddddd ;
+}
+/*** Formulario ***/
+.formulario {
+font-family: verdana ;
+font-size: 7pt ;
+border-color: #000000 ;
+border-width: 1 ;
+border-style: solid ;
+background: #bbbbbb ;
+color: #000000 ;
+text-align: center ;
+}
+&lt;/style&gt;[/codigo]
+4) insertar, modificando el archivo minichat.php (con cuidado) en la carpteta caretos , las imagenes. cada vez ke agregen un mensaje, leelo en: www.tuweb.protocolo/minichat.php ( ejemplo: [url]http://davidvallsdacosta.iespana.es/minichat.txt[/url]. lo mismo, pero en vez de minichat.php, minichat.txt. es lo mismo, perocambiando el php por txt. Gracias: Hackerloko.........---------------------------&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;[url]www.hackerloko.es.vg[/url]

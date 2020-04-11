@@ -1,0 +1,273 @@
+Este sistema te permitirá poder enviar noticias a tu web, para que de esta forma no tengas la necesidad de estar actualizando constantemente tu página, también tendrás la opción de que tus visitantes puedan escribir comentarios, y así, puedas saber las distintas opiniones sobre la noticia.
+
+El sistema se compone de 3 archivos:
+
+[b]noticiasenviar.php[/b]
+[b]noticias.php[/b]
+[b]noticiascom.php[/b]
+
+El funcionamiento de los archivos es el siguiente:
+
+[b]noticiasenviar.php[/b]
+En esta página es donde se envían las noticias a tu web.
+
+[b]noticias.php[/b]
+Aquí se mostrarán las noticias que se encuentren almacenadas en la base de datos.
+
+[b]noticiascom.php[/b]
+Esta página guardará los comentarios en la base de datos y regresará a la página con la noticia.
+
+Primero debes crear las tablas noticias y noticiascom en la base de datos, si usas el phpMyAdmin debes copiar el siguiente código y pegarlo en donde dice SQL.
+
+[codigo]create TABLE noticias (
+id tinyint(3) unsigned not null auto_increment,
+fecha int(10) unsigned not null,
+usuario varchar(20) not null,
+titulo varchar(100) not null,
+noticia tinytext not null,
+noticiaext text not null,
+primary key (id)
+) ;
+create TABLE noticiascom (
+id smallint(5) unsigned not null auto_increment,
+noticia tinyint(3) unsigned not null,
+fecha int(10) unsigned not null,
+usuario varchar(20) not null,
+comentario tinytext not null,
+primary key (id),
+index (noticia)
+)[/codigo]
+
+Ahora debes crear el archivo [b]noticiasenviar.php[/b] con el siguiente código:
+
+[codigo]&lt;?
+if($enviar) {
+include(&quot;config.php&quot;) ;
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$fecha = time() ;
+$usuario = quitar($usuario) ;
+$titulo= quitar($titulo) ;
+$noticia= quitar($noticia) ;
+$noticiaext= quitar($noticiaext) ;
+mysql_query(&quot;insert INTO noticias (fecha,usuario,titulo,noticia,noticiaext) values ('$fecha','$usuario','$titulo','$noticia','$noticiaext')&quot;) ;
+echo &quot;La noticia ha sido enviada con éxito.&quot; ;
+mysql_close($conectar) ;
+}
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;noticiasenviar.php&quot;&gt;
+Usuario:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;usuario&quot; maxlength=&quot;20&quot;&gt;&lt;br&gt;
+Título:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;titulo&quot; maxlength=&quot;100&quot;&gt;&lt;br&gt;
+Noticia:&lt;br&gt;
+&lt;textarea name=&quot;noticia&quot; cols=&quot;30&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;&lt;br&gt;
+Noticia extendida:&lt;br&gt;
+&lt;textarea name=&quot;noticiaext&quot; cols=&quot;30&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+&lt;/form&gt;[/codigo]
+
+Debes saber que [b]noticia[/b] tiene el valor [b]tinytext[/b] en la base de datos, este atributo nos ofrece 255 caractéres para almacenar la noticia y [b]noticiaext[/b] tiene el valor [b]text[/b] el cuál nos ofrece un espacio de 65535 caractéres.
+
+Ahora crearemos la página que mostrará las noticias, para esto debes crear el archivo [b]noticias.php[/b] con el siguiente código:
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+if($n) {
+$resp = mysql_query(&quot;select * FROM noticias where id='$n'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+// Mostrar la fecha en texto
+$fecha = $datos[fecha] ;
+$mesesano = array(&quot;Enero&quot;,&quot;Febrero&quot;,&quot;Marzo&quot;,&quot;Abril&quot;,&quot;Mayo&quot;,&quot;Junio&quot;,&quot;Julio&quot;,&quot;Agosto&quot;,
+&quot;Septiembre&quot;,&quot;Octubre&quot;,&quot;Noviembre&quot;,&quot;Diciembre&quot;) ;
+$diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diames $mesesano[$mesano] $ano&quot; ;
+// Se agregarán los &lt;br&gt; correspondientes a la noticia extendida
+$noticiaext = $datos[noticiaext] ;
+$noticiaext = str_replace(&quot;\r\n&quot;,&quot;&lt;br&gt;&quot;,$noticiaext) ;
+echo &quot;
+&lt;table width=100% border=0 cellpadding=5 cellspacing=0 style=\&quot;border: #757575 ; background: #252525\&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;$datos[titulo]&lt;/td&gt;
+&lt;td&gt;&lt;div align=right&gt;$fecha&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan=2&gt;
+$datos[noticia]&lt;br&gt;&lt;br&gt;
+$noticiaext&lt;br&gt;&lt;br&gt;
+&lt;b&gt;Enviada por:&lt;/b&gt; $datos[usuario]&lt;br&gt;
+&lt;a href=noticias.php&gt;Regresar a la página principal&lt;/a&gt;
+&lt;p&gt;
+&quot; ;
+mysql_free_result($resp) ;
+echo &quot;&lt;p&gt;&lt;b&gt;Comentarios&lt;/b&gt;&quot; ;
+$mostrar = 5 ;
+if(!$desde) { $desde = 0 ; }
+$resp = mysql_query(&quot;select * FROM noticiascom where noticia='$n' ORDER BY id desc LIMIT $desde,$mostrar&quot;) ;
+$desde = $desde + $mostrar ;
+if(mysql_num_rows($resp) == 0) { echo &quot;&lt;p&gt;No se encontraron comentarios.&quot; ; }
+else {
+$comentarios = mysql_num_rows($resp) ;
+echo &quot;
+&lt;p&gt;&lt;b&gt;Total de comentarios:&lt;/b&gt; $comentarios
+&lt;p&gt;
+&quot; ;
+while($datos = mysql_fetch_array($resp)) {
+// Mostrar fecha en texto
+$fecha = $datos[fecha] ;
+$mesesano = array(&quot;Enero&quot;,&quot;Febrero&quot;,&quot;Marzo&quot;,&quot;Abril&quot;,&quot;Mayo&quot;,&quot;Junio&quot;,&quot;Julio&quot;,&quot;Agosto&quot;,
+&quot;Septiembre&quot;,&quot;Octubre&quot;,&quot;Noviembre&quot;,&quot;Diciembre&quot;) ;
+$diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diames $mesesano[$mesano] $ano&quot; ;
+echo &quot;
+&lt;table width=100% border=0 cellpadding=1 cellspacing=0 style=\&quot;border: #757575 ; background: #252525\&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;&amp;lt;$datos[usuario]&amp;gt;&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;&lt;div align=right&gt;&lt;b&gt;$fecha&lt;/b&gt;&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan=2&gt;
+$datos[comentario]
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;&lt;br&gt;
+&quot; ;
+}
+?&gt;
+&lt;p align=&quot;right&quot;&gt;&lt;a href=&quot;noticias.php?n=&lt;? echo $n ?&gt;&amp;desde=&lt;? echo $desde ?&gt;&quot;&gt;Siguientes &lt;? echo $desde ?&gt; comentarios&lt;/a&gt;
+&lt;?
+}
+mysql_free_result($resp) ;
+echo &quot;
+&lt;p&gt;
+&lt;p&gt;&lt;b&gt;Escribir comentario&lt;/b&gt;
+&lt;p&gt;
+&lt;form method=post action=noticiascom.php&gt;
+&lt;input type=hidden name=noticia value=$n&gt;
+Usuario:&lt;br&gt;
+&lt;input type=text name=usuario maxlength=20&gt;&lt;br&gt;
+Comentario:&lt;br&gt;
+&lt;textarea name=comentario cols=30 rows=5&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=submit name=enviar value=Enviar&gt;
+&lt;/form&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&quot; ;
+}
+else {
+$mostrar = 10 ;
+$resp = mysql_query(&quot;select * FROM noticias ORDER BY id desc LIMIT $mostrar&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+// Mostrar la fecha en texto
+$fecha = $datos[fecha] ;
+$mesesano = array(&quot;Enero&quot;,&quot;Febrero&quot;,&quot;Marzo&quot;,&quot;Abril&quot;,&quot;Mayo&quot;,&quot;Junio&quot;,&quot;Julio&quot;,&quot;Agosto&quot;,
+&quot;Septiembre&quot;,&quot;Octubre&quot;,&quot;Noviembre&quot;,&quot;Diciembre&quot;) ;
+$diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diames $mesesano[$mesano] $ano&quot; ;
+$resp2 = mysql_query(&quot;select id FROM noticiascom where noticia='$datos[id]'&quot;) ;
+$comentarios = mysql_num_rows($resp2) ;
+echo &quot;
+&lt;table width=100% border=0 cellpadding=5 cellspacing=0 style=\&quot;border: #757575 ; background: #252525\&quot;&gt;
+&lt;tr&gt;
+&lt;td&gt;$datos[titulo]&lt;/td&gt;
+&lt;td&gt;&lt;div align=right&gt;$fecha&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan=2&gt;
+$datos[noticia]
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td colspan=2&gt;
+&lt;table width=100% border=0 cellpadding=5 cellspacing=0&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=noticias.php?n=$datos[id]&gt;Ver más&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;b&gt;Comentarios:&lt;/b&gt; $comentarios&lt;/td&gt;
+&lt;td&gt;&lt;div align=right&gt;&lt;b&gt;Enviada por:&lt;/b&gt; $datos[usuario]&lt;/div&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&quot; ;
+}
+mysql_free_result($resp) ;
+}
+mysql_close($conectar) ;
+?&gt;[/codigo]
+
+Por último creamos la página que guardará los comentarios en la base de datos, para esto debes meter el siguiente código en un archivo llamado [b]noticiascom.php[/b]:
+
+[codigo]&lt;?
+if($enviar) {
+include(&quot;config.php&quot;) ;
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$fecha = time() ;
+$usuario = quitar($usuario) ;
+$comentario = quitar($comentario) ;
+mysql_query(&quot;insert INTO noticiascom (noticia,fecha,usuario,comentario) values ('$noticia','$fecha','$usuario','$comentario')&quot;) ;
+mysql_close($conectar) ;
+header(&quot;location: noticias.php?n=$noticia&quot;) ;
+}
+?&gt;[/codigo]
+
+[b]Como integrar el sistema de noticias al sistema de registro de usuarios[/b]
+
+Para aquellos que les interese deben realizar los siguientes pasos:
+
+[b]1. Modificando el archivo noticiasenviar.php[/b]
+
+[b]-[/b] Primero abran la página de noticiasenviar.php en un editor de texto o de html puro.
+[b]-[/b] Luego agreguen hasta arriba el siguiente código:
+
+[codigo]&lt;?
+include(&quot;ulogin.php&quot;) ;
+?&gt;[/codigo]
+[b]-[/b] Después deben modificar la línea 10 y agregar en la variable $usuario el valor $_COOKIE[&quot;unick&quot;] de esta forma:
+
+[codigo]$fecha = time() ;
+$usuario = $_COOKIE[&quot;unick&quot;] ;
+$comentario = quitar($comentario) ;[/codigo]
+[b]-[/b] Por último sólo eliminen las líneas 20 y 21 que son para que el usuario agregue su nick.
+
+[codigo]Usuario:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;usuario&quot; maxlength=&quot;20&quot;&gt;&lt;br&gt;[/codigo]
+
+[b]2. Modificando el archivo noticias.php[/b]
+
+[b]-[/b] Abran la página de noticias.php.
+[b]-[/b] Eliminen las líneas 72 y 73 que es para que el usuario pueda escribir su nick.
+
+[codigo]Usuario:&lt;br&gt;
+&lt;input type=text name=usuario maxlength=20&gt;&lt;br&gt;[/codigo]
+
+[b]3. Modificando el archivo noticiascom.php[/b]
+
+[b]-[/b] Vuelvan a crear el archivo noticiascom.php con el siguiente código:
+
+[codigo]&lt;?
+if($enviar) {
+include(&quot;config.php&quot;) ;
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$fecha = time() ;
+$comentario = quitar($comentario) ;
+if($_COOKIE[&quot;unick&quot;]) { $usuario = $_COOKIE[&quot;unick&quot;] ; } else { $usuario = &quot;Invitado&quot; ; }
+mysql_query(&quot;insert INTO noticiascom (noticia,fecha,usuario,comentario) values ('$noticia','$fecha','$usuario','$comentario')&quot;) ;
+mysql_close($conectar) ;
+header(&quot;location: noticias.php?n=$noticia&quot;) ;
+}
+?&gt;[/codigo]
+
+Listo el sistema de noticias está completamente terminado. Para cualquier duda puedes entrar en el foro.

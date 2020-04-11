@@ -1,0 +1,18 @@
+Para aquéllos que desean mostrar los últimos mensajes de eForo en cualquier parte de su web deben pegar el siguiente código:
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+// El número de mensajes a mostrar
+$mostrar = 15 ;
+// Máximo de caractéres por mensaje
+$caracteres = 200 ;
+$resp = mysql_query(&quot;select id,foro,forotema,mensaje from eforo_mensajes order by id desc limit $mostrar&quot;) ;
+for($a = 0 ; $datos = mysql_fetch_array($resp) ; $a++) {
+if(strlen($datos[mensaje]) &gt; $caracteres) {
+$datos[mensaje] = substr($datos[mensaje],0,$caracteres).&quot;...&quot; ;
+}
+echo &quot;$a. $datos[mensaje] &lt;a href=&quot;foro.php?foroid=$datos[foro]&amp;temaid=$datos[forotema]&amp;mensajeid=$datos[id]&quot;&gt;Ver más...&lt;/a&gt;&lt;br&gt;&quot; ;
+}
+?&gt;[/codigo]
+
+Sólo deben modificar el número de mensajes a mostrar y el número máximo de caractéres por mensaje que se mostrará, si el mensaje pasa de este límite, se le agregarán &quot;...&quot; para dar a entender que sólo se está mostrando una parte del mensaje.

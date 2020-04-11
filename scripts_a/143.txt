@@ -1,0 +1,42 @@
+He visto que en casi todos los scripts / mods se suele poner una función llamada “quitar($texto)” y he pensado que lo mejor sería crear un archivo llamado “funciones.php” que importaríamos en aquellos scripts donde lo necesitemos mediante la función incluir  (include(&quot;funciones.php&quot;); ), entre muchas otras ventajas una de ellas sería que si necesitáramos cambiar algo en esa función nada más que tendríamos que cambiar este archivo, quedando listo para usarlo normalmente y así no tener que cambiar uno a uno.He añadido también algunas funciones más.
+
+Este es el código que debe ir dentro del archivo “funciones.php”:
+
+[codigo]
+&lt;?php 
+function quitar($texto) {
+
+// Quita los espacios al principio y al final
+$texto = trim($texto);
+
+// Esta función intenta eliminar todas las etiquetas HTML y PHP de la cadena dada. (Quitar los // si queremos desactivar el html)
+// $texto = strip_tags($texto);
+
+// Convierte el texto en html con sus etiquetas
+$texto = htmlspecialchars($texto);
+
+// convierte las ' &quot; ' en ' &quot; ' para que no den problemas con mysql
+$texto = addslashes($texto);
+
+// Reemplaza los saltos de linea por &lt;br&gt;
+$texto = nl2br($texto);
+
+// Convierte las palabras que empiecen por &quot;http://&quot; y &quot;ftp://&quot; a un hipervínculo (desactivado por defecto)
+// $texto = preg_replace(&quot;/(?&lt;!&lt;a href=&quot;)((http|ftp)+(s)?://[^&lt;&gt;s]+)/i&quot;,&quot;&lt;a href=&quot;\0&quot; target=&quot;_blank&quot;&gt;\0&lt;/a&gt;&quot;,$texto) ;
+
+return $texto ;
+}
+
+?&gt;[/codigo]
+
+Y esto debe ir en cada archivo que necesite la función “quitar($texto)” 
+
+[codigo]
+include(&quot;funciones.php&quot;) ;
+[/codigo]
+
+
+Al archivo “funciones.php” se le pueden añadir muchas otras funciones, y sería, yo creo, mejor que las agrupáramos todas ahí.
+
+Un saludo.
+DJC

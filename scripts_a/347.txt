@@ -1,0 +1,13 @@
+Sencillo script que reproduce el contenido deseado de una carpeta...
+[b]Explicación de como añadir canciones al reproductor:[/b]
+Simplemente dentro de la carpeta musica dentro del script crear una carpeta para cada artista, y dentro de cada artista, sus correspondentes canciones, es decir, qudaria asi la estructura:
+musica/artista1/canciones.mp3
+musica/artista2/canciones.mp3
+
+P.D.: Esta versión es compatible con varias canciones, es decir puedes poner en la misma carpeta de artista varias canciones mp3 y al darle a reproducir se añadiran al reproductor.
+
+[b]Importante: En algunos servidores el cache del hosting memoriza el flash de las canciones por lo tanto, a veces es necesario reinciar el explorador, para poder ver la lista de canciones actualizada en el reproductor.[/b]
+
+El script no esta echo mio 100%, he cogido el reproductor flash mp3 de: http://www.jeroenwijering.com/?item=Flash+Mp3+Player
+
+Todo lo demas esta programado mio. Un saludo

@@ -1,0 +1,19 @@
+Este es el electros nuke o_o ya con el blue metal theme insertado. Y un sistema de lyrics. (Letras de canciones).
+
+Creditos :
+eNuke: by Electros
+Blue metal theme: by Kekograma
+X-Lyrics : By Ironbye @ Xtreme-Web.net
+
+El X-Lyrics, lo iso especialmente para mi :) pero yo ahora deseo publicarlo, porque un gran trabajo asi no se encuentra todos los dias y quiero q se use.
+
+Alguna q otra Modi n_n :
+-Ise que el eForo se viera en index.php?id=foroprivados&amp;talcosa xD en vez de foroprivados.php?talcosa
+-Le meti el lyrics O.o
+Bugs:
+-Arreglé un error que le ví en &quot;Mensaje General&quot;
+-El &quot;eNuke Modificado&quot; de KekoGrama le faltaba un archivo, ya se lo puse :D
+
+Demo: [url]http://www.xtreme-web.net/web/index.php[/url]
+
+P.D.: Quiero q sepan q en esta web estan grandes programadores y amigos, un saludo a ellos.

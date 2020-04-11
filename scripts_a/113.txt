@@ -1,0 +1,74 @@
+Bueno pues aqui está el código para enviar el email a todos usuarios registrados (para los que tengan el sistema de electros)
+
+Crear un archivo llamado [b]email_general.php[/b] y pegar el siguiente código:
+
+[codigo]&lt;script&gt;
+function valida() {
+if(formulario.mensaje.value == '') { alert('Tienes que poner un email valido.') ; return false ; }
+if(formulario.asunto.value == '') { alert('El asunto no puede estar vacío.') ; return false ; }
+if(formulario.remite.value == '') { alert('El mensaje no puede estar vacío.') ; return false ; }
+}
+&lt;/script&gt;
+
+&lt;? include(&quot;config.php&quot;) ;
+if($enviar) {
+$query = &quot;select email,nick from usuarios order by id asc&quot;; 
+$resp = mysql_query($query);
+$totales = mysql_num_rows($resp) ;
+$i = 0 ; $j = 0 ;
+echo &quot;Lista de mensajes enviados.&quot;;
+
+while ($datos = mysql_fetch_array($resp)) {
+    $email = $datos[email] ;
+    $nick = $datos[nick] ;
+    $mensajeb = str_replace(&quot;[nick]&quot;,$nick,$mensaje) ;
+
+$bien = mail($email,$asunto,$mensajeb,&quot;From: $remiternReply-To: $remitern&quot;);
+$i++ ;
+
+echo &quot;&lt;br&gt;$i - &quot;;
+if($bien){ 
+    echo &quot;Mensaje para: $nick ($email): &lt;b&gt;OK&lt;/b&gt;&quot;;
+  } else {    
+    echo &quot;&lt;font color=#FF0000&gt;&lt;b&gt;Mensaje fallido para: $nick ($email)&lt;/b&gt;&lt;/font&gt;&quot;;
+	$j++ ;
+  }
+}
+$k = $i - $j ;
+echo &quot;&lt;br&gt;&lt;br&gt;Enviados: $k de $totales &lt;br&gt;&lt;hr&gt;&quot; ;
+if($i == $totales) {
+echo &quot;&lt;b&gt;Mensaje enviado:&lt;/b&gt;&lt;br&gt; $mensaje&lt;br&gt;&lt;hr&gt; &lt;br&gt;Se ha completado el envío de los mensajes&lt;br&gt;
+Total enviados: &lt;b&gt;$i&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+&lt;a href=javascript:history.back()&gt;Volver a enviar otro mensaje&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;index.php&quot;&gt;Volver a la página principal&lt;/a&gt;
+&quot;;
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+} 
+
+else {
+?&gt; 
+&lt;form action=&quot;email_general.php&quot; method=&quot;post&quot; name=&quot;formulario&quot; onSubmit=&quot;return valida()&quot;&gt;
+  &lt;blockquote&gt;
+   Remitente:&lt;br&gt;  &lt;input name=&quot;remite&quot; type=&quot;text&quot; value=&quot;Aqui Tu email&quot;&gt;&lt;br&gt;&lt;br&gt;
+   Asunto:&lt;br&gt;     &lt;input name=&quot;asunto&quot; type=&quot;text&quot;&gt;&lt;br&gt;&lt;br&gt;
+   Mensaje:&lt;br&gt;    &lt;textarea name=&quot;mensaje&quot; cols=&quot;40&quot; rows=&quot;5&quot;&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+                   &lt;input name=&quot;enviar&quot; type=&quot;submit&quot; value=&quot;Enviar&quot;&gt; 
+  &lt;/blockquote&gt;
+&lt;/form&gt;
+ Puedes usar [nick] para personalizar el mensaje. ej: Hola [nick]...
+&lt;? } ?&gt;
+[/codigo]
+
+Y ya está.
+
+[b]Recomendaciones[/b]
+Lo he probado en miarroba y funciona más o menos bien, alguna direccion no la manda, nose pq
+El tiempo que tarda, depende de lo saturado que esté el servidor.
+Si usais miarroba, en el remitente es aconsejable que pongais la direccion conque os registrasteis, en otros servers nose.
+Le cuesta un poquillo de tiempo, pero ser pacientes hasta que muestre los resultados del envío.
+
+Cuando tenga más tiempo, modificaré el uperfil, para que el usuario decida si desea recibir la lista de correo, o no,
+
+Bueno eso es todo. Suerte

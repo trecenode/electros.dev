@@ -1,0 +1,13 @@
+Bueno pues esto es lo más simple q he podido hacer para mostrar una frase diferente para cada día del año.
+
+1º crear un archivo con 365 frases por ejemplo [b]frases.txt[/b] (en cada línea del archivo una frase)
+
+2º poner este código:
+
+[codigo]&lt;?
+$archivo = file(&quot;frases.txt&quot;);
+echo $archivo[date(z)] ;
+?&gt;
+[/codigo]
+
+Y listo.

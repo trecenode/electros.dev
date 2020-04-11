@@ -1,0 +1,5 @@
+By: http://www.aine.be
+
+Este es un buen editor wysiwyg y muy liviano, comparado a TinyMCE ya que este es totalmente gratis y muy completo.
+
+Info: solo se puede entrar al editor por IEXPLORER desde la version 5.5 en adelante, en  mozilla firefox no se ven las opciones.

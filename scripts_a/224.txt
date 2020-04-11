@@ -1,0 +1,29 @@
+Este es un rotado de enlaces que he echo fijandome de un rotador de banners, he maximizado el script para que ocupe solo 2 archivos , este script lo que permite es agregar enlaces para un intercambio, borrarlos solo por el admin (la pass se especificca en el [b]enlaces.php[/b]) y ver el enlace rotatorio en [b]rotador.php[/b] .
+
+No utliza mysql para funcionar sino bases de datos en archivo de texto, en concreto en dos archivos [b]contador.txt[/b] dode cuenta en numero de visualizaciones del rotador y [b]enlaces.txt[/b] donde se guardan los enlaces.
+Ademas hay que dar chmod 666 o 777 a estos dos archivos de texto para que funcionen.
+
+Para añadirme mas campos a este sistema (ademas de el de enlace y url veremos como añadir el campo descripcion)  :
+
+En [b]enlaces.php[/b] :
+
+1) Hay cambiar
+[codigo]$columna = split( &quot;|&quot; , $tupla[$i] , 2 );[/codigo] por el numero de campos que queramos por ej 3 que seria [codigo]$columna = split( &quot;|&quot; , $tupla[$i] , 3 );[/codigo]
+
+y tambien :
+[codigo]if($enlace &amp;&amp; $url)[/codigo] por [codigo]if($enlace &amp;&amp; $url &amp;&amp; $desc)[/codigo]
+
+2 ) añadir el campo que queremos en el formulario linea 170 en este caso 
+[codigo]Descripcion &lt;textarea name=&quot;desc&quot; cols=&quot;40&quot; class=&quot;form&quot; id=&quot;desc&quot;&gt;&lt;/textarea&gt;[/codigo]
+
+3) Despues agregar donde pone [codigo]&lt;? echo $columna[1] ?&gt;[/codigo] lo de [codigo]&lt;? echo $columna[2] ?&gt;[/codigo] para mostrar el campo tercero , ya que el 0 seria el primero.
+
+4) y por ultimo sustituir lo de [codigo]$archivo = $archivo.trim(&quot; $enlace|$url/n&quot;);[/codigo] por [codigo]$archivo = $archivo.trim(&quot; $enlace|$url|$desc/n&quot;);[/codigo] que es el campo descripcion que hemos añadido.
+
+En [b]rotador.php[/b] :
+
+1) En rotador.php cambiariamos lo de [codigo]$columna = split( &quot;|&quot; , $tupla[(int)$archivo1] , 2);[/codigo] por  [codigo]$columna = split( &quot;|&quot; , $tupla[(int)$archivo1] , 3);[/codigo] para que funcionase en link.
+
+El resto de archivos habria que crearlos de nuevo y dejarlos en blanco para que los cambios sean efectivos.
+
+Este proceso lo podremos realizar para añadir en numero de campos que queramos y mas , siempre siguiendo las pautas del script.

@@ -1,0 +1,7 @@
+este script sirve para sacar el subrayado del link que a muchos no les gusta como a mi
+[codigo]&lt;style&gt;
+a{
+text-decoration:none;
+}
+&lt;/style&gt; [/codigo]
+Info: tienes que ponerlo entre: &lt;/head&gt; y &lt;body&gt;

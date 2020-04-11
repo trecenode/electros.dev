@@ -1,0 +1,74 @@
+Pues este script como dice el nombre, sirve para que la gente contacte con el webmaster a traves de un formulario.
+
+El script se envia a traves del apache servidor, en miarroba lo recibirias con apache@web.miarroba.com.
+
+Este script consta de tres partes que pegaremos en el body, la pagina la llamaremos contactar.php :
+
+
+Primera parte del codigo.
+
+[codigo]
+&lt;? 
+if (!$HTTP_POST_VARS){ 
+?&gt;
+
+[/codigo]
+
+Segunda parte del codigo que consta del formulario con los campos, en donde pone &quot;contactar.php&quot; es la pagina en la que tenemos este script; se puede cambiar por ejemplo por &quot;index.php&quot; si ponemos el script en esa otra pagina.
+
+[codigo]
+&lt;form action=&quot;contactar.php&quot; method=post&gt;
+          &lt;font face=&quot;Verdana, Arial, Helvetica, sans-serif&quot;&gt;&lt;br&gt;
+          Nombre:&lt;/font&gt; &lt;font size=&quot;2&quot; face=&quot;Verdana, Arial, Helvetica, sans-serif&quot;&gt; 
+          &lt;input type=text name=&quot;nombre&quot; size=25&gt;
+          &lt;br&gt;
+          Email:&lt;/font&gt; &lt;font size=&quot;2&quot; face=&quot;Verdana, Arial, Helvetica, sans-serif&quot;&gt; 
+          &lt;/font&gt;&lt;font size=&quot;2&quot; face=&quot;Verdana, Arial, Helvetica, sans-serif&quot;&gt; 
+          &lt;input type=text name=&quot;email&quot; size=25&gt;
+          &lt;br&gt;
+          Mensaje:&lt;/font&gt; &lt;font size=&quot;2&quot; face=&quot;Verdana, Arial, Helvetica, sans-serif&quot;&gt; 
+          &lt;textarea name=&quot;coment&quot; cols=&quot;25&quot; rows=&quot;6&quot;&gt;&lt;/textarea&gt;
+          &lt;br&gt;
+          &lt;br&gt;
+          &lt;/font&gt;&lt;br&gt;
+          &lt;br&gt;
+          &lt;input name=&quot;submit&quot; type=submit value=&quot;Enviar&quot;&gt;
+        &lt;/form&gt;
+[/codigo]
+
+
+tercera parte del codigo para el envio del formulario, en donde pone &quot;email@tudireccion.es&quot; ponemos nuestro email y donde pone &quot;www.phpmysql.tk&quot; (no quites la n) ponemos nuestra url y por ultimo donde pone &quot;Gracias por rellenar el formulario. Se ha enviado correctamente&quot; ponemos el mensaje que queremos que aparezca.
+
+[codigo]
+&lt;? 
+
+}else{ 
+
+    //Estoy recibiendo el formulario, compongo el cuerpo 
+
+    $cuerpo = &quot;Formulario enviado desde la pagina web www.phpmysql.tkn&quot;; 
+
+    $cuerpo .= &quot;Nombre: &quot; . $HTTP_POST_VARS[&quot;nombre&quot;] . &quot;n&quot;; 
+
+    $cuerpo .= &quot;Email: &quot; . $HTTP_POST_VARS[&quot;email&quot;] . &quot;n&quot;; 
+
+    $cuerpo .= &quot;Mensaje: &quot; . $HTTP_POST_VARS[&quot;coment&quot;] . &quot;n&quot;; 
+
+
+
+    //mando el correo... 
+
+    mail(&quot;email@tudireccion.es&quot;,&quot;Formulario recibido&quot;,$cuerpo); 
+
+
+
+    //doy las gracias por el envío 
+
+    echo &quot;Gracias por rellenar el formulario. Se ha enviado correctamente.&quot;; 
+
+} 
+
+?&gt;
+[/codigo]
+
+Con esto tendremos un sencillo email con el que nuestros usuarios podran contactar con nosotros.

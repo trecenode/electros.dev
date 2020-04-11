@@ -1,0 +1,19 @@
+Aquí os traigo un pequeño parche que soluciona un error en el trabajo de eforo+electroscripts, que los mensajes privados del foro iban por separado de los del nuke, aqui os traigo la solucion.
+Basta con abrir foroprivados.php, borrar todo su contenido y pegar esto:
+
+[codigo]
+&lt;?
+if($responder) {
+?&gt;
+&lt;script&gt;location='index.php?id=mensajes&amp;responder=&lt;? echo $responder ?&gt;'&lt;/script&gt;
+&lt;?
+}
+else {
+echo &quot;&lt;script&gt;location='index.php?id=mensajes'&lt;/script&gt;&quot;;
+}
+?&gt;
+[/codigo]
+
+No es gran cosa pero seguro que ayuda a algún principiante...
+
+Parche by NeOn: www.neonweb.info

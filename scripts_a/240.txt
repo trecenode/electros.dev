@@ -1,0 +1,78 @@
+Buenas, Este es un script para paginar tus cosas de X en X (se puede modificar). Cabe decir que es la modificación del de un amigo, que ese no funcionaba xDD.
+
+[codigo]&lt;?php
+include (&quot;config.php&quot;);
+
+######Configuración#######
+                         #
+$paginas = 7;            #
+$tabla = &quot;aquitutabla&quot;;  #
+                         #
+##########################
+
+$actual = (!isset ($pg))?1:$pg;
+$sql = mysql_query (&quot;SELECT * FROM &quot;.$tabla.&quot;&quot;);
+$total = mysql_num_rows ($sql);
+if ($actual == 1) {
+$desde = &quot;0&quot;;
+}
+elseif ($actual != 1) {
+$desde = $actual * $paginas - $paginas;
+}
+$tp = ($total / $paginas);
+if (strstr($tp,'.')){ 
+$tp = explode (&quot;.&quot;,$tp);
+$tp = ($tp[0]+1);
+}
+$resp = mysql_query (&quot;SELECT * FROM &quot;.$tabla.&quot; ORDER BY id LIMIT &quot;.$desde.&quot;,&quot;.$paginas.&quot;&quot;);
+while ($row = mysql_fetch_array ($resp)) {
+//Aqui parte la parte de modificación
+echo &quot;Registro: &quot;.$row[&quot;campo&quot;].&quot;&lt;br&gt;&quot;;
+//Aqui termina xD
+}
+$pag = ($tp == 1) ? página : páginas;
+$reg = ($total == 1) ? usuario : usuarios;
+?&gt;
+&lt;br&gt;Encontrados &lt;b&gt;&lt;?=$total?&gt;&lt;/b&gt; &lt;?=$reg?&gt; en &lt;b&gt;&lt;?=$tp?&gt;&lt;/b&gt; &lt;?=$pag?&gt;&lt;br&gt;
+&lt;?php
+$anterior = true;
+$siguiente = true;
+if (($actual == 1) AND ($actual == $tp)) {
+$anterior = false;
+$siguiente = false;
+}
+elseif ($actual == $tp) {
+$anterior = true;
+$siguiente = false;
+}
+elseif ($actual == 1) {
+$anterior = false;
+$siguiente = true;
+}
+if ($anterior) {
+echo &quot;&lt;a href=\&quot;pagina.php?pg=&quot;.($actual-1).&quot;\&quot;&gt;&amp;lt; Página anterior&lt;/a&gt; | &quot;;
+}
+else {
+echo &quot;|&quot;;
+}
+for ($i = 1; $i &lt;= $tp;$i++) {
+if ($i == $actual) {
+echo &quot; &lt;b&gt;&quot;.$i.&quot;&lt;/b&gt; | &quot;;
+}
+else {
+echo &quot;&lt;a href=\&quot;pagina.php?pg=&quot;.$i.&quot;\&quot;&gt; &quot;.$i.&quot;&lt;/a&gt; |&quot;;
+}
+}
+if ($siguiente) {
+echo &quot; &lt;a href=\&quot;pagina.php?pg=&quot;.($actual+1).&quot;\&quot;&gt; Página siguiente &amp;gt;&lt;/a&gt;&quot;;
+}
+?&gt;[/codigo] 
+
+Explicación:
+$paginas es el número de registros por página
+$tabla es la tabla a seleccionar
+Si te fijas, los links son hacia &quot;pagina.php?pg=....&quot;. Debes cambiar &quot;pagina.php&quot; por el nombre de la página.
+
+Creo que eso es todo :). Ojalá sirva.
+
+Salu2!

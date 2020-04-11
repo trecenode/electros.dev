@@ -1,0 +1,139 @@
+Bueno,me dió por hacer un menú lo más parecido al php-nuke y akí está.
+Quita todo el código del [b]umenu.php[/b] y coloca este código.
+
+[b]Aviso:[/b]Es necesario tener el registro de usuarios con avatar,si no no se verán los avatares 
+
+[b]umenu.php[/b]
+
+[codigo]&lt;?
+if($_COOKIE[&quot;unick&quot;] ){
+include(&quot;config.php&quot;);
+$resp = mysql_query(&quot;select * from usuarios where nick='$HTTP_COOKIE_VARS[unick]'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+?&gt;
+&lt;b&gt;Hola :&lt;/b&gt;&lt;br&gt;
+&lt;b&gt;&lt;? echo $_COOKIE[&quot;unick&quot;] ?&gt;&lt;/b&gt;&lt;br&gt;
+&lt;/a&gt; &lt;br&gt;
+&lt;table width=&quot;107&quot; border=&quot;0&quot; cellspacing=&quot;0&quot; cellpadding=&quot;4&quot; height=&quot;68&quot;&gt;
+&lt;tr&gt; 
+&lt;td width=&quot;269&quot; height=&quot;68&quot;&gt;&lt;? echo &quot;&lt;a href='index.php?id=uperfil'&gt;&lt;img src='avatares/$datos[avatar]' border='0' alt='Pulsa aqui para modificar tu avatar personal' onerror=this.onerror='null';this.src='http://www.elcidop.com/minibannercidop.gif'&gt;&lt;/a&gt;&quot;; ?&gt;&lt;/td&gt;
+&lt;td width=&quot;187&quot; height=&quot;68&quot;&gt;
+&lt;img border=&quot;0&quot; src=&quot;images/Usuarios/careto.gif&quot;&gt;&lt;a href=&quot;index.php?id=uperfil&quot;&gt;Perfil&lt;/a&gt;&lt;a href=&quot;index.php?id=usuarios&quot;&gt;&lt;br&gt;
+&lt;/a&gt;
+&lt;img border=&quot;0&quot; src=&quot;http://cibersound.webcindario.com/Web/images/Usuarios/salir.gif&quot; width=&quot;16&quot; height=&quot;16&quot;&gt;&lt;a href=&quot;usalir.php&quot;&gt;Salir&lt;/a&gt;&lt;a href=&quot;?usuarios&quot;&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt; 
+&lt;td colspan=&quot;2&quot; width=&quot;464&quot; height=&quot;1&quot;&gt;&lt;font face=&quot;Verdana&quot;&gt;&lt;b&gt; 
+&lt;font size=&quot;2&quot;&gt;&lt;a href=&quot;index.php?id=mensajes&quot; &gt; 
+&lt;?
+include(&quot;config.php&quot;) ;
+$usuario = $HTTP_COOKIE_VARS[unick] ;
+$resp = mysql_query(&quot;select id from mensajes where nuevo='0' and destinatario='$usuario'&quot;) ;
+$mensajes = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+if($mensajes == 0) {
+?&gt;
+&lt;?
+}
+else {
+?&gt;
+&lt;script&gt;
+function BlinkTxt() {
+texto = document.getElementsByTagName('blink');
+for (i=0; i&lt;texto.length; i++)
+if (texto[i].style.visibility=='hidden') {
+texto[i].style.visibility='visible';
+} else {
+texto[i].style.visibility='hidden';
+}
+setTimeout('BlinkTxt()',100);
+}
+onload=BlinkTxt;
+&lt;/script&gt;
+&lt;/font&gt; 
+&lt;font size=&quot;1&quot;&gt;
+&lt;a href=&quot;index.php?id=mensajes.php&quot;&gt;&lt;blink&gt;M&lt;/blink&gt;&lt;/a&gt;&lt;/font&gt;&lt;a href=&quot;index.php?id=mensajes.php&quot;&gt;&lt;blink&gt;&lt;font size=&quot;1&quot;&gt;ensajes (&lt;? echo $mensajes ; ?&gt;)&lt;/font&gt;&lt;/blink&gt;&lt;/a&gt;&lt;font size=&quot;2&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;?
+}
+?&gt;&lt;/font&gt;&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt; 
+&lt;td colspan=&quot;2&quot; width=&quot;464&quot; height=&quot;1&quot;&gt;
+&lt;p align=&quot;left&quot;&gt;&lt;b&gt;&lt;font size=&quot;1&quot; face=&quot;Verdana&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;images/flecha.gif&quot;&gt;Usuarios&lt;/a&gt;: 
+&lt;?
+include(&quot;config.php&quot;) ;
+$resp = mysql_query(&quot;select count(*) as usuarios from usuarios&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+echo &quot;($datos[usuarios])&quot; ;
+}
+?&gt;&lt;/font&gt;&lt;/b&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt; 
+&lt;td colspan=&quot;2&quot; width=&quot;464&quot; height=&quot;19&quot;&gt;&lt;font face=&quot;Verdana&quot;&gt;&lt;font size=&quot;1&quot;&gt;&lt;img src=&quot;images/flecha.gif&quot;&gt;&lt;/font&gt;&lt;b&gt;&lt;font size=&quot;1&quot;&gt;&lt;? /// ultimo registrado
+include(&quot;config.php&quot;) ;
+$mostrar = 1 ;
+$resp = mysql_query(&quot;select * from usuarios order by id desc limit $mostrar&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+echo &quot;Ultimo:  &lt;a href='index.php?id=usuarios&amp;u=$datos[id]' &gt;$datos[nick]&lt;/a&gt;&lt;br&gt;&quot; ;
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;&lt;/font&gt;&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;br&gt; 
+&lt;?
+}
+else {
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;index.php?id=uentrar&quot;&gt;
+&lt;p&gt;
+&lt;b&gt;Nick:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;nick&quot; size=&quot;13&quot; style=&quot;background:#5B5B5B font-size 5B5B5B 8pt; font-family: Verdana; font-weight: bold; color: #C0C0C0; font-size:8pt&quot;&gt;&lt;br&gt;
+&lt;b&gt;Contraseña:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; size=&quot;13&quot; style=&quot;background:#5B5B5B Verdana 5B5B5B 5B5B5B; font-size: 8pt; font-weight: bold; color: #C0C0C0&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;entrar&quot; value=&quot;Entrar&quot; style=&quot;border: 1px ridge #000000&quot;&gt;
+&lt;/p&gt;
+&lt;div align=&quot;left&quot;&gt;
+  &lt;table border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; style=&quot;border-collapse: collapse&quot; bordercolor=&quot;#111111&quot; id=&quot;AutoNumber37&quot; width=&quot;125&quot;&gt;
+    &lt;tr&gt;
+      &lt;td width=&quot;125&quot;&gt;&lt;b&gt;&lt;font size=&quot;1&quot; face=&quot;Verdana&quot;&gt;
+      &lt;a href=&quot;index.php?id=ucontrasena&quot;&gt;Perdí mi contraseña&lt;/a&gt;&lt;/font&gt;&lt;/b&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td width=&quot;125&quot;&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;1&quot;&gt;
+      &lt;a href=&quot;index.php?id=uregistrar&quot;&gt;Registrarse&lt;/a&gt;&lt;/font&gt;&lt;/b&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td width=&quot;125&quot;&gt;&lt;b&lt;/b&gt;&lt;b&gt;&lt;font face=&quot;Verdana&quot; size=&quot;1&quot;&gt;&lt;img border=&quot;0&quot; src=&quot;images/flecha.gif&quot;&gt;Usuarios&lt;/a&gt;: 
+&lt;?
+include(&quot;config.php&quot;) ;
+$resp = mysql_query(&quot;select count(*) as usuarios from usuarios&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+echo &quot;($datos[usuarios])&quot; ;
+}
+?&gt;&lt;/font&gt;&lt;/b&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt; 
+&lt;td colspan=&quot;2&quot; width=&quot;464&quot; height=&quot;19&quot;&gt;&lt;font face=&quot;Verdana&quot;&gt;&lt;font size=&quot;1&quot;&gt;&lt;img src=&quot;images/flecha.gif&quot;&gt;&lt;/font&gt;&lt;b&gt;&lt;font size=&quot;1&quot;&gt;&lt;? /// ultimo registrado
+include(&quot;config.php&quot;) ;
+$mostrar = 1 ;
+$resp = mysql_query(&quot;select * from usuarios order by id desc limit $mostrar&quot;) ;
+while($datos = mysql_fetch_array($resp)) {
+echo &quot;Ultimo:  &lt;a href='index.php?id=usuarios&amp;u=$datos[id]' &gt;$datos[nick]&lt;/a&gt;&lt;br&gt;&quot; ;
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;&lt;/font&gt;&lt;/b&gt;&lt;/font&gt;&lt;/td&gt;
+&lt;/font&gt;&lt;/b&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+ 
+&lt;?
+}
+?&gt;
+
+[/codigo]

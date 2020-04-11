@@ -1,0 +1,6 @@
+He realizado una planilla editable para control de clientes sin BD ya que no poseo en el servidor.
+Tengo escasos conocimientos de PHP y necesitaria poder agregar o borrar clientes (es decir poder insertar filas completas con determinados numeros de columnas o quitarlas).
+Yo trabaje con 3 archivos de texto, tambien creo que seria mas practico trabajar con un solo.
+Cuando la bajen (zip) se van a dar cuenta de que se trata y si pueden modificar el codigo para lograr lo que busco se los agradeceria enormemente.
+
+Un cordial saludo.

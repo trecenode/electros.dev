@@ -1,0 +1,421 @@
+Variante de uperfil.php de ElectrosNukev13... [b]colaboración: Electros, el_primo_de_mexico y carlos123[/b]
+Y no se olviden de agregar los campos antes de probar este mod.
+[codigo]&lt;?
+include(&quot;foroconfig.php&quot;) ;
+include(&quot;config.php&quot;) ;
+// Inicio comprobación usuario
+$resp = mysql_query(&quot;select contrasena from usuarios where nick='$HTTP_COOKIE_VARS[unick]'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+$datos[contrasena] = md5(md5($datos[contrasena])) ;
+if($datos[contrasena] != $HTTP_COOKIE_VARS[ucontrasena]) {
+?&gt;
+&lt;script&gt;location=&quot;usalir.php&quot;&lt;/script&gt;
+&lt;?
+exit ;
+}
+mysql_free_result($resp) ;
+// Fin comprobación usuario
+if($editar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+if($contrasena != &quot;&quot;) { $contrasena = &quot;contrasena='$contrasena'&quot; ; }
+// Subir el avatar
+// --&gt; Inicio
+if($archivo != &quot;&quot; &amp;&amp; !$borrar) {
+$resp = mysql_query(&quot;select id from usuarios where nick='$HTTP_COOKIE_VARS[unick]'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+// Se revisa que la extensión del archivo sólo sea .gif y .jpg
+$extensiones = explode(&quot;.&quot;,$archivo_name) ;
+$num = count($extensiones) - 1 ;
+if($extensiones[$num] != &quot;gif&quot; &amp;&amp; $extensiones[$num] != &quot;jpg&quot;) { $error = &quot;Imagens só em .gif e .jpg.&lt;br&gt;&quot; ; }
+// Tamaño de la imagen medido en pixeles
+move_uploaded_file($archivo,&quot;eforo_imagenes/avatares/defecto.$extensiones[$num]&quot;) ;
+$tamano = getimagesize(&quot;eforo_imagenes/avatares/defecto.$extensiones[$num]&quot;) ;
+$largo = $tamano[0] ;
+$ancho = $tamano[1] ;
+if($largo &gt; $tam_largo || $ancho &gt; $tam_ancho) {
+unlink(&quot;eforo_imagenes/avatares/defecto.$extensiones[$num]&quot;) ;
+$error .= &quot;O tamanho da imagem deve ser menor de $tam_largo x $tam_ancho pixels.&lt;br&gt;&quot; ;
+}
+// Tamaño del archivo
+$tam_actual = $archivo_size / 1000 ;
+$tam_limite = $tam_archivo ;
+$tam_archivo = $tam_archivo * 1000 ;
+if($archivo_size &gt; $tam_archivo) { $error .= &quot;O arquivo pesa $tam_actual e deve ser menor de $tam_limite Kb.&lt;br&gt;&quot; ; }
+if($error) {
+echo &quot;
+&lt;style&gt;
+body {
+font-family: verdana ;
+font-size: 10pt ;
+}
+a {
+color: #000000 ;
+text-decoration: none ;
+font-weight: bold ;
+}
+&lt;/style&gt;
+&lt;p&gt;&lt;b&gt;Error&lt;/b&gt;
+&lt;p&gt;$error
+&lt;p&gt;&lt;a href=&quot;javascript:history.back()&quot;&gt;» Voltar&lt;/a&gt;
+&quot; ;
+exit ;
+}
+rename(&quot;eforo_imagenes/avatares/defecto.$extensiones[$num]&quot;,&quot;eforo_imagenes/avatares/$datos[id].$extensiones[$num]&quot;) ;
+$avatar = &quot;,avatar='$extensiones[$num]'&quot; ;
+}
+// --&gt; Fin
+// Borrar el avatar
+// --&gt; Inicio
+if($borrar) {
+$resp = mysql_query(&quot;select id,avatar from usuarios where nick='$_COOKIE[unick]'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+unlink(&quot;eforo_imagenes/avatares/$datos[id].$datos[avatar]&quot;) ;
+mysql_query(&quot;update usuarios set avatar='' where id='$datos[id]'&quot;) ;
+}
+// --&gt; Fin
+
+// *** Aquí están los campos que tienen que agregar a la tabla usuarios:
+
+if($web == &quot;http://&quot;) { $web = &quot;&quot; ; }
+mysql_query(&quot;update usuarios set 
+nivel='$nivel',email='$email',sexo='$sexo',preferencia='$preferencia',
+edad='$edad',barrio='$barrio',ciudad='$ciudad',estado='$estado',
+pais='$pais',altura='$altura',peso='$peso',piel='$piel',ojos='$ojos',
+cabellos='$cabellos',estadocivil='$estadocivil',hijos='$hijos',
+bebe='$bebe',fuma='$fuma',religion='$religion',educacion='$educacion',
+idioma1='$idioma1',idioma2='$idioma2',profesion='$profesion',
+signo='$signo',foto='$foto',web='$web',mensajes='$mensajes',
+procura='$procura',avatar='$avatar',firma='$firma',
+descripcion='$descripcion',reco='$reco' where nick='$HTTP_COOKIE_VARS[unick]'&quot;) ;
+echo &quot;Dados atualizados com sucesso. Clique aqui &lt;a href=index.php&gt;aquí&lt;/a&gt; para voltar para página principal.&lt;br&gt;&lt;br&gt;&quot; ;
+}
+?&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;&lt;a href=&quot;index.php&quot;&gt;» Voltar para página principal&lt;/a&gt;
+&lt;p&gt;
+&lt;?
+$usuario = $HTTP_COOKIE_VARS[unick] ;
+$resp = mysql_query(&quot;select * from usuarios where nick='$usuario'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+
+// *** Aquí también pueden tener una idea de los campos nuevos:
+
+if($datos[edad] == 0) { $edad = &quot;&quot; ; }
+else { $edad = $datos[edad] ; }
+if($datos[sexo] == 1) { $sexo = &quot; selected&quot; ; }
+$estado = $datos[estado] ;
+$pais = $datos[pais] ;
+$altura = $datos[altura] ;
+$peso = $datos[peso] ;
+$piel = $datos[piel] ;
+$ojos = $datos[ojos] ;
+$cabellos = $datos[cabellos] ;
+$estadocivil = $datos[estadocivil] ;
+$hijos = $datos[hijos] ;
+$bebe = $datos[bebe] ;
+$fuma = $datos[fuma] ;
+$religion = $datos[religion] ;
+$educacion = $datos[educacion] ;
+$idioma1 = $datos[idioma1] ;
+$idioma2 = $datos[idioma2] ;
+$profesion = $datos[profesion] ;
+$signo = $datos[signo] ;
+$procura = $datos[procura] ;
+if($datos[procura] == 1) { $procura = &quot; selected&quot; ; }
+
+$fecha = $datos[fecha] ;
+$diassemana = array(&quot;Domingo&quot;,&quot;Segunda-feira&quot;,&quot;Terça-feira&quot;,&quot;Quarta-feira&quot;,&quot;Quinta-feira&quot;,&quot;Sexta-feira&quot;,&quot;Sábado&quot;) ;
+$mesesano = array(&quot;Janeiro&quot;,&quot;Fevereiro&quot;,&quot;Março&quot;,&quot;Abril&quot;,&quot;Maio&quot;,&quot;Junho&quot;,&quot;Julho&quot;,&quot;Agosto&quot;,&quot;Setembro&quot;,&quot;Outubro&quot;,&quot;Novembro&quot;,&quot;Decembro&quot;) ;
+$diasemana = date(w,$fecha) ; $diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diassemana[$diasemana] $diames de $mesesano[$mesano] de $ano&quot; ;
+?&gt;
+&lt;p class=&quot;t1&quot;&gt;Perfil
+&lt;p&gt;&lt;b&gt;Usuário desde:&lt;/b&gt; &lt;? echo $fecha ?&gt;
+&lt;p&gt;Nesta seção você pode editar seus dados de cadastro.  Se deseja mudar a sua senha, deve prencher os campos de Senha Nova e Confirmar Senha Nova.
+A foto só pode ser uma imagem .gif e .jpg, não pode medir mais de &lt;? echo $tam_largo ?&gt; x &lt;? echo $tam_ancho ?&gt; pixels e não pode pesar mais de &lt;? echo $tam_archivo ?&gt; Kb.
+&lt;script&gt;
+archivo = 0 ;
+function revisar() {
+if(formulario.nick.value.length &lt; 3) { alert('El nick debe contener por lo menos 3 caracteres.') ; return false ; }
+if(formulario.contrasena.value.length &gt; 0 &amp;&amp; formulario.contrasena.value.length &lt; 5) { alert('La contraseña debe contener por lo mínimo 5 caractéres.') ; return false ; }
+if(formulario.contrasena.value != formulario.confirmarcontrasena.value) { alert('La contraseña no es igual a la contraseña de confirmación.') ; return false ; }
+if(formulario.email.value.length == 0) { alert('Debes poner un email válido.') ; return false ; }
+if(formulario.descripcion.value.length &gt; 255) { alert('La descripción supera los 255 caractéres.') ; return false ; }
+if(formulario.firma.value.length &gt; 255) { alert('La firma supera los 255 caractéres.') ; return false ; }
+if(archivo == 0) { archivo++ ; } else { alert('Tus datos se están enviando por favor espera.') ; return false ; }
+}
+&lt;/script&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;index.php?id=uperfil&quot; enctype=&quot;multipart/form-data&quot; onsubmit=&quot;return revisar()&quot;&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;input type=&quot;submit&quot; name=&quot;editar&quot; value=&quot; Editar meu perfil &quot; class=&quot;form&quot;&gt;&lt;br&gt;&lt;br&gt;
+&lt;table border=&quot;0&quot; width=&quot;100%&quot; cellspacing=&quot;3&quot;&gt;
+  &lt;tr&gt;
+    &lt;td width=&quot;50%&quot; valign=&quot;top&quot;&gt;
+&lt;b&gt;* Apelido:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;nick&quot; maxlength=&quot;20&quot; value=&quot;&lt;? echo $datos[nick] ?&gt;&quot; class=&quot;form&quot; style=&quot;color: #757575&quot; readonly&gt;&lt;br&gt;
+&lt;b&gt;* Senha Nueva:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;* Confirmar Senha Nueva:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;password&quot; name=&quot;confirmarcontrasena&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;* Email:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;email&quot; maxlength=&quot;40&quot; value=&quot;&lt;? echo $datos[email] ?&gt;&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;* Frase secreta:&lt;br&gt;
+&lt;/b&gt;&lt;input type=text name=reco maxlength=40 value=&quot;&lt;? echo $datos[reco] ?&gt;&quot; class=form size=20&gt;&lt;br&gt;
+&lt;b&gt;Bairro:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;barrio&quot; maxlength=&quot;20&quot; value=&quot;&lt;? echo $datos[barrio] ?&gt;&quot; class=&quot;form&quot; size=&quot;20&quot;&gt;&lt;br&gt;
+&lt;b&gt;Cidade:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;ciudad&quot; maxlength=&quot;20&quot; value=&quot;&lt;? echo $datos[ciudad] ?&gt;&quot; class=&quot;form&quot; size=&quot;20&quot;&gt;&lt;br&gt;
+&lt;b&gt;Estado:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;estado&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($estado==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;
+&lt;option value=&quot;AC&quot; &lt;?if ($estado==&quot;AC&quot;){echo &quot;selected&quot;;}?&gt;&gt;Acre
+&lt;option value=&quot;AL&quot; &lt;?if ($estado==&quot;AL&quot;){echo &quot;selected&quot;;}?&gt;&gt;Alagoas
+&lt;option value=&quot;AM&quot; &lt;?if ($estado==&quot;AM&quot;){echo &quot;selected&quot;;}?&gt;&gt;Amazonas
+&lt;option value=&quot;AP&quot; &lt;?if ($estado==&quot;AP&quot;){echo &quot;selected&quot;;}?&gt;&gt;Amapá
+&lt;option value=&quot;BA&quot; &lt;?if ($estado==&quot;BA&quot;){echo &quot;selected&quot;;}?&gt;&gt;Bahia
+&lt;option value=&quot;CE&quot; &lt;?if ($estado==&quot;CE&quot;){echo &quot;selected&quot;;}?&gt;&gt;Ceará
+&lt;option value=&quot;DF&quot; &lt;?if ($estado==&quot;DF&quot;){echo &quot;selected&quot;;}?&gt;&gt;Distrito Federal
+&lt;option value=&quot;ES&quot; &lt;?if ($estado==&quot;ES&quot;){echo &quot;selected&quot;;}?&gt;&gt;Espírito Santo
+&lt;option value=&quot;GO&quot; &lt;?if ($estado==&quot;GO&quot;){echo &quot;selected&quot;;}?&gt;&gt;Goiás
+&lt;option value=&quot;MA&quot; &lt;?if ($estado==&quot;MA&quot;){echo &quot;selected&quot;;}?&gt;&gt;Maranhão
+&lt;option value=&quot;MG&quot; &lt;?if ($estado==&quot;MG&quot;){echo &quot;selected&quot;;}?&gt;&gt;Minas Gerais
+&lt;option value=&quot;MS&quot; &lt;?if ($estado==&quot;MS&quot;){echo &quot;selected&quot;;}?&gt;&gt;Mato Grosso do Sul
+&lt;option value=&quot;MT&quot; &lt;?if ($estado==&quot;MT&quot;){echo &quot;selected&quot;;}?&gt;&gt;Mato Grosso
+&lt;option value=&quot;PA&quot; &lt;?if ($estado==&quot;PA&quot;){echo &quot;selected&quot;;}?&gt;&gt;Pará
+&lt;option value=&quot;PB&quot; &lt;?if ($estado==&quot;PB&quot;){echo &quot;selected&quot;;}?&gt;&gt;Paraíba
+&lt;option value=&quot;PE&quot; &lt;?if ($estado==&quot;PE&quot;){echo &quot;selected&quot;;}?&gt;&gt;Pernambuco
+&lt;option value=&quot;PI&quot; &lt;?if ($estado==&quot;PI&quot;){echo &quot;selected&quot;;}?&gt;&gt;Piauí
+&lt;option value=&quot;PR&quot; &lt;?if ($estado==&quot;PR&quot;){echo &quot;selected&quot;;}?&gt;&gt;Paraná
+&lt;option value=&quot;RJ&quot; &lt;?if ($estado==&quot;RJ&quot;){echo &quot;selected&quot;;}?&gt;&gt;Rio de Janeiro
+&lt;option value=&quot;RN&quot; &lt;?if ($estado==&quot;RN&quot;){echo &quot;selected&quot;;}?&gt;&gt;Rio Grande do Norte
+&lt;option value=&quot;RO&quot; &lt;?if ($estado==&quot;RO&quot;){echo &quot;selected&quot;;}?&gt;&gt;Rondônia
+&lt;option value=&quot;RR&quot; &lt;?if ($estado==&quot;RR&quot;){echo &quot;selected&quot;;}?&gt;&gt;Roraima
+&lt;option value=&quot;RS&quot; &lt;?if ($estado==&quot;RS&quot;){echo &quot;selected&quot;;}?&gt;&gt;Rio Grande do Sul
+&lt;option value=&quot;SC&quot; &lt;?if ($estado==&quot;SC&quot;){echo &quot;selected&quot;;}?&gt;&gt;Santa Catarina
+&lt;option value=&quot;SE&quot; &lt;?if ($estado==&quot;SE&quot;){echo &quot;selected&quot;;}?&gt;&gt;Sergipe
+&lt;option value=&quot;SP&quot; &lt;?if ($estado==&quot;SP&quot;){echo &quot;selected&quot;;}?&gt;&gt;São Paulo
+&lt;option value=&quot;TO&quot; &lt;?if ($estado==&quot;TO&quot;){echo &quot;selected&quot;;}?&gt;&gt;Tocantins
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Pais:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;pais&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($pais==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;Brasil
+&lt;option value=&quot;1&quot; &lt;?if ($pais==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;Argentina
+&lt;option value=&quot;2&quot; &lt;?if ($pais==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;Estados Unidos
+&lt;option value=&quot;3&quot; &lt;?if ($pais==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;Uruguai
+&lt;option value=&quot;4&quot; &lt;?if ($pais==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;Chile
+&lt;option value=&quot;5&quot; &lt;?if ($pais==&quot;5&quot;){echo &quot;selected&quot;;}?&gt;&gt;Peru
+&lt;option value=&quot;6&quot; &lt;?if ($pais==&quot;6&quot;){echo &quot;selected&quot;;}?&gt;&gt;Portugal
+&lt;option value=&quot;7&quot; &lt;?if ($pais==&quot;7&quot;){echo &quot;selected&quot;;}?&gt;&gt;Alemanha
+&lt;option value=&quot;8&quot; &lt;?if ($pais==&quot;8&quot;){echo &quot;selected&quot;;}?&gt;&gt;Paraguai
+&lt;option value=&quot;9&quot; &lt;?if ($pais==&quot;9&quot;){echo &quot;selected&quot;;}?&gt;&gt;Espanha
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Idade:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;edad&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($edad==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 18 e 23
+&lt;option value=&quot;1&quot; &lt;?if ($edad==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 24 e 29
+&lt;option value=&quot;2&quot; &lt;?if ($edad==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 30 e 35
+&lt;option value=&quot;3&quot; &lt;?if ($edad==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 36 e 40
+&lt;option value=&quot;4&quot; &lt;?if ($edad==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 41 e 45
+&lt;option value=&quot;5&quot; &lt;?if ($edad==&quot;5&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 46 e 50
+&lt;option value=&quot;6&quot; &lt;?if ($edad==&quot;6&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 51 e 55
+&lt;option value=&quot;7&quot; &lt;?if ($edad==&quot;7&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 56 e 60
+&lt;option value=&quot;8&quot; &lt;?if ($edad==&quot;8&quot;){echo &quot;selected&quot;;}?&gt;&gt;mais de 60
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Sexo:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;sexo&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot;&gt;Masculino
+&lt;option value=&quot;1&quot;&lt;? echo $sexo ?&gt;&gt;Feminino
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Descripção:&lt;/b&gt;&lt;br&gt;
+&lt;textarea name=&quot;descripcion&quot; cols=&quot;30&quot; rows=&quot;5&quot; class=&quot;form&quot;&gt;&lt;? echo $datos[descripcion] ?&gt;&lt;/textarea&gt;&lt;br&gt;
+&lt;b&gt;Web:&lt;/b&gt;&lt;br&gt;
+&lt;?
+if($datos[web] == &quot;&quot;) { $datos[web] = &quot;http://&quot; ; } ;
+?&gt;
+&lt;input type=&quot;text&quot; name=&quot;web&quot; value=&quot;&lt;? echo $datos[web] ?&gt;&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;b&gt;Assinatura:&lt;/b&gt;&lt;br&gt;
+&lt;textarea name=&quot;firma&quot; cols=&quot;30&quot; rows=&quot;5&quot; class=&quot;form&quot;&gt;&lt;? echo $datos[firma] ?&gt;&lt;/textarea&gt;&lt;br&gt;
+
+    &lt;/td&gt;
+    &lt;td width=&quot;50%&quot; valign=&quot;top&quot;&gt;&lt;b&gt;Preferência sexual:&lt;/b&gt;&lt;br&gt;
+&lt;select size=&quot;1&quot; name=&quot;preferencia&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($preferencia==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;heterossexual
+&lt;option value=&quot;1&quot; &lt;?if ($preferencia==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;bissexual
+&lt;option value=&quot;2&quot; &lt;?if ($preferencia==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;homossexual
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Procuro:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;procura&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot;&gt;Homem
+&lt;option value=&quot;1&quot;&lt;? echo $procura ?&gt;&gt;Mulher
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Estatura:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;altura&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;1&quot; &lt;?if ($altura==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;até 1,50
+&lt;option value=&quot;2&quot; &lt;?if ($altura==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 1,51 e 1,60
+&lt;option value=&quot;3&quot; &lt;?if ($altura==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 1,61 e 1,70
+&lt;option value=&quot;4&quot; &lt;?if ($altura==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 1,71 e 1,80
+&lt;option value=&quot;5&quot; &lt;?if ($altura==&quot;5&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 1,81 e 1,90
+&lt;option value=&quot;7&quot; &lt;?if ($altura==&quot;7&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 1,91 e 2 m
+&lt;option value=&quot;8&quot; &lt;?if ($altura==&quot;8&quot;){echo &quot;selected&quot;;}?&gt;&gt;acima de 2 m
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Peso:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;peso&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($peso==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;até 50 kg
+&lt;option value=&quot;1&quot; &lt;?if ($peso==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 51 e 60 kg
+&lt;option value=&quot;2&quot; &lt;?if ($peso==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 61 e 70 kg
+&lt;option value=&quot;3&quot; &lt;?if ($peso==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 71 e 80 kg
+&lt;option value=&quot;4&quot; &lt;?if ($peso==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 81 e 90 kg
+&lt;option value=&quot;5&quot; &lt;?if ($peso==&quot;5&quot;){echo &quot;selected&quot;;}?&gt;&gt;entre 91 e 100 kg
+&lt;option value=&quot;6&quot; &lt;?if ($peso==&quot;6&quot;){echo &quot;selected&quot;;}?&gt;&gt;mais de 100 kg
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Pele:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;piel&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($piel==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;Pêssego
+&lt;option value=&quot;1&quot; &lt;?if ($piel==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;Pimentão
+&lt;option value=&quot;2&quot; &lt;?if ($piel==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;Jabuticaba
+&lt;option value=&quot;3&quot; &lt;?if ($piel==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;Café com leite
+&lt;option value=&quot;4&quot; &lt;?if ($piel==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;Marrom-bombom
+&lt;option value=&quot;5&quot; &lt;?if ($piel==&quot;5&quot;){echo &quot;selected&quot;;}?&gt;&gt;Amarela
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Olhos:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;ojos&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($ojos==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;Azuis
+&lt;option value=&quot;1&quot; &lt;?if ($ojos==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;Verdes
+&lt;option value=&quot;2&quot; &lt;?if ($ojos==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;Castanhos
+&lt;option value=&quot;3&quot; &lt;?if ($ojos==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;Pretos
+&lt;option value=&quot;4&quot; &lt;?if ($ojos==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;Cor-de-mel
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Cabelos:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;cabellos&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($cabellos==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;Pretos
+&lt;option value=&quot;1&quot; &lt;?if ($cabellos==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;Castanhos
+&lt;option value=&quot;2&quot; &lt;?if ($cabellos==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;Loiros
+&lt;option value=&quot;3&quot; &lt;?if ($cabellos==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;Ruivos
+&lt;option value=&quot;4&quot; &lt;?if ($cabellos==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;Grisalhos
+&lt;option value=&quot;5&quot; &lt;?if ($cabellos==&quot;5&quot;){echo &quot;selected&quot;;}?&gt;&gt;Careca
+&lt;option value=&quot;6&quot; &lt;?if ($cabellos==&quot;6&quot;){echo &quot;selected&quot;;}?&gt;&gt;Multicoloridos
+&lt;option value=&quot;7&quot; &lt;?if ($cabellos==&quot;7&quot;){echo &quot;selected&quot;;}?&gt;&gt;Brancos
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Estado Civil:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;estadocivil&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($estadocivil==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;solteiro(a)
+&lt;option value=&quot;1&quot; &lt;?if ($estadocivil==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;separado(a)
+&lt;option value=&quot;2&quot; &lt;?if ($estadocivil==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;viúvo(a)
+&lt;option value=&quot;3&quot; &lt;?if ($estadocivil==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;casado ou como se fosse
+&lt;option value=&quot;4&quot; &lt;?if ($estadocivil==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;casado mas disponível
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Bebida alcoólica:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;bebe&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($bebe==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;não bebe
+&lt;option value=&quot;1&quot; &lt;?if ($bebe==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;socialmente
+&lt;option value=&quot;2&quot; &lt;?if ($bebe==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;até cair
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Fumo:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;fuma&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($fuma==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;fumante
+&lt;option value=&quot;1&quot; &lt;?if ($fuma==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;não fumante
+&lt;option value=&quot;2&quot; &lt;?if ($fuma==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;eventual
+&lt;option value=&quot;3&quot; &lt;?if ($fuma==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;passivo
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Religião:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;religion&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($religion==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;Católica
+&lt;option value=&quot;1&quot; &lt;?if ($religion==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;Protestante
+&lt;option value=&quot;2&quot; &lt;?if ($religion==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;Judaica
+&lt;option value=&quot;3&quot; &lt;?if ($religion==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;Espírita
+&lt;option value=&quot;4&quot; &lt;?if ($religion==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;Budista
+&lt;option value=&quot;5&quot; &lt;?if ($religion==&quot;5&quot;){echo &quot;selected&quot;;}?&gt;&gt;Muçulmana
+&lt;option value=&quot;6&quot; &lt;?if ($religion==&quot;6&quot;){echo &quot;selected&quot;;}?&gt;&gt;Agnóstico
+&lt;option value=&quot;7&quot; &lt;?if ($religion==&quot;7&quot;){echo &quot;selected&quot;;}?&gt;&gt;Cristiana
+&lt;option value=&quot;8&quot; &lt;?if ($religion==&quot;8&quot;){echo &quot;selected&quot;;}?&gt;&gt;Ateu
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Educação:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;educacion&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($educacion==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;Analfa
+&lt;option value=&quot;1&quot; &lt;?if ($educacion==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;Primeiro grau
+&lt;option value=&quot;2&quot; &lt;?if ($educacion==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;Segundo grau
+&lt;option value=&quot;3&quot; &lt;?if ($educacion==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;Terceiro grau incompleto
+&lt;option value=&quot;4&quot; &lt;?if ($educacion==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;Terceiro grau completo
+&lt;option value=&quot;5&quot; &lt;?if ($educacion==&quot;5&quot;){echo &quot;selected&quot;;}?&gt;&gt;Pós-graduado
+&lt;option value=&quot;6&quot; &lt;?if ($educacion==&quot;6&quot;){echo &quot;selected&quot;;}?&gt;&gt;Mestre
+&lt;option value=&quot;7&quot; &lt;?if ($educacion==&quot;7&quot;){echo &quot;selected&quot;;}?&gt;&gt;Doutor
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Idioma 1:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;idioma1&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($idioma1==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;Inglês
+&lt;option value=&quot;1&quot; &lt;?if ($idioma1==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;Espanhol
+&lt;option value=&quot;2&quot; &lt;?if ($idioma1==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;Alemão
+&lt;option value=&quot;3&quot; &lt;?if ($idioma1==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;Japonês
+&lt;option value=&quot;4&quot; &lt;?if ($idioma1==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;Italiano
+&lt;option value=&quot;5&quot; &lt;?if ($idioma1==&quot;5&quot;){echo &quot;selected&quot;;}?&gt;&gt;Francês
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Idioma 2:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;idioma2&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($idioma2==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;Inglês
+&lt;option value=&quot;1&quot; &lt;?if ($idioma2==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;Espanhol
+&lt;option value=&quot;2&quot; &lt;?if ($idioma2==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;Alemão
+&lt;option value=&quot;3&quot; &lt;?if ($idioma2==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;Japonês
+&lt;option value=&quot;4&quot; &lt;?if ($idioma2==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;Italiano
+&lt;option value=&quot;5&quot; &lt;?if ($idioma2==&quot;5&quot;){echo &quot;selected&quot;;}?&gt;&gt;Francês
+&lt;option value=&quot;8&quot; &lt;?if ($idioma2==&quot;8&quot;){echo &quot;selected&quot;;}?&gt;&gt;outro
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Profissão:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;profesion&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($profesion==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;administração
+&lt;option value=&quot;1&quot; &lt;?if ($profesion==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;afazeres domésticos
+&lt;option value=&quot;2&quot; &lt;?if ($profesion==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;aposentado(a)
+&lt;option value=&quot;3&quot; &lt;?if ($profesion==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;comércio ou vendas
+&lt;option value=&quot;4&quot; &lt;?if ($profesion==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;empresário ou industrial
+&lt;option value=&quot;5&quot; &lt;?if ($profesion==&quot;5&quot;){echo &quot;selected&quot;;}?&gt;&gt;estudante
+&lt;option value=&quot;6&quot; &lt;?if ($profesion==&quot;6&quot;){echo &quot;selected&quot;;}?&gt;&gt;informática
+&lt;option value=&quot;7&quot; &lt;?if ($profesion==&quot;7&quot;){echo &quot;selected&quot;;}?&gt;&gt;medicina,odontologia ou enfermagem
+&lt;option value=&quot;8&quot; &lt;?if ($profesion==&quot;8&quot;){echo &quot;selected&quot;;}?&gt;&gt;educação
+&lt;option value=&quot;9&quot; &lt;?if ($profesion==&quot;9&quot;){echo &quot;selected&quot;;}?&gt;&gt;recursos humanos
+&lt;option value=&quot;10&quot; &lt;?if ($profesion==&quot;10&quot;){echo &quot;selected&quot;;}?&gt;&gt;advocacia
+&lt;option value=&quot;11&quot; &lt;?if ($profesion==&quot;11&quot;){echo &quot;selected&quot;;}?&gt;&gt;agropecuária
+&lt;option value=&quot;12&quot; &lt;?if ($profesion==&quot;12&quot;){echo &quot;selected&quot;;}?&gt;&gt;artes
+&lt;option value=&quot;13&quot; &lt;?if ($profesion==&quot;13&quot;){echo &quot;selected&quot;;}?&gt;&gt;comunicação ou relações públicas
+&lt;option value=&quot;14&quot; &lt;?if ($profesion==&quot;14&quot;){echo &quot;selected&quot;;}?&gt;&gt;engenharia ou arquitetura
+&lt;option value=&quot;15&quot; &lt;?if ($profesion==&quot;15&quot;){echo &quot;selected&quot;;}?&gt;&gt;finanças
+&lt;option value=&quot;16&quot; &lt;?if ($profesion==&quot;16&quot;){echo &quot;selected&quot;;}?&gt;&gt;marketing ou publicidade
+&lt;option value=&quot;17&quot; &lt;?if ($profesion==&quot;17&quot;){echo &quot;selected&quot;;}?&gt;&gt;pesquisa
+&lt;option value=&quot;18&quot; &lt;?if ($profesion==&quot;18&quot;){echo &quot;selected&quot;;}?&gt;&gt;profissional liberal
+&lt;option value=&quot;19&quot; &lt;?if ($profesion==&quot;19&quot;){echo &quot;selected&quot;;}?&gt;&gt;desocupado(a)
+&lt;/select&gt;&lt;br&gt;
+      &lt;b&gt;Signo:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;signo&quot; class=&quot;form&quot;&gt;
+&lt;option value=&quot;0&quot; &lt;?if ($signo==&quot;0&quot;){echo &quot;selected&quot;;}?&gt;&gt;Aries
+&lt;option value=&quot;1&quot; &lt;?if ($signo==&quot;1&quot;){echo &quot;selected&quot;;}?&gt;&gt;Touro
+&lt;option value=&quot;2&quot; &lt;?if ($signo==&quot;2&quot;){echo &quot;selected&quot;;}?&gt;&gt;Gêmeos
+&lt;option value=&quot;3&quot; &lt;?if ($signo==&quot;3&quot;){echo &quot;selected&quot;;}?&gt;&gt;Câncer
+&lt;option value=&quot;4&quot; &lt;?if ($signo==&quot;4&quot;){echo &quot;selected&quot;;}?&gt;&gt;Leão
+&lt;option value=&quot;5&quot; &lt;?if ($signo==&quot;5&quot;){echo &quot;selected&quot;;}?&gt;&gt;Virgem
+&lt;option value=&quot;6&quot; &lt;?if ($signo==&quot;6&quot;){echo &quot;selected&quot;;}?&gt;&gt;Libra
+&lt;option value=&quot;7&quot; &lt;?if ($signo==&quot;7&quot;){echo &quot;selected&quot;;}?&gt;&gt;Escorpião
+&lt;option value=&quot;8&quot; &lt;?if ($signo==&quot;8&quot;){echo &quot;selected&quot;;}?&gt;&gt;Sagitário
+&lt;option value=&quot;8&quot; &lt;?if ($signo==&quot;8&quot;){echo &quot;selected&quot;;}?&gt;&gt;Capricórnio
+&lt;/select&gt;&lt;br&gt;
+&lt;b&gt;Foto:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;file&quot; name=&quot;foto&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+&lt;input type=&quot;checkbox&quot; name=&quot;borrar&quot; value=&quot;1&quot; id=&quot;borrar&quot;&gt;&lt;label for=&quot;borrar&quot;&gt;Apagar foto&lt;/label&gt;&lt;br&gt;
+  &lt;br&gt;
+  &lt;? if($datos3[avatar] == &quot;&quot;) { $avatar = &quot;&quot; ;
+}
+else { $avatar = &quot;&lt;img src=&quot;eforo_imagenes/avatares/$datos3[id].$datos3[avatar]&quot;&gt;&quot; ;
+}
+echo $avatar ;
+?&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;p align=&quot;center&quot;&gt;
+&lt;input type=&quot;submit&quot; name=&quot;editar&quot; value=&quot; Editar meu perfil &quot; class=&quot;form&quot;&gt;
+&lt;/form&gt;
+&lt;?
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;[/codigo]

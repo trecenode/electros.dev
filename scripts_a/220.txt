@@ -1,0 +1,143 @@
+Esta es una modificacion del script de la pagina http://www.xlwebmasters.com/doc3.php?id=260&amp;op=php&amp;ap=archivos
+en esta modificacion podremos crear los archivos tomando la url de otra pagina y guardandolos como archivos .htm
+
+[codigo]
+&lt;style&gt;
+body,table {
+font-family: verdana ;
+font-size: 8pt ;
+color: #000000 ;
+}
+.form {
+border: #000000 1 solid ;
+background: #cccccc ;
+font-family: verdana ;
+font-size: 8pt ;
+}
+&lt;/style&gt;
+&lt;?
+if ($enviar) {
+$_GET[&quot;url&quot;] ;
+$_GET[&quot;pagina&quot;] ;
+$fcontents = join('', file ($url));
+$fpl=fopen($pagina.&quot;.htm&quot;,&quot;a&quot;);
+fwrite($fpl,$fcontents); fclose($fpl);
+echo &quot;&lt;a href='$pagina.htm' target='_blank'&gt;$pagina.htm&lt;/a&gt; guardada ¡¡¡&lt;br&gt;&lt;br&gt;&quot;;
+}
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;&lt;? $_SERVER['REQUEST_URI'] ?&gt;&quot;&gt;
+  Url completa del archivo externo :&lt;br&gt;
+  &lt;input name=&quot;url&quot; class=&quot;form&quot; id=&quot;url&quot; size=&quot;80&quot;&gt;
+  &lt;br&gt;
+  Nombre del archivo a guardar :&lt;br&gt;
+  &lt;input name=&quot;pagina&quot; class=&quot;form&quot; id=&quot;pagina&quot; size=&quot;25&quot;&gt;
+  .htm&lt;br&gt;
+  &lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot; class=&quot;form&quot;&gt;
+&lt;/form&gt;[/codigo]
+
+Este es otro codigo modificado por  mirincon.tk y sirve para crear muchas paginas de una vez.
+
+enviara un mensaje de error si la pagina que se pidió no existe y tambien puedes definir cuántas paginas deseas guardar, por ejemplo si tienes la direccion http://electros.iefactory.com/?ver=mods&amp;m=1 y quieres guardar desde m=1 hasta m=20, debes establecer que copie desde 1 hasta 20, pero esto es muy importante: para que funcione debes poner el signo # donde va el numero, por ejemplo en este caso http://electros.iefactory.com/?ver=mods&amp;m=# 
+
+[codigo]&lt;style&gt;
+body,table {
+font-family: verdana ;
+font-size: 8pt ;
+color: #000000 ;
+}
+.form {
+border: #000000 1 solid ;
+background: #cccccc ;
+font-family: verdana ;
+font-size: 8pt ;
+}
+&lt;/style&gt;
+ 
+&lt;?
+$error=0;
+if ($enviar) {
+// Si no se llenan los campos DESDE y/o HASTA
+if (($numeroa &lt; &quot;0&quot;) || ($numerob &lt; &quot;0&quot;))
+{
+$_GET[&quot;url&quot;] ;
+$_GET[&quot;pagina&quot;] ;
+if (@fopen($url,&quot;r&quot;))
+{
+$fcontents = join('', file ($url));
+$fpl=fopen($pagina.&quot;.htm&quot;,&quot;a&quot;);
+fwrite($fpl,$fcontents); fclose($fpl);
+echo &quot;¡La dirección &lt;b&gt;$url&lt;/b&gt; ha sido guardada exitosamente en el archivo &lt;a href='$pagina.htm' target='_blank'&gt;$pagina.htm&lt;/a&gt;!&lt;hr color=red&gt;&quot;;
+}else
+{
+echo &quot;&lt;font color=red&gt;¡LA DIRECCIÓN &lt;b&gt;$url&lt;/b&gt; NO EXISTE!&lt;br&gt;n&quot;;
+echo &quot;Revisa bien la dirección que has ingresado.&lt;/font&gt;&quot;;
+$error=1;
+}
+ 
+// Si se llenan los campos DESDE y HASTA
+}else if (($numeroa &gt;= &quot;0&quot;) &amp;&amp; ($numerob &gt;= &quot;0&quot;))
+{
+for($i=$numeroa;$i&lt;=$numerob;$i++)
+{
+$nurl = ereg_replace(&quot;#&quot;, &quot;$i&quot;, $url);
+$npagina = &quot;$pagina$i&quot;;
+$_GET[$nurl] ;
+$_GET[$npagina] ;
+if (@fopen($nurl,&quot;r&quot;))
+{
+$fcontents = join('', file ($nurl));
+$fpl=fopen($npagina.&quot;.htm&quot;,&quot;a&quot;);
+fwrite($fpl,$fcontents); fclose($fpl);
+echo &quot;¡La dirección &lt;b&gt;$nurl&lt;/b&gt; ha sido guardada exitosamente en el archivo &lt;a href='$npagina.htm' target='_blank'&gt;$npagina.htm&lt;/a&gt;!&lt;br&gt;n&quot;;
+}else
+{
+echo &quot;&lt;font color=red&gt;¡LA DIRECCIÓN &lt;b&gt;$nurl&lt;/b&gt; NO EXISTE!&lt;br&gt;n&quot;;
+echo &quot;Revisa bien la dirección que has ingresado.&lt;/font&gt;&quot;;
+$error=1;
+}
+}
+}
+}
+?&gt;
+ 
+&lt;form method=&quot;post&quot; action=&quot;&lt;? $_SERVER['REQUEST_URI'] ?&gt;&quot;&gt;
+  Url completa del archivo externo :&lt;br&gt;
+  (Si quieres copiar todas las id de una pagina : &lt;strong&gt;http://electros.iefactory.com/?ver=mods&amp;amp;m=&lt;font color=&quot;#FF0000&quot;&gt;1&lt;/font&gt;&lt;/strong&gt;&lt;br&gt;
+  especifica la id con el signo # de esta forma : &lt;strong&gt;http://electros.iefactory.com/?ver=mods&amp;amp;m=&lt;font color=&quot;#FF0000&quot;&gt;#&lt;/font&gt;&lt;/strong&gt; 
+  )&lt;br&gt;
+  &lt;br&gt;
+  &lt;input name=&quot;url&quot; class=&quot;form&quot; id=&quot;url&quot; size=&quot;80&quot;&lt;?
+  if ($error == 1)
+  {
+   echo &quot; value=&quot;$url&quot;&quot;;
+   }
+   ?&gt;&gt;
+  &lt;br&gt;
+  Nombre del archivo a guardar:&lt;br&gt;
+  &lt;input name=&quot;pagina&quot; class=&quot;form&quot; id=&quot;pagina&quot; size=&quot;25&quot;&lt;?
+  if ($error == 1)
+  {
+   echo &quot; value=&quot;$pagina&quot;&quot;;
+   }
+   ?&gt;&gt;
+  .htm&lt;br&gt;
+  Copiar desde 
+  &lt;input name=&quot;numeroa&quot; class=&quot;form&quot; id=&quot;numeroa&quot; size=&quot;3&quot;&lt;?
+  if ($error == 1)
+  {
+   echo &quot; value=&quot;$numeroa&quot;&quot;;
+   }
+   ?&gt;&gt;
+  hasta 
+  &lt;input name=&quot;numerob&quot; class=&quot;form&quot; id=&quot;numerob&quot; size=&quot;3&quot;&lt;?
+  if ($error == 1)
+  {
+   echo &quot; value=&quot;$numerob&quot;&quot;;
+   }
+   ?&gt;&gt;
+  &lt;br&gt;
+  &lt;input type=&quot;submit&quot; name=&quot;enviar&quot; value=&quot;Enviar&quot; class=&quot;form&quot;&gt;
+&lt;/form&gt; [/codigo]
+
+
+Mod elaborado por elcidop.tk

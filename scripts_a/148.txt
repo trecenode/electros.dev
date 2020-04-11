@@ -1,0 +1,2 @@
+Bien esto es un sistema de noticias en mi opinion bastante completo, posee un panel de administracion, la posibilidad de insertarnoticias, comentarios en estas noticias, todo eyo paginado e incluye topics como en el php-nuke
+espero ke les guste enga :p

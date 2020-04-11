@@ -1,0 +1,82 @@
+[b]hola este es un script que he diseñado basandome en uno de email adjunto llamado attach mail, espero que les sirva, no soy experto y es de los primeros que modifico[/b]
+
+[url]http://www.entuarea.com[/url]
+
+[b]este script ocupa dos archivos uno para hacer el formulario y otro para procesarlo[/b]
+
+[b]este es para llenar el formulario se va a llamar: f_attach.php [/b]
+
+[codigo]&lt;title&gt;COLABORACIÓN&lt;/title&gt;
+
+&lt;form enctype=&quot;multipart/form-data&quot; name=doit action=&quot;env_attach.php&quot; method=POST&gt;
+&lt;table cellpadding=0 cellspacing=0 width=&quot;295&quot;&gt;&lt;tr&gt;
+      &lt;td width=&quot;295&quot; height=&quot;26&quot;&gt; &lt;font face=&quot;Arial, Helvetica, sans-serif&quot; size=&quot;2&quot;&gt;&lt;b&gt;Tu 
+        nombre:&lt;br&gt;
+      &lt;/b&gt;&lt;/font&gt;
+&lt;input type=&quot;text&quot; name=&quot;name&quot; size=30&gt;&lt;br&gt;
+&amp;nbsp;&lt;/td&gt;
+      &lt;/tr&gt;
+&lt;tr&gt;
+      &lt;td width=&quot;295&quot;&gt; &lt;font face=&quot;Arial, Helvetica, sans-serif&quot; size=&quot;2&quot;&gt;&lt;b&gt;Tu 
+        e-mail:&lt;br&gt;
+      &lt;/b&gt;&lt;/font&gt;
+&lt;input type=&quot;text&quot; name=&quot;from&quot; size=30&gt;&lt;br&gt;
+&amp;nbsp;&lt;/td&gt;
+      &lt;/tr&gt;
+&lt;tr&gt;
+      &lt;td width=&quot;295&quot;&gt; &lt;font face=&quot;Arial, Helvetica, sans-serif&quot; size=&quot;2&quot;&gt;&lt;b&gt;Archivo:&lt;br&gt;
+      &lt;/b&gt;&lt;/font&gt;
+&lt;input type=file name=&quot;attach&quot; size=30&gt;&lt;br&gt;
+&amp;nbsp;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;td width=&quot;295&quot;&gt;
+    &lt;tr&gt;
+      &lt;td width=&quot;295&quot; height=&quot;23&quot;&gt;&lt;font face=&quot;Arial, Helvetica, sans-serif&quot; size=&quot;2&quot;&gt;&lt;b&gt;Asunto:&lt;br&gt;
+      &lt;/b&gt;&lt;/font&gt; 
+        &lt;input type=&quot;text&quot; name=&quot;subject&quot; size=30&gt; &lt;br&gt;
+&amp;nbsp;&lt;/td&gt;
+      &lt;/tr&gt;&lt;/table&gt;
+&lt;p align=&quot;left&quot;&gt;
+&lt;font face=&quot;Arial, Helvetica, sans-serif&quot; size=&quot;2&quot;&gt;&lt;b&gt;Mensaje:&lt;/b&gt;&lt;/font&gt;&lt;br&gt;
+&lt;textarea name=&quot;body&quot; rows=10 cols=35 wrap=&quot;message&quot;&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;sendmail&quot; value=&quot;enviar&quot;&gt; &lt;/p&gt;
+&lt;/form&gt;[/codigo]
+
+[b]este otro archivo procesa los datos se va a llamar: env_attach.php[/b]
+
+[codigo]&lt;?
+$mailheaders  = &quot;Return-Path: $fromn&quot;;
+$mailheaders .= &quot;From: $fromn&quot;;
+$mailheaders .= &quot;name: $namen&quot;;
+//$mailheaders = &quot;From: $fromn&quot;;
+$mailheaders .= &quot;X-Mailer: Expresateweb Email Interfacen&quot;;
+$msg_body = stripslashes($body);
+if ($attach != &quot;none&quot;)
+{       
+$file = fopen($attach, &quot;r&quot;);      
+$contents = fread($file, $attach_size);       
+$encoded_attach = chunk_split(base64_encode($contents));
+        fclose($file);
+        $mailheaders .= &quot;MIME-version: 1.0n&quot;;
+        $mailheaders .= &quot;Content-type: multipart/mixed; &quot;;
+        $mailheaders .= &quot;boundary=&quot;Message-Boundary&quot;n&quot;;
+        $mailheaders .= &quot;Content-transfer-encoding: 7BITn&quot;;
+        $mailheaders .= &quot;X-attachments: $attach_name&quot;;
+        $body_top = &quot;--Message-Boundaryn&quot;;
+        $body_top .= &quot;Content-type: text/plain; charset=US-ASCIIn&quot;;
+        $body_top .= &quot;Content-transfer-encoding: 7BITn&quot;;
+        $body_top .= &quot;Content-description: Mail message bodynn&quot;;
+        $msg_body = $body_top . $msg_body;
+        $msg_body .= &quot;nn--Message-Boundaryn&quot;;
+        $msg_body .= &quot;Content-type: $attach_type; name=&quot;$attach_name&quot;n&quot;;
+        $msg_body .= &quot;Content-Transfer-Encoding: BASE64n&quot;;
+        $msg_body .= &quot;Content-disposition: attachment; filename=&quot;$attach_name&quot;nn&quot;;
+        $msg_body .= &quot;$encoded_attachn&quot;;
+        $msg_body .= &quot;--Message-Boundary--n&quot;;
+}
+$extra=&quot;-f&quot;.$from;
+mail(&quot;tucorreo@tuserver.com&quot;, stripslashes($subject), $msg_body, $mailheaders, $extra);
+echo &quot;&lt;h3&gt;GRACIAS POR TU COLABORACIÓN&lt;/h3&gt;&quot;;
+?&gt;[/codigo]
+
+[b]sólo modifiquen donde dice tucorreo@tuserver.com por la dirección de correo a donde quieras recibir el archivo aldjunto[/b]

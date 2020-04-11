@@ -1,0 +1,172 @@
+[b]Descripción:[/b]
+Sistema de admins en el que podras ingresar admins para que solo puedan  acceder a determinadas partes de la web como por ejemplo: mensajes globarles a los usuarios, enviar descargas, noticias, enlaces, etc...
+
+[b]Creamos una  base de datos[/b]
+
+CREATE TABLE `admins` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `fecha` int(10) unsigned NOT NULL default '0',
+  `nick` varchar(20) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `nick` (`nick`)
+)
+
+Después creamos el [b]ingresar_admins.php[/b]
+
+[codigo]&lt;?
+$admins=array(&quot;admin&quot;,&quot;admin2&quot;); //poner aqui el usuario que solo pueda entrar a ingresar admins
+if(in_array($_COOKIE[&quot;unick&quot;],$admins)){ 
+?&gt;
+&lt;?
+include(&quot;config.php&quot;) ;
+if($ingresar_admins) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+mysql_close($conectar) ;
+}
+$nick = quitar($nick) ;
+// Comprobar que el usuario existe en la base de datos
+$resp = mysql_query(&quot;select id from admins where nick='$nick'&quot;) ;
+if(mysql_num_rows($resp) != 0) {
+echo &quot;Ya existe un usuario con ese nick en la base de datos. Haz click &lt;a href=javascript:history.back()&gt;aqu&amp;iacute;&lt;/a&gt; para regresar.&quot; ;
+}
+else {
+$fecha = time() ;
+mysql_query(&quot;insert into admins (fecha,nick) values ('$fecha','$nick')&quot;) ;
+include(&quot;mensaje_bienvenida_admins.php&quot;) ;
+echo &quot;El admin ha sido ingresado con &amp;eacute;xito. Haz click &lt;a href=index.php&gt;aqu&amp;iacute;&lt;/a&gt; para ir a la p&amp;aacute;gina principal.&quot; ;
+}
+}
+else {
+?&gt;
+&lt;b&gt;Zona de administraci&amp;oacute;n de admins&lt;/b&gt; 
+&lt;script&gt;
+function revisar() {
+if(formulario.nick.value.length &lt; 3) { alert('El nick debe contener por lo minimo 3 caracteres') ; return false ; }
+}
+&lt;/script&gt;
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;ingresar_admins.php&quot; onsubmit=&quot;return revisar()&quot;&gt;
+&lt;b&gt;Nick:&lt;/b&gt;&lt;br&gt;
+&lt;input type=&quot;text&quot; name=&quot;nick&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;ingresar_admins&quot; value=&quot;Ingresar&quot; class=&quot;form&quot;&gt;
+&lt;/form&gt;
+&lt;? } ?&gt;
+&lt;?
+}
+else {
+?&gt;
+Estas intentando entrar en una zona restringida
+&lt;?
+}
+?&gt;[/codigo]
+
+Después creamos el [b]mensaje_bienvenida_admins.php[/b]
+
+[codigo]&lt;?
+include(&quot;config.php&quot;) ;
+
+////// Configurar //////
+$mensaje = &quot;Alta en sistema de admins.&lt;br&gt; Has sido ingresado en el sistema de admins de la web, desde ahora podras enviar noticias, descargas, enlaces, entrar en la zona de administración y editar las mismas y muchas cosas más...&quot; ;
+//Pon tu nick entre las comillas de remite, o dejalo en blanco, para q llegue el mensaje como anonimo.
+$remite = &quot;Usuario&quot; ;
+/////////////////////// 
+
+$fecha = time() ;
+mysql_query(&quot;insert into mensajes (fecha,destinatario,remitente,mensaje) values ('$fecha','$nick','$remite','$mensaje')&quot;) ;
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;[/codigo]
+
+[b]Despues tenemos que poner el siguiente codigo donde solo puedan entrar los admins inscritos[/b]
+
+[codigo]&lt;?
+include(&quot;config.php&quot;);
+
+$resp = mysql_query(&quot;SELECT * FROM admins WHERE nick='$_COOKIE[unick]'&quot;);
+$admins = mysql_fetch_array($resp) ;
+if($admins){ 
+?&gt;
+Aquí el codigo que quieres que vea solamente los admins
+&lt;?
+}
+else {
+?&gt;
+Estas intentando entrar en una zona restringida
+&lt;?
+}
+?&gt;[/codigo]
+
+[b]Menu[/b] de usuarios (con boton administrar que solo lo veran los admins)
+
+[codigo]&lt;?
+if($_COOKIE[&quot;unick&quot;] ) {
+?&gt;
+            Bienvenido &lt;b&gt;&lt;? echo $_COOKIE[&quot;unick&quot;]  ?&gt;&lt;/b&gt;&lt;br&gt; 
+            &lt;br&gt;
+&lt;?
+include(&quot;config.php&quot;);
+
+$resp = mysql_query(&quot;SELECT * FROM admins WHERE nick='$_COOKIE[unick]'&quot;);
+$admins = mysql_fetch_array($resp) ;
+if($admins){ 
+echo '- &lt;a href=&quot;administrar.php&quot;&gt; Panel&lt;/a&gt;&lt;br&gt;';
+} 
+?&gt;
+- &lt;a href=&quot;perfil.php&quot;&gt;Perfil&lt;/a&gt;&lt;br&gt;
+- &lt;a href=&quot;mensajes.php&quot; &gt;Mensajes&lt;/a&gt;
+&lt;?
+include(&quot;config.php&quot;) ;
+$usuario = $HTTP_COOKIE_VARS[unick] ;
+$resp = mysql_query(&quot;select id from mensajes where nuevo='0' and destinatario='$usuario'&quot;) ;
+$mensajes = mysql_num_rows($resp) ;
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+if($mensajes == 0) {
+?&gt;
+&lt;?
+}
+else {
+?&gt;
+&lt;script&gt;
+function BlinkTxt() {
+texto = document.getElementsByTagName('blink');
+for (i=0; i&lt;texto.length; i++)
+if (texto[i].style.visibility=='hidden') {
+texto[i].style.visibility='visible';
+} else {
+texto[i].style.visibility='hidden';
+}
+setTimeout('BlinkTxt()',100);
+}
+onload=BlinkTxt;
+&lt;/script&gt; &lt;blink&gt;(&lt;? echo $mensajes ; ?&gt;)&lt;/blink&gt; &lt;bgsound loop=&quot;1&quot; src=&quot;newemail.wav&quot;&gt;
+&lt;?
+}
+?&gt;
+&lt;br&gt;
+- &lt;a href=&quot;salir.php&quot;&gt;Salir&lt;/a&gt;&lt;br&gt;
+&lt;?
+}
+else {
+?&gt;
+&lt;form method=&quot;post&quot; action=&quot;entrar.php&quot;&gt;
+&lt;b&gt;Nombre&lt;/b&gt;&lt;br&gt;
+&lt;input name=&quot;nick&quot; type=&quot;text&quot; class=&quot;form&quot; size=&quot;18&quot;&gt;
+&lt;br&gt;
+&lt;b&gt;Password&lt;/b&gt;&lt;br&gt;
+&lt;input name=&quot;contrasena&quot; type=&quot;password&quot; class=&quot;form&quot; size=&quot;18&quot;&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;input type=&quot;submit&quot; name=&quot;entrar&quot; value=&quot;Login&quot; class=&quot;boton&quot;&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;pagina&quot; value=&quot;&lt;? echo $_SERVER['REQUEST_URI'] ?&gt;&quot;&gt;
+&lt;/form&gt;
+- &lt;a href=&quot;registrar.php&quot;&gt;Registrate&lt;/a&gt;&lt;br&gt;
+- &lt;a href=&quot;contrasena.php&quot;&gt;¿Olvide Password?&lt;/a&gt;&lt;br&gt;
+&lt;?
+}
+?&gt;[/codigo]
+[b]Este menu fue realizado con ayuda de danielgonzalez[/b]

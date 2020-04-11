@@ -1,0 +1,5 @@
+Este MiniChat es exactamente igual al normal, sólo que tiene integrado el registro de usuarios.
+
+La modificación esta hecha solamente en el archivo minichat.php sólo deben subir el archivo y listo.
+
+Espero sus comentarios y sugerencias.

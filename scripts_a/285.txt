@@ -1,0 +1,35 @@
+Es muy sencillo y ya se ke se puede acer de otras formas pero ami me sirve bien asi :P  , creamos una nueva celda en la tabla de noticias llamada imagen.
+
+[codigo]
+imagen varchar(100) not null,
+[/codigo]
+
+En noticias envia , primero encontramos esta linea:
+
+[codigo]
+mysql_query(&quot;insert INTO noticias (fecha,usuario,titulo,noticia,noticiaext) values ('$fecha','$usuario','$titulo','$noticia','$noticiaext')&quot;) ;
+[codigo]
+
+y sustituimos por esta 
+
+[codigo]
+mysql_query(&quot;insert INTO noticias (fecha,usuario,titulo,noticia,noticiaext,imagen) values ('$fecha','$usuario','$titulo','$noticia','$noticiaext','$imagen')&quot;) ;
+[/codigo]
+
+y ahora ponemos algo para elegir la imagen 
+
+[codigo]
+&lt;b&gt;Imagen:&lt;/b&gt;&lt;br&gt;
+&lt;select name=&quot;imagen&quot;  class=&quot;form&quot; &gt;
+&lt;option value=&quot;noticia.gif&quot; selected&gt;noticia&lt;/option&gt;
+&lt;option value=&quot;descarga.gif&quot;&gt;descarga&lt;/option&gt;
+&lt;option value=&quot;anuncio.gif&quot;&gt;anuncio&lt;/option&gt;
+&lt;option value=&quot;comunidad.gif&quot;&gt;comunidad&lt;/option&gt;
+&lt;/select&gt;
+[/codigo]
+
+todas las imagenes se colocan en una carpeta ,yo la nombre imagenes :P y en [b]notocias.php[/b] donde keria mostrar la imagen  puse algo asi
+
+[b]&lt;img src=&quot;imagenes/&lt;? echo $datos[imagen] ?&gt;&quot;&gt;[/b]
+
+P.D.: creo ke a los select en las querys  tuve que elegir todo con &quot;*&quot; y yap =) . espero ke sea claro :? Saludos ;)

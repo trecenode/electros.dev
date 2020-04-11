@@ -1,0 +1,122 @@
+Bueno, este código es la mejoría del que existe en la sección de Mods.
+
+Lo que hace este script básicamente es comprobar que las contraseñas coinciden y que no escriben espacios en los campos: 
+Nick - Contraseña - Email
+
+Si lo hacen, automaticamente, estos espacios se autoeliminan.
+
+
+[b]Uregistrar.php[/b]
+
+Sustituyan Todo lo de éste archivo por este código.
+
+Muchas Gracias.
+
+[codigo]
+
+ &lt;?
+include(&quot;config.php&quot;) ;
+if($registrar) {
+$mensaje = &quot;
+Nick: $nick&lt;br&gt;
+Contrase&amp;ntilde;a: $contrasena&lt;br&gt;
+Email: $email&lt;br&gt;
+              &quot;;
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$nick = quitar($nick) ;
+$email= quitar($email) ;
+// Comprobar que el usuario existe en la base de datos
+$resp = mysql_query(&quot;select id from usuarios where nick='$nick' or email='$email'&quot;) ;
+if(mysql_num_rows($resp) != 0) {
+echo &quot;&lt;font size=2 face=Verdana, Arial, Helvetica, sans-serif&gt;Ya existe un usuario con ese 
+nick o email en la base de datos. Haz click &lt;a href=javascript:history.back()&gt;aquí&lt;/a&gt; 
+para regresar.&lt;/font&gt;&quot; ;
+}
+else {
+$fecha = time() ;
+$contrasena = quitar($contrasena) ;
+$ip = $REMOTE_ADDR ;
+?&gt;&lt;?
+if ($contrasena==&quot;$contrasena2&quot;) { 
+if ($email==&quot;$email2&quot;) { 
+mysql_query(&quot;insert into usuarios (fecha,nick,contrasena,email,ip) values ('$fecha','$nick','$contrasena','$email','$ip')&quot;) ;
+?&gt;&lt;form method=&quot;post&quot; action=&quot;uentrar.php&quot;&gt;
+&lt;center&gt;&lt;/center&gt;&lt;b&gt;Has sido registrado con éxito :&lt;/b&gt; &lt;br&gt;
+Nick: &lt;? echo  $nick ?&gt;&lt;br&gt;
+Contrase&amp;ntilde;a: &lt;? echo  $contrasena ?&gt;&lt;br&gt;
+              Email: &lt;? echo $email ?&gt;&lt;br&gt;
+              &lt;br&gt;
+              &lt;br&gt;
+              &lt;input name=&quot;nick&quot; type=&quot;hidden&quot; class=&quot;form&quot; size=&quot;18&quot; value=&quot;&lt;? echo  $nick ?&gt;&quot;&gt;
+              &lt;input name=&quot;contrasena&quot; type=&quot;hidden&quot; class=&quot;form&quot; size=&quot;18&quot; value=&quot;&lt;? echo  $contrasena ?&gt;&quot;&gt;
+             &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;&lt;? echo $_SERVER['REQUEST_URI'] ?&gt;&quot;&gt;
+     &lt;input type=&quot;submit&quot; name=&quot;entrar&quot; value=&quot;Entrar&quot; class=&quot;form&quot;&gt;
+            &lt;/form&gt;&lt;/center&gt;
+			&lt;?
+			} else { 
+		echo &quot;&lt;p&gt;Los Emails NO Coinciden&quot;; }?&gt;
+					&lt;?
+			} else { 
+		echo &quot;&lt;p&gt;Las Contraseñas NO Coinciden&quot;; }?&gt;
+		
+		
+		
+		
+		&lt;?
+
+}
+}
+else {
+?&gt;
+&lt;p&gt;Los datos marcados con un asterisco (*) son obligatorios.
+&lt;script&gt;
+function revisar() {
+if(formulario.nick.value.length &lt; 3) { alert('El nick debe contener por lo mínimo 3 caractéres') ; return false ; }
+
+if(formulario.contrasena.value.length &lt; 5) { alert('La contraseña debe contener por lo mínimo 5 caractéres') ; return false ; }
+if(formulario.email.value.length == 0) { alert('Debes poner un email válido') ; return false ; }
+}
+&lt;/script&gt;
+&lt;SCRIPT language=JavaScript&gt;
+
+
+&lt;!-- Begin
+function ignoreSpaces(string) {
+var temp = &quot;&quot;;
+string = '' + string;
+splitstring = string.split(&quot; &quot;);
+for(i = 0; i &lt; splitstring.length; i++)
+temp += splitstring[i];
+return temp;
+}
+//  End --&gt;
+&lt;/SCRIPT&gt;
+
+
+&lt;form name=&quot;formulario&quot; method=&quot;post&quot; action=&quot;uregistrar.php&quot; onsubmit=&quot;return revisar()&quot;&gt;
+&lt;b&gt;* Nick:&lt;/b&gt;&lt;br&gt;
+&lt;input onblur=this.value=ignoreSpaces(this.value); type=&quot;text&quot; name=&quot;nick&quot; maxlength=&quot;20&quot; class=&quot;form&quot; &gt;&lt;br&gt;
+&lt;b&gt;* Contraseña:&lt;/b&gt;&lt;br&gt;
+&lt;input onblur=this.value=ignoreSpaces(this.value); type=&quot;password&quot; name=&quot;contrasena&quot; maxlength=&quot;20&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+  &lt;b&gt;* Repite Contraseña:&lt;/b&gt;&lt;br&gt;
+  &lt;input name=&quot;contrasena2&quot; type=&quot;password&quot; class=&quot;form&quot; id=&quot;contrasena2&quot; onblur=this.value=ignoreSpaces(this.value); maxlength=&quot;20&quot;&gt;
+  &lt;br&gt;
+&lt;b&gt;* Email:&lt;/b&gt;&lt;br&gt;
+&lt;input onblur=this.value=ignoreSpaces(this.value); type=&quot;text&quot; name=&quot;email&quot; maxlength=&quot;40&quot; class=&quot;form&quot; &gt;
+  &lt;br&gt;
+  &lt;b&gt;* Repite Email:&lt;/b&gt;&lt;br&gt;
+  &lt;input name=&quot;email2&quot; type=&quot;text&quot; class=&quot;form&quot; id=&quot;email2&quot; onblur=this.value=ignoreSpaces(this.value); maxlength=&quot;40&quot; &gt;
+  &lt;br&gt;
+
+&lt;input type=&quot;submit&quot; name=&quot;registrar&quot; value=&quot;Registrar&quot; class=&quot;form&quot;&gt;
+&lt;/form&gt;
+&lt;?
+}
+mysql_close($conectar) ;
+?&gt;
+
+[/codigo]

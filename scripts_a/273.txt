@@ -1,0 +1,98 @@
+Hola a todos, este es un script muy sencillo, en cual crea tablas con campos mediante un formulario, asea que lo puedes hacer desde tu propia pagina de internet:
+En este script consta de 2 archivos y archivo que ya todos conosen como config.php que sirve para conectar a la base de datos y el otro que es insdb.php o como quieran llamarlo, siempre y cuando campiando el nombre en la linea conde dice [b]action=&quot;nombre que le pongan&quot;[/b].
+No es nesesario poner [b]CREATE TABLE[/b] ni poner los [b]()[/b] solo tienen que poner, por ejemplo:
+
+[b]id_contacto int(6) NOT NULL auto_increment,
+nombre varchar(30) NOT NULL,
+contraseña varchar(30) NOT NULL,
+PIRMARY KEY (id_contacto)[/b]
+
+Ahi van los 2 archivos:
+
+[b]config.php[/b]
+[codigo]
+&lt;?
+$bdservidor = &quot;localhost&quot; ;
+// Usuario de la base de datos
+$bdusuario = &quot;nombre_de_usuario&quot; ;
+// Contraseña de la base de datos
+$bdcontrasena = &quot;****&quot; ;
+// Nombre de la base de datos
+$bd = &quot;base_de_datos&quot; ;
+
+if($conectar = @mysql_connect($bdservidor,$bdusuario,$bdcontrasena)) {
+@mysql_select_db($bd,$conectar) ;
+}
+else {
+$error = mysql_error() ;
+echo &quot;No se pudo conectar a la base de datos por: &lt;b&gt;$error&lt;/b&gt;&quot; ;
+}
+?&gt; 
+[/codigo]
+
+[b]insdb.php[/b]
+[codigo]
+&lt;form method=&quot;POST&quot; action=&quot;insdb.php&quot;&gt;
+&lt;table width=&quot;74%&quot;  border=&quot;0&quot;&gt;
+  &lt;tr&gt;
+    &lt;th colspan=&quot;2&quot; scope=&quot;row&quot;&gt;CREACION DE  TABLAS MEDIANTE UN FORMULARIO &lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th width=&quot;61%&quot; scope=&quot;row&quot;&gt;&lt;div align=&quot;left&quot;&gt;Ingrese el nombre que le quiera poner a la tabla : &lt;/div&gt;&lt;/th&gt;
+    &lt;td width=&quot;39%&quot;&gt;
+      &lt;input type=&quot;text&quot; name=&quot;ntabla&quot;&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th height=&quot;107&quot; scope=&quot;row&quot;&gt;&lt;div align=&quot;left&quot;&gt;Ingrese aqui la estructura de la tabla : &lt;/div&gt;&lt;/th&gt;
+    &lt;td&gt;
+      &lt;textarea name=&quot;estructura&quot; cols=&quot;45&quot; rows=&quot;10&quot; &gt;&lt;/textarea&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th scope=&quot;row&quot;&gt;&lt;/th&gt;
+    &lt;td&gt;&lt;div align=&quot;center&quot;&gt;
+      &lt;input type=&quot;submit&quot; value=&quot;Enviar&quot; name=&quot;enviar&quot;&gt;
+    &lt;/div&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+
+&lt;?
+//incluimos el archivo config.php
+include (&quot;config.php&quot;);
+//definimos las variable
+$ntabla =  $_POST['ntabla'];
+$estructura = $_POST['estructura'];
+$sql = &quot;CREATE TABLE &quot;  .$ntabla.  &quot;(&quot; .$estructura. &quot;);&quot;;
+//cuando se aprete en enviar se prosesaran los datos y se creara la tabla con los campos indicados
+if($_POST['enviar'])
+{
+if(!@mysql_query($sql, $conectar))
+
+{
+
+echo &quot;Error&quot;.mysql_error();
+
+}else{
+
+echo &quot;Tabla creada con éxito&quot;;
+}
+}
+?&gt;
+[/codigo]
+
+Se que el script es sencillo, pero solo llevo con el PHP 1 semana y 2 dias.
+Tambien lo pueden usar para hacer los que quieran con SQL. Ejemplo:
+
+Enves de poner [b]&quot;CREATE TABLE &quot;  .$ntabla.  &quot;(&quot; .$estructura. &quot;);&quot;[/b] podemos borrarlo y poner solo [b]$_POST['estructura'][/b] y podemos hacer lo que queramos, por ejemplo poner:
+
+[b]&quot;INSERT INTO usuarios ( nombre , contraseña )
+        VALUES ('Juansito' , '123321') ;&quot;[/b]
+Recuerden ponerlo siempre entre &quot;&quot;
+
+Espero que les sirva.
+
+[b]SaY No MoRe[/b]
+
+[url=http://www.des4ever.net]DeS4eVeR[/url]

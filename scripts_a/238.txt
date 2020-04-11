@@ -1,0 +1,59 @@
+Yo no he echo este script, me lo ha dado y es bastante util. para modificar los colores modifica lo que se parezca a ($image, 205, 112, 1), con el corel draw,swish  o con otro programa puedes obtener los colores en ese formato.
+
+[codigo]&lt;?php 
+// Esto es  una actualización al script de CoSiTo. 
+// 2 nuevas cosas: 
+// - Circulo 3D 
+// - Leyenda con colores y resultados. 
+
+// Para poner los datos pones &lt;img src=&quot;stat.php?r=usuariosregistrados&amp;a=usuariosanonimos&quot;&gt; 
+
+if($r == &quot;&quot; &amp;&amp; $a == &quot;&quot;){
+$r = &quot;0&quot;;
+$a = &quot;1&quot;;
+}
+
+$registrados = $r ;
+$anonimos = $a ;
+
+// Sacamos datos... 
+$usuarios = $registrados + $anonimos; 
+$registrados = $registrados * 100 / $usuarios; 
+$anonimos = $anonimos * 100 / $usuarios; 
+$porciento = $anonimos * 360 / 100;   
+
+// Creamos la imágen 
+$width = 75;    
+$height = 67;    
+$image = imagecreate($width, $height);   
+
+// Ponemos el fondo transparente 
+$transparente = imagecolorallocate($image, 0, 0, 0); 
+imagecolortransparent($image, $transparente); 
+
+// Colores, los que tiene 2 o son lo que son mas oscuros 
+$dentro1 = imagecolorallocate($image, 205, 112, 1); 
+$dentroo1 = imagecolorallocate($image, 167, 92, 1); 
+$dentro2 = imagecolorallocate($image, 5, 108, 213); 
+$dentroo2 = imagecolorallocate($image, 4, 89, 174); 
+$negro = imagecolorallocate($image, 0, 0, 0); 
+$azul = imagecolorallocate($image, 0, 0, 255); 
+
+// Este for hara el efecto 3dmensional 
+// Poniendo 10 circulos abajo de la imagen con el color 
+// que este en el circulo mas oscuro. 
+for ($i = 40; $i &gt; 30; $i--) { 
+    imagefilledarc ($image, 39, $i, 65, 50, 0, $porciento, $dentroo1, IMG_ARC_PIE); 
+    imagefilledarc ($image, 39, $i, 65, 50, $porciento, 360 , $dentroo2, IMG_ARC_PIE); 
+} 
+
+// Dibujo el circulo y lo divido en sus partes... 
+imagefilledarc ($image, 39, 30, 65, 50, 0, $porciento, $dentro1, IMG_ARC_PIE); 
+imagefilledarc ($image, 39, 30, 65, 50, $porciento, 360 , $dentro2, IMG_ARC_PIE); 
+
+// Enviamos la imágen al navegador...         
+header(&quot;Content-type: image/png&quot;); 
+imagepng($image);   
+imagedestroy($image); 
+?&gt; 
+[/codigo]

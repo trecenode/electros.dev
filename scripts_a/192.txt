@@ -1,0 +1,79 @@
+Este es un script muy sencillisimo. Es muy parecido al otro que lo envía por e-mail.
+
+Consta de 2 páginas:
+[b]recordar1.php[/b] - Para escribir el nick y la frase.
+[b]recordar.php[/b] - Para ver si la frase es correcta en el nick introducido.
+
+Primero, crea una fila nueva en la tabla 'usuarios' llamada 'reco' con las caracteristicas:
+ ·varchar (100)
+ ·not null
+
+[b]recordar1.php[/b]:
+
+[codigo]&lt;form method=&quot;POST&quot; action=&quot;recordar.php&quot;&gt;
+&lt;p&gt;&lt;a href=&quot;index.php&quot;&gt;Principal&lt;/a&gt; &gt;&lt;b&gt; Recordar contraseña&lt;/b&gt;&lt;/p&gt;
+  &lt;p&gt;   Nick&lt;br&gt;
+    &lt;input type=&quot;text&quot; name=&quot;nick&quot; size=&quot;20&quot; class=&quot;form&quot;&gt;&lt;br&gt;
+     Frase secreta:&lt;br&gt;
+   
+  &lt;input type=&quot;text&quot; name=&quot;reco&quot; size=&quot;20&quot; class=&quot;form&quot; maxlength=&quot;100&quot;&gt;&lt;/p&gt;
+  &lt;p&gt;   &lt;input type=&quot;submit&quot; value=&quot;  Enviar  &quot; name=&quot;B1&quot; class=&quot;form&quot;&gt;&lt;/p&gt;
+&lt;/form&gt;[/codigo]
+
+[b]recordar.php[/b]:
+[codigo]&lt;?
+include(&quot;config.php&quot;);
+$resp = mysql_query(&quot;select contrasena,reco from usuarios where nick='$nick'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+if($reco==$datos[reco]) {
+echo &quot;Su contraseña es: $datos[contrasena]&quot;;
+} else {
+echo &quot;Lo sentimos, pero esa no es la frase secreta!&quot;;
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;[/codigo]
+
+[b]PEFIL[/b]
+
+Para que el usuario escriba su frase, debes de poner lo siguiente en la linea [b]48[/b] en la página uperfil.php (entre el email y el país):
+
+[codigo]&lt;b&gt;* Frase secreta:&lt;br&gt;
+  
+&lt;/b&gt;&lt;input type=text name=reco maxlength=40 value=&quot;$datos[reco]&quot; class=form size=20&gt;&lt;br&gt;[/codigo]
+
+luego, en la página ueditar.php borra todo y pon:
+
+[codigo]&lt;?
+include(&quot;ulogin.php&quot;) ;
+?&gt;
+&lt;?
+include(&quot;config.php&quot;) ;
+$usuario = $HTTP_COOKIE_VARS[unick] ;
+if($editar) {
+function quitar($texto) {
+$texto = trim($texto) ;
+$texto = htmlspecialchars($texto) ;
+return $texto ;
+}
+$nick = quitar($nick) ;
+$contrasena = quitar($contrasena) ;
+$email = quitar($email) ;
+$pais = quitar($pais) ;
+$edad = quitar($edad) ;
+$reco = quitar($reco) ;
+$descripcion = quitar($descripcion) ;
+mysql_query(&quot;update usuarios set contrasena='$contrasena',reco='$reco',email='$email',pais='$pais',edad='$edad',sexo='$sexo',descripcion='$descripcion' where nick='$usuario'&quot;) ;
+setcookie(&quot;unick&quot;,$nick,time()+7776000) ;
+header(&quot;location: uperfil.php?editarconfirmacion=si&quot;) ;
+}
+mysql_close($conectar) ;
+?&gt;[/codigo]
+
+También podeis poner en la página de registro un campo para que escriban la frase secreta, pero eso ya es cosa vuestra, aunque os lo recomiendo.
+
+y listo. muy sencillo eh?
+
+Problemas y consultas a: kimones@kimones.com
+
+Powered by Mike (c) 2001 - 2004

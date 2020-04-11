@@ -1,0 +1,181 @@
+AÑADIR NIVELES DE USUARIOS AL SISTEMA DE ELECTROS
+
+INSTALACION:
+
+*Una vez instalado el sistema de usuarios de electros, debes de agregar un campo más a la
+tabla de usuarios:
+
+[codigo]
+ALTER TABLE `usuarios` ADD `nivel` INT( 1 ) UNSIGNED DEFAULT '1' NOT NULL AFTER `contrasena` ;
+[/codigo]
+
+*Después edita el ulogin.php y localiza la siguiente línea.
+[codigo]
+$resp = mysql_query(&quot;select contrasena from usuarios where nick='$_COOKIE[unick]'&quot;) ;
+[/codigo]
+
+*Ahora debes de añadir ,nivel después de contrasena. Te quedará así:
+[codigo]$resp = mysql_query(&quot;select contrasena,nivel from usuarios where nick='$_COOKIE[unick]'&quot;) ;
+[/codigo]
+
+*Copia los archivos de este zip a tu sitio web y ya está.
+
+
+FUNCIONAMIENTO:
+
+Los niveles van del 1 al 10, siendo 10 el de más rango, pudiendo entrar en todos
+niveles por debajo, y el nivel 1 es el nivel raso (usuarios recien registrados).
+
+Un usuario con nivel 6 p.ej., puede entrar en paginas que requieran nivel 1,2,3,4,5 y 6
+pero no en las superiores.
+
+Para poner nivel de acceso 4 a una página (p.ej.) deberás de poner la siguiente línea
+al principio del todo de la pagina: 
+
+[codigo]&lt;? include(&quot;ulogin4.php&quot;) ; ?&gt;[/codigo]
+
+Para poner nivel 8: &lt;? include(&quot;ulogin8.php&quot;) ; ?&gt;
+etc, etc.
+
+Para nivel 1 puedes dejarlo como lo tenías antes &lt;? include(&quot;ulogin.php&quot;) ; ?&gt;
+o poner ulogin1.php  Eso ya, tu mismo.
+
+
+ARCHIVOS:
+
+univeles.php
+editanivel.php
+unonivel.php
+ulogin1.php, ulogin2.php... ulogin10.php
+
+
+univeles.php:
+
+Desde aquí modificamos los niveles de los usuarios. Protege bien esta página, puedes
+poner un nivel de protección si hay varios administradores, o sino pon el siguiente
+código al principio de la pagina.
+[codigo]&lt;?
+// Pon aqui tu nick:
+$administrador = Tu_nick_aqui ;
+if($HTTP_COOKIE_VARS[unick] != &quot;$administrador&quot;) {
+echo &quot;Solo el administrador puede conceder niveles&quot; ;
+exit;
+}
+?&gt;
+[/codigo]
+
+[codigo]
+&lt;script&gt;
+function revisar() {
+if(editanivel.nivel.value &gt; &quot;9&quot;) { alert('El nivel tiene que ser un valor entre 1 y 9') ; return false ; }
+if(editanivel.nivel.value &lt; &quot;1&quot;) { alert('El nivel tiene que ser un valor entre 1 y 9') ; return false ; }
+}
+&lt;/script&gt;
+&lt;?
+include(&quot;config.php&quot;) ;
+if($u) {
+$resp = mysql_query(&quot;select id,nick,nivel from usuarios where id='$u'&quot;) ;
+$datos = mysql_fetch_array($resp) ;
+echo &quot;
+&lt;form name=editanivel action=editanivel.php method=post onsubmit=&quot;return revisar()&quot;&gt;
+&lt;table border=0 cellpadding=2 cellspacing=0&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Nick:&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;&lt;input name=nick value=$datos[nick] type=text readonly=true&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;Nivel:&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;
+&lt;input name=nivel type=text value=$datos[nivel] size=1 maxlength=1&gt;
+&lt;input type=submit name=editar value=Editar class=form&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+&lt;br&gt;
+&lt;a href=javascript:history.back(1)&gt;Volver a lista de Niveles&lt;/a&gt;
+&quot; ;
+}
+else
+{
+?&gt;
+&lt;form name=&quot;form1&quot; method=&quot;post&quot; action=&quot;&lt;?PHP $PHP_SELF ?&gt;&quot;&gt;
+Ordenar por: &lt;select name=&quot;orden&quot; id=&quot;orden&quot; onChange=&quot;submit()&quot;&gt;
+      &lt;option&gt;&lt;/option&gt;
+	  &lt;option&gt;nick&lt;/option&gt;
+      &lt;option&gt;fecha&lt;/option&gt;
+      &lt;option&gt;nivel&lt;/option&gt;
+    &lt;/select&gt;  
+&lt;/form&gt;
+&lt;?
+if($orden == '') {
+$orden = nick ;
+}
+
+$resp = mysql_query(&quot;select id,nick,nivel,fecha from usuarios order by $orden asc&quot;) ;
+$usuarios = mysql_num_rows($resp) ;
+echo &quot;
+&lt;table border=0 cellpadding=5 cellspacing=1&gt;
+&lt;tr bgcolor=#679CD8&gt;
+&lt;td&gt;&lt;b&gt;Nick&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;&lt;b&gt;Antiguedad&lt;/b&gt;&lt;/td&gt;
+&lt;td&gt;&lt;b&gt;Nivel&lt;/b&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&quot; ;
+while($datos = mysql_fetch_array($resp)) {
+$fecha = $datos[fecha] ;
+$mesesano = array(&quot;Enero&quot;,&quot;Febrero&quot;,&quot;Marzo&quot;,&quot;Abril&quot;,&quot;Mayo&quot;,&quot;Junio&quot;,&quot;Julio&quot;,&quot;Agosto&quot;,&quot;Septiembre&quot;,&quot;Octubre&quot;,&quot;Noviembre&quot;,&quot;Diciembre&quot;) ;
+$diasemana = date(w,$fecha) ; $diames = date(j,$fecha) ; $mesano = date(n,$fecha) - 1 ; $ano = date(Y,$fecha) ;
+$fecha = &quot;$diames de $mesesano[$mesano] del $ano&quot; ;
+echo &quot;
+&lt;tr bgcolor=#D8F3FC&gt;
+&lt;td&gt;$datos[nick]&lt;/td&gt;
+&lt;td&gt;$fecha&lt;/td&gt;
+&lt;td align=center&gt;&lt;b&gt;&lt;a href=?id=univeles&amp;u=$datos[id]&gt;$datos[nivel]&lt;/a&gt;&lt;/b&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&quot; ;
+}
+echo &quot;&lt;/table&gt;&quot; ;
+}
+mysql_free_result($resp) ;
+mysql_close($conectar) ;
+?&gt;
+[/codigo]
+
+
+editanivel.php:
+
+Este archivo solo procesa el cambio de niveles, protegelo tb como el anterior.
+
+[codigo]
+&lt;?
+include(&quot;config.php&quot;) ;
+mysql_query(&quot;update usuarios set nivel='$nivel' where nick='$nick'&quot;) ;
+mysql_close($conectar) ;
+echo &quot; El usuario &lt;b&gt;$nick&lt;/b&gt; a sido puesto a Nivel: &lt;b&gt;$nivel&lt;/b&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;a href=&quot;univeles.php&quot;&gt;Volver a la lista de usuarios y Niveles&lt;/a&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;a href=&quot;javascript:history.back(1)&quot;&gt;Volver a cambiar el nivel a $nick&lt;/a&gt;
+&quot;
+?&gt;
+[/codigo]
+
+unonivel.php:
+
+Página que se muestra cunado un usuario accede a una que no tiene suficiente nivel.
+
+[codigo]
+&lt;div align=&quot;center&quot;&gt;
+  &lt;p&gt;Lo siento &lt;b&gt;&lt;? echo $_COOKIE[&quot;unick&quot;] ?&gt;&lt;/b&gt;, no tienes nivel de usuario suficiente para ver esta página.&lt;/p&gt;
+  &lt;p&gt;&lt;a href=&quot;index.php&quot;&gt;Volver&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+[/codigo]
+
+
+los ulogins los tienes en el zip.
+
+----------------------------------------------
+JOsé Manuel
+http://manuel.freedatos.com/
+----------------------------------------------

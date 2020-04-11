@@ -1,0 +1,13 @@
+[codigo]function sendemail($to, $from, $subject, $message){
+$mensaje = &quot;&lt;html&gt;&lt;style type='text/css'&gt;&lt;!--body,td,th {font-family: Arial, Helvetica, sans-serif; font-size: 12px;}--&gt;&lt;/style&gt;&lt;body bgcolor='#309280'&gt;&quot;;
+$mensaje .= $message;
+$mensaje .= &quot;&lt;/body&gt;&lt;/html&gt;&quot;;
+$headers= &quot;Content-type: text/html; charset=iso-8859-1\r\n&quot;;
+$headers .= &quot;From: $from&quot;;
+// Envio en formato HTML
+mail(&quot;$to&quot;,&quot;$subject&quot;,&quot;$mensaje&quot;,&quot;$headers&quot;);
+}
+
+[/codigo]
+Para usar-lo solo teneis que usar la función así:
+sendemail($to, $from, $subject, $message) ;

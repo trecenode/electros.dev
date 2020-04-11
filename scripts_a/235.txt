@@ -1,0 +1,24 @@
+[b] PhpDownLD-1.2 Alpha, sistema de descarga de archivos [/b]
+
+PhpDownLD, es un sistema de descargas basado en el listado de directorios. Es decir este te permite, creando unas carpetas y subiendo algunos archivos, crear un completo sistema de descargas desde tu pagina web sin conocimientos de PHP. El script consta de una pagina CSS de estilo, una pagina de configuracion... ademas este nos permite añadir todas las extensiones que nos apetezca, y asignarles a estas una imagen, tansolo con poner unas lineas en un archivo.
+
+Ademas el scrip, muestra el tamaño, el icono y la ruta de navegacion ej: index &gt;&gt; descargas, por lo que se nos permite volver facilmente.
+
+el script consta de un archivo, el cual nos permite decirle al script que no muestre determinados archivos, como por ejemplo index.php, los que nosotros deseemos.
+
+este es el archivo que hace el mayor trabajo:
+[b]
+IMPLEMENTACIONES DE LA VERSION 1.1[/b]
+
+Pagina de administracion, con posibilidad de Hacer Upload de archivos, cambiar el nombre de los mismos y las carpetas, crear carpetas y borrar archivos y carpetas, eso si todo esto despues de identificarte como administrador.
+Además en esta version el codigo está aun mas depurado se han corregido algunos fallos de seguridad con respecto a la version anterior, además el diseño del script, se ha mejorado notablemente.
+
+SI DESEAS DESCARGARTE MAS IDIOMAS O COLABORAR COMO TRADUCTOR, ACCEDE A LA PAGINA WEB DE PROYECTO, SI DESEAS CONTARTAR, HAZLO EN admin@funkybytes.com
+
+[b]Página oficial del proyecto:[/b]
+
+[url=http://proyectos.funkybytes.com/phpdownld/]http://proyectos.funkybytes.com/phpdownld/[/url]
+
+[b]Puedes ver un ejemplo aqui:[/b]
+
+[url=http://proyectos.funkybytes.com/phpdownld/ejemplo/]http://proyectos.funkybytes.com/phpdownld/ejemplo/[/url]

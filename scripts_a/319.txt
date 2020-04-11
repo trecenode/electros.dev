@@ -1,0 +1,13 @@
+Autor: Anonimo
+Ejemplo: demosypruebas.gratishost.com/4/index.php
+
+el autor es anonimo pero no soy yo :p
+
+Info: todos los usuarios que quieran podran poner la imagen.
+
+
+A mi lo que me gustaria es k un experto en php transforme el script y k de el link de la imagen de en donde kedo
+
+¡Tiene un contador de cuantas personas visitaron la imagen y un chat!
+
+AL ARCHIVO TAGBOARD CAMBIAR LOS CHMOD A 777

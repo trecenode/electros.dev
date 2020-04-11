@@ -1,0 +1,19 @@
+Hola a todos, esto es de mis primeros tutos que hago publicos, apenas ayer aprendi a generar imagenes dinámicas y hoy comparto mis conocimientos, aprenderemos a hacer lo siguiente:
+[img]http://arthurfx.com/gd/firma.php[/img]
+A esta imagen que uso de firma le puse un contador de usuarios online, asi imprimimos los datos dentro de la imagen, del siguiente modo:
+[codigo]&lt;?
+include('activosgd.php'); //Incluimos el archivo contador de usuarios online
+$linea[3] = &quot;USUARIOS VIENDO ESTA FIRMA: $online&quot;; //Imprimimos el texto a mostrar en la imagen
+$img = imagecreatefromgif(&quot;firma.gif&quot;); //Seleccionamos la imagen de la que partiremos
+$crema = ImageColorAllocate($img, 238, 238, 238);  //Definimos un color
+imagettftext($img,8,0,8,56,$crema,&quot;BitDarling10(sRB).TTF&quot;,&quot;$linea[3]&quot;); /* 
+Creamos la imagen, definiendo asi: ($imagen,$tamañotexto,$angulo,cordenadaX,cordenadaY,font,texto) */
+Header (&quot;Content-type: image/png&quot;); //Definimos el tipo de imagen
+imagepng($img); //Creamos la imagen
+imagedestroy($img); //Libremos memoria
+?&gt;
+[/codigo]
+Bueno, espero que les sirva de algo. Salu2
+Puedes darle muchos usos, solo experimenta, viendolo bien no es tan dificil
+PD: EN EL DESCARGABLE VIENEN TODOS LOS ARCHIVOS
+http://arthurfx.com

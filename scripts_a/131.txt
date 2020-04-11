@@ -1,0 +1,14 @@
+Si quieres o tienes una pagina de abandonaware y te gustaria tener un script para ese proposito no lo dudes descargate este script echo por elcidop que tiene las siguientes  caracteristicas:
+- No utiliza mysql para funcionar, solo archivos de texto
+- Se pueden enviar archivos .zip .rar .ace junto con una descripcion
+- Se pueden agregar imagenes adjuntas a los archivos al enviarlo
+- Esta paginado de 10 en 10 gracias a Darkmaster
+- Tiene un panel de administracion por si deseas subir los archivos a tu web primero por ftp y luego ponerle una descripcion, de este modo tambien tendras que subir las imagenes con su corespodiente nombre
+-  Los comentarios se guardan como [b]archivo.desc.txt[/b], los clicks como [b]archivo.txt[/b], las imagenes como  [b]archivo.gif[/b] y los archivos adjuntos como [b]archivo.zip , archivo.ace, archivo.rar[/b]
+
+Debes hacer lo siguiente
+- subir los archivos a tu directorio
+- darle permisos chomd 777 si fuese necesario
+
+Un ejemplo pues aqui:
+http://www.tuarroba.net/elcidop/archivos/abandonware/

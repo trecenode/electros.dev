@@ -1,0 +1,17 @@
+Hola
+Acabo de encontrar esta curiosidad por la red.
+
+Es un EasterEgg,viene a ser algo así como una broma creada por los que han creado el php.
+
+Bien nos dirigimos a cualquier pagina de internet que sea php
+y en su archivo situamos esta linea
+[codigo]?=PHPE9568F36-D428-11d2-A769-00AA001ACF42[/codigo]
+Osea si nos dirigimos por ejemplo a mi web:
+[codigo]http://www.avatopia.net/index.php?=PHPE9568F36-D428-11d2-A769-00AA001ACF42[/codigo]
+asi podremos ver el easter egg
+al igual que si lo hacemos en phpfull.net
+[codigo]http://www.phpfull.net/index.php?=PHPE9568F36-D428-11d2-A769-00AA001ACF42[/codigo]
+Es una curiosidad nada más,podeis probarlo en vuestras webs insertando la linea:
+[codigo]?=PHPE9568F36-D428-11d2-A769-00AA001ACF42[/codigo]
+
+Saludos

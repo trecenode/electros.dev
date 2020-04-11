@@ -1,0 +1,307 @@
+Obtener un listado con los ficheros .zip .rar .ace .cab de un directorio :
+[b]$elemento[/b] es el fichero entero.
+[b]$nombre[/b] seria el nombre del archivo.
+[b]$nombre2[/b] la extension del archivo.
+[b].[/b] es el directorio raiz para cambiar el directorio raiz bastaria con sustituirlo por [b]varios/[/b] por ejemplo .
+Si quisieramos cambiar o añadir mas extensiones solo abria que modificar el array a tu gusto, solo para imagenes gif y jpg seria por ejemplo
+[b]$tipo = array (&quot;gif&quot;, &quot;jpg&quot;);[/b] 
+
+[codigo]
+&lt;?
+$path = &quot;.&quot;;
+$dir = opendir($path);
+while ($elemento = readdir($dir))
+{
+$extensiones = explode(&quot;.&quot;,$elemento) ;
+$nombre = $extensiones[0] ;
+$nombre2  = $extensiones[1] ;
+$tipo = array (&quot;zip&quot;, &quot;rar&quot;, &quot;ace&quot;, &quot;cab&quot;);
+if(in_array($nombre2, $tipo)){
+echo &quot;$elemento&lt;br&gt;&quot; ;
+}
+}
+closedir($dir);
+?&gt;
+[/codigo]
+
+Sumar el numero total de ficheros de un directorio, que tomaria la suman de total de ficheros zip rar ace y cab del directorio mostrando como resultado por ej 13
+
+[codigo]
+&lt;?
+$dirdd = opendir(&quot;.&quot;);
+while ($elemento = readdir($dirdd)) {
+$extensiones = explode(&quot;.&quot;,$elemento) ;
+$nombre = $extensiones[0] ;
+$nombre2  = $extensiones[1] ;
+$tipo = array (&quot;zip&quot;, &quot;rar&quot;, &quot;ace&quot;, &quot;cab&quot;);
+if(in_array($nombre2, $tipo)){
+$idd++;
+}
+if($idd == &quot;&quot;) { echo &quot;0&quot;;}
+if($idd != &quot;&quot;) { echo $idd ;}
+?&gt;
+[/codigo]
+
+Ver un directorio de carpetas :
+
+[codigo]
+&lt;?
+$path = &quot;.&quot;;
+$dir = opendir($path);
+while ($elemento = readdir($dir))
+{
+if(is_dir($elemento) &amp;&amp; $elemento != &quot;.&quot; &amp;&amp; $elemento != &quot;..&quot;){
+echo &quot;$elemento&lt;br&gt;&quot; ;
+}
+}
+closedir($dir);
+?&gt;
+[/codigo]
+
+Espacio total del servidor donde tenemos alojada nuestra pagina :
+
+[codigo]
+&lt;?php
+$df = disk_free_space(&quot;/&quot;);
+function do_bytes($size) {
+  $kb = 1024;        // Kilobyte
+  $mb = 1024 * $kb;  // Megabyte
+  $gb = 1024 * $mb;  // Gigabyte
+  $tb = 1024 * $gb;  // Terabyte
+  if($size==0) return &quot;n/a&quot;;
+  if($size &lt; $kb) {
+   return $size.&quot; Bytes&quot;;
+  } else if($size &lt; $mb) {
+   return round($size/$kb,2).&quot; kb&quot;;
+  } else if($size &lt; $gb) {
+   return round($size/$mb,2).&quot; mb&quot;;
+  } else if($size &lt; $tb) {
+   return round($size/$gb,2).&quot; gb&quot;;
+  } else {
+   return round($size/$tb,2).&quot; tb&quot;;
+  }
+}
+echo do_bytes($df);
+?&gt;
+[/codigo]
+
+Con directorios y mas abajo sus correspondintes subdirectorios :
+
+[codigo]
+&lt;?
+$path = &quot;.&quot;;
+$dir = opendir($path);
+while ($elemento = readdir($dir))
+{
+if(is_dir($elemento) &amp;&amp; $elemento != &quot;.&quot; &amp;&amp; $elemento != &quot;..&quot;){
+echo &quot;&lt;b&gt;$elemento&lt;/b&gt;&lt;br&gt;&quot; ;
+// Subdirectorios dentro de los directorios
+if ($dir2 = @opendir(&quot;$elemento/&quot;)) {
+  while (($file2 = readdir($dir2)) !== false) {
+    if ($file2 != &quot;.&quot; &amp;&amp; $file2 != &quot;..&quot;) {
+	echo &quot;$file2&lt;br&gt;&quot;;
+  }  
+  }
+  closedir($dir2);
+}
+// fin subdirectorios dentro de los directorios
+}
+}
+closedir($dir);
+?&gt;
+[/codigo]
+
+El anterior script (Con directorios y mas abajo sus correspondintes subdirectorios) embutido en tablas :
+
+[codigo]
+&lt;?
+$path = &quot;.&quot;;
+$dir = opendir($path);
+while ($elemento = readdir($dir))
+{
+if(is_dir($elemento) &amp;&amp; $elemento != &quot;.&quot; &amp;&amp; $elemento != &quot;..&quot;){
+echo &quot;
+&lt;table width='100%' border='1' cellspacing='1' cellpadding='1'&gt;
+&lt;table width='100%' border='1' cellspacing='1' cellpadding='1'&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;b&gt;$elemento&lt;/b&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&quot; ;
+// Subdirectorios dentro de los directorios
+if ($dir2 = @opendir(&quot;$elemento/&quot;)) {
+  while (($file2 = readdir($dir2)) !== false) {
+    if ($file2 != &quot;.&quot; &amp;&amp; $file2 != &quot;..&quot;) {
+    echo &quot;&lt;td&gt;&lt;a href=$elemento/$file2&gt;$file2&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tr&gt;&quot;;
+  }  
+  }
+  closedir($dir2);
+  echo &quot;&lt;br&gt;&quot;;
+}
+// fin subdirectorios dentro de los directorios
+}
+}
+closedir($dir);
+echo &quot;&lt;/table&gt;&lt;/table&gt;&quot;;
+?&gt;
+[/codigo]
+
+Script con novedades parecido al anterior y script e ingual que el de la pagina  (sin imagenes):
+http://recursosphp.iefactory.com/electros/
+
+
+[codigo]
+  &lt;?
+// Anti-hackeos
+if(ereg(&quot;../&quot;,$secciones) || ereg(&quot;/..&quot;,$secciones) || ereg(&quot;\\..&quot;,$secciones) || ereg(&quot;..\\&quot;,$secciones)){
+    die(&quot;Hacking Attempt&quot;);
+}
+// Mostrar
+$path = &quot;.&quot;;
+$dir = opendir($path);
+while ($elemento = readdir($dir))
+{
+if(is_dir($elemento) &amp;&amp; $elemento != &quot;.&quot; &amp;&amp; $elemento != &quot;..&quot; &amp;&amp; !$secciones){
+echo &quot;
+&lt;table width='52%' border='0' cellspacing='0' cellpadding='2'&gt;
+&lt;table width='52%' border='0' cellspacing='0' cellpadding='2'&gt;
+&lt;tr&gt;
+&lt;td colspan='3' width='40%'&gt;&lt;b&gt;$elemento&lt;/b&gt;&lt;hr&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&quot; ;
+// Subdirectorios dentro de los directorios
+if ($dir2 = @opendir(&quot;$elemento/&quot;)) {
+  while (($file2 = readdir($dir2)) !== false) {
+  
+    $extensiones = explode(&quot;.&quot;,$file2) ;
+    $nombre = $extensiones[0] ;
+    $nombre2  = $extensiones[1] ;
+	$file_directorio = &quot;$elemento/$file2&quot;;
+	
+// Mostramos los resutaltados	
+if (!is_dir($file2) &amp;&amp; $file2 != &quot;.&quot; &amp;&amp; $file2 != &quot;..&quot;) {
+// asignamos el tamaño de los archivo
+if(filesize($file_directorio) &gt; 1000000) {
+$tamano = filesize($file_directorio)/1024/1024;
+$tamano = ceil($tamano) ;
+$tam = &quot;$tamano Mb&quot;;
+}
+else { 
+if(filesize($file_directorio) &gt; 1000) {
+$tamano = filesize($file_directorio)/1024;
+$tamano = ceil($tamano) ;
+$tam = &quot;$tamano Kb&quot;;
+} 
+else {
+$tamano = filesize($file_directorio);
+$tamano = ceil($tamano);
+$tam = &quot;$tamano bytes&quot;;
+} 
+}
+// fecha de subida del archivo
+$elementotiempo = filectime(&quot;$file_directorio&quot;);
+$fecha=explode(&quot;,&quot;,date(&quot;,d,m,y,h,i&quot;,$elementotiempo));
+$fecha=&quot;$fecha[1]/$fecha[2]/$fecha[3]&quot;;
+$fech = &quot;$fecha&quot;;
+// Distingue entre enlazar carpetas o archivos
+if (is_dir($file_directorio)) {
+$url_directorio = &quot;index.php?secciones=$file_directorio&quot;;
+$target = &quot;&quot;;
+}
+else {
+$url_directorio = $file_directorio ;
+$target = &quot;target='_blank'&quot;;
+}
+// Imagen
+if (is_dir($file_directorio)) {
+$imagen_directorio = &quot;carpeta&quot;;
+}
+else {
+$imagen_directorio = $nombre2 ;
+}
+// Mostramos los resultados
+    echo &quot;&lt;td&gt; &lt;img src='$imagen_directorio.gif' border='0'&gt; &lt;a href='$url_directorio' $target&gt;$file2&lt;/a&gt;&lt;/td&gt;
+	&lt;td width='30%'&gt;$tam&lt;/td&gt;
+	&lt;td width='30%'&gt;$fech&lt;/td&gt;
+	&lt;/tr&gt;&lt;/tr&gt;&quot;;
+  }
+  }
+  closedir($dir2);
+  echo &quot;&lt;br&gt;&lt;br&gt;&lt;br&gt;&quot;;
+
+}
+// fin subdirectorios dentro de los directorios
+}
+
+}
+closedir($dir);
+echo &quot;&lt;/table&gt;&lt;/table&gt;&quot;;
+// secciones
+if($secciones == &quot;&quot;) { $path3 = &quot;.&quot;; }
+if($secciones != &quot;&quot;) { $path3 = $_GET[&quot;secciones&quot;]; }
+if($secciones != &quot;&quot;) { $sec = &quot;&lt;a  href='javascript:history.go(-1);'&gt;.. Atras&lt;/a&gt;&lt;br&gt;&lt;br&gt;&quot;;}
+if($secciones != &quot;&quot;) { $seccion = &quot;&lt;b&gt;$secciones&lt;/b&gt;&lt;hr&gt;$sec&quot;;}
+
+if ($dir3 = @opendir($path3)) {
+echo &quot;&lt;table width='52%' border='0' cellspacing='0' cellpadding='2'&gt;
+&lt;tr&gt;
+&lt;td colspan='3' width='40%'&gt;$seccion&lt;/td&gt;
+&lt;/tr&gt;&quot;;
+  while (($file3 = readdir($dir3)) !== false &amp;&amp; $secciones) {
+  
+    $extensiones = explode(&quot;.&quot;,$file3) ;
+    $nombre = $extensiones[0] ;
+    $nombre2  = $extensiones[1] ;
+	$file_directorio = &quot;$secciones/$file3&quot;;
+	
+// Mostramos los resutaltados	
+if ($file3 != &quot;.&quot; &amp;&amp; $file3 != &quot;..&quot;) {
+// asignamos el tamaño de los archivo
+if(filesize($file_directorio) &gt; 1000000) {
+$tamano = filesize($file_directorio)/1024/1024;
+$tamano = ceil($tamano) ;
+$tam = &quot;$tamano Mb&quot;;
+}
+else { 
+if(filesize($file_directorio) &gt; 1000) {
+$tamano = filesize($file_directorio)/1024;
+$tamano = ceil($tamano) ;
+$tam = &quot;$tamano Kb&quot;;
+} 
+else {
+$tamano = filesize($file_directorio);
+$tamano = ceil($tamano);
+$tam = &quot;$tamano bytes&quot;;
+} 
+}
+// fecha de subida del archivo
+$elementotiempo = filectime(&quot;$file_directorio&quot;);
+$fecha=explode(&quot;,&quot;,date(&quot;,d,m,y,h,i&quot;,$elementotiempo));
+$fecha=&quot;$fecha[1]/$fecha[2]/$fecha[3]&quot;;
+$fech = &quot;$fecha&quot;;
+// Distingue entre enlazar carpetas o archivos
+if (is_dir($file_directorio)) {
+$url_directorio = &quot;index.php?secciones=$file_directorio&quot;;
+}
+else {
+$url_directorio = $file_directorio ;
+}
+// Imagen
+if (is_dir($file_directorio)) {
+$imagen_directorio = &quot;carpeta&quot;;
+}
+else {
+$imagen_directorio = $nombre2 ;
+}
+// Mostramos los resultados
+    echo &quot;&lt;td&gt; &lt;img src='$imagen_directorio.gif' border='0'&gt; &lt;a href='$url_directorio'&gt;$file3&lt;/a&gt;&lt;/td&gt;
+	&lt;td width='30%'&gt;$tam&lt;/td&gt;
+	&lt;td width='30%'&gt;$fech&lt;/td&gt;
+	&lt;/tr&gt;&lt;/tr&gt;&quot;;
+  }
+  }
+  closedir($dir3);
+  echo &quot;&lt;/table&gt;&quot;;
+}
+// fin secciones
+?&gt;
+[/codigo]

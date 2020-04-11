@@ -1,0 +1,76 @@
+Bueno este codigo lo encontre en mi PC y me acorde que lo tenia, lo habia sakado por ahí. bueno consiste en 2 archivos :
+[b]administrar.php[/b] En este archivo administraremos y banearemos a nuestros visitantes.
+[b]index.php[/b] Este es el index de nuestra web
+
+Bueno primero que nada vamos a poner este codigo en la base de datos:
+ [codigo]CREATE TABLE baneadas ( 
+id int auto_increment NOT NULL, 
+ip char(20) NOT NULL, 
+PRIMARY KEY (id) 
+);[/codigo]
+
+Luego creamos el archivo administrar.php:
+ [codigo]&lt;html&gt; 
+&lt;? 
+$clave=&quot;admin&quot;; 
+
+if ($pass==$clave) { 
+echo &quot; 
+&lt;head&gt;&lt;script language=&quot;JavaScript&quot;&gt; 
+function confirmaBorra(ip) { 
+if (confirm(&quot;Estás seguro?&quot;)) { document.location=&quot;&quot;. $PHP_SELF .&quot;?ipBorrada=&quot;+ip+&quot;&amp;accion=borra&amp;pass=$clave&quot;; } 
+} 
+&lt;/script&gt;&quot;; 
+?&gt;&lt;/head&gt; 
+&lt;body&gt; 
+&lt;? 
+include &quot;config.php&quot;; 
+if (($accion==&quot;banea&quot;) &amp;&amp; ($ipBaneada)) { 
+mysql_query(&quot;INSERT INTO baneadas VALUES ('','$ipBaneada')&quot;); 
+echo &quot;Ip baneada:&lt;b&gt;$ipBaneada&lt;/b&gt;&quot;; 
+} 
+elseif (($accion==&quot;borra&quot;) &amp;&amp; ($ipBorrada)) { 
+mysql_query(&quot;DELETE FROM baneadas WHERE ip='$ipBorrada'&quot;); 
+echo &quot;Ip borrada: $ipBorrada&quot;; 
+} 
+echo &quot;&lt;table style=&quot;width:100%;font-size:12;font-family:tahoma&quot; border=1 cellspacing=0 cellpadding=0&gt;&lt;tbody&gt;&quot;; 
+$query=mysql_query(&quot;SELECT ip FROM baneadas&quot;); 
+while ($r=mysql_fetch_row($query)) { 
+echo &quot;&lt;tr&gt;&lt;td width=&quot;50%&quot;&gt;$r[0]&lt;/td&gt; 
+&lt;td&gt;&lt;a href=# onClick=&quot;confirmaBorra('$r[0]');&quot;&gt;[Borrar]&lt;/a&gt;&lt;/td&gt; 
+&lt;/tr&gt;&quot;; 
+} 
+echo &quot;&lt;tr&gt;&lt;td colspan=2&gt; 
+&lt;form action=&quot;&quot;. $PHP_SELF .&quot;&quot; method=post&gt; 
+Ip a banear: &lt;input type=text name=ipBaneada&gt;&lt;br&gt; 
+&lt;input type=submit value=&quot;Prohibir su entrada!&quot;&gt; 
+&lt;input type=hidden value=&quot;$pass&quot; name=pass&gt; 
+&lt;input type=hidden value=&quot;banea&quot; name=accion&gt; 
+
+&lt;/form&gt;&quot;; 
+} else { 
+echo &quot;&lt;form method=post action=&quot;&quot;. $PHP_SELF .&quot;&quot;&gt; 
+Password: &lt;input type=password name=pass&gt;&lt;br&gt; 
+&lt;input type=submit value=&quot;Entrar&quot;&gt;&lt;/form&gt;&quot;; } 
+?&gt;&lt;/body&gt;&lt;/html&gt;[/codigo]
+
+Y para terminar el index.php
+[codigo]&lt;? 
+GLOBAL $REMOTE_ADDR; 
+include &quot;config.php&quot;; 
+$query=mysql_query(&quot;SELECT ip FROM baneadas WHERE ip='$REMOTE_ADDR'&quot;); 
+$r=mysql_fetch_row($query); 
+if (!$r[0]) { 
+?&gt; 
+&lt;!-- Aquí todo el código de vuestra web. TODO! 
+&lt;html&gt;&lt;body&gt;... etc. 
+También puede haber &lt;?php ... ?&gt; 
+--&gt; 
+&lt;? } else { 
+echo &quot;&lt;html&gt;&lt;head&gt; 
+&lt;title&gt;ERROR.&lt;/title&gt;&lt;/head&gt; 
+&lt;body&gt;Estas baneado en esta página, te es prohibido entrar.&lt;br&gt; 
+Por favor, abandona el sitio&lt;/body&gt;&lt;/html&gt;&quot;; 
+} 
+?&gt;[/codigo]
+Espero haber sido claro.

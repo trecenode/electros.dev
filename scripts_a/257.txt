@@ -1,0 +1,40 @@
+[codigo]&lt;? 
+function upload($archivo,$carpeta,$nombre,$size,$altura,$anchura) {
+// Preparamos la carpeta
+		 if(!file_exists($carpeta)) {  
+           mkdir($carpeta);  
+             @chmod($carpeta, 0777);  
+         } else {  
+             @chmod($carpeta, 0777);  
+         }  
+//perfilamos variables
+$peso_permitido = $size * 1024;  
+$permitidos = array('image/jpeg','image/pjpeg','image/jpg','image/gif');  
+$ext = array('jpeg','pjpeg','jpg','gif');
+//cogemos variables del archivo
+$name = $_FILES['archivo']['name'];  
+$peso = $_FILES['archivo']['size'];  
+$tmp  = $_FILES['archivo']['tmp_name'];  
+$type = $_FILES['archivo']['type'];
+$url_imatge = str_replace(' ','%20',$url_imatge); //take url and replace spaces
+list($ancho, $alto, $tipo, $atr) = getimagesize($url_imatge);
+         if(is_uploaded_file($tmp)) { // Comprobamos haber cargado la imagen  
+		 if((in_array($type,$permitidos)== 1) &amp;&amp; ($ancho &lt;= $anchura) &amp;&amp; ($alto &lt;= $altura) &amp;&amp; ($peso &lt;= $peso_permitido)) { // Comprobamos que sea permitido tanto peso como formato y tamaño  
+		 if(move_uploaded_file($tmp, $carpeta.'/'.$nombre)) { // Movemos el archivo a la carpeta  
+                       
+                     echo 'Imatge carregada amb èxit';  
+                       
+                 } else {  
+                   
+                     echo &quot;La imatge no s'ha pujat correctament, per favor, tornau a provar&quot;;  
+                       
+                 }
+		 } else { 
+		 echo &quot;La imatge només pot pesar &quot;.$size.&quot;Kb, medir: &quot;.$altura.&quot;X&quot;.$anchura.&quot;pixels i ha de tenir format d'imatge.&quot; ;
+		 }
+		 } else { 
+		 echo &quot;La imatge no s'ha carregat correctament.&quot; ; 
+		 } }
+?&gt;[/codigo]
+
+Es un script que tiene algunos fallos, pero es una idea, si alguien puede publicar comentarios localizando errores lo agradecería.

@@ -1,0 +1,16 @@
+Solamente tienes que cambiar los elementos del array por cada una de las frases y pegar el codigo donde quieras que aparezcan dichas frases.
+
+[codigo]&lt;? 
+$frase = array( 
+    &quot;fraseDomingo&quot;, 
+    &quot;fraseLunes&quot;, 
+    &quot;fraseMartes&quot;, 
+    &quot;fraseMiercoles&quot;, 
+    &quot;fraseJueves&quot;, 
+    &quot;fraseViernes&quot;, 
+    &quot;fraseSabado&quot; 
+); 
+$dia = date(&quot;w&quot;); 
+echo $frase[$dia]; 
+?&gt;[/codigo]
+Ya se que es muy sencillito, pero a partir de esto puedes hacer [b]la imagen del dia[/b], [b]el enlace del dia[/b], ...

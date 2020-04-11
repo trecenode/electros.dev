@@ -1,0 +1,61 @@
+Para evitar iyeccion sql en sus scripts.
+
+Forma de uso,por ejemplo:
+&lt;?php
+include('inyeccion.php');
+$_GET = strip_magic_quotes($_GET);
+$_POST = strip_magic_quotes($_POST);
+$_COOKIE = strip_magic_quotes($_COOKIE);
+
+//cuando vaya a tratar datos a la base de datos,utiliza la siguiente funcion:
+//mysql_escape($var)
+//ejemplo practico:
+
+mysql_query(&quot;INSERT INTO tabla (campo1,campo2) VALUES ('&quot;.mysql_escape($var1).&quot;','&quot;.mysql_escape($var2).&quot;')&quot;,$conectar);
+
+//y para imprimir una variable,ejemplo:
+echo get_var('post', 'var'); 
+
+?&gt;
+
+
+aqui os dejo lo que contiene el script por si no lo quereis bajar:
+
+&lt;?php 
+function get_var($method, $var, $default=null) {
+  switch (strtoupper($method)) {
+    case &quot;GET&quot;: $var = &amp;$_GET[$var]; break;
+    case &quot;POST&quot;: $var = &amp;$_POST[$var]; break;
+    case &quot;COOKIE&quot;: $var = &amp;$_COOKIE[$var]; break;
+    case &quot;SESSION&quot;: $var = &amp;$_SESSION[$var]; break;
+    case &quot;GLOBALS&quot;: $var = &amp;$GLOBALS[$var]; break;
+  }
+  return isset($var) ? $var : $default;
+}
+
+function get_var_escaped($method, $var, $default=null) {
+  return mysql_escape(get_var($method, $var, $default));
+}
+
+function mysql_escape(&amp;$var, $trim=true) {
+  if (is_array($var)) {
+    $result = $array();
+    foreach($var as $key =&gt; $element)
+      $result[$key] = mysql_escape($element);
+    return $result;
+  } else
+    return mysql_real_escape_string($trim ? trim($var) : $var);
+}
+
+function strip_magic_quotes($var, $trim=true) {
+  if (!get_magic_quotes_gpc()) return $var;
+
+  if (is_array($var)) {
+    $result = array();
+    foreach($var as $key =&gt; $element)
+      $result[$key] = strip_magic_quotes($element);
+    return $result;
+  } else
+    return stripslashes($trim ? trim($var) : $var);
+}
+?&gt;

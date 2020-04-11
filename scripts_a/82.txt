@@ -1,0 +1,13 @@
+Permite al webmaster enviar noticias con hml
+para el resto de usuarios, texto plano
+
+
+Localiza la siguiente linea: [b]$texto = htmlspecialchars($texto) ;[/b]
+
+sustituyela por el codigo de abajo, en la variable administrador, pon tu nick.
+
+[codigo]$administrador = &quot;pon_aqui_tu_nick&quot; ;
+if($_COOKIE[&quot;unick&quot;] != &quot;$administrador&quot;) {
+$texto = htmlspecialchars($texto) ;
+}
+[/codigo]

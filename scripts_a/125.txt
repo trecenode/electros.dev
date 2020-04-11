@@ -1,0 +1,29 @@
+[b]Actualización:[/b] Esta versión fue sacada debido a los tantos errores que eForo v.2.2 tenía, uno tal vez insignificante como un enlace, otro que permitía ver el código fuente de cualquier página mediante un problema en el perfil al momento de subir un avatar, al parecer ya todo está corregido y debe funcionar correctamente, para los usuarios de la versión v.2.2 deben reemplazar los archivos [b]foro.php[/b], [b]foroprivados.php[/b] y [b]foroperfil.php[/b].
+
+Este es el mejor foro de todas sus versiones anteriores, contiene muchas más opciones que sus predecesores, pero a pesar de eso el código sigue siendo sencillo para que cualquiera con poco conocimiento en PHP pueda modificarlo a su gusto.
+
+Estas son todas las características:
+
+- Caretos o emoticonos en todos los mensajes.
+- Firma en los mensajes.
+- Código especial para formatear los mensajes sin necesidad de HTML.
+- Avatar para cada usuario que el mismo puede subir.
+- Rangos de usuarios en el que un usuario podrá subir de rango al llegar a un determinado número de mensajes o le puedes poner manualmente un rango fijo.
+- Permisos individuales para cada subforo que son: leer, escribir nuevos temas, responder temas, editar y borrar mensajes.
+- Puedes asignar moderadores ya sea para unos cuántos subforos o todo el foro.
+- Cada vez que haya mensajes nuevos, tanto el subforo como los temas se iluminarán y se apagarán una vez que hayan sido leídos.
+- Ahora también los usuarios no registrados podrán participar en el foro.
+- Y mucho más !!!
+
+[b]Requisitos[/b]
+
+- Servidor con soporte PHP 4.x o superior.
+- Base de datos MySQL 3.x o superior.
+
+[b]Instalación y actualización[/b]
+
+Lee el archivo [b]leeme.txt[/b] que contiene toda esta información.
+
+[b]Problemas, comentarios y sugerencias[/b]
+
+Hice varias pruebas con el foro para asegurar que todo funciona correctamente, pero de cualquier forma cualquier problema que tengan o tienen comentarios y sugerencias escríbanlos aquí o en el foro en la sección Bugs.

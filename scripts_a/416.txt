@@ -1,0 +1,7 @@
+Este script es una modificacion del MENSAJE PUBLICO de phpmysql
+Este script, a diferencia del MENSAJE PULICO que usa base de datos..., solo consta de tres archivos... 
+- enviar.php
+- ver.php
+- archivo.txt
+----------------------------------
+tienes que darle permisos 666 para que se pueda crear el archivo.

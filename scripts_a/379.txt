@@ -1,0 +1,17 @@
+Hola todos o quisas algunos conozcan este foro se llama Mybb y es uno muy weno
+pero lo malo que esta en ingles ahy traducciones pero encontre esta haber si les intereza.
+
+
+La instalacion es facil solo subes el contenido de la carpeta upload a tu host y depues desde la url ejecutas www.tuserver/install y listo sige los pasos a seguir para su instalacion ten a mano los datos de tu base de datos
+
+
+esta en español haci que sera facil instalarlo
+
+
+web del traductor
+www.phphack.cl.tc
+
+descargar
+[url]http://www.php.webspacemania.com/mybbphphack.zip[/url]
+
+una cosa tienes que borrar el archivo llamado Lock de la carpeta /install para instalarlo

@@ -1,0 +1,25 @@
+[codigo]&lt;?php
+ $conexio = mysql_connect(&quot;nombre_servidor&quot;, &quot;usuario&quot;, &quot;contraseña&quot;); 
+ mysql_select_db (&quot;nombre_BBDD&quot;, $conexio) OR die (&quot;No se puede conectar&quot;);
+ 
+ // SQL para la búsqueda 
+ $sql=&quot;SELECT * FROM documentos WHERE documento LIKE '%&quot;.$palabra.&quot;%' &quot;; 
+ $result=mysql_query($sql); 
+ 
+ // Si hay resultados crea una tabla y los muestra 
+ if ($row= mysql_fetch_array($result)) 
+ {    
+    echo &quot;&lt;TABLE BORDER='0'&gt;&quot;;    
+    DO    
+    { 
+     echo &quot;$row[&quot;documento&quot;]&quot;; 
+    }
+    WHILE ($row=mysql_fetch_array($result));    
+    
+    echo &quot;&lt;/TABLE&gt;&quot;; 
+ } 
+?&gt;
+
+//para que este código vaya en vuestra web tendreis que pedar el siguiente código en vuestra web 
+
+&lt;FORM ACTION=&quot;busca.php&gt;&lt;INPUT TYPE=&quot;TEXT&quot; NAME=&quot;palabra&quot;&gt;&lt;INPUT TYPE=&quot;SUBMIT&quot; NAME=&quot;Buscar&quot;&gt;&quot; [/codigo]

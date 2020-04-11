@@ -1,0 +1,31 @@
+Sistema de enlaces que guarda los resultados en archivos de texto
+puedes enviar enlaces, administrarlos (contraseña 123456) y ademas verlos paginados con el
+exclusivo sistema de paginaccion 1 2 3 4 5 6....y por orden ascendente (novedad)
+
+El script consta de tres ejemplos:
+
+1) enlaces_paginacion
+Paginacion simple
+2) enlaces_paginacion_subsecciones
+Paginacion con subcategorias
+2) enlaces_paginacion_subsecciones_hits
+Paginacion con subcategorias y contador de clicks con javascript
+y php (sitios con publicidad no lo soportan, como miarroba.com)
+
+Ademas de todo eso permite utilizar subsecciones y dividir los contenidos
+en varias categorias o ficheros txt.
+
+Incluye su propio estilo modificable css en enlaces.css
+
+En resumen es un sistema como el de tus favoritos de windows solo que para que 
+para que los usuarios de tu pagina envien sus propios enlaces y tu puedas
+administralos.
+
+Pueden ver un ejemplo en esta url:
+http://www.recursosphp.iefactory.com/enlaces_paginacion/enlaces.php (sistema simple)
+http://www.recursosphp.iefactory.com/enlaces_paginacion/enlaces_paginacion_subsecciones/enlaces.php
+http://www.recursosphp.iefactory.com/enlaces_paginacion/enlaces_paginacion_subsecciones_hits/enlaces.php
+
+
+Y ver como guarda los datos en estas otra direccion :
+http://www.recursosphp.iefactory.com/enlaces_paginacion/enlaces_paginacion_subsecciones/principal.txt

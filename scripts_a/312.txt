@@ -1,0 +1,4 @@
+este libro de visitas es muy sensillo de usar, de instalar, tiene filtros HTML, caritas y solo consta de 2 archivos y una carpeta:
+[b]libro.php[/b] ese archivo controla todo, es el que firma, incluye y graba los mensajes.
+[b]libro.txt[/b] en este archivo se guardan los mensajes.
+[b]caritas/[b] carpeta donde estan las caritas....

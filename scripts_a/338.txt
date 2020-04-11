@@ -1,0 +1,5 @@
+function eliminar_acentos ($texto) {
+		static $acentos = &quot;áéíóúÁÉÍÓÚàèìòùÀÈÌÒÙâêîôûÂÊÎÔÛäëïöüÄËÏÖÜ&quot;;
+		static $validos = &quot;aeiouAEIOUaeiouAEIOUaeiouAEIOUaeiouAEIOU&quot;;
+		return strtr($texto, $acentos, $validos);
+	}

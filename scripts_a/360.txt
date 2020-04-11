@@ -1,0 +1,14 @@
+Este sistema de usuarios es muy sencillo de usar.
+
+[b]Primero ponemos lo siguiente en la base de datos:[/b]
+
+[codigo]CREATE table usuarios ( 
+id TINYINT(4) AUTO_INCREMENT, 
+nombre TEXT, 
+apellidos TEXT, 
+login VARCHAR(40), 
+password VARCHAR(20), 
+email TEXT, 
+UNIQUE (id) ); [/codigo]
+
+Y por último subiremos los archivos.

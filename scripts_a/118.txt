@@ -1,0 +1,115 @@
+Fuente: http://www.xergio.net
+Autor: [b]K|sT|aN[/b]
+
+Este código es un pequeño contador de visitas el cual hará lo siguiente: 
+
+    - Contar las visitas usando MySQL. 
+    - Visitas diarias, totales, activas e impresiones totales. 
+    - Los reloads que haga la gente no afectaran a las visitas. De esta forma se gana fiabilidad en el recuento de visitas. 
+
+El código no es perfecto, de echo es mi primero código que creo en PHP y MySQL, pero funciona. Ha sido testeado por Ayoze. 
+
+Bien, no me enrollo más. Lo primero que teneis que hacer es crear dos tablas en vuestra DB. En una registraremos visitas diarias, totales e impresiones; en la otra anotaremos las IPs y fechas para poder saber los visitantes que estan activos. 
+
+
+[codigo]CREATE TABLE visitas ( 
+    fecha char(10) NOT NULL, 
+    hoy int(4) NOT NULL, 
+    totales int(7) NOT NULL, 
+    impresiones int(9) NOT NULL, 
+); [/codigo]
+
+
+[codigo]CREATE TABLE visitantes_activos ( 
+    ip char(20) NOT NULL, 
+    fecha int(11) NOT NULL, 
+);[/codigo] 
+
+
+
+Esta parte la pegaremos justamente donde necesitemos o deseemos poner el codigo 
+
+NOTA: para los que no simplemente querais hacer copy&amp;paste y querais aprender un poquito o iniciaros, en casi cada línea hay unas anotaciones que están precedidas de //, lo que significa que es una comentario. 
+
+[codigo]&lt;?php  
+    //datos para conectar a la DB 
+    $dbhost=&quot;localhost&quot;; 
+    $dbusuario=&quot;login&quot;; 
+    $dbpassword=&quot;pass&quot;; 
+    $db=&quot;databasename&quot;; 
+
+    $conexion = mysql_connect($dbhost,$dbusuario,$dbpassword);  
+    mysql_select_db($db, $conexion);  
+
+    //tiempo de refresco en minutos $tiempo 
+    $tiempo=5;  
+
+    //miramos primero si el usuario está activo o no según el tiempo de refresco $tiempo 
+    global $REMOTE_ADDR;  
+    $ahora = time();  
+    $limite = $ahora-$tiempo*60; 
+    //eliminamos todos los usuarios cuyo tiempo de $tiempo está rebasado y no se considera activo 
+    mysql_query(&quot;DELETE FROM visitantes_activos WHERE fecha &lt; &quot;. $limite); 
+
+    //Si no hay nada en la tabla principal, metemos datos iniciales. 
+    $a=mysql_query(&quot;select * from visitas&quot;); 
+    $b=mysql_fetch_row($a); 
+    if (!$b[0]) { mysql_query(&quot;INSERT INTO visitas values ('$h[0]','0','0','0')&quot;); $b[3]=0; } 
+    $b[3]++; 
+    mysql_query(&quot;UPDATE visitas set impresiones='$b[3]'&quot;); 
+
+    //donde anotamos las IPs, seleccionamos el individuo que tiene la IP aun activa, si esque lo está 
+    $a = mysql_query(&quot;SELECT * FROM visitantes_activos where ip = '&quot;. $REMOTE_ADDR .&quot;'&quot;);  
+    $b = mysql_fetch_row($a); 
+
+    //si está activo, le renovamos su tiempo y se le pone el contador de nuevo a 0 
+    if ($b[0]) {  
+           mysql_query(&quot;UPDATE visitantes_activos SET fecha = '$ahora' where ip = '&quot;. $REMOTE_ADDR .&quot;'&quot;);  
+    } 
+    //si el individuo no se considera activo añadiremos como visita diaria, visita activa y visita total 
+    else { 
+        //aqui le añadimos su ip para poder reconocer si es activo o no 
+        mysql_query(&quot;INSERT INTO visitantes_activos values ('&quot;. $REMOTE_ADDR .&quot;','$ahora')&quot;);  
+
+        //ahora le sumamos uno en totales 
+        $c = mysql_query(&quot;SELECT totales FROM visitas&quot;);  
+        $d = mysql_fetch_row($c); 
+        $g = mysql_query(&quot;SELECT curdate()&quot;);  
+        $h = mysql_fetch_row($g); 
+
+        $d[0]++; 
+        mysql_query(&quot;UPDATE visitas SET totales = '$d[0]'&quot;);  
+
+        //ahora tocaremos el visitas diarias 
+        $i = mysql_query(&quot;SELECT fecha,hoy FROM visitas&quot;);  
+        $j = mysql_fetch_row($i); 
+
+        //si el individuo hace la visita el mismo dia 
+        if ($h[0]==$j[0]) { 
+            //añadimos uno en visita de hoy 
+            $j[1]++; 
+        } 
+
+        //si el individuo hace la primera visita del dia, osea que lo de ayAer ya no sirve pq era otro dia ayer 
+        else { 
+            $j[1]=1; 
+            mysql_query(&quot;UPDATE visitas SET fecha = '$h[0]'&quot;); 
+        } 
+        mysql_query(&quot;UPDATE visitas set hoy='$j[1]'&quot;); 
+    } 
+    //ahora mostramos los datos finales tomando unas variables para almacenar datos temporalmente 
+    $z = mysql_query(&quot;SELECT totales,hoy,impresiones FROM visitas&quot;); 
+    $visitas = mysql_fetch_row($z); 
+
+    $x = $a=mysql_query(&quot;SELECT COUNT(*) FROM visitantes_activos&quot;);  
+    $activos = mysql_fetch_row($x); 
+
+    echo &quot;Visitas totales (reales): $visitas[0]&lt;br&gt;&quot;; 
+    echo &quot;Visitas diarias: $visitas[1]&lt;br&gt;&quot;; 
+    echo &quot;Visitas activas: $activos[0]&lt;br&gt;&quot;; 
+    echo &quot;Impresiones: $visitas[2]&quot;; 
+
+    //este código lo creé gracias a un colega que desea ser anónimo 
+    //mis agradecimientos a él por su ayuda incondicional ya que sin el este código no huviese sido posible seguramente 
+?&gt; 
+[/codigo]

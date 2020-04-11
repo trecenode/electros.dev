@@ -1,0 +1,17 @@
+Lo mismo que el descargasplus pero esta vez para enlaces :
+http://electros.iefactory.com/?ver=scripts&amp;s=136
+
+Ahora le añadi la posiblilidad de poner un minibanner a cada enlace.
+
+Instalacion:
+1) Darle chmod 777 a la carpeta de contiene el script
+2) Subir los archivos
+
+ej) en http://www.tuarroba.net/elcidop/archivos/codigohtm/enlacesplus
+
+
+En esta url con buscador:
+http://www.tuarroba.net/elcidop/archivos/codigohtm/enlacesplus/enlacesplusconbuscador.zip
+
+Y en esta otra con subsecciones mucho mejor:
+http://www.tuarroba.net/elcidop/archivos/codigohtm/enlacesplus/enlacesplusconsubsecciones.zip

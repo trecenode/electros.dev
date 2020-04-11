@@ -1,0 +1,28 @@
+Este es un ejemplo de como hacer para saber el tiempo que tarda en cargar una pagina, el fin seria saber si tu web es lenta o no para poder retocarla un poquito y acelerandola, bueno, me dejo de palabrerias y pongo el script.
+
+ESTO VA AL PRINCIPIO DE TODO(ARRIBA)
+[codigo]
+&lt;?php 
+$mtime = microtime(); 
+$mtime = explode(&quot; &quot;,$mtime); 
+$mtime = $mtime[1] + $mtime[0]; 
+$starttime = $mtime; 
+;?&gt;
+[/codigo]
+
+Con esto lo que haces es dar la hora exacta de cuando se empieza a cargar la pagina
+
+
+ESTO VA AL FINAL DE TODO(ABAJO)
+[codigo]
+&lt;?php 
+$mtime = microtime(); 
+$mtime = explode(&quot; &quot;,$mtime); 
+$mtime = $mtime[1] + $mtime[0]; 
+$endtime = $mtime; 
+$totaltime = ($endtime - $starttime); 
+echo &quot;La web se cargo en &quot;.$totaltime.&quot; segundos.&quot;; 
+;?&gt; 
+[/codigo]
+
+Con este ultimo hacemos que reste la hora en que finalizo con la de cuando empezo, y crea una linea diciendo el tiempo en la que se cargo la web.

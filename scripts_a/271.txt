@@ -1,0 +1,11 @@
+Hola,me aburria y e echo esta tonteria de script, el dia 25 de diciembre saldra este mensaje:Hoy es navidad a hacerse pajorros!!!!xD
+[codigo]&lt;?
+$navidad = ('25/12/2004');
+$navi = date('d/m/Y');
+if($navidad == $navi){
+echo&quot;Hoy es navidad   a hacerse pajorros!!!!xD&quot;;
+}else{
+echo &quot;Tonto hoy es $navi,aun falta pa navidad&quot;;
+}
+?&gt;  
+[/codigo]

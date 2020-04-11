@@ -1,0 +1,142 @@
+Este script lo he conseguido de http://usuarios.lycos.es/codigohtm/php/ y la direccion de correo del creador es wachineverforever@hotmail.com para cualquier duda.
+
+Este script consta de 3 archivos .php y no necesita la base datos:
+[b]index.php[/b] (Indice)
+[codigo]&lt;?
+include(&quot;config.php&quot;); //incluimos el fichero config.php donde tenemos la configuración del script
+if(!file_exists($file)) //si el txt no existe...
+	{
+	$fp=fopen($file,&quot;w&quot;); //creamos un txt por si no tá creado
+	fputs($fp,&quot;0n0n0n0&quot;); //le ponemos las respuestas desde 0
+	fclose($fp); //cerramos el txt
+	}
+?&gt;
+&lt;form method=POST action=&quot;enc_ver.php&quot;&gt;
+	&lt;input type=&quot;radio&quot; name=&quot;En&quot; value=&quot;E1&quot; checked&gt;&lt;? echo $c1;?&gt;&lt;br&gt;
+	&lt;input type=&quot;radio&quot; name=&quot;En&quot; value=&quot;E2&quot;&gt;&lt;? echo $c2;?&gt;&lt;br&gt;
+	&lt;input type=&quot;radio&quot; name=&quot;En&quot; value=&quot;E3&quot;&gt;&lt;? echo $c3;?&gt;&lt;br&gt;
+	&lt;input type=&quot;radio&quot; name=&quot;En&quot; value=&quot;E4&quot;&gt;&lt;? echo $c4;?&gt;&lt;br&gt;
+	&lt;input type=&quot;submit&quot; value=&quot;OK&quot; name=&quot;Bot&quot;&gt;
+&lt;/form&gt;
+&lt;p&gt;[/codigo]
+
+[b]config.php[/b](para configurar la encuesta)
+
+[codigo]&lt;?
+// CONFIGURACION DE LA ENCUESTA
+$file=&quot;base.txt&quot;; //nombre del txt en el que guardaremos los resultados
+
+//Escribe tus respuestas para la encuesta
+$c1=&quot;Nº 1&quot;; //Encuesta nº 1
+$c2=&quot;Nº 2&quot;; //Encuesta nº 2
+$c3=&quot;Nº 3&quot;; //Encuesta nº 3
+$c4=&quot;Nº 4&quot;; //Encuesta nº 4
+?&gt;[/codigo]
+[b]enc_ver.php[/b] (Resultados)
+[codigo]
+&lt;?
+include(&quot;config.php&quot;); //incluimos el fichero config.php donde tenemos la configuración del script
+
+$file2=file($file); //creamos el array con las lineas del archivo
+$lineas=count($file2);//contamos los elementos del array, es decir el total de lineas
+$n1=$file2[0]; //asignamos a la variable el nº de votos(la línea 1 del txt)
+$n2=$file2[1]; //asignamos a la variable el nº de votos(la línea 2 del txt)
+$n3=$file2[2]; //asignamos a la variable el nº de votos(la línea 3 del txt)
+$n4=$file2[3]; //asignamos a la variable el nº de votos(la línea 4 del txt)
+
+if($En==&quot;E1&quot;) //si la respuesta es la opción 1...
+{$nn1=intval($n1)+1;}else{$nn1=intval($n1);} //entonces sumamos uno a $nn1, si no, se keda igual
+if($En==&quot;E2&quot;) //si la respuesta es la opción ...
+{$nn2=intval($n2)+1;}else{$nn2=intval($n2);} //entonces sumamos uno a $nn2, si no, se keda igual
+if($En==&quot;E3&quot;) //si la respuesta es la opción 3...
+{$nn3=intval($n3)+1;}else{$nn3=intval($n3);} //entonces sumamos uno a $nn3, si no, se keda igual
+if($En==&quot;E4&quot;) //si la respuesta es la opción 4...
+{$nn4=intval($n4)+1;}else{$nn4=intval($n4);} //entonces sumamos uno a $nn4, si no, se keda igual
+
+	$fp=fopen($file,&quot;w+&quot;); //abrimos de nuevo el txt borrándolo todo
+	fwrite($fp,&quot;$nn1n$nn2n$nn3n$nn4&quot;); //escribimos en el txt los votos.. en su respectiva línea. NOTA: n &lt;- cambia de línea ;)
+	fclose($fp); //cerramos el txt
+
+$ntotal=$nn1+$nn2+$nn3+$nn4; //contamos el nº total de votos
+?&gt;
+&lt;table border=0 cellpadding=0 cellspacing=0 width=188&gt;
+  &lt;tr&gt;
+    &lt;td colspan=3 width=186&gt;&lt;strong&gt;&lt;font face=Arial&gt;Resultados Encuesta&lt;/font&gt;&lt;/strong&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td width=46&gt;&lt;font face=Arial&gt;&lt;? echo $c1;?&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td width=101&gt;&lt;table border=0 cellpadding=0 cellspacing=1 width=100
+    bgcolor=&quot;#000080&quot;&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;table border=0 cellpadding=0 cellspacing=0 width=&lt;? echo $nn1*100/$ntotal;?&gt; bgcolor=#FFFFFF
+        height=5&gt;
+          &lt;tr&gt;
+            &lt;td&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/table&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;/td&gt;
+    &lt;td width=37&gt;&lt;p align=center&gt;&lt;font face=Arial size=2&gt;&lt;? echo $nn1;?&gt;&lt;/font&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td width=46&gt;&lt;font face=Arial&gt;&lt;? echo $c2;?&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td width=101&gt;&lt;table border=0 cellpadding=0 cellspacing=1 width=100%
+    bgcolor=#000080&gt;
+      &lt;tr&gt;
+        &lt;td width=100%&gt;&lt;table border=0 cellpadding=0 cellspacing=0 width=&lt;? echo $nn2*100/$ntotal;?&gt;
+        bgcolor=#FFFFFF height=5&gt;
+          &lt;tr&gt;
+            &lt;td&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/table&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;/td&gt;
+    &lt;td width=37&gt;&lt;p align=center&gt;&lt;font face=Arial size=2&gt;&lt;? echo $nn2;?&gt;&lt;/font&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td width=46&gt;&lt;font face=Arial&gt;&lt;? echo $c3;?&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td width=101&gt;&lt;table border=0 cellpadding=0 cellspacing=1 width=100%
+    bgcolor=#000080&gt;
+      &lt;tr&gt;
+        &lt;td width=100%&gt;&lt;table border=0 cellpadding=0 cellspacing=0 width=&lt;? echo $nn3*100/$ntotal;?&gt;
+        bgcolor=#FFFFFF height=5&gt;
+          &lt;tr&gt;
+            &lt;td&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/table&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;/td&gt;
+    &lt;td width=37&gt;&lt;p align=center&gt;&lt;font face=Arial size=2&gt;&lt;? echo $nn3;?&gt;&lt;/font&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td width=46&gt;&lt;font face=Arial&gt;&lt;? echo $c4;?&gt;&lt;/font&gt;&lt;/td&gt;
+    &lt;td width=101&gt;&lt;table border=0 cellpadding=0 cellspacing=1 width=100%
+    bgcolor=#000080&gt;
+      &lt;tr&gt;
+        &lt;td width=100%&gt;&lt;table border=0 cellpadding=0 cellspacing=0 width=&lt;? echo $nn4*100/$ntotal;?&gt;
+        bgcolor=#FFFFFF height=5&gt;
+          &lt;tr&gt;
+            &lt;td&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/table&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;/td&gt;
+    &lt;td width=37&gt;&lt;p align=center&gt;&lt;font face=Arial size=2&gt;&lt;? echo $nn4;?&gt;&lt;/font&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td width=184 colspan=3&gt;&lt;font face=Arial&gt;Total encuesta: &lt;/font&gt;&lt;font
+    color=#004080 face=Arial size=2&gt;&lt;strong&gt;&lt;? echo $ntotal;?&gt;&lt;/strong&gt;&lt;/font&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;a href=&quot;index.php&quot;&gt;Volver&lt;/a&gt;[/codigo]
+
+Creo que no me he equivocado en nada. Este es mi primer script que mando y a lo mejor algo está mal copiado. El script crea un archivo base.txt para almacenar los votos.

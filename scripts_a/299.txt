@@ -1,0 +1,28 @@
+Pega la siguiente marquesina donde quieres visualizar los últimos usuarios registrados:
+
+&lt;MARQUEE SCROLLDELAY=150&gt;&lt;?php include(&quot;UltimosUsers.php&quot;); ver_ultimos();?&gt;&lt;/MARQUEE&gt;
+
+El código del script UltimosUsers.php es:
+
+
+//Nick es el nombre del usuario en la base de datos, si lo tienes con otro nombre en el campo, cambialo
+
+&lt;?php
+function ver_ultimos()
+{
+include(&quot;Config.php&quot;);
+$num=0;
+$query=mysql_query(&quot;SELECT Nick FROM Usuarios WHERE fechareg=CURRENT_DATE&quot;);
+$num=mysql_num_rows($query);
+printf(&quot;Hoy se han registrado &quot;.$num.&quot; usuarios:&quot;);
+
+while($row=mysql_fetch_array($query))
+{
+printf ($row[Nick].&quot;,&quot;);
+}
+
+mysql_free_result($query);
+
+}
+
+?&gt;

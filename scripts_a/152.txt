@@ -1,0 +1,34 @@
+Esto es un sistema de afiliados en su version casera que no necesita mysql.
+
+[b]afiagre.php[/b]
+[codigo]
+&lt;? 
+$fichero = &quot;afiliados.txt&quot;; 
+$texto = $_POST[&quot;texto&quot;]; 
+if($texto != ''){ 
+   if($fp = fopen($fichero, &quot;w+&quot;)){ 
+      fwrite($fp, stripslashes($texto)); 
+      echo 'Archivo modificado&lt;br&gt; &lt;br&gt;'; 
+   } 
+   fclose($fp); 
+} 
+$fp = fopen($fichero, &quot;r&quot;); 
+$contenido = fread ($fp, filesize ($fichero)); 
+fclose($fp); 
+echo &quot;&lt;form method=&quot;POST&quot;&gt; &lt;textarea name=&quot;texto&quot; cols=70 rows=12&gt;$contenido&lt;/textarea&gt; &lt;br&gt; &lt;input type=&quot;Submit&quot; value=&quot;Guardar&quot;&gt; &lt;/form&gt;&quot;; 
+?&gt;
+  &lt;br&gt;
+  &lt;strong&gt;Código de banners
+  &lt;/strong&gt;&lt;br&gt;
+  &lt;strong&gt;href=http://www.WEB.net target=_blank img src=http://WEB.net/IMAGEN.gif border=0
+    &lt;/strong&gt;
+[/codigo]
+[b]Afiliados.php[/b]
+[codigo]
+&lt;? 
+include (&quot;afiliados.txt&quot;);
+?&gt; 
+[/codigo]
+
+Ahora solo debeis crear el archivo afiliados.txt y subirlo todo en la misma carpeta, al afiliados.txt debeis darle permisos 777. Creo que esto es todo, espero que os sirva. 
+PD* se me olvida decir que debeis meter el codigo del minibanner, banner o lo que sea en codigo html, viene un ejemplo en el mismo script de como hacer el codigo.
