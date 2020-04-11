@@ -1,14 +1,25 @@
-<?
-# * Conexi�n a la base de datos
+<?php
+/*
+*************************************************
+https://electros.dev
+*************************************************
+*/
+
+# * Conexión a la base de datos
 $config = array() ;
-$config[0] = '13node.me' ; # Com�nmente "localhost", una URL � una IP
+$config[0] = '13node.me' ; # Generalmente "localhost", una URL o una IP
 $config[1] = 'shadow' ; # Usuario
-$config[2] = 'nico2020' ; # Contrase�a
+$config[2] = 'nico2020' ; # Contraseña
 $config[3] = 'electros' ; # Nombre
 
-$men_error = '<p><b>Error</b></p><p>No se pudo conectar a la base de datos debido a:</p>' ;
-$conectar = mysql_connect($config[0],$config[1],$config[2]) or exit($men_error.mysql_error()) ;
-mysql_select_db($config[3],$conectar) or exit($men_error.mysql_error()) ;
+$conectar = new mysqli($config[0],$config[1],$config[2],$config[3]) ;
 
-$url_base = 'http://'.$_SERVER['HTTP_HOST'].preg_replace('/\w+.php$/','',$_SERVER['PHP_SELF']) ;
+if ($conectar->connect_errno) {
+    echo "<br>Error: Fallo al conectarse a MySQL debido a: \n";
+    echo "<br><br>Errno: " . $conectar->connect_errno . "\n";
+    echo "<br>Error: " . $conectar->connect_error . "\n";
+    exit;
+}
+
+$url_base = 'https://'.$_SERVER['HTTP_HOST'].preg_replace('/\w+.php$/','',$_SERVER['PHP_SELF']) ;
 ?>
